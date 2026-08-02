@@ -4716,6 +4716,18 @@ input, select, textarea {
 	}
 }
 
+.post {
+	text-align: left;
+}
+
 .post p {
 	font-family: "Source Sans Pro", Helvetica, sans-serif;
+	text-align: left;
+	font-weight: 400;
+}
+
+.post h2, .post h3 {
+	font-size: 1.6rem;
+	text-align: left;
+	margin: 2rem 0 1rem 0;
 }
