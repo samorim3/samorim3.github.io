@@ -4715,3 +4715,7 @@ input, select, textarea {
 		padding-bottom: 85%;
 	}
 }
+
+.post p {
+	font-family: "Source Sans Pro", Helvetica, sans-serif;
+}
