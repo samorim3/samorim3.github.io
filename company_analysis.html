@@ -9,7 +9,7 @@
 		<title>Corporate Financial Analysis Tool - Objective Data & Alerts</title>
 		<meta charset="utf-8" />
 		<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
-		<link rel="stylesheet" href="assets/css/main.css?v=3" />
+		<link rel="stylesheet" href="assets/css/main.css?v=4" />
 		<noscript><link rel="stylesheet" href="assets/css/noscript.css" /></noscript>
 		<!-- Google Analytics (GA4) -->
 		<script async src="https://www.googletagmanager.com/gtag/js?id=G-W76N1EJ13Q"></script>
@@ -197,6 +197,18 @@
 				font-weight: bold;
 				color: #2d3748;
 				margin-bottom: 1.25rem;
+				margin-right: 0.5rem;
+			}
+			.currency-badge {
+				display: inline-block;
+				background: #ebf8ff;
+				border: 1px solid #bee3f8;
+				padding: 0.4rem 0.9rem;
+				border-radius: 20px;
+				font-size: 0.85rem;
+				font-weight: bold;
+				color: #2b6cb0;
+				margin-bottom: 1.25rem;
 			}
 			pre code {
 				background: #1a202c;
@@ -256,7 +268,10 @@
 									</div>
 
 									<h3 id="companyTitle" style="margin-top: 0; margin-bottom: 0.5rem; color: #1a202c;">📊 Company Objective Metrics</h3>
-									<div id="reportDateBadge" class="report-badge">📅 Financial Filing Date / Data do Relatório: N/D (Carregue um Ticker)</div>
+									<div>
+										<div id="reportDateBadge" class="report-badge">📅 Financial Filing Date: N/D</div>
+										<div id="currencyBadge" class="currency-badge">💱 Reporting Currency / Moeda: N/D</div>
+									</div>
 									<p style="font-size: 0.9rem; color: #4a5568;">Enter or load financial statement figures to compute objective ratios, DCF intrinsic value, and target price alert triggers.</p>
 
 									<div class="tool-grid">
@@ -268,7 +283,7 @@
 												<input type="text" id="reportDate" value="" placeholder="e.g. 04/08/2026 (Q2 2026)" />
 											</div>
 											<div class="input-group">
-												<label for="price">Stock Price (€ / $ / DKK):</label>
+												<label id="labelStockPrice" for="price">Stock Price (€ / $ / DKK):</label>
 												<input type="number" id="price" value="" placeholder="0.00" step="0.5" oninput="calculateAll()" />
 											</div>
 											<div class="input-group">
@@ -276,19 +291,19 @@
 												<input type="number" id="shares" value="" placeholder="0.00" step="0.1" oninput="calculateAll()" />
 											</div>
 											<div class="input-group">
-												<label for="revenue">Total Revenue (Millions):</label>
+												<label id="labelRevenue" for="revenue">Total Revenue (Millions):</label>
 												<input type="number" id="revenue" value="" placeholder="0" oninput="calculateAll()" />
 											</div>
 											<div class="input-group">
-												<label for="grossProfit">Gross Profit (Millions):</label>
+												<label id="labelGrossProfit" for="grossProfit">Gross Profit (Millions):</label>
 												<input type="number" id="grossProfit" value="" placeholder="0" oninput="calculateAll()" />
 											</div>
 											<div class="input-group">
-												<label for="ebit">EBIT / Operating Income (Millions):</label>
+												<label id="labelEbit" for="ebit">EBIT / Operating Income (Millions):</label>
 												<input type="number" id="ebit" value="" placeholder="0" oninput="calculateAll()" />
 											</div>
 											<div class="input-group">
-												<label for="netIncome">Net Income (Millions):</label>
+												<label id="labelNetIncome" for="netIncome">Net Income (Millions):</label>
 												<input type="number" id="netIncome" value="" placeholder="0" oninput="calculateAll()" />
 											</div>
 										</div>
@@ -297,27 +312,27 @@
 										<div class="tool-card">
 											<h4>2. Balance Sheet & Cash Flow</h4>
 											<div class="input-group">
-												<label for="totalDebt">Total Debt (Millions):</label>
+												<label id="labelDebt" for="totalDebt">Total Debt (Millions):</label>
 												<input type="number" id="totalDebt" value="" placeholder="0" oninput="calculateAll()" />
 											</div>
 											<div class="input-group">
-												<label for="cash">Cash & Equivalents (Millions):</label>
+												<label id="labelCash" for="cash">Cash & Equivalents (Millions):</label>
 												<input type="number" id="cash" value="" placeholder="0" oninput="calculateAll()" />
 											</div>
 											<div class="input-group">
-												<label for="equity">Total Equity (Millions):</label>
+												<label id="labelEquity" for="equity">Total Equity (Millions):</label>
 												<input type="number" id="equity" value="" placeholder="0" oninput="calculateAll()" />
 											</div>
 											<div class="input-group">
-												<label for="fco">Operating Cash Flow FCO (Millions):</label>
+												<label id="labelFco" for="fco">Operating Cash Flow FCO (Millions):</label>
 												<input type="number" id="fco" value="" placeholder="0" oninput="calculateAll()" />
 											</div>
 											<div class="input-group">
-												<label for="capex">CapEx (Millions):</label>
+												<label id="labelCapex" for="capex">CapEx (Millions):</label>
 												<input type="number" id="capex" value="" placeholder="0" oninput="calculateAll()" />
 											</div>
 											<div class="input-group">
-												<label for="dividendPerShare">Dividend Per Share (€ / $ / DKK):</label>
+												<label id="labelDiv" for="dividendPerShare">Dividend Per Share (€ / $ / DKK):</label>
 												<input type="number" id="dividendPerShare" value="" placeholder="0.00" step="0.05" oninput="calculateAll()" />
 											</div>
 										</div>
@@ -396,11 +411,11 @@
 									<h4 style="color: #1a202c; border-bottom: 2px solid #e53e3e; padding-bottom: 0.4rem; margin-top: 2rem;">🔔 Target Price Alert System</h4>
 									<div class="tool-grid" style="margin-bottom: 0.5rem;">
 										<div class="input-group">
-											<label for="alertMin">Target Buy Price / Minimum:</label>
+											<label id="labelAlertMin" for="alertMin">Target Buy Price / Minimum (€ / $ / DKK):</label>
 											<input type="number" id="alertMin" value="" placeholder="e.g. 780.00" step="1.0" oninput="calculateAll()" />
 										</div>
 										<div class="input-group">
-											<label for="alertMax">Target Sell Price / Maximum:</label>
+											<label id="labelAlertMax" for="alertMax">Target Sell Price / Maximum (€ / $ / DKK):</label>
 											<input type="number" id="alertMax" value="" placeholder="e.g. 950.00" step="1.0" oninput="calculateAll()" />
 										</div>
 									</div>
@@ -525,13 +540,36 @@ check_objective_metrics("NOVO-B.CO", target_buy=780.00, target_sell=950.00)
 				};
 
 				const knownData = {
-					"ADS.DE": { name: "Adidas AG (ADS.DE)", reportDate: "Q2 2026 (Julho 2026)", price: 220.00, shares: 178.50, revenue: 21400, grossProfit: 10800, ebit: 1100, netIncome: 780, totalDebt: 3400, cash: 1500, equity: 5200, fco: 2100, capex: 550, div: 1.45, minBuy: 190.00, maxSell: 240.00 },
-					"NOVO-B.CO": { name: "Novo Nordisk A/S (NOVO-B.CO)", reportDate: "Q2 2026 (04/08/2026 - Relatório Recente de Ontem)", price: 840.00, shares: 4460.0, revenue: 232200, grossProfit: 196800, ebit: 102600, netIncome: 83700, totalDebt: 32000, cash: 18500, equity: 94000, fco: 104000, capex: 25000, div: 9.40, minBuy: 780.00, maxSell: 950.00 },
-					"NVO": { name: "Novo Nordisk A/S ADR (NVO)", reportDate: "Q2 2026 (04/08/2026 - Relatório Recente de Ontem)", price: 124.50, shares: 4460.0, revenue: 33200, grossProfit: 28100, ebit: 14600, netIncome: 11900, totalDebt: 4500, cash: 2600, equity: 13400, fco: 14800, capex: 3500, div: 1.35, minBuy: 110.00, maxSell: 140.00 },
-					"NKE": { name: "Nike, Inc. (NKE)", reportDate: "Q4 FY2026 (Junho 2026)", price: 75.20, shares: 1500.0, revenue: 51300, grossProfit: 22800, ebit: 6200, netIncome: 5700, totalDebt: 12100, cash: 7500, equity: 14300, fco: 6800, capex: 950, div: 1.48, minBuy: 70.00, maxSell: 95.00 },
-					"AAPL": { name: "Apple Inc. (AAPL)", reportDate: "Q3 FY2026 (Agosto 2026)", price: 222.50, shares: 15200.0, revenue: 385600, grossProfit: 170700, ebit: 114300, netIncome: 93700, totalDebt: 104600, cash: 61800, equity: 62100, fco: 118200, capex: 9400, div: 1.00, minBuy: 195.00, maxSell: 245.00 },
-					"MSFT": { name: "Microsoft Corp (MSFT)", reportDate: "Q4 FY2026 (Julho 2026)", price: 410.00, shares: 7430.0, revenue: 245100, grossProfit: 170000, ebit: 109400, netIncome: 88100, totalDebt: 79000, cash: 75500, equity: 268000, fco: 118500, capex: 44500, div: 3.00, minBuy: 370.00, maxSell: 450.00 }
+					"ADS.DE": { name: "Adidas AG (ADS.DE)", currency: "EUR (€)", symbol: "€", reportDate: "Q2 2026 (Julho 2026)", price: 220.00, shares: 178.50, revenue: 21400, grossProfit: 10800, ebit: 1100, netIncome: 780, totalDebt: 3400, cash: 1500, equity: 5200, fco: 2100, capex: 550, div: 1.45, minBuy: 190.00, maxSell: 240.00 },
+					"NOVO-B.CO": { name: "Novo Nordisk A/S (NOVO-B.CO)", currency: "DKK (Coroa Dinamarquesa)", symbol: "DKK", reportDate: "Q2 2026 (04/08/2026 - Relatório Recente de Ontem)", price: 840.00, shares: 4460.0, revenue: 232200, grossProfit: 196800, ebit: 102600, netIncome: 83700, totalDebt: 32000, cash: 18500, equity: 94000, fco: 104000, capex: 25000, div: 9.40, minBuy: 780.00, maxSell: 950.00 },
+					"NVO": { name: "Novo Nordisk A/S ADR (NVO)", currency: "USD ($)", symbol: "$", reportDate: "Q2 2026 (04/08/2026 - Relatório Recente de Ontem)", price: 124.50, shares: 4460.0, revenue: 33200, grossProfit: 28100, ebit: 14600, netIncome: 11900, totalDebt: 4500, cash: 2600, equity: 13400, fco: 14800, capex: 3500, div: 1.35, minBuy: 110.00, maxSell: 140.00 },
+					"NKE": { name: "Nike, Inc. (NKE)", currency: "USD ($)", symbol: "$", reportDate: "Q4 FY2026 (Junho 2026)", price: 75.20, shares: 1500.0, revenue: 51300, grossProfit: 22800, ebit: 6200, netIncome: 5700, totalDebt: 12100, cash: 7500, equity: 14300, fco: 6800, capex: 950, div: 1.48, minBuy: 70.00, maxSell: 95.00 },
+					"AAPL": { name: "Apple Inc. (AAPL)", currency: "USD ($)", symbol: "$", reportDate: "Q3 FY2026 (Agosto 2026)", price: 222.50, shares: 15200.0, revenue: 385600, grossProfit: 170700, ebit: 114300, netIncome: 93700, totalDebt: 104600, cash: 61800, equity: 62100, fco: 118200, capex: 9400, div: 1.00, minBuy: 195.00, maxSell: 245.00 },
+					"MSFT": { name: "Microsoft Corp (MSFT)", currency: "USD ($)", symbol: "$", reportDate: "Q4 FY2026 (Julho 2026)", price: 410.00, shares: 7430.0, revenue: 245100, grossProfit: 170000, ebit: 109400, netIncome: 88100, totalDebt: 79000, cash: 75500, equity: 268000, fco: 118500, capex: 44500, div: 3.00, minBuy: 370.00, maxSell: 450.00 }
 				};
+
+				let currentCurrencySymbol = "€ / $ / DKK";
+
+				function updateCurrencyUI(currName, currSymbol) {
+					currentCurrencySymbol = currSymbol || currName || "€ / $";
+					document.getElementById('currencyBadge').innerText = '💱 Reporting Currency / Moeda: ' + (currName || "EUR / USD / DKK");
+					document.getElementById('labelStockPrice').innerText = 'Stock Price (' + currentCurrencySymbol + '):';
+					document.getElementById('labelDiv').innerText = 'Dividend Per Share (' + currentCurrencySymbol + '):';
+					document.getElementById('labelAlertMin').innerText = 'Target Buy Price / Minimum (' + currentCurrencySymbol + '):';
+					document.getElementById('labelAlertMax').innerText = 'Target Sell Price / Maximum (' + currentCurrencySymbol + '):';
+					
+					// Update Millions labels
+					const mText = ' (' + currentCurrencySymbol + ' Millions)';
+					document.getElementById('labelRevenue').innerText = 'Total Revenue' + mText;
+					document.getElementById('labelGrossProfit').innerText = 'Gross Profit' + mText;
+					document.getElementById('labelEbit').innerText = 'EBIT / Operating Income' + mText;
+					document.getElementById('labelNetIncome').innerText = 'Net Income' + mText;
+					document.getElementById('labelDebt').innerText = 'Total Debt' + mText;
+					document.getElementById('labelCash').innerText = 'Cash & Equivalents' + mText;
+					document.getElementById('labelEquity').innerText = 'Total Equity' + mText;
+					document.getElementById('labelFco').innerText = 'Operating Cash Flow FCO' + mText;
+					document.getElementById('labelCapex').innerText = 'CapEx' + mText;
+				}
 
 				function showStatus(msg, type) {
 					const box = document.getElementById('statusBox');
@@ -542,6 +580,7 @@ check_objective_metrics("NOVO-B.CO", target_buy=780.00, target_sell=950.00)
 				function populateForm(data) {
 					document.getElementById('companyTitle').innerText = '📊 Company Metrics: ' + data.name;
 					document.getElementById('reportDateBadge').innerText = '📅 Data do Último Relatório: ' + data.reportDate;
+					updateCurrencyUI(data.currency, data.symbol);
 					document.getElementById('reportDate').value = data.reportDate;
 					document.getElementById('price').value = data.price;
 					document.getElementById('shares').value = data.shares;
@@ -566,7 +605,7 @@ check_objective_metrics("NOVO-B.CO", target_buy=780.00, target_sell=950.00)
 					if (knownData[canonical]) {
 						const data = knownData[canonical];
 						populateForm(data);
-						showStatus('✅ Dados de <strong>' + data.name + '</strong> carregados com sucesso! (Data do Relatório: ' + data.reportDate + ')', 'success');
+						showStatus('✅ Dados de <strong>' + data.name + '</strong> carregados em ' + data.currency + '! (Data do Relatório: ' + data.reportDate + ')', 'success');
 						return true;
 					}
 
@@ -587,6 +626,7 @@ check_objective_metrics("NOVO-B.CO", target_buy=780.00, target_sell=950.00)
 								const price = quote.regularMarketPrice || quote.currentPrice || 0;
 								const shares = (quote.sharesOutstanding || 0) / 1000000;
 								const companyName = quote.longName || quote.shortName || displayName || symbolToLoad;
+								const currencyCode = quote.currency || quote.financialCurrency || "USD";
 								
 								let rDate = "Relatório Recente Q2 2026";
 								if (quote.mostRecentQuarter) {
@@ -596,13 +636,15 @@ check_objective_metrics("NOVO-B.CO", target_buy=780.00, target_sell=950.00)
 
 								document.getElementById('companyTitle').innerText = '📊 Company Metrics: ' + companyName + ' (' + symbolToLoad + ')';
 								document.getElementById('reportDateBadge').innerText = '📅 Data do Último Relatório: ' + rDate;
+								updateCurrencyUI(currencyCode, currencyCode);
+
 								document.getElementById('reportDate').value = rDate;
 								document.getElementById('price').value = price > 0 ? price.toFixed(2) : '';
 								document.getElementById('shares').value = shares > 0 ? shares.toFixed(1) : '';
 								document.getElementById('alertMin').value = price > 0 ? (price * 0.85).toFixed(2) : '';
 								document.getElementById('alertMax').value = price > 0 ? (price * 1.15).toFixed(2) : '';
 								calculateAll();
-								showStatus('✅ Cotação de <strong>' + companyName + ' (' + symbolToLoad + ')</strong> carregada com sucesso! (Data do Relatório: ' + rDate + ')', 'success');
+								showStatus('✅ Cotação de <strong>' + companyName + ' (' + symbolToLoad + ')</strong> em ' + currencyCode + ' carregada com sucesso!', 'success');
 								return true;
 							}
 						} catch(e) {
@@ -720,7 +762,7 @@ check_objective_metrics("NOVO-B.CO", target_buy=780.00, target_sell=950.00)
 					const intrinsicValuePerShare = shares > 0 ? totalEquityValuation / shares : 0;
 					const marginOfSafety = (intrinsicValuePerShare > 0 && price > 0) ? ((intrinsicValuePerShare - price) / intrinsicValuePerShare) * 100 : 0;
 
-					document.getElementById('resIntrinsicValue').innerText = intrinsicValuePerShare.toFixed(2);
+					document.getElementById('resIntrinsicValue').innerText = currentCurrencySymbol + ' ' + intrinsicValuePerShare.toFixed(2);
 					document.getElementById('resMarginSafety').innerText = (marginOfSafety >= 0 ? '+' : '') + marginOfSafety.toFixed(1) + '%';
 
 					// Target Alerts
@@ -730,13 +772,13 @@ check_objective_metrics("NOVO-B.CO", target_buy=780.00, target_sell=950.00)
 
 					if (price > 0 && minTarget > 0 && price <= minTarget) {
 						banner.className = 'alert-banner alert-buy';
-						banner.innerHTML = '🟢 BUY ALERT TRIGGERED: Current price (' + price.toFixed(2) + ') has dropped to/below your Target Buy Price (' + minTarget.toFixed(2) + ')!';
+						banner.innerHTML = '🟢 BUY ALERT TRIGGERED: Current price (' + currentCurrencySymbol + ' ' + price.toFixed(2) + ') has dropped to/below your Target Buy Price (' + currentCurrencySymbol + ' ' + minTarget.toFixed(2) + ')!';
 					} else if (price > 0 && maxTarget > 0 && price >= maxTarget) {
 						banner.className = 'alert-banner alert-sell';
-						banner.innerHTML = '🔴 SELL ALERT TRIGGERED: Current price (' + price.toFixed(2) + ') has reached/exceeded your Target Sell Price (' + maxTarget.toFixed(2) + ')!';
+						banner.innerHTML = '🔴 SELL ALERT TRIGGERED: Current price (' + currentCurrencySymbol + ' ' + price.toFixed(2) + ') has reached/exceeded your Target Sell Price (' + currentCurrencySymbol + ' ' + maxTarget.toFixed(2) + ')!';
 					} else if (price > 0 && (minTarget > 0 || maxTarget > 0)) {
 						banner.className = 'alert-banner alert-hold';
-						banner.innerHTML = '🟡 HOLD / WATCHLIST: Current price (' + price.toFixed(2) + ') is within your target bounds.';
+						banner.innerHTML = '🟡 HOLD / WATCHLIST: Current price (' + currentCurrencySymbol + ' ' + price.toFixed(2) + ') is within your target bounds.';
 					} else {
 						banner.className = 'alert-banner alert-hold';
 						banner.innerHTML = '🟡 Insert a ticker symbol and target prices to activate live price alert monitoring.';
