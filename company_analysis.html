@@ -9,7 +9,7 @@
 		<title>Corporate Financial Analysis Tool - Objective Data & Alerts</title>
 		<meta charset="utf-8" />
 		<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
-		<link rel="stylesheet" href="assets/css/main.css?v=5" />
+		<link rel="stylesheet" href="assets/css/main.css?v=6" />
 		<noscript><link rel="stylesheet" href="assets/css/noscript.css" /></noscript>
 		<!-- Google Analytics (GA4) -->
 		<script async src="https://www.googletagmanager.com/gtag/js?id=G-W76N1EJ13Q"></script>
@@ -292,14 +292,14 @@
 										<div id="reportDateBadge" class="report-badge">📅 Financial Filing Date: N/D</div>
 										<div id="currencyBadge" class="currency-badge">💱 Reporting Currency / Moeda: N/D</div>
 									</div>
-									<p style="font-size: 0.9rem; color: #4a5568;">Official corporate figures are displayed as fixed read-only data published by the company. Enter target prices and DCF parameters to calculate valuation alerts.</p>
+									<p style="font-size: 0.9rem; color: #4a5568;">Official corporate figures are displayed as fixed read-only data published by the company (annualized 12-month metrics for DCF valuation consistency).</p>
 
 									<div class="tool-grid">
 										<!-- Column 1: Market & Income Data -->
 										<div class="tool-card">
-											<h4>1. Market & Income Statement (Fixed Published Data)</h4>
+											<h4>1. Market & Income Statement (Annualized Official Data)</h4>
 											<div class="input-group">
-												<label for="reportDate">Filing / Report Date (Data do Relatório):</label>
+												<label for="reportDate">Filing / Report Period (Período do Relatório):</label>
 												<input type="text" id="reportDate" value="" placeholder="N/D" readonly />
 											</div>
 											<div class="input-group">
@@ -311,7 +311,7 @@
 												<input type="number" id="shares" value="" placeholder="0.00" readonly />
 											</div>
 											<div class="input-group">
-												<label id="labelRevenue" for="revenue">Total Revenue (Millions):</label>
+												<label id="labelRevenue" for="revenue">Annualized Revenue (Millions):</label>
 												<input type="number" id="revenue" value="" placeholder="0" readonly />
 											</div>
 											<div class="input-group">
@@ -330,7 +330,7 @@
 
 										<!-- Column 2: Balance Sheet & Cash Flow -->
 										<div class="tool-card">
-											<h4>2. Balance Sheet & Cash Flow (Fixed Published Data)</h4>
+											<h4>2. Balance Sheet & Cash Flow (Annualized Official Data)</h4>
 											<div class="input-group">
 												<label id="labelDebt" for="totalDebt">Total Debt (Millions):</label>
 												<input type="number" id="totalDebt" value="" placeholder="0" readonly />
@@ -396,15 +396,15 @@
 									</div>
 
 									<!-- Simplified DCF Valuation Model -->
-									<h4 style="color: #1a202c; border-bottom: 2px solid #3182ce; padding-bottom: 0.4rem; margin-top: 2rem;">🧮 Simplified DCF Valuation Model (Custom Projections)</h4>
+									<h4 style="color: #1a202c; border-bottom: 2px solid #3182ce; padding-bottom: 0.4rem; margin-top: 2rem;">🧮 Simplified DCF Valuation Model (Projeções Baseadas na Margem Real FCF)</h4>
 									<div class="tool-grid" style="margin-bottom: 1rem;">
 										<div class="input-group">
 											<label for="dcfGrowth">5-Yr Revenue Growth Rate (%):</label>
 											<input type="number" id="dcfGrowth" value="7.0" step="0.5" oninput="calculateAll()" />
 										</div>
 										<div class="input-group">
-											<label for="dcfFcfMargin">Target FCF Margin (%):</label>
-											<input type="number" id="dcfFcfMargin" value="8.0" step="0.5" oninput="calculateAll()" />
+											<label for="dcfFcfMargin">Target FCF Margin (%) [Auto-Preenchido com FCF Real]:</label>
+											<input type="number" id="dcfFcfMargin" value="" placeholder="35.8" step="0.5" oninput="calculateAll()" />
 										</div>
 										<div class="input-group">
 											<label for="dcfWacc">WACC / Discount Rate (%):</label>
@@ -559,10 +559,11 @@ check_objective_metrics("NOVO-B.CO", target_buy=780.00, target_sell=950.00)
 					"NVIDIA": "NVDA"
 				};
 
+				// Annualized FY metrics for DCF mathematical consistency
 				const knownData = {
-					"ADS.DE": { name: "Adidas AG (ADS.DE)", currency: "EUR (€)", symbol: "€", reportDate: "Q2 2026 (Julho 2026)", price: 220.00, shares: 178.50, revenue: 21400, grossProfit: 10800, ebit: 1100, netIncome: 780, totalDebt: 3400, cash: 1500, equity: 5200, fco: 2100, capex: 550, div: 1.45, minBuy: 190.00, maxSell: 240.00 },
-					"NOVO-B.CO": { name: "Novo Nordisk A/S (NOVO-B.CO)", currency: "DKK (Coroa Dinamarquesa)", symbol: "DKK", reportDate: "H1 2026 (04/08/2026 - Relatório Oficial Recente)", price: 840.00, shares: 4460.0, revenue: 151911, grossProfit: 128500, ebit: 86520, netIncome: 69546, totalDebt: 32000, cash: 18500, equity: 94000, fco: 79283, capex: 24840, div: 7.92, minBuy: 780.00, maxSell: 950.00 },
-					"NVO": { name: "Novo Nordisk A/S ADR (NVO)", currency: "USD ($)", symbol: "$", reportDate: "H1 2026 (04/08/2026 - Relatório Oficial Recente)", price: 124.50, shares: 4460.0, revenue: 21700, grossProfit: 18350, ebit: 12360, netIncome: 9935, totalDebt: 4500, cash: 2600, equity: 13400, fco: 11320, capex: 3550, div: 1.13, minBuy: 110.00, maxSell: 140.00 },
+					"ADS.DE": { name: "Adidas AG (ADS.DE)", currency: "EUR (€)", symbol: "€", reportDate: "FY2026 (Annualized Q2 2026)", price: 220.00, shares: 178.50, revenue: 21400, grossProfit: 10800, ebit: 1100, netIncome: 780, totalDebt: 3400, cash: 1500, equity: 5200, fco: 2100, capex: 550, div: 1.45, minBuy: 190.00, maxSell: 240.00 },
+					"NOVO-B.CO": { name: "Novo Nordisk A/S (NOVO-B.CO)", currency: "DKK (Coroa Dinamarquesa)", symbol: "DKK", reportDate: "H1 2026 (04/08/2026 - Anualizado para Valuation)", price: 840.00, shares: 4460.0, revenue: 303822, grossProfit: 257000, ebit: 173040, netIncome: 139092, totalDebt: 32000, cash: 18500, equity: 94000, fco: 158566, capex: 49680, div: 15.84, minBuy: 780.00, maxSell: 950.00 },
+					"NVO": { name: "Novo Nordisk A/S ADR (NVO)", currency: "USD ($)", symbol: "$", reportDate: "H1 2026 (04/08/2026 - Anualizado para Valuation)", price: 124.50, shares: 4460.0, revenue: 43400, grossProfit: 36700, ebit: 24720, netIncome: 19870, totalDebt: 4500, cash: 2600, equity: 13400, fco: 22640, capex: 7100, div: 2.26, minBuy: 110.00, maxSell: 140.00 },
 					"NKE": { name: "Nike, Inc. (NKE)", currency: "USD ($)", symbol: "$", reportDate: "Q4 FY2026 (Junho 2026)", price: 75.20, shares: 1500.0, revenue: 51300, grossProfit: 22800, ebit: 6200, netIncome: 5700, totalDebt: 12100, cash: 7500, equity: 14300, fco: 6800, capex: 950, div: 1.48, minBuy: 70.00, maxSell: 95.00 },
 					"AAPL": { name: "Apple Inc. (AAPL)", currency: "USD ($)", symbol: "$", reportDate: "Q3 FY2026 (Agosto 2026)", price: 222.50, shares: 15200.0, revenue: 385600, grossProfit: 170700, ebit: 114300, netIncome: 93700, totalDebt: 104600, cash: 61800, equity: 62100, fco: 118200, capex: 9400, div: 1.00, minBuy: 195.00, maxSell: 245.00 },
 					"MSFT": { name: "Microsoft Corp (MSFT)", currency: "USD ($)", symbol: "$", reportDate: "Q4 FY2026 (Julho 2026)", price: 410.00, shares: 7430.0, revenue: 245100, grossProfit: 170000, ebit: 109400, netIncome: 88100, totalDebt: 79000, cash: 75500, equity: 268000, fco: 118500, capex: 44500, div: 3.00, minBuy: 370.00, maxSell: 450.00 }
@@ -580,7 +581,7 @@ check_objective_metrics("NOVO-B.CO", target_buy=780.00, target_sell=950.00)
 					
 					// Update Millions labels
 					const mText = ' (' + currentCurrencySymbol + ' Millions)';
-					document.getElementById('labelRevenue').innerText = 'Total Revenue' + mText;
+					document.getElementById('labelRevenue').innerText = 'Annualized Revenue' + mText;
 					document.getElementById('labelGrossProfit').innerText = 'Gross Profit' + mText;
 					document.getElementById('labelEbit').innerText = 'EBIT / Operating Income' + mText;
 					document.getElementById('labelNetIncome').innerText = 'Net Income' + mText;
@@ -599,7 +600,7 @@ check_objective_metrics("NOVO-B.CO", target_buy=780.00, target_sell=950.00)
 
 				function populateForm(data) {
 					document.getElementById('companyTitle').innerText = '📊 Company Metrics: ' + data.name;
-					document.getElementById('reportDateBadge').innerText = '📅 Data do Último Relatório: ' + data.reportDate;
+					document.getElementById('reportDateBadge').innerText = '📅 Data do Relatório: ' + data.reportDate;
 					updateCurrencyUI(data.currency, data.symbol);
 					document.getElementById('reportDate').value = data.reportDate;
 					document.getElementById('price').value = data.price;
@@ -616,6 +617,14 @@ check_objective_metrics("NOVO-B.CO", target_buy=780.00, target_sell=950.00)
 					document.getElementById('dividendPerShare').value = data.div;
 					document.getElementById('alertMin').value = data.minBuy;
 					document.getElementById('alertMax').value = data.maxSell;
+
+					// Auto-fill DCF target FCF margin from real FCF
+					const realFcf = data.fco - data.capex;
+					if(data.revenue > 0) {
+						const realFcfMargin = ((realFcf / data.revenue) * 100).toFixed(1);
+						document.getElementById('dcfFcfMargin').value = realFcfMargin;
+					}
+
 					calculateAll();
 				}
 
@@ -625,7 +634,7 @@ check_objective_metrics("NOVO-B.CO", target_buy=780.00, target_sell=950.00)
 					if (knownData[canonical]) {
 						const data = knownData[canonical];
 						populateForm(data);
-						showStatus('✅ Dados oficiais de <strong>' + data.name + '</strong> carregados em ' + data.currency + '! (Data do Relatório: ' + data.reportDate + ')', 'success');
+						showStatus('✅ Dados oficiais de <strong>' + data.name + '</strong> carregados! (DCF calibrado com Margem FCF Real)', 'success');
 						return true;
 					}
 
@@ -757,7 +766,7 @@ check_objective_metrics("NOVO-B.CO", target_buy=780.00, target_sell=950.00)
 					document.getElementById('resEvEbitda').innerText = evEbitda.toFixed(1) + 'x';
 					document.getElementById('resDivYield').innerText = divYield.toFixed(2) + '%';
 
-					// DCF
+					// DCF Model Calculation
 					const dcfGrowth = (parseFloat(document.getElementById('dcfGrowth').value) || 0) / 100;
 					const dcfFcfMargin = (parseFloat(document.getElementById('dcfFcfMargin').value) || 0) / 100;
 					const wacc = (parseFloat(document.getElementById('dcfWacc').value) || 0) / 100;
@@ -766,7 +775,7 @@ check_objective_metrics("NOVO-B.CO", target_buy=780.00, target_sell=950.00)
 					let pvFcfSum = 0;
 					let currentRev = revenue;
 
-					if(revenue > 0) {
+					if(revenue > 0 && dcfFcfMargin > 0) {
 						for(let year = 1; year <= 5; year++) {
 							currentRev *= (1 + dcfGrowth);
 							const projFcf = currentRev * dcfFcfMargin;
@@ -775,7 +784,7 @@ check_objective_metrics("NOVO-B.CO", target_buy=780.00, target_sell=950.00)
 						}
 					}
 
-					const terminalValue = (wacc > g && revenue > 0) ? (currentRev * dcfFcfMargin * (1 + g)) / (wacc - g) : 0;
+					const terminalValue = (wacc > g && revenue > 0 && dcfFcfMargin > 0) ? (currentRev * dcfFcfMargin * (1 + g)) / (wacc - g) : 0;
 					const pvTerminalValue = terminalValue / Math.pow(1 + wacc, 5);
 					const totalEnterpriseValue = pvFcfSum + pvTerminalValue;
 					const totalEquityValuation = totalEnterpriseValue - netDebt;
