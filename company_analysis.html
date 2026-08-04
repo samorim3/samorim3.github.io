@@ -35,7 +35,7 @@
 				border: 2px solid #cbd5e0;
 				border-radius: 8px;
 				padding: 1.25rem 1.5rem;
-				margin-bottom: 2rem;
+				margin-bottom: 1.5rem;
 			}
 			.search-input-wrapper {
 				display: flex;
@@ -47,6 +47,54 @@
 				font-weight: bold;
 				text-transform: uppercase;
 				flex-grow: 1;
+			}
+			.status-msg {
+				margin-top: 0.75rem;
+				padding: 0.6rem 1rem;
+				border-radius: 6px;
+				font-size: 0.9rem;
+				font-weight: bold;
+				display: none;
+			}
+			.status-loading {
+				background: #e2e8f0;
+				color: #2d3748;
+				border: 1px solid #cbd5e0;
+				display: block;
+			}
+			.status-error {
+				background: #fed7d7;
+				color: #9b2c2c;
+				border: 1px solid #feb2b2;
+				display: block;
+			}
+			.status-success {
+				background: #c6f6d5;
+				color: #22543d;
+				border: 1px solid #9ae6b4;
+				display: block;
+			}
+			.status-warning {
+				background: #feebc8;
+				color: #7b341e;
+				border: 1px solid #fbd38d;
+				display: block;
+			}
+			.suggestion-btn {
+				display: inline-block;
+				margin: 0.2rem 0.3rem 0.2rem 0;
+				padding: 0.25rem 0.6rem;
+				background: #3182ce;
+				color: white !important;
+				border-radius: 4px;
+				font-size: 0.8rem;
+				font-weight: bold;
+				cursor: pointer;
+				text-decoration: none;
+				border: none;
+			}
+			.suggestion-btn:hover {
+				background: #2b6cb0;
 			}
 			.tool-grid {
 				display: grid;
@@ -188,11 +236,12 @@
 									
 									<!-- Ticker Search Header -->
 									<div class="search-bar-box">
-										<label for="tickerInput" style="font-weight: bold; color: #1a202c; display: block; margin-bottom: 0.5rem;">🔍 Insert Company Ticker Symbol:</label>
+										<label for="tickerInput" style="font-weight: bold; color: #1a202c; display: block; margin-bottom: 0.5rem;">🔍 Insert Company Ticker Symbol or Name:</label>
 										<div class="search-input-wrapper">
-											<input type="text" id="tickerInput" value="" placeholder="e.g. ADS.DE, AAPL, NKE, MSFT" />
+											<input type="text" id="tickerInput" value="" placeholder="e.g. NOVO-B.CO, ADS.DE, AAPL, NKE, Adidas, Novo Nordisk" onkeypress="if(event.key === 'Enter') fetchTickerData()" />
 											<button onclick="fetchTickerData()" style="white-space: nowrap; height: auto;">Load Ticker Data</button>
 										</div>
+										<div id="statusBox" class="status-msg"></div>
 									</div>
 
 									<h3 id="companyTitle" style="margin-top: 0; color: #1a202c;">📊 Company Objective Metrics</h3>
@@ -438,19 +487,21 @@ check_objective_metrics("ADS.DE", target_buy=190.00, target_sell=240.00)
 			<script src="assets/js/main.js"></script>
 
 			<script>
-				const defaultData = {
-					"ADS.DE": { name: "Adidas AG (ADS.DE)", price: 220.00, shares: 178.50, revenue: 21400, grossProfit: 10800, ebit: 1100, netIncome: 780, totalDebt: 3400, cash: 1500, equity: 5200, fco: 2100, capex: 550, div: 1.45, minBuy: 190.00, maxSell: 240.00 }
+				const knownData = {
+					"ADS.DE": { name: "Adidas AG (ADS.DE)", price: 220.00, shares: 178.50, revenue: 21400, grossProfit: 10800, ebit: 1100, netIncome: 780, totalDebt: 3400, cash: 1500, equity: 5200, fco: 2100, capex: 550, div: 1.45, minBuy: 190.00, maxSell: 240.00 },
+					"NOVO-B.CO": { name: "Novo Nordisk A/S (NOVO-B.CO)", price: 840.00, shares: 4460.0, revenue: 232200, grossProfit: 196800, ebit: 102600, netIncome: 83700, totalDebt: 32000, cash: 18500, equity: 94000, fco: 104000, capex: 25000, div: 9.40, minBuy: 780.00, maxSell: 950.00 },
+					"NVO": { name: "Novo Nordisk A/S ADR (NVO)", price: 124.50, shares: 4460.0, revenue: 33200, grossProfit: 28100, ebit: 14600, netIncome: 11900, totalDebt: 4500, cash: 2600, equity: 13400, fco: 14800, capex: 3500, div: 1.35, minBuy: 110.00, maxSell: 140.00 }
 				};
 
-				async function fetchTickerData() {
-					const symbol = document.getElementById('tickerInput').value.trim().toUpperCase();
-					if(!symbol) {
-						alert('Por favor, insira o Ticker da empresa (ex: ADS.DE, AAPL, NKE).');
-						return;
-					}
+				function showStatus(msg, type) {
+					const box = document.getElementById('statusBox');
+					box.className = 'status-msg status-' + type;
+					box.innerHTML = msg;
+				}
 
-					if(defaultData[symbol]) {
-						const data = defaultData[symbol];
+				async function loadSymbolQuote(symbolToLoad, displayName) {
+					if (knownData[symbolToLoad]) {
+						const data = knownData[symbolToLoad];
 						document.getElementById('companyTitle').innerText = '📊 Company Metrics: ' + data.name;
 						document.getElementById('price').value = data.price;
 						document.getElementById('shares').value = data.shares;
@@ -467,30 +518,82 @@ check_objective_metrics("ADS.DE", target_buy=190.00, target_sell=240.00)
 						document.getElementById('alertMin').value = data.minBuy;
 						document.getElementById('alertMax').value = data.maxSell;
 						calculateAll();
-						return;
+						showStatus('✅ Dados de ' + data.name + ' carregados com sucesso!', 'success');
+						return true;
 					}
 
 					try {
-						document.getElementById('companyTitle').innerText = '📊 Loading data for ' + symbol + '...';
-						const response = await fetch('https://api.allorigins.win/raw?url=' + encodeURIComponent('https://query1.finance.yahoo.com/v7/finance/quote?symbols=' + symbol));
+						const response = await fetch('https://api.allorigins.win/raw?url=' + encodeURIComponent('https://query1.finance.yahoo.com/v7/finance/quote?symbols=' + symbolToLoad));
 						const result = await response.json();
-						const quote = result.quoteResponse.result[0];
+						const quote = result.quoteResponse && result.quoteResponse.result && result.quoteResponse.result[0];
 
-						if(quote) {
+						if (quote && (quote.regularMarketPrice || quote.currentPrice)) {
 							const price = quote.regularMarketPrice || quote.currentPrice || 0;
 							const shares = (quote.sharesOutstanding || 0) / 1000000;
+							const companyName = quote.longName || quote.shortName || displayName || symbolToLoad;
 
-							document.getElementById('companyTitle').innerText = '📊 Company Metrics: ' + (quote.longName || quote.shortName || symbol);
+							document.getElementById('companyTitle').innerText = '📊 Company Metrics: ' + companyName + ' (' + symbolToLoad + ')';
 							document.getElementById('price').value = price > 0 ? price.toFixed(2) : '';
 							document.getElementById('shares').value = shares > 0 ? shares.toFixed(1) : '';
 							document.getElementById('alertMin').value = price > 0 ? (price * 0.85).toFixed(2) : '';
 							document.getElementById('alertMax').value = price > 0 ? (price * 1.15).toFixed(2) : '';
 							calculateAll();
+							showStatus('✅ Cotação de <strong>' + companyName + ' (' + symbolToLoad + ')</strong> carregada com sucesso! Preço: ' + price.toFixed(2), 'success');
+							return true;
 						}
 					} catch(e) {
-						document.getElementById('companyTitle').innerText = '📊 Company Metrics: ' + symbol;
-						calculateAll();
+						console.log('Error fetching quote:', e);
 					}
+					return false;
+				}
+
+				async function fetchTickerData() {
+					const inputVal = document.getElementById('tickerInput').value.trim();
+					if(!inputVal) {
+						showStatus('⚠️ Por favor, introduza um código ou nome de empresa (ex: NOVO-B.CO, ADS.DE, AAPL, NKE, Novo Nordisk).', 'warning');
+						return;
+					}
+
+					const symbol = inputVal.toUpperCase();
+					showStatus('⏳ A pesquisar cotações e empresas para "<strong>' + inputVal + '</strong>"...', 'loading');
+
+					// 1. Try direct match
+					const directSuccess = await loadSymbolQuote(symbol, symbol);
+					if(directSuccess) return;
+
+					// 2. If direct fails (e.g. NOVO-B without .CO), query Yahoo Search API
+					try {
+						const searchRes = await fetch('https://api.allorigins.win/raw?url=' + encodeURIComponent('https://query1.finance.yahoo.com/v1/finance/search?q=' + encodeURIComponent(inputVal)));
+						const searchData = await searchRes.json();
+						const quotes = (searchData.quotes || []).filter(q => q.quoteType === 'EQUITY' || q.quoteType === 'ETF');
+
+						if (quotes.length > 0) {
+							const topMatch = quotes[0];
+							// Load top match
+							const loaded = await loadSymbolQuote(topMatch.symbol, topMatch.shortname || topMatch.longname);
+
+							// Generate suggestions
+							let suggestionsHTML = '💡 Ticker "<strong>' + inputVal + '</strong>" não encontrado diretamente.<br />';
+							if(loaded) {
+								suggestionsHTML += 'Carregámos a melhor correspondência: <strong>' + (topMatch.shortname || topMatch.symbol) + ' (' + topMatch.symbol + ')</strong>.<br />';
+							}
+							
+							if(quotes.length > 1) {
+								suggestionsHTML += '<span style="display:block; margin-top:0.3rem;">Outras sugestões encontradas: ';
+								quotes.slice(0, 4).forEach(q => {
+									suggestionsHTML += '<button class="suggestion-btn" onclick="document.getElementById(\'tickerInput\').value=\'' + q.symbol + '\'; fetchTickerData();">' + q.symbol + ' (' + (q.shortname || q.symbol) + ')</button> ';
+								});
+								suggestionsHTML += '</span>';
+							}
+							showStatus(suggestionsHTML, loaded ? 'success' : 'warning');
+							return;
+						}
+					} catch(e) {
+						console.log('Search API failed:', e);
+					}
+
+					// 3. Fallback: Not found
+					showStatus('❌ Nenhuma empresa encontrada para "<strong>' + inputVal + '</strong>". Verifique se o ticker (ex: <code>NOVO-B.CO</code>, <code>NVO</code>, <code>ADS.DE</code>) ou o nome está correto.', 'error');
 				}
 
 				function calculateAll() {
