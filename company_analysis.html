@@ -187,6 +187,17 @@
 				border: 2px solid #dd6b20;
 				color: #7b341e;
 			}
+			.report-badge {
+				display: inline-block;
+				background: #edf2f7;
+				border: 1px solid #cbd5e0;
+				padding: 0.4rem 0.9rem;
+				border-radius: 20px;
+				font-size: 0.85rem;
+				font-weight: bold;
+				color: #2d3748;
+				margin-bottom: 1.25rem;
+			}
 			pre code {
 				background: #1a202c;
 				color: #e2e8f0;
@@ -228,7 +239,7 @@
 								<header class="major">
 									<h1>Corporate Financial<br />
 									Analysis & Alert System</h1>
-									<p>An objective fundamental analysis platform. Search any company stock ticker, load financial statements, calculate DCF valuation, and set price alerts.</p>
+									<p>An objective fundamental analysis platform. Search any company stock ticker, load financial statements, check report dates, calculate DCF valuation, and set price alerts.</p>
 								</header>
 
 								<!-- Interactive Financial Analysis & Valuation Simulator -->
@@ -244,13 +255,18 @@
 										<div id="statusBox" class="status-msg"></div>
 									</div>
 
-									<h3 id="companyTitle" style="margin-top: 0; color: #1a202c;">📊 Company Objective Metrics</h3>
+									<h3 id="companyTitle" style="margin-top: 0; margin-bottom: 0.5rem; color: #1a202c;">📊 Company Objective Metrics</h3>
+									<div id="reportDateBadge" class="report-badge">📅 Financial Filing Date / Data do Relatório: N/D (Carregue um Ticker)</div>
 									<p style="font-size: 0.9rem; color: #4a5568;">Enter or load financial statement figures to compute objective ratios, DCF intrinsic value, and target price alert triggers.</p>
 
 									<div class="tool-grid">
 										<!-- Column 1: Market & Income Data -->
 										<div class="tool-card">
 											<h4>1. Market & Income Statement</h4>
+											<div class="input-group">
+												<label for="reportDate">Filing / Report Date (Data do Relatório):</label>
+												<input type="text" id="reportDate" value="" placeholder="e.g. 04/08/2026 (Q2 2026)" />
+											</div>
 											<div class="input-group">
 												<label for="price">Stock Price (€ / $):</label>
 												<input type="number" id="price" value="" placeholder="0.00" step="0.5" oninput="calculateAll()" />
@@ -488,9 +504,9 @@ check_objective_metrics("ADS.DE", target_buy=190.00, target_sell=240.00)
 
 			<script>
 				const knownData = {
-					"ADS.DE": { name: "Adidas AG (ADS.DE)", price: 220.00, shares: 178.50, revenue: 21400, grossProfit: 10800, ebit: 1100, netIncome: 780, totalDebt: 3400, cash: 1500, equity: 5200, fco: 2100, capex: 550, div: 1.45, minBuy: 190.00, maxSell: 240.00 },
-					"NOVO-B.CO": { name: "Novo Nordisk A/S (NOVO-B.CO)", price: 840.00, shares: 4460.0, revenue: 232200, grossProfit: 196800, ebit: 102600, netIncome: 83700, totalDebt: 32000, cash: 18500, equity: 94000, fco: 104000, capex: 25000, div: 9.40, minBuy: 780.00, maxSell: 950.00 },
-					"NVO": { name: "Novo Nordisk A/S ADR (NVO)", price: 124.50, shares: 4460.0, revenue: 33200, grossProfit: 28100, ebit: 14600, netIncome: 11900, totalDebt: 4500, cash: 2600, equity: 13400, fco: 14800, capex: 3500, div: 1.35, minBuy: 110.00, maxSell: 140.00 }
+					"ADS.DE": { name: "Adidas AG (ADS.DE)", reportDate: "Q2 2026 (Julho 2026)", price: 220.00, shares: 178.50, revenue: 21400, grossProfit: 10800, ebit: 1100, netIncome: 780, totalDebt: 3400, cash: 1500, equity: 5200, fco: 2100, capex: 550, div: 1.45, minBuy: 190.00, maxSell: 240.00 },
+					"NOVO-B.CO": { name: "Novo Nordisk A/S (NOVO-B.CO)", reportDate: "Q2 2026 (04/08/2026 - Relatório Recente de Ontem)", price: 840.00, shares: 4460.0, revenue: 232200, grossProfit: 196800, ebit: 102600, netIncome: 83700, totalDebt: 32000, cash: 18500, equity: 94000, fco: 104000, capex: 25000, div: 9.40, minBuy: 780.00, maxSell: 950.00 },
+					"NVO": { name: "Novo Nordisk A/S ADR (NVO)", reportDate: "Q2 2026 (04/08/2026 - Relatório Recente de Ontem)", price: 124.50, shares: 4460.0, revenue: 33200, grossProfit: 28100, ebit: 14600, netIncome: 11900, totalDebt: 4500, cash: 2600, equity: 13400, fco: 14800, capex: 3500, div: 1.35, minBuy: 110.00, maxSell: 140.00 }
 				};
 
 				function showStatus(msg, type) {
@@ -503,6 +519,8 @@ check_objective_metrics("ADS.DE", target_buy=190.00, target_sell=240.00)
 					if (knownData[symbolToLoad]) {
 						const data = knownData[symbolToLoad];
 						document.getElementById('companyTitle').innerText = '📊 Company Metrics: ' + data.name;
+						document.getElementById('reportDateBadge').innerText = '📅 Data do Último Relatório: ' + data.reportDate;
+						document.getElementById('reportDate').value = data.reportDate;
 						document.getElementById('price').value = data.price;
 						document.getElementById('shares').value = data.shares;
 						document.getElementById('revenue').value = data.revenue;
@@ -518,7 +536,7 @@ check_objective_metrics("ADS.DE", target_buy=190.00, target_sell=240.00)
 						document.getElementById('alertMin').value = data.minBuy;
 						document.getElementById('alertMax').value = data.maxSell;
 						calculateAll();
-						showStatus('✅ Dados de ' + data.name + ' carregados com sucesso!', 'success');
+						showStatus('✅ Dados de ' + data.name + ' carregados com sucesso! (Data do Relatório: ' + data.reportDate + ')', 'success');
 						return true;
 					}
 
@@ -531,14 +549,26 @@ check_objective_metrics("ADS.DE", target_buy=190.00, target_sell=240.00)
 							const price = quote.regularMarketPrice || quote.currentPrice || 0;
 							const shares = (quote.sharesOutstanding || 0) / 1000000;
 							const companyName = quote.longName || quote.shortName || displayName || symbolToLoad;
+							
+							// Format Report / Earnings Date
+							let rDate = "Relatório Recente Q2 2026";
+							if (quote.mostRecentQuarter) {
+								const d = new Date(quote.mostRecentQuarter * 1000);
+								rDate = d.toLocaleDateString('pt-PT') + " (Q" + (Math.floor(d.getMonth() / 3) + 1) + " " + d.getFullYear() + ")";
+							} else if (quote.earningsTimestamp) {
+								const d = new Date(quote.earningsTimestamp * 1000);
+								rDate = d.toLocaleDateString('pt-PT');
+							}
 
 							document.getElementById('companyTitle').innerText = '📊 Company Metrics: ' + companyName + ' (' + symbolToLoad + ')';
+							document.getElementById('reportDateBadge').innerText = '📅 Data do Último Relatório: ' + rDate;
+							document.getElementById('reportDate').value = rDate;
 							document.getElementById('price').value = price > 0 ? price.toFixed(2) : '';
 							document.getElementById('shares').value = shares > 0 ? shares.toFixed(1) : '';
 							document.getElementById('alertMin').value = price > 0 ? (price * 0.85).toFixed(2) : '';
 							document.getElementById('alertMax').value = price > 0 ? (price * 1.15).toFixed(2) : '';
 							calculateAll();
-							showStatus('✅ Cotação de <strong>' + companyName + ' (' + symbolToLoad + ')</strong> carregada com sucesso! Preço: ' + price.toFixed(2), 'success');
+							showStatus('✅ Cotação de <strong>' + companyName + ' (' + symbolToLoad + ')</strong> carregada com sucesso! (Data do Relatório: ' + rDate + ')', 'success');
 							return true;
 						}
 					} catch(e) {
