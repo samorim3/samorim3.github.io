@@ -9,7 +9,7 @@
 		<title>Corporate Financial Analysis Tool - Objective Data & Alerts</title>
 		<meta charset="utf-8" />
 		<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
-		<link rel="stylesheet" href="assets/css/main.css?v=4" />
+		<link rel="stylesheet" href="assets/css/main.css?v=5" />
 		<noscript><link rel="stylesheet" href="assets/css/noscript.css" /></noscript>
 		<!-- Google Analytics (GA4) -->
 		<script async src="https://www.googletagmanager.com/gtag/js?id=G-W76N1EJ13Q"></script>
@@ -137,6 +137,26 @@
 				background: #fff;
 				color: #1a202c;
 			}
+
+			/* Readonly fixed official data fields */
+			.input-group input[readonly] {
+				background: #f7fafc !important;
+				color: #2d3748 !important;
+				border: 1px solid #e2e8f0 !important;
+				font-weight: bold;
+				cursor: default;
+			}
+
+			/* Hide HTML5 number spinner arrows */
+			input[type=number]::-webkit-inner-spin-button, 
+			input[type=number]::-webkit-outer-spin-button { 
+				-webkit-appearance: none; 
+				margin: 0; 
+			}
+			input[type=number] {
+				-moz-appearance: textfield;
+			}
+
 			.metric-grid {
 				display: grid;
 				grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
@@ -272,15 +292,15 @@
 										<div id="reportDateBadge" class="report-badge">📅 Financial Filing Date: N/D</div>
 										<div id="currencyBadge" class="currency-badge">💱 Reporting Currency / Moeda: N/D</div>
 									</div>
-									<p style="font-size: 0.9rem; color: #4a5568;">Enter or load financial statement figures to compute objective ratios, DCF intrinsic value, and target price alert triggers.</p>
+									<p style="font-size: 0.9rem; color: #4a5568;">Official corporate figures are displayed as fixed read-only data published by the company. Enter target prices and DCF parameters to calculate valuation alerts.</p>
 
 									<div class="tool-grid">
 										<!-- Column 1: Market & Income Data -->
 										<div class="tool-card">
-											<h4>1. Market & Income Statement</h4>
+											<h4>1. Market & Income Statement (Fixed Published Data)</h4>
 											<div class="input-group">
 												<label for="reportDate">Filing / Report Date (Data do Relatório):</label>
-												<input type="text" id="reportDate" value="" placeholder="e.g. 04/08/2026 (Q2 2026)" />
+												<input type="text" id="reportDate" value="" placeholder="N/D" readonly />
 											</div>
 											<div class="input-group">
 												<label id="labelStockPrice" for="price">Stock Price (€ / $ / DKK):</label>
@@ -288,52 +308,52 @@
 											</div>
 											<div class="input-group">
 												<label for="shares">Shares Outstanding (Millions):</label>
-												<input type="number" id="shares" value="" placeholder="0.00" step="0.1" oninput="calculateAll()" />
+												<input type="number" id="shares" value="" placeholder="0.00" readonly />
 											</div>
 											<div class="input-group">
 												<label id="labelRevenue" for="revenue">Total Revenue (Millions):</label>
-												<input type="number" id="revenue" value="" placeholder="0" oninput="calculateAll()" />
+												<input type="number" id="revenue" value="" placeholder="0" readonly />
 											</div>
 											<div class="input-group">
 												<label id="labelGrossProfit" for="grossProfit">Gross Profit (Millions):</label>
-												<input type="number" id="grossProfit" value="" placeholder="0" oninput="calculateAll()" />
+												<input type="number" id="grossProfit" value="" placeholder="0" readonly />
 											</div>
 											<div class="input-group">
 												<label id="labelEbit" for="ebit">EBIT / Operating Income (Millions):</label>
-												<input type="number" id="ebit" value="" placeholder="0" oninput="calculateAll()" />
+												<input type="number" id="ebit" value="" placeholder="0" readonly />
 											</div>
 											<div class="input-group">
 												<label id="labelNetIncome" for="netIncome">Net Income (Millions):</label>
-												<input type="number" id="netIncome" value="" placeholder="0" oninput="calculateAll()" />
+												<input type="number" id="netIncome" value="" placeholder="0" readonly />
 											</div>
 										</div>
 
 										<!-- Column 2: Balance Sheet & Cash Flow -->
 										<div class="tool-card">
-											<h4>2. Balance Sheet & Cash Flow</h4>
+											<h4>2. Balance Sheet & Cash Flow (Fixed Published Data)</h4>
 											<div class="input-group">
 												<label id="labelDebt" for="totalDebt">Total Debt (Millions):</label>
-												<input type="number" id="totalDebt" value="" placeholder="0" oninput="calculateAll()" />
+												<input type="number" id="totalDebt" value="" placeholder="0" readonly />
 											</div>
 											<div class="input-group">
 												<label id="labelCash" for="cash">Cash & Equivalents (Millions):</label>
-												<input type="number" id="cash" value="" placeholder="0" oninput="calculateAll()" />
+												<input type="number" id="cash" value="" placeholder="0" readonly />
 											</div>
 											<div class="input-group">
 												<label id="labelEquity" for="equity">Total Equity (Millions):</label>
-												<input type="number" id="equity" value="" placeholder="0" oninput="calculateAll()" />
+												<input type="number" id="equity" value="" placeholder="0" readonly />
 											</div>
 											<div class="input-group">
 												<label id="labelFco" for="fco">Operating Cash Flow FCO (Millions):</label>
-												<input type="number" id="fco" value="" placeholder="0" oninput="calculateAll()" />
+												<input type="number" id="fco" value="" placeholder="0" readonly />
 											</div>
 											<div class="input-group">
 												<label id="labelCapex" for="capex">CapEx (Millions):</label>
-												<input type="number" id="capex" value="" placeholder="0" oninput="calculateAll()" />
+												<input type="number" id="capex" value="" placeholder="0" readonly />
 											</div>
 											<div class="input-group">
 												<label id="labelDiv" for="dividendPerShare">Dividend Per Share (€ / $ / DKK):</label>
-												<input type="number" id="dividendPerShare" value="" placeholder="0.00" step="0.05" oninput="calculateAll()" />
+												<input type="number" id="dividendPerShare" value="" placeholder="0.00" readonly />
 											</div>
 										</div>
 									</div>
@@ -376,7 +396,7 @@
 									</div>
 
 									<!-- Simplified DCF Valuation Model -->
-									<h4 style="color: #1a202c; border-bottom: 2px solid #3182ce; padding-bottom: 0.4rem; margin-top: 2rem;">🧮 Simplified DCF Valuation Model</h4>
+									<h4 style="color: #1a202c; border-bottom: 2px solid #3182ce; padding-bottom: 0.4rem; margin-top: 2rem;">🧮 Simplified DCF Valuation Model (Custom Projections)</h4>
 									<div class="tool-grid" style="margin-bottom: 1rem;">
 										<div class="input-group">
 											<label for="dcfGrowth">5-Yr Revenue Growth Rate (%):</label>
@@ -605,7 +625,7 @@ check_objective_metrics("NOVO-B.CO", target_buy=780.00, target_sell=950.00)
 					if (knownData[canonical]) {
 						const data = knownData[canonical];
 						populateForm(data);
-						showStatus('✅ Dados de <strong>' + data.name + '</strong> carregados em ' + data.currency + '! (Data do Relatório: ' + data.reportDate + ')', 'success');
+						showStatus('✅ Dados oficiais de <strong>' + data.name + '</strong> carregados em ' + data.currency + '! (Data do Relatório: ' + data.reportDate + ')', 'success');
 						return true;
 					}
 
