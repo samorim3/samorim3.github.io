@@ -6,7 +6,7 @@
 -->
 <html>
 	<head>
-		<title>Corporate Financial Analysis Tool - Live Ticker & Alert System</title>
+		<title>Corporate Financial Analysis Tool - Objective Data & Alerts</title>
 		<meta charset="utf-8" />
 		<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
 		<link rel="stylesheet" href="assets/css/main.css?v=2" />
@@ -27,35 +27,30 @@
 				border: 1px solid #e2e8f0;
 				border-radius: 8px;
 				padding: 2rem;
-				margin: 2rem 0;
+				margin: 1rem 0 2rem 0;
 				color: #2d3748;
 			}
 			.search-bar-box {
 				background: #edf2f7;
 				border: 2px solid #cbd5e0;
 				border-radius: 8px;
-				padding: 1.5rem;
+				padding: 1.25rem 1.5rem;
 				margin-bottom: 2rem;
-				display: flex;
-				flex-wrap: wrap;
-				gap: 1rem;
-				align-items: center;
-				justify-content: space-between;
 			}
 			.search-input-wrapper {
 				display: flex;
-				gap: 0.5rem;
-				flex-grow: 1;
-				max-width: 500px;
+				gap: 0.75rem;
+				width: 100%;
 			}
 			.search-input-wrapper input {
 				font-size: 1.1rem;
 				font-weight: bold;
 				text-transform: uppercase;
+				flex-grow: 1;
 			}
 			.tool-grid {
 				display: grid;
-				grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+				grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
 				gap: 1.5rem;
 				margin-bottom: 2rem;
 			}
@@ -85,7 +80,7 @@
 				text-transform: none;
 				letter-spacing: normal;
 			}
-			.input-group input, .input-group select {
+			.input-group input {
 				width: 100%;
 				padding: 0.4rem 0.6rem;
 				border: 1px solid #cbd5e0;
@@ -144,15 +139,6 @@
 				border: 2px solid #dd6b20;
 				color: #7b341e;
 			}
-			.score-badge {
-				display: inline-block;
-				padding: 0.4rem 0.8rem;
-				background: #3182ce;
-				color: white;
-				border-radius: 20px;
-				font-weight: bold;
-				font-size: 1.1rem;
-			}
 			pre code {
 				background: #1a202c;
 				color: #e2e8f0;
@@ -161,17 +147,6 @@
 				border-radius: 6px;
 				overflow-x: auto;
 				font-size: 0.85rem;
-			}
-			.preset-btn {
-				padding: 0.3rem 0.6rem;
-				font-size: 0.8rem;
-				background: #edf2f7;
-				border: 1px solid #cbd5e0;
-				border-radius: 4px;
-				cursor: pointer;
-			}
-			.preset-btn:hover {
-				background: #cbd5e0;
 			}
 		</style>
 	</head>
@@ -205,34 +180,23 @@
 								<header class="major">
 									<h1>Corporate Financial<br />
 									Analysis & Alert System</h1>
-									<p>An automated fundamental analysis platform. Search any company stock ticker, load financial statements, calculate DCF valuation, and set 24/7 price alerts.</p>
+									<p>An objective fundamental analysis platform. Search any company stock ticker, load financial statements, calculate DCF valuation, and set price alerts.</p>
 								</header>
-
-								<div class="image main"><img src="images/company_analysis.jpg" alt="Corporate Financial Analysis Tool" /></div>
 
 								<!-- Interactive Financial Analysis & Valuation Simulator -->
 								<div class="tool-container">
 									
 									<!-- Ticker Search Header -->
 									<div class="search-bar-box">
-										<div style="flex-grow: 1;">
-											<label for="tickerInput" style="font-weight: bold; color: #1a202c; display: block; margin-bottom: 0.3rem;">🔍 Company Stock Ticker:</label>
-											<div class="search-input-wrapper">
-												<input type="text" id="tickerInput" value="ADS.DE" placeholder="e.g. ADS.DE, AAPL, NKE, MSFT" />
-												<button onclick="fetchTickerData()" style="white-space: nowrap; height: auto;">Load Ticker Data</button>
-											</div>
-										</div>
-										<div>
-											<span style="font-size: 0.8rem; font-weight: bold; color: #718096; display: block; margin-bottom: 0.3rem;">Quick Presets:</span>
-											<button class="preset-btn" onclick="setPreset('ADS.DE')">Adidas (ADS.DE)</button>
-											<button class="preset-btn" onclick="setPreset('NKE')">Nike (NKE)</button>
-											<button class="preset-btn" onclick="setPreset('AAPL')">Apple (AAPL)</button>
-											<button class="preset-btn" onclick="setPreset('MSFT')">Microsoft (MSFT)</button>
+										<label for="tickerInput" style="font-weight: bold; color: #1a202c; display: block; margin-bottom: 0.5rem;">🔍 Insert Company Ticker Symbol:</label>
+										<div class="search-input-wrapper">
+											<input type="text" id="tickerInput" value="" placeholder="e.g. ADS.DE, AAPL, NKE, MSFT" />
+											<button onclick="fetchTickerData()" style="white-space: nowrap; height: auto;">Load Ticker Data</button>
 										</div>
 									</div>
 
-									<h3 id="companyTitle" style="margin-top: 0; color: #1a202c;">📊 Company Metrics: Adidas AG (ADS.DE)</h3>
-									<p style="font-size: 0.9rem; color: #4a5568;">Loaded financial statement figures. Modify any value below to update calculations in real-time.</p>
+									<h3 id="companyTitle" style="margin-top: 0; color: #1a202c;">📊 Company Objective Metrics</h3>
+									<p style="font-size: 0.9rem; color: #4a5568;">Enter or load financial statement figures to compute objective ratios, DCF intrinsic value, and target price alert triggers.</p>
 
 									<div class="tool-grid">
 										<!-- Column 1: Market & Income Data -->
@@ -240,27 +204,27 @@
 											<h4>1. Market & Income Statement</h4>
 											<div class="input-group">
 												<label for="price">Stock Price (€ / $):</label>
-												<input type="number" id="price" value="220.00" step="0.5" oninput="calculateAll()" />
+												<input type="number" id="price" value="" placeholder="0.00" step="0.5" oninput="calculateAll()" />
 											</div>
 											<div class="input-group">
 												<label for="shares">Shares Outstanding (Millions):</label>
-												<input type="number" id="shares" value="178.50" step="0.1" oninput="calculateAll()" />
+												<input type="number" id="shares" value="" placeholder="0.00" step="0.1" oninput="calculateAll()" />
 											</div>
 											<div class="input-group">
 												<label for="revenue">Total Revenue (Millions):</label>
-												<input type="number" id="revenue" value="21400" oninput="calculateAll()" />
+												<input type="number" id="revenue" value="" placeholder="0" oninput="calculateAll()" />
 											</div>
 											<div class="input-group">
 												<label for="grossProfit">Gross Profit (Millions):</label>
-												<input type="number" id="grossProfit" value="10800" oninput="calculateAll()" />
+												<input type="number" id="grossProfit" value="" placeholder="0" oninput="calculateAll()" />
 											</div>
 											<div class="input-group">
-												<label for="ebit">EBIT / Operating Income (M):</label>
-												<input type="number" id="ebit" value="1100" oninput="calculateAll()" />
+												<label for="ebit">EBIT / Operating Income (Millions):</label>
+												<input type="number" id="ebit" value="" placeholder="0" oninput="calculateAll()" />
 											</div>
 											<div class="input-group">
 												<label for="netIncome">Net Income (Millions):</label>
-												<input type="number" id="netIncome" value="780" oninput="calculateAll()" />
+												<input type="number" id="netIncome" value="" placeholder="0" oninput="calculateAll()" />
 											</div>
 										</div>
 
@@ -269,69 +233,27 @@
 											<h4>2. Balance Sheet & Cash Flow</h4>
 											<div class="input-group">
 												<label for="totalDebt">Total Debt (Millions):</label>
-												<input type="number" id="totalDebt" value="3400" oninput="calculateAll()" />
+												<input type="number" id="totalDebt" value="" placeholder="0" oninput="calculateAll()" />
 											</div>
 											<div class="input-group">
 												<label for="cash">Cash & Equivalents (Millions):</label>
-												<input type="number" id="cash" value="1500" oninput="calculateAll()" />
+												<input type="number" id="cash" value="" placeholder="0" oninput="calculateAll()" />
 											</div>
 											<div class="input-group">
 												<label for="equity">Total Equity (Millions):</label>
-												<input type="number" id="equity" value="5200" oninput="calculateAll()" />
+												<input type="number" id="equity" value="" placeholder="0" oninput="calculateAll()" />
 											</div>
 											<div class="input-group">
-												<label for="fco">Operating Cash Flow FCO (M):</label>
-												<input type="number" id="fco" value="2100" oninput="calculateAll()" />
+												<label for="fco">Operating Cash Flow FCO (Millions):</label>
+												<input type="number" id="fco" value="" placeholder="0" oninput="calculateAll()" />
 											</div>
 											<div class="input-group">
 												<label for="capex">CapEx (Millions):</label>
-												<input type="number" id="capex" value="550" oninput="calculateAll()" />
+												<input type="number" id="capex" value="" placeholder="0" oninput="calculateAll()" />
 											</div>
 											<div class="input-group">
 												<label for="dividendPerShare">Dividend Per Share (€ / $):</label>
-												<input type="number" id="dividendPerShare" value="1.45" step="0.05" oninput="calculateAll()" />
-											</div>
-										</div>
-
-										<!-- Column 3: Qualitative Moat Checklist -->
-										<div class="tool-card">
-											<h4>3. Qualitative Moat Checklist</h4>
-											<div class="input-group">
-												<label for="moatBrand">Brand Power & Pricing Power:</label>
-												<select id="moatBrand" onchange="calculateAll()">
-													<option value="25">Strong Global Brand - 25/25</option>
-													<option value="20">Above Average - 20/25</option>
-													<option value="15">Moderate Brand - 15/25</option>
-													<option value="10">Weak Brand - 10/25</option>
-												</select>
-											</div>
-											<div class="input-group">
-												<label for="moatComp">Competitive Position vs Peers:</label>
-												<select id="moatComp" onchange="calculateAll()">
-													<option value="25" selected>Market Leader / Strong #2 - 25/25</option>
-													<option value="20">Solid Market Share - 20/25</option>
-													<option value="15">High Competition Risk - 15/25</option>
-												</select>
-											</div>
-											<div class="input-group">
-												<label for="moatInv">Inventory & Supply Chain Control:</label>
-												<select id="moatInv" onchange="calculateAll()">
-													<option value="20" selected>Good Inventory Liquidation - 20/25</option>
-													<option value="15">Average Control - 15/25</option>
-													<option value="10">Overstock Risk - 10/25</option>
-												</select>
-											</div>
-											<div class="input-group">
-												<label for="moatSupply">Supply Chain Geopolitics Risk:</label>
-												<select id="moatSupply" onchange="calculateAll()">
-													<option value="15" selected>Managed Asia Diversification - 15/25</option>
-													<option value="10">Moderate Vulnerability - 10/25</option>
-													<option value="5">High Supply Chain Risk - 5/25</option>
-												</select>
-											</div>
-											<div style="text-align: center; margin-top: 1rem;">
-												<span style="font-size: 0.85rem; color: #4a5568; display: block; margin-bottom: 0.2rem;">Total Qualitative Moat Score:</span>
-												<div class="score-badge" id="totalMoatScore">85 / 100</div>
+												<input type="number" id="dividendPerShare" value="" placeholder="0.00" step="0.05" oninput="calculateAll()" />
 											</div>
 										</div>
 									</div>
@@ -341,35 +263,35 @@
 									<div class="metric-grid">
 										<div class="metric-box">
 											<label>Gross Margin</label>
-											<div class="metric-value" id="resGrossMargin">50.5%</div>
+											<div class="metric-value" id="resGrossMargin">0.0%</div>
 										</div>
 										<div class="metric-box">
 											<label>EBIT Margin</label>
-											<div class="metric-value" id="resEbitMargin">5.1%</div>
+											<div class="metric-value" id="resEbitMargin">0.0%</div>
 										</div>
 										<div class="metric-box">
 											<label>Net Debt</label>
-											<div class="metric-value" id="resNetDebt">1,900M</div>
+											<div class="metric-value" id="resNetDebt">0M</div>
 										</div>
 										<div class="metric-box">
 											<label>Free Cash Flow (FCF)</label>
-											<div class="metric-value" id="resFCF">1,550M</div>
+											<div class="metric-value" id="resFCF">0M</div>
 										</div>
 										<div class="metric-box">
 											<label>FCF Conversion</label>
-											<div class="metric-value" id="resFcfConv">198.7%</div>
+											<div class="metric-value" id="resFcfConv">0.0%</div>
 										</div>
 										<div class="metric-box">
 											<label>P/E Ratio</label>
-											<div class="metric-value" id="resPE">50.3x</div>
+											<div class="metric-value" id="resPE">0.0x</div>
 										</div>
 										<div class="metric-box">
 											<label>EV / EBITDA</label>
-											<div class="metric-value" id="resEvEbitda">23.6x</div>
+											<div class="metric-value" id="resEvEbitda">0.0x</div>
 										</div>
 										<div class="metric-box">
 											<label>Dividend Yield</label>
-											<div class="metric-value" id="resDivYield">0.66%</div>
+											<div class="metric-value" id="resDivYield">0.00%</div>
 										</div>
 									</div>
 
@@ -397,79 +319,61 @@
 									<div class="metric-grid">
 										<div class="metric-box" style="background: #e6fffa; border-color: #81e6d9;">
 											<label style="color: #234e52;">Intrinsic Value / Share</label>
-											<div class="metric-value" style="color: #234e52;" id="resIntrinsicValue">€245.80</div>
+											<div class="metric-value" style="color: #234e52;" id="resIntrinsicValue">€ / $ 0.00</div>
 										</div>
 										<div class="metric-box" style="background: #e6fffa; border-color: #81e6d9;">
 											<label style="color: #234e52;">Margin of Safety</label>
-											<div class="metric-value" style="color: #234e52;" id="resMarginSafety">+10.5%</div>
+											<div class="metric-value" style="color: #234e52;" id="resMarginSafety">0.0%</div>
 										</div>
 									</div>
 
 									<!-- Target Price Alerts System -->
-									<h4 style="color: #1a202c; border-bottom: 2px solid #e53e3e; padding-bottom: 0.4rem; margin-top: 2rem;">🔔 Target Price Alert System (Configuração de Preços Alvo)</h4>
+									<h4 style="color: #1a202c; border-bottom: 2px solid #e53e3e; padding-bottom: 0.4rem; margin-top: 2rem;">🔔 Target Price Alert System</h4>
 									<div class="tool-grid" style="margin-bottom: 0.5rem;">
 										<div class="input-group">
 											<label for="alertMin">Target Buy Price / Minimum (€ / $):</label>
-											<input type="number" id="alertMin" value="190.00" step="1.0" oninput="calculateAll()" />
+											<input type="number" id="alertMin" value="" placeholder="e.g. 190.00" step="1.0" oninput="calculateAll()" />
 										</div>
 										<div class="input-group">
 											<label for="alertMax">Target Sell Price / Maximum (€ / $):</label>
-											<input type="number" id="alertMax" value="240.00" step="1.0" oninput="calculateAll()" />
+											<input type="number" id="alertMax" value="" placeholder="e.g. 240.00" step="1.0" oninput="calculateAll()" />
 										</div>
 									</div>
 
 									<div id="alertBanner" class="alert-banner alert-hold">
-										🟡 HOLD / WATCHLIST: Current price (€220.00) is between your Buy Target (€190.00) and Sell Target (€240.00).
+										🟡 Insert a ticker symbol and target prices to activate live price alert monitoring.
 									</div>
 								</div>
 
-								<h2>Como funcionam os Alertas? (How Alerts Work)</h2>
+								<h2>Data Source & Financial Reporting Standards</h2>
+								<p>Financial statement figures (Revenue, Operating Cash Flow, Debt, Equity) are extracted from official corporate <strong>Investor Relations (IR)</strong> reports and regulatory SEC / BaFin filings (Forms 10-K, 10-Q, annual reports).</p>
 
-								<div class="row">
-									<div class="col-6 col-12-medium">
-										<h3>📱 1. Alertas 24/7 no Telegram (Recomendado)</h3>
-										<p>Para ser alertado no telemóvel mesmo com o computador desligado, um bot em Python executa em plano de fundo de X em X horas. Quando a cotação atinge o seu preço alvo, o Telegram envia uma notificação push com a mensagem:</p>
-										<blockquote><strong>🟢 ALERTA DE COMPRA:</strong> Adidas (ADS.DE) caiu para <strong>€179.50</strong> (Abaixo do seu alvo de €190.00)!</blockquote>
-									</div>
-									<div class="col-6 col-12-medium">
-										<h3>🌐 2. Alertas no Navegador (Web Page)</h3>
-										<p>Sempre que pesquisar um Ticker ou abrir este projeto no seu navegador, as suas metas de preço ficam salvas (via <code>localStorage</code>) e o sistema calcula instantaneamente se o preço atual está em zona de <strong>COMPRA (Verde)</strong>, <strong>VENDA (Vermelho)</strong> ou <strong>MANTER (Amarelo)</strong>.</p>
-									</div>
-								</div>
-
-								<h2>Código do Bot em Python (Telegram 24/7 Alerts)</h2>
-								<p>Abaixo está o script pronto para executar no seu servidor ou computador para monitorizar a cotação e enviar alertas diretos para o seu Telegram:</p>
+								<h2>Python Implementation Architecture</h2>
+								<p>You can execute this exact objective model in Python using <code>yfinance</code> for automated data extraction and Telegram for 24/7 alerts:</p>
 
 <pre><code>import yfinance as yf
 import requests
 
-# 1. Configurações do seu Bot do Telegram
-TELEGRAM_BOT_TOKEN = "SEU_BOT_TOKEN_AQUI"
-TELEGRAM_CHAT_ID = "SEU_CHAT_ID_AQUI"
+TELEGRAM_BOT_TOKEN = "YOUR_BOT_TOKEN"
+TELEGRAM_CHAT_ID = "YOUR_CHAT_ID"
 
-def send_telegram_alert(message):
+def send_alert(msg):
     url = f"https://api.telegram.org/bot{TELEGRAM_BOT_TOKEN}/sendMessage"
-    payload = {"chat_id": TELEGRAM_CHAT_ID, "text": message, "parse_mode": "Markdown"}
-    requests.post(url, json=payload)
+    requests.post(url, json={"chat_id": TELEGRAM_CHAT_ID, "text": msg, "parse_mode": "Markdown"})
 
-def check_stock_alerts(ticker_symbol, target_buy, target_sell):
+def check_objective_metrics(ticker_symbol, target_buy, target_sell):
     ticker = yf.Ticker(ticker_symbol)
-    price = ticker.info.get('currentPrice') or ticker.info.get('regularMarketPrice')
+    info = ticker.info
+    price = info.get('currentPrice') or info.get('regularMarketPrice')
     
-    if not price:
-        return
-        
-    print(f"Cotação Atual [{ticker_symbol}]: €{price:.2f}")
+    if not price: return
     
     if price <= target_buy:
-        msg = f"🟢 *ALERTA DE COMPRA!*\n\nA empresa *{ticker_symbol}* caiu para *€{price:.2f}*, atingindo a sua meta mínima de compra (€{target_buy:.2f})."
-        send_telegram_alert(msg)
+        send_alert(f"🟢 *BUY ALERT:* {ticker_symbol} price is €/{price:.2f} (Target Buy: €/{target_buy:.2f})")
     elif price >= target_sell:
-        msg = f"🔴 *ALERTA DE VENDA!*\n\nA empresa *{ticker_symbol}* subiu para *€{price:.2f}*, atingindo a sua meta máxima de venda (€{target_sell:.2f})."
-        send_telegram_alert(msg)
+        send_alert(f"🔴 *SELL ALERT:* {ticker_symbol} price is €/{price:.2f} (Target Sell: €/{target_sell:.2f})")
 
-# Exemplo: Monitorizar a Adidas AG com Alerta de Compra em €190 e Venda em €240
-check_stock_alerts("ADS.DE", target_buy=190.00, target_sell=240.00)
+check_objective_metrics("ADS.DE", target_buy=190.00, target_sell=240.00)
 </code></pre>
 
 								<ul class="actions special">
@@ -534,25 +438,19 @@ check_stock_alerts("ADS.DE", target_buy=190.00, target_sell=240.00)
 			<script src="assets/js/main.js"></script>
 
 			<script>
-				const companyPresets = {
-					"ADS.DE": { name: "Adidas AG (ADS.DE)", price: 220.00, shares: 178.50, revenue: 21400, grossProfit: 10800, ebit: 1100, netIncome: 780, totalDebt: 3400, cash: 1500, equity: 5200, fco: 2100, capex: 550, div: 1.45, minBuy: 190.00, maxSell: 240.00 },
-					"NKE": { name: "Nike, Inc. (NKE)", price: 75.20, shares: 1500.0, revenue: 51300, grossProfit: 22800, ebit: 6200, netIncome: 5700, totalDebt: 12100, cash: 7500, equity: 14300, fco: 6800, capex: 950, div: 1.48, minBuy: 70.00, maxSell: 95.00 },
-					"AAPL": { name: "Apple Inc. (AAPL)", price: 222.50, shares: 15200.0, revenue: 385600, grossProfit: 170700, ebit: 114300, netIncome: 93700, totalDebt: 104600, cash: 61800, equity: 62100, fco: 118200, capex: 9400, div: 1.00, minBuy: 195.00, maxSell: 245.00 },
-					"MSFT": { name: "Microsoft Corp (MSFT)", price: 410.00, shares: 7430.0, revenue: 245100, grossProfit: 170000, ebit: 109400, netIncome: 88100, totalDebt: 79000, cash: 75500, equity: 268000, fco: 118500, capex: 44500, div: 3.00, minBuy: 370.00, maxSell: 450.00 }
+				const defaultData = {
+					"ADS.DE": { name: "Adidas AG (ADS.DE)", price: 220.00, shares: 178.50, revenue: 21400, grossProfit: 10800, ebit: 1100, netIncome: 780, totalDebt: 3400, cash: 1500, equity: 5200, fco: 2100, capex: 550, div: 1.45, minBuy: 190.00, maxSell: 240.00 }
 				};
-
-				function setPreset(symbol) {
-					document.getElementById('tickerInput').value = symbol;
-					fetchTickerData();
-				}
 
 				async function fetchTickerData() {
 					const symbol = document.getElementById('tickerInput').value.trim().toUpperCase();
-					if(!symbol) return;
+					if(!symbol) {
+						alert('Por favor, insira o Ticker da empresa (ex: ADS.DE, AAPL, NKE).');
+						return;
+					}
 
-					// Check presets first for full financial statement data
-					if(companyPresets[symbol]) {
-						const data = companyPresets[symbol];
+					if(defaultData[symbol]) {
+						const data = defaultData[symbol];
 						document.getElementById('companyTitle').innerText = '📊 Company Metrics: ' + data.name;
 						document.getElementById('price').value = data.price;
 						document.getElementById('shares').value = data.shares;
@@ -572,65 +470,42 @@ check_stock_alerts("ADS.DE", target_buy=190.00, target_sell=240.00)
 						return;
 					}
 
-					// Try live query via proxy
 					try {
-						document.getElementById('companyTitle').innerText = '📊 Loading live data for ' + symbol + '...';
+						document.getElementById('companyTitle').innerText = '📊 Loading data for ' + symbol + '...';
 						const response = await fetch('https://api.allorigins.win/raw?url=' + encodeURIComponent('https://query1.finance.yahoo.com/v7/finance/quote?symbols=' + symbol));
 						const result = await response.json();
 						const quote = result.quoteResponse.result[0];
 
 						if(quote) {
-							const price = quote.regularMarketPrice || quote.currentPrice || 100;
-							const shares = (quote.sharesOutstanding || 100000000) / 1000000;
-							const pe = quote.trailingPE || 20;
+							const price = quote.regularMarketPrice || quote.currentPrice || 0;
+							const shares = (quote.sharesOutstanding || 0) / 1000000;
 
 							document.getElementById('companyTitle').innerText = '📊 Company Metrics: ' + (quote.longName || quote.shortName || symbol);
-							document.getElementById('price').value = price.toFixed(2);
-							document.getElementById('shares').value = shares.toFixed(1);
-							document.getElementById('alertMin').value = (price * 0.85).toFixed(2);
-							document.getElementById('alertMax').value = (price * 1.15).toFixed(2);
+							document.getElementById('price').value = price > 0 ? price.toFixed(2) : '';
+							document.getElementById('shares').value = shares > 0 ? shares.toFixed(1) : '';
+							document.getElementById('alertMin').value = price > 0 ? (price * 0.85).toFixed(2) : '';
+							document.getElementById('alertMax').value = price > 0 ? (price * 1.15).toFixed(2) : '';
 							calculateAll();
-						} else {
-							alert('Ticker não encontrado na API. A carregar dados predefinidos.');
 						}
 					} catch(e) {
-						console.log('API proxy fetch fallback');
+						document.getElementById('companyTitle').innerText = '📊 Company Metrics: ' + symbol;
+						calculateAll();
 					}
 				}
 
 				function calculateAll() {
-					// Get Inputs
 					const price = parseFloat(document.getElementById('price').value) || 0;
-					const shares = parseFloat(document.getElementById('shares').value) || 1;
+					const shares = parseFloat(document.getElementById('shares').value) || 0;
 					const revenue = parseFloat(document.getElementById('revenue').value) || 0;
 					const grossProfit = parseFloat(document.getElementById('grossProfit').value) || 0;
 					const ebit = parseFloat(document.getElementById('ebit').value) || 0;
 					const netIncome = parseFloat(document.getElementById('netIncome').value) || 0;
 					const totalDebt = parseFloat(document.getElementById('totalDebt').value) || 0;
 					const cash = parseFloat(document.getElementById('cash').value) || 0;
-					const equity = parseFloat(document.getElementById('equity').value) || 1;
 					const fco = parseFloat(document.getElementById('fco').value) || 0;
 					const capex = parseFloat(document.getElementById('capex').value) || 0;
 					const divPerShare = parseFloat(document.getElementById('dividendPerShare').value) || 0;
 
-					// Save user targets to localStorage
-					const ticker = document.getElementById('tickerInput').value.toUpperCase();
-					const minTarget = parseFloat(document.getElementById('alertMin').value) || 0;
-					const maxTarget = parseFloat(document.getElementById('alertMax').value) || 0;
-					if(ticker) {
-						localStorage.setItem('target_' + ticker + '_min', minTarget);
-						localStorage.setItem('target_' + ticker + '_max', maxTarget);
-					}
-
-					// Qualitative Score
-					const bScore = parseInt(document.getElementById('moatBrand').value);
-					const cScore = parseInt(document.getElementById('moatComp').value);
-					const iScore = parseInt(document.getElementById('moatInv').value);
-					const sScore = parseInt(document.getElementById('moatSupply').value);
-					const totalScore = bScore + cScore + iScore + sScore;
-					document.getElementById('totalMoatScore').innerText = totalScore + " / 100";
-
-					// Financial Ratios
 					const grossMargin = revenue > 0 ? (grossProfit / revenue) * 100 : 0;
 					const ebitMargin = revenue > 0 ? (ebit / revenue) * 100 : 0;
 					const netDebt = totalDebt - cash;
@@ -639,12 +514,11 @@ check_stock_alerts("ADS.DE", target_buy=190.00, target_sell=240.00)
 					
 					const marketCap = price * shares;
 					const pe = (netIncome > 0 && shares > 0) ? marketCap / netIncome : 0;
-					const ebitda = ebit + (revenue * 0.035); // Approx D&A
+					const ebitda = ebit + (revenue * 0.035);
 					const ev = marketCap + netDebt;
 					const evEbitda = ebitda > 0 ? ev / ebitda : 0;
 					const divYield = price > 0 ? (divPerShare / price) * 100 : 0;
 
-					// Update Ratios DOM
 					document.getElementById('resGrossMargin').innerText = grossMargin.toFixed(1) + '%';
 					document.getElementById('resEbitMargin').innerText = ebitMargin.toFixed(1) + '%';
 					document.getElementById('resNetDebt').innerText = Math.round(netDebt).toLocaleString() + 'M';
@@ -654,7 +528,7 @@ check_stock_alerts("ADS.DE", target_buy=190.00, target_sell=240.00)
 					document.getElementById('resEvEbitda').innerText = evEbitda.toFixed(1) + 'x';
 					document.getElementById('resDivYield').innerText = divYield.toFixed(2) + '%';
 
-					// Simplified DCF Valuation
+					// DCF
 					const dcfGrowth = (parseFloat(document.getElementById('dcfGrowth').value) || 0) / 100;
 					const dcfFcfMargin = (parseFloat(document.getElementById('dcfFcfMargin').value) || 0) / 100;
 					const wacc = (parseFloat(document.getElementById('dcfWacc').value) || 0) / 100;
@@ -663,40 +537,44 @@ check_stock_alerts("ADS.DE", target_buy=190.00, target_sell=240.00)
 					let pvFcfSum = 0;
 					let currentRev = revenue;
 
-					for(let year = 1; year <= 5; year++) {
-						currentRev *= (1 + dcfGrowth);
-						const projFcf = currentRev * dcfFcfMargin;
-						const pv = projFcf / Math.pow(1 + wacc, year);
-						pvFcfSum += pv;
+					if(revenue > 0) {
+						for(let year = 1; year <= 5; year++) {
+							currentRev *= (1 + dcfGrowth);
+							const projFcf = currentRev * dcfFcfMargin;
+							const pv = projFcf / Math.pow(1 + wacc, year);
+							pvFcfSum += pv;
+						}
 					}
 
-					const terminalValue = (currentRev * dcfFcfMargin * (1 + g)) / (wacc - g);
+					const terminalValue = (wacc > g && revenue > 0) ? (currentRev * dcfFcfMargin * (1 + g)) / (wacc - g) : 0;
 					const pvTerminalValue = terminalValue / Math.pow(1 + wacc, 5);
 					const totalEnterpriseValue = pvFcfSum + pvTerminalValue;
 					const totalEquityValuation = totalEnterpriseValue - netDebt;
 					const intrinsicValuePerShare = shares > 0 ? totalEquityValuation / shares : 0;
-					const marginOfSafety = intrinsicValuePerShare > 0 ? ((intrinsicValuePerShare - price) / intrinsicValuePerShare) * 100 : 0;
+					const marginOfSafety = (intrinsicValuePerShare > 0 && price > 0) ? ((intrinsicValuePerShare - price) / intrinsicValuePerShare) * 100 : 0;
 
-					document.getElementById('resIntrinsicValue').innerText = '€ / $' + intrinsicValuePerShare.toFixed(2);
+					document.getElementById('resIntrinsicValue').innerText = '€ / $ ' + intrinsicValuePerShare.toFixed(2);
 					document.getElementById('resMarginSafety').innerText = (marginOfSafety >= 0 ? '+' : '') + marginOfSafety.toFixed(1) + '%';
 
-					// Target Price Alerts System
+					// Target Alerts
+					const minTarget = parseFloat(document.getElementById('alertMin').value) || 0;
+					const maxTarget = parseFloat(document.getElementById('alertMax').value) || 0;
 					const banner = document.getElementById('alertBanner');
 
-					if (price <= minTarget && price > 0) {
+					if (price > 0 && minTarget > 0 && price <= minTarget) {
 						banner.className = 'alert-banner alert-buy';
-						banner.innerHTML = '🟢 BUY ALERT TRIGGERED: Current price (' + price.toFixed(2) + ') has dropped to/below your Minimum Target Buy Price (' + minTarget.toFixed(2) + ')!';
-					} else if (price >= maxTarget && price > 0) {
+						banner.innerHTML = '🟢 BUY ALERT TRIGGERED: Current price (' + price.toFixed(2) + ') has dropped to/below your Target Buy Price (' + minTarget.toFixed(2) + ')!';
+					} else if (price > 0 && maxTarget > 0 && price >= maxTarget) {
 						banner.className = 'alert-banner alert-sell';
-						banner.innerHTML = '🔴 SELL ALERT TRIGGERED: Current price (' + price.toFixed(2) + ') has reached/exceeded your Maximum Target Price (' + maxTarget.toFixed(2) + ')!';
+						banner.innerHTML = '🔴 SELL ALERT TRIGGERED: Current price (' + price.toFixed(2) + ') has reached/exceeded your Target Sell Price (' + maxTarget.toFixed(2) + ')!';
+					} else if (price > 0 && (minTarget > 0 || maxTarget > 0)) {
+						banner.className = 'alert-banner alert-hold';
+						banner.innerHTML = '🟡 HOLD / WATCHLIST: Current price (' + price.toFixed(2) + ') is within your target bounds.';
 					} else {
 						banner.className = 'alert-banner alert-hold';
-						banner.innerHTML = '🟡 HOLD / WATCHLIST: Current price (' + price.toFixed(2) + ') is between your Buy Target (' + minTarget.toFixed(2) + ') and Sell Target (' + maxTarget.toFixed(2) + ').';
+						banner.innerHTML = '🟡 Insert a ticker symbol and target prices to activate live price alert monitoring.';
 					}
 				}
-
-				// Run on load
-				document.addEventListener('DOMContentLoaded', calculateAll);
 			</script>
 
 	</body>
