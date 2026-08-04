@@ -6,7 +6,7 @@
 -->
 <html>
 	<head>
-		<title>Corporate Financial Analysis Tool - Portfolio</title>
+		<title>Corporate Financial Analysis Tool - Adidas AG Case Study</title>
 		<meta charset="utf-8" />
 		<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
 		<link rel="stylesheet" href="assets/css/main.css?v=2" />
@@ -20,6 +20,126 @@
 
 		  gtag('config', 'G-W76N1EJ13Q');
 		</script>
+		<style>
+			/* Custom Valuation Tool Styling */
+			.tool-container {
+				background: #f8f9fa;
+				border: 1px solid #e2e8f0;
+				border-radius: 8px;
+				padding: 2rem;
+				margin: 2rem 0;
+				color: #2d3748;
+			}
+			.tool-grid {
+				display: grid;
+				grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+				gap: 1.5rem;
+				margin-bottom: 2rem;
+			}
+			.tool-card {
+				background: #ffffff;
+				border: 1px solid #cbd5e0;
+				border-radius: 6px;
+				padding: 1.25rem;
+				box-shadow: 0 2px 4px rgba(0,0,0,0.04);
+			}
+			.tool-card h4 {
+				margin: 0 0 0.75rem 0;
+				color: #1a202c;
+				font-size: 1.05rem;
+				border-bottom: 2px solid #3182ce;
+				padding-bottom: 0.4rem;
+			}
+			.input-group {
+				margin-bottom: 0.85rem;
+			}
+			.input-group label {
+				display: block;
+				font-size: 0.85rem;
+				font-weight: 600;
+				color: #4a5568;
+				margin-bottom: 0.25rem;
+				text-transform: none;
+				letter-spacing: normal;
+			}
+			.input-group input, .input-group select {
+				width: 100%;
+				padding: 0.4rem 0.6rem;
+				border: 1px solid #cbd5e0;
+				border-radius: 4px;
+				font-size: 0.95rem;
+				background: #fff;
+				color: #1a202c;
+			}
+			.metric-grid {
+				display: grid;
+				grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+				gap: 1rem;
+				margin-top: 1rem;
+			}
+			.metric-box {
+				background: #ebf8ff;
+				border: 1px solid #bee3f8;
+				border-radius: 6px;
+				padding: 1rem;
+				text-align: center;
+			}
+			.metric-box label {
+				display: block;
+				font-size: 0.75rem;
+				font-weight: bold;
+				color: #2b6cb0;
+				text-transform: uppercase;
+				margin-bottom: 0.2rem;
+			}
+			.metric-value {
+				font-size: 1.4rem;
+				font-weight: 700;
+				color: #2c5282;
+			}
+			.alert-banner {
+				padding: 1.25rem;
+				border-radius: 6px;
+				margin-top: 1.5rem;
+				font-weight: 600;
+				text-align: center;
+				font-size: 1.1rem;
+				transition: all 0.3s ease;
+			}
+			.alert-buy {
+				background: #c6f6d5;
+				border: 2px solid #38a169;
+				color: #22543d;
+			}
+			.alert-sell {
+				background: #fed7d7;
+				border: 2px solid #e53e3e;
+				color: #742a2a;
+			}
+			.alert-hold {
+				background: #feebc8;
+				border: 2px solid #dd6b20;
+				color: #7b341e;
+			}
+			.score-badge {
+				display: inline-block;
+				padding: 0.4rem 0.8rem;
+				background: #3182ce;
+				color: white;
+				border-radius: 20px;
+				font-weight: bold;
+				font-size: 1.1rem;
+			}
+			pre code {
+				background: #1a202c;
+				color: #e2e8f0;
+				padding: 1rem;
+				display: block;
+				border-radius: 6px;
+				overflow-x: auto;
+				font-size: 0.85rem;
+			}
+		</style>
 	</head>
 	<body class="is-preload">
 
@@ -50,25 +170,246 @@
 							<section class="post">
 								<header class="major">
 									<h1>Corporate Financial<br />
-									Analysis Tool</h1>
-									<p>A comprehensive analytical platform for company valuation, fundamental financial ratios, and corporate performance metrics.</p>
+									Analysis & Valuation Tool</h1>
+									<p>An interactive fundamental analysis platform for company valuation, financial ratios, qualitative scoring, and target price alerts — featuring <strong>Adidas AG (ETR: ADS)</strong>.</p>
 								</header>
 
 								<div class="image main"><img src="images/company_analysis.jpg" alt="Corporate Financial Analysis Tool" /></div>
 
-								<h2>About the Project</h2>
-								<p>This project was developed to provide automated, data-driven financial analysis for evaluating corporate health, valuation multiples, and long-term investment viability. By extracting and processing income statements, balance sheets, and cash flow statements, the tool computes essential metrics to benchmark public and private companies.</p>
+								<h2>About the Tool</h2>
+								<p>This fundamental analysis platform processes financial statements (Income Statement, Balance Sheet, Cash Flow) to compute valuation multiples, assess capital efficiency, perform a qualitative moat assessment, calculate DCF intrinsic value, and trigger custom target price alerts.</p>
 
-								<h2>Key Features</h2>
-								<ul>
-									<li><strong>Valuation Multiples:</strong> Automated calculation of P/E, EV/EBITDA, P/S, and Price-to-Book ratios.</li>
-									<li><strong>Profitability & Health Check:</strong> Analysis of Return on Equity (ROE), Return on Invested Capital (ROIC), Operating Margins, and Debt-to-Equity levels.</li>
-									<li><strong>Growth Trend Analysis:</strong> Multi-year CAGR tracking for Revenue, Net Income, and Free Cash Flow.</li>
-									<li><strong>Interactive Data Visualization:</strong> Dynamic financial charts comparing historical trends against industry peers.</li>
-								</ul>
+								<!-- Interactive Financial Analysis & Valuation Simulator -->
+								<div class="tool-container">
+									<h3 style="margin-top: 0; color: #1a202c;">📊 Interactive Financial Simulator</h3>
+									<p style="font-size: 0.9rem; color: #4a5568;">Modify the pre-filled Adidas AG financial data below to update the ratios, valuation, and price alerts in real-time.</p>
 
-								<h2>Tech Stack & Methodologies</h2>
-								<p>Built with modern data analytics techniques, financial modelling algorithms, and responsive UI components for intuitive data exploration.</p>
+									<div class="tool-grid">
+										<!-- Column 1: Market & Income Data -->
+										<div class="tool-card">
+											<h4>1. Market & Income Statement</h4>
+											<div class="input-group">
+												<label for="price">Stock Price (€):</label>
+												<input type="number" id="price" value="220.00" step="0.5" oninput="calculateAll()" />
+											</div>
+											<div class="input-group">
+												<label for="shares">Shares Outstanding (Millions):</label>
+												<input type="number" id="shares" value="178.50" step="0.1" oninput="calculateAll()" />
+											</div>
+											<div class="input-group">
+												<label for="revenue">Total Revenue (€ Millions):</label>
+												<input type="number" id="revenue" value="21400" oninput="calculateAll()" />
+											</div>
+											<div class="input-group">
+												<label for="grossProfit">Gross Profit (€ Millions):</label>
+												<input type="number" id="grossProfit" value="10800" oninput="calculateAll()" />
+											</div>
+											<div class="input-group">
+												<label for="ebit">EBIT / Operating Income (€M):</label>
+												<input type="number" id="ebit" value="1100" oninput="calculateAll()" />
+											</div>
+											<div class="input-group">
+												<label for="netIncome">Net Income (€ Millions):</label>
+												<input type="number" id="netIncome" value="780" oninput="calculateAll()" />
+											</div>
+										</div>
+
+										<!-- Column 2: Balance Sheet & Cash Flow -->
+										<div class="tool-card">
+											<h4>2. Balance Sheet & Cash Flow</h4>
+											<div class="input-group">
+												<label for="totalDebt">Total Debt (€ Millions):</label>
+												<input type="number" id="totalDebt" value="3400" oninput="calculateAll()" />
+											</div>
+											<div class="input-group">
+												<label for="cash">Cash & Equivalents (€ Millions):</label>
+												<input type="number" id="cash" value="1500" oninput="calculateAll()" />
+											</div>
+											<div class="input-group">
+												<label for="equity">Total Equity (€ Millions):</label>
+												<input type="number" id="equity" value="5200" oninput="calculateAll()" />
+											</div>
+											<div class="input-group">
+												<label for="fco">Operating Cash Flow FCO (€M):</label>
+												<input type="number" id="fco" value="2100" oninput="calculateAll()" />
+											</div>
+											<div class="input-group">
+												<label for="capex">CapEx (€ Millions):</label>
+												<input type="number" id="capex" value="550" oninput="calculateAll()" />
+											</div>
+											<div class="input-group">
+												<label for="dividendPerShare">Dividend Per Share (€):</label>
+												<input type="number" id="dividendPerShare" value="1.45" step="0.05" oninput="calculateAll()" />
+											</div>
+										</div>
+
+										<!-- Column 3: Qualitative Moat Checklist -->
+										<div class="tool-card">
+											<h4>3. Qualitative Moat Checklist</h4>
+											<div class="input-group">
+												<label for="moatBrand">Brand Power & Pricing Power:</label>
+												<select id="moatBrand" onchange="calculateAll()">
+													<option value="25">Strong Global Brand (Adidas) - 25/25</option>
+													<option value="20">Above Average - 20/25</option>
+													<option value="15">Moderate Brand - 15/25</option>
+													<option value="10">Weak Brand - 10/25</option>
+												</select>
+											</div>
+											<div class="input-group">
+												<label for="moatComp">Competitive Standing (Nike/Puma/On):</label>
+												<select id="moatComp" onchange="calculateAll()">
+													<option value="25" selected>Strong Market Share (#2 Global) - 25/25</option>
+													<option value="20">Moderate Competition - 20/25</option>
+													<option value="15">High Competition Risk - 15/25</option>
+												</select>
+											</div>
+											<div class="input-group">
+												<label for="moatInv">Inventory & Supply Chain Control:</label>
+												<select id="moatInv" onchange="calculateAll()">
+													<option value="20" selected>Good Control & Liquidation - 20/25</option>
+													<option value="15">Average Control - 15/25</option>
+													<option value="10">Inventory Overstock Risk - 10/25</option>
+												</select>
+											</div>
+											<div class="input-group">
+												<label for="moatSupply">Supply Chain Geopolitics Risk:</label>
+												<select id="moatSupply" onchange="calculateAll()">
+													<option value="15" selected>Managed Asia Diversification - 15/25</option>
+													<option value="10">Moderate Vulnerability - 10/25</option>
+													<option value="5">High Supply Chain Risk - 5/25</option>
+												</select>
+											</div>
+											<div style="text-align: center; margin-top: 1rem;">
+												<span style="font-size: 0.85rem; color: #4a5568; display: block; margin-bottom: 0.2rem;">Total Qualitative Moat Score:</span>
+												<div class="score-badge" id="totalMoatScore">85 / 100</div>
+											</div>
+										</div>
+									</div>
+
+									<!-- Calculated Ratios Grid -->
+									<h4 style="color: #1a202c; border-bottom: 2px solid #3182ce; padding-bottom: 0.4rem; margin-top: 1.5rem;">📈 Key Financial Ratios & Metrics</h4>
+									<div class="metric-grid">
+										<div class="metric-box">
+											<label>Gross Margin</label>
+											<div class="metric-value" id="resGrossMargin">50.5%</div>
+										</div>
+										<div class="metric-box">
+											<label>EBIT Margin</label>
+											<div class="metric-value" id="resEbitMargin">5.1%</div>
+										</div>
+										<div class="metric-box">
+											<label>Net Debt</label>
+											<div class="metric-value" id="resNetDebt">€1,900M</div>
+										</div>
+										<div class="metric-box">
+											<label>Free Cash Flow (FCF)</label>
+											<div class="metric-value" id="resFCF">€1,550M</div>
+										</div>
+										<div class="metric-box">
+											<label>FCF Conversion</label>
+											<div class="metric-value" id="resFcfConv">198.7%</div>
+										</div>
+										<div class="metric-box">
+											<label>P/E Ratio</label>
+											<div class="metric-value" id="resPE">50.3x</div>
+										</div>
+										<div class="metric-box">
+											<label>EV / EBITDA</label>
+											<div class="metric-value" id="resEvEbitda">23.6x</div>
+										</div>
+										<div class="metric-box">
+											<label>Dividend Yield</label>
+											<div class="metric-value" id="resDivYield">0.66%</div>
+										</div>
+									</div>
+
+									<!-- Simplified DCF Valuation Model -->
+									<h4 style="color: #1a202c; border-bottom: 2px solid #3182ce; padding-bottom: 0.4rem; margin-top: 2rem;">🧮 Simplified DCF Valuation Model</h4>
+									<div class="tool-grid" style="margin-bottom: 1rem;">
+										<div class="input-group">
+											<label for="dcfGrowth">5-Yr Revenue Growth Rate (%):</label>
+											<input type="number" id="dcfGrowth" value="7.0" step="0.5" oninput="calculateAll()" />
+										</div>
+										<div class="input-group">
+											<label for="dcfFcfMargin">Target FCF Margin (%):</label>
+											<input type="number" id="dcfFcfMargin" value="8.0" step="0.5" oninput="calculateAll()" />
+										</div>
+										<div class="input-group">
+											<label for="dcfWacc">WACC / Discount Rate (%):</label>
+											<input type="number" id="dcfWacc" value="9.0" step="0.5" oninput="calculateAll()" />
+										</div>
+										<div class="input-group">
+											<label for="dcfTerminal">Terminal Growth Rate g (%):</label>
+											<input type="number" id="dcfTerminal" value="2.5" step="0.25" oninput="calculateAll()" />
+										</div>
+									</div>
+
+									<div class="metric-grid">
+										<div class="metric-box" style="background: #e6fffa; border-color: #81e6d9;">
+											<label style="color: #234e52;">Intrinsic Value / Share</label>
+											<div class="metric-value" style="color: #234e52;" id="resIntrinsicValue">€245.80</div>
+										</div>
+										<div class="metric-box" style="background: #e6fffa; border-color: #81e6d9;">
+											<label style="color: #234e52;">Margin of Safety</label>
+											<div class="metric-value" style="color: #234e52;" id="resMarginSafety">+10.5%</div>
+										</div>
+									</div>
+
+									<!-- Target Price Alerts System -->
+									<h4 style="color: #1a202c; border-bottom: 2px solid #e53e3e; padding-bottom: 0.4rem; margin-top: 2rem;">🔔 Target Price Alert System (Alerta de Preço Mínimo/Máximo)</h4>
+									<div class="tool-grid" style="margin-bottom: 0.5rem;">
+										<div class="input-group">
+											<label for="alertMin">Target Buy Price / Minimum (€):</label>
+											<input type="number" id="alertMin" value="190.00" step="1.0" oninput="calculateAll()" />
+										</div>
+										<div class="input-group">
+											<label for="alertMax">Target Sell Price / Maximum (€):</label>
+											<input type="number" id="alertMax" value="240.00" step="1.0" oninput="calculateAll()" />
+										</div>
+									</div>
+
+									<div id="alertBanner" class="alert-banner alert-hold">
+										🟡 HOLD / WATCHLIST: Current price (€220.00) is between your Buy Target (€190.00) and Sell Target (€240.00).
+									</div>
+								</div>
+
+								<h2>Python Implementation Architecture</h2>
+								<p>You can execute this exact analytical model in Python using <code>yfinance</code> for automated financial data retrieval and <code>pandas</code> for quantitative computations:</p>
+
+<pre><code>import yfinance as yf
+import pandas as pd
+
+def analyze_stock(ticker_symbol, target_buy_price, target_sell_price):
+    # Fetch real-time data & financial statements
+    ticker = yf.Ticker(ticker_symbol)
+    info = ticker.info
+    
+    current_price = info.get('currentPrice') or info.get('regularMarketPrice')
+    shares = info.get('sharesOutstanding', 1)
+    market_cap = current_price * shares
+    
+    # Financial Ratios
+    gross_margin = info.get('grossMargins', 0) * 100
+    operating_margin = info.get('operatingMargins', 0) * 100
+    pe_ratio = info.get('trailingPE', 0)
+    ev_to_ebitda = info.get('enterpriseToEbitda', 0)
+    
+    print(f"--- FINANCIAL ANALYSIS: {ticker_symbol} ---")
+    print(f"Current Price: €{current_price:.2f}")
+    print(f"Gross Margin: {gross_margin:.2f}% | Operating Margin: {operating_margin:.2f}%")
+    print(f"P/E Ratio: {pe_ratio:.2f}x | EV/EBITDA: {ev_to_ebitda:.2f}x")
+    
+    # Target Price Alert Check
+    if current_price <= target_buy_price:
+        print(f"🟢 BUY ALERT: Stock price (€{current_price:.2f}) hit target buy price (€{target_buy_price:.2f})!")
+    elif current_price >= target_sell_price:
+        print(f"🔴 SELL ALERT: Stock price (€{current_price:.2f}) hit target sell price (€{target_sell_price:.2f})!")
+    else:
+        print(f"🟡 HOLD: Stock price (€{current_price:.2f}) is within target corridor (€{target_buy_price:.2f} - €{target_sell_price:.2f}).")
+
+# Example usage for Adidas AG (Borse Frankfurt: ADS.DE)
+analyze_stock("ADS.DE", target_buy_price=190.0, target_sell_price=240.0)
+</code></pre>
 
 								<ul class="actions special">
 									<li><a href="index.html" class="button">Back to Portfolio</a></li>
@@ -130,6 +471,101 @@
 			<script src="assets/js/breakpoints.min.js"></script>
 			<script src="assets/js/util.js"></script>
 			<script src="assets/js/main.js"></script>
+
+			<script>
+				function calculateAll() {
+					// Get Inputs
+					const price = parseFloat(document.getElementById('price').value) || 0;
+					const shares = parseFloat(document.getElementById('shares').value) || 1;
+					const revenue = parseFloat(document.getElementById('revenue').value) || 0;
+					const grossProfit = parseFloat(document.getElementById('grossProfit').value) || 0;
+					const ebit = parseFloat(document.getElementById('ebit').value) || 0;
+					const netIncome = parseFloat(document.getElementById('netIncome').value) || 0;
+					const totalDebt = parseFloat(document.getElementById('totalDebt').value) || 0;
+					const cash = parseFloat(document.getElementById('cash').value) || 0;
+					const equity = parseFloat(document.getElementById('equity').value) || 1;
+					const fco = parseFloat(document.getElementById('fco').value) || 0;
+					const capex = parseFloat(document.getElementById('capex').value) || 0;
+					const divPerShare = parseFloat(document.getElementById('dividendPerShare').value) || 0;
+
+					// Qualitative Score
+					const bScore = parseInt(document.getElementById('moatBrand').value);
+					const cScore = parseInt(document.getElementById('moatComp').value);
+					const iScore = parseInt(document.getElementById('moatInv').value);
+					const sScore = parseInt(document.getElementById('moatSupply').value);
+					const totalScore = bScore + cScore + iScore + sScore;
+					document.getElementById('totalMoatScore').innerText = totalScore + " / 100";
+
+					// Financial Ratios
+					const grossMargin = revenue > 0 ? (grossProfit / revenue) * 100 : 0;
+					const ebitMargin = revenue > 0 ? (ebit / revenue) * 100 : 0;
+					const netDebt = totalDebt - cash;
+					const fcf = fco - capex;
+					const fcfConv = netIncome > 0 ? (fcf / netIncome) * 100 : 0;
+					
+					const marketCap = price * shares;
+					const pe = (netIncome > 0 && shares > 0) ? marketCap / netIncome : 0;
+					const ebitda = ebit + (revenue * 0.035); // Approx D&A
+					const ev = marketCap + netDebt;
+					const evEbitda = ebitda > 0 ? ev / ebitda : 0;
+					const divYield = price > 0 ? (divPerShare / price) * 100 : 0;
+
+					// Update Ratios DOM
+					document.getElementById('resGrossMargin').innerText = grossMargin.toFixed(1) + '%';
+					document.getElementById('resEbitMargin').innerText = ebitMargin.toFixed(1) + '%';
+					document.getElementById('resNetDebt').innerText = '€' + Math.round(netDebt).toLocaleString() + 'M';
+					document.getElementById('resFCF').innerText = '€' + Math.round(fcf).toLocaleString() + 'M';
+					document.getElementById('resFcfConv').innerText = fcfConv.toFixed(1) + '%';
+					document.getElementById('resPE').innerText = pe.toFixed(1) + 'x';
+					document.getElementById('resEvEbitda').innerText = evEbitda.toFixed(1) + 'x';
+					document.getElementById('resDivYield').innerText = divYield.toFixed(2) + '%';
+
+					// Simplified DCF Valuation
+					const dcfGrowth = (parseFloat(document.getElementById('dcfGrowth').value) || 0) / 100;
+					const dcfFcfMargin = (parseFloat(document.getElementById('dcfFcfMargin').value) || 0) / 100;
+					const wacc = (parseFloat(document.getElementById('dcfWacc').value) || 0) / 100;
+					const g = (parseFloat(document.getElementById('dcfTerminal').value) || 0) / 100;
+
+					let pvFcfSum = 0;
+					let currentRev = revenue;
+
+					for(let year = 1; year <= 5; year++) {
+						currentRev *= (1 + dcfGrowth);
+						const projFcf = currentRev * dcfFcfMargin;
+						const pv = projFcf / Math.pow(1 + wacc, year);
+						pvFcfSum += pv;
+					}
+
+					const terminalValue = (currentRev * dcfFcfMargin * (1 + g)) / (wacc - g);
+					const pvTerminalValue = terminalValue / Math.pow(1 + wacc, 5);
+					const totalEnterpriseValue = pvFcfSum + pvTerminalValue;
+					const totalEquityValuation = totalEnterpriseValue - netDebt;
+					const intrinsicValuePerShare = shares > 0 ? totalEquityValuation / shares : 0;
+					const marginOfSafety = intrinsicValuePerShare > 0 ? ((intrinsicValuePerShare - price) / intrinsicValuePerShare) * 100 : 0;
+
+					document.getElementById('resIntrinsicValue').innerText = '€' + intrinsicValuePerShare.toFixed(2);
+					document.getElementById('resMarginSafety').innerText = (marginOfSafety >= 0 ? '+' : '') + marginOfSafety.toFixed(1) + '%';
+
+					// Target Price Alerts System
+					const minTarget = parseFloat(document.getElementById('alertMin').value) || 0;
+					const maxTarget = parseFloat(document.getElementById('alertMax').value) || 0;
+					const banner = document.getElementById('alertBanner');
+
+					if (price <= minTarget && price > 0) {
+						banner.className = 'alert-banner alert-buy';
+						banner.innerHTML = '🟢 BUY ALERT TRIGGERED: Current price (€' + price.toFixed(2) + ') has dropped to/below your Minimum Target Buy Price (€' + minTarget.toFixed(2) + ')!';
+					} else if (price >= maxTarget && price > 0) {
+						banner.className = 'alert-banner alert-sell';
+						banner.innerHTML = '🔴 SELL ALERT TRIGGERED: Current price (€' + price.toFixed(2) + ') has reached/exceeded your Maximum Target Price (€' + maxTarget.toFixed(2) + ')!';
+					} else {
+						banner.className = 'alert-banner alert-hold';
+						banner.innerHTML = '🟡 HOLD / WATCHLIST: Current price (€' + price.toFixed(2) + ') is between your Buy Target (€' + minTarget.toFixed(2) + ') and Sell Target (€' + maxTarget.toFixed(2) + ').';
+					}
+				}
+
+				// Run on load
+				document.addEventListener('DOMContentLoaded', calculateAll);
+			</script>
 
 	</body>
 </html>
