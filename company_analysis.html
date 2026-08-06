@@ -30,6 +30,41 @@
 				margin: 1rem 0 2rem 0;
 				color: #2d3748;
 			}
+			.badge-buy {
+				background: #c6f6d5;
+				color: #22543d;
+				border: 1px solid #9ae6b4;
+				padding: 0.2rem 0.5rem;
+				border-radius: 4px;
+				font-weight: bold;
+				font-size: 0.8rem;
+			}
+			.badge-sell {
+				background: #fed7d7;
+				color: #9b2c2c;
+				border: 1px solid #feb2b2;
+				padding: 0.2rem 0.5rem;
+				border-radius: 4px;
+				font-weight: bold;
+				font-size: 0.8rem;
+			}
+			.badge-hold {
+				background: #feebc8;
+				color: #7b341e;
+				border: 1px solid #fbd38d;
+				padding: 0.2rem 0.5rem;
+				border-radius: 4px;
+				font-weight: bold;
+				font-size: 0.8rem;
+			}
+			.action-btn-icon {
+				padding: 0.25rem 0.5rem;
+				font-size: 0.8rem;
+				margin: 0.1rem;
+				cursor: pointer;
+				border-radius: 4px;
+				border: none;
+			}
 			.search-bar-box {
 				background: #edf2f7;
 				border: 2px solid #cbd5e0;
@@ -443,15 +478,92 @@
 									<div id="alertBanner" class="alert-banner alert-hold">
 										🟡 Insert a ticker symbol and target prices to activate live price alert monitoring.
 									</div>
+									
+									<button type="button" onclick="addCurrentCompanyToWatchlist()" class="button primary small" style="margin-top: 1.25rem; width: 100%;">➕ Adicionar esta Empresa & Limites à Lista Telegram (Watchlist)</button>
+								</div>
+
+								<!-- Telegram Alerts & Watchlist Section -->
+								<h2 style="color: #2b6cb0; border-bottom: 3px solid #3182ce; padding-bottom: 0.5rem; margin-top: 2.5rem;">📱 Gestão de Alertas Telegram & Lista de Vigilância (Watchlist)</h2>
+								<p>Adicione as empresas do seu interesse, defina os valores mínimo (Compra) e máximo (Venda), e configure o seu <strong>Telegram Bot</strong> para enviar notificações instantâneas.</p>
+
+								<div class="tool-container" style="background: #ffffff; border: 2px solid #3182ce; box-shadow: 0 4px 6px rgba(0,0,0,0.05);">
+									<!-- Telegram Bot Configuration Box -->
+									<h3 style="color: #2b6cb0; border-bottom: 2px solid #e2e8f0; padding-bottom: 0.5rem; margin-bottom: 1.25rem;">⚙️ Configuração do Telegram Bot</h3>
+									<div class="tool-grid" style="grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 1rem; margin-bottom: 1rem;">
+										<div class="input-group">
+											<label for="telegramToken">Telegram Bot Token:</label>
+											<input type="password" id="telegramToken" placeholder="ex: 123456789:ABCdefGhIJKlmNoPQRsTUVwxyZ" onchange="saveTelegramCredentials()" />
+										</div>
+										<div class="input-group">
+											<label for="telegramChatId">Telegram Chat ID:</label>
+											<input type="text" id="telegramChatId" placeholder="ex: 987654321 ou -100123456789" onchange="saveTelegramCredentials()" />
+										</div>
+									</div>
+									<div style="display: flex; gap: 0.75rem; flex-wrap: wrap; margin-bottom: 1rem;">
+										<button type="button" onclick="toggleTokenVisibility()" class="button small">👁️ Mostrar/Ocultar Token</button>
+										<button type="button" onclick="testTelegramAlert()" class="button primary small">⚡ Testar Notificação Telegram</button>
+										<button type="button" onclick="saveTelegramCredentials(true)" class="button small">💾 Guardar Credenciais</button>
+									</div>
+									<div id="telegramStatusBox" class="status-msg" style="display:none; margin-bottom: 1.5rem;"></div>
+
+									<!-- Add New Company Form -->
+									<h3 style="color: #2b6cb0; border-bottom: 2px solid #e2e8f0; padding-bottom: 0.5rem; margin-top: 1.5rem; margin-bottom: 1.25rem;">➕ Adicionar Nova Empresa à Lista</h3>
+									<div class="tool-grid" style="grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 1rem; margin-bottom: 1rem;">
+										<div class="input-group">
+											<label for="newWatchlistTicker">Ticker Symbol:</label>
+											<input type="text" id="newWatchlistTicker" placeholder="ex: NVDA, AAPL, PETR4.SA" style="text-transform: uppercase;" />
+										</div>
+										<div class="input-group">
+											<label for="newWatchlistName">Nome da Empresa (Opcional):</label>
+											<input type="text" id="newWatchlistName" placeholder="ex: Nvidia Corp" />
+										</div>
+										<div class="input-group">
+											<label for="newWatchlistMin">Mínimo / Alerta Compra (🟢):</label>
+											<input type="number" id="newWatchlistMin" placeholder="ex: 100.00" step="0.1" />
+										</div>
+										<div class="input-group">
+											<label for="newWatchlistMax">Máximo / Alerta Venda (🔴):</label>
+											<input type="number" id="newWatchlistMax" placeholder="ex: 140.00" step="0.1" />
+										</div>
+									</div>
+									<button type="button" onclick="addNewWatchlistEntry()" class="button primary small" style="margin-bottom: 2rem;">➕ Adicionar à Watchlist</button>
+
+									<!-- Watchlist Table -->
+									<div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; margin-bottom: 1rem; gap: 0.5rem;">
+										<h3 style="color: #1a202c; margin: 0;">📊 Empresas Monitorizadas (Watchlist)</h3>
+										<div style="display: flex; gap: 0.5rem; flex-wrap: wrap;">
+											<button type="button" onclick="checkAllWatchlistAlerts()" class="button primary small">🔍 Verificar Cotações Live & Enviar Alertas Telegram</button>
+											<button type="button" onclick="resetWatchlistToDefault()" class="button small">🔄 Repor Lista Padrão</button>
+										</div>
+									</div>
+
+									<div style="overflow-x: auto; background: #fff; border: 1px solid #cbd5e0; border-radius: 6px;">
+										<table style="width: 100%; border-collapse: collapse; margin: 0; font-size: 0.9rem;">
+											<thead>
+												<tr style="background: #edf2f7; color: #2d3748; border-bottom: 2px solid #cbd5e0;">
+													<th style="padding: 0.75rem; text-align: left;">Empresa / Ticker</th>
+													<th style="padding: 0.75rem; text-align: center;">Mínimo Compra (🟢)</th>
+													<th style="padding: 0.75rem; text-align: center;">Máximo Venda (🔴)</th>
+													<th style="padding: 0.75rem; text-align: center;">Último Preço Live</th>
+													<th style="padding: 0.75rem; text-align: center;">Estado / Sinal</th>
+													<th style="padding: 0.75rem; text-align: center;">Ações</th>
+												</tr>
+											</thead>
+											<tbody id="watchlistTableBody">
+												<!-- Dynamic Watchlist Rows -->
+											</tbody>
+										</table>
+									</div>
+									<div id="watchlistSummaryBox" class="status-msg" style="display:none; margin-top: 1rem;"></div>
 								</div>
 
 								<h2>Data Source & Financial Reporting Standards</h2>
 								<p>Financial statement figures (Revenue, Operating Cash Flow, Debt, Equity) are extracted from official corporate <strong>Investor Relations (IR)</strong> reports and regulatory SEC / BaFin filings (Forms 10-K, 10-Q, annual reports).</p>
 
-								<h2>Python Implementation Architecture</h2>
-								<p>You can execute this exact objective model in Python using <code>yfinance</code> for automated data extraction and Telegram for 24/7 alerts:</p>
+								<h2>Python Implementation Architecture (Gerado Dinamicamente)</h2>
+								<p>Pode executar esta lógica exata em Python utilizando <code>yfinance</code> e Telegram para automação 24/7 (ex: via GitHub Actions ou CronJob):</p>
 
-<pre><code>import yfinance as yf
+<pre><code id="pythonCodeSnippet">import yfinance as yf
 import requests
 
 TELEGRAM_BOT_TOKEN = "YOUR_BOT_TOKEN"
@@ -473,7 +585,18 @@ def check_objective_metrics(ticker_symbol, target_buy, target_sell):
     elif price >= target_sell:
         send_alert(f"🔴 *SELL ALERT:* {ticker_symbol} price is {price:.2f} (Target Sell: {target_sell:.2f})")
 
-check_objective_metrics("NOVO-B.CO", target_buy=780.00, target_sell=950.00)
+# Executar verificação para a sua Watchlist
+watchlist = [
+    {"ticker": "NOVO-B.CO", "buy": 780.00, "sell": 950.00},
+    {"ticker": "ADS.DE", "buy": 190.00, "sell": 240.00},
+    {"ticker": "NVO", "buy": 110.00, "sell": 140.00},
+    {"ticker": "NKE", "buy": 70.00, "sell": 95.00},
+    {"ticker": "AAPL", "buy": 195.00, "sell": 245.00},
+    {"ticker": "MSFT", "buy": 370.00, "sell": 450.00}
+]
+
+for item in watchlist:
+    check_objective_metrics(item["ticker"], item["buy"], item["sell"])
 </code></pre>
 
 								<ul class="actions special">
@@ -813,6 +936,376 @@ check_objective_metrics("NOVO-B.CO", target_buy=780.00, target_sell=950.00)
 						banner.innerHTML = '🟡 Insert a ticker symbol and target prices to activate live price alert monitoring.';
 					}
 				}
+
+				// ==========================================
+				// Telegram Alerts & Watchlist Manager
+				// ==========================================
+				const DEFAULT_WATCHLIST = [
+					{ ticker: "NOVO-B.CO", name: "Novo Nordisk A/S", minBuy: 780.00, maxSell: 950.00, lastPrice: 840.00, status: "HOLD" },
+					{ ticker: "ADS.DE", name: "Adidas AG", minBuy: 190.00, maxSell: 240.00, lastPrice: 220.00, status: "HOLD" },
+					{ ticker: "NVO", name: "Novo Nordisk ADR", minBuy: 110.00, maxSell: 140.00, lastPrice: 124.50, status: "HOLD" },
+					{ ticker: "NKE", name: "Nike, Inc.", minBuy: 70.00, maxSell: 95.00, lastPrice: 75.20, status: "HOLD" },
+					{ ticker: "AAPL", name: "Apple Inc.", minBuy: 195.00, maxSell: 245.00, lastPrice: 222.50, status: "HOLD" },
+					{ ticker: "MSFT", name: "Microsoft Corp", minBuy: 370.00, maxSell: 450.00, lastPrice: 410.00, status: "HOLD" }
+				];
+
+				let watchlist = [];
+
+				function getStoredWatchlist() {
+					try {
+						const stored = localStorage.getItem('portfolio_watchlist_items');
+						if (stored) {
+							const parsed = JSON.parse(stored);
+							if (Array.isArray(parsed) && parsed.length > 0) return parsed;
+						}
+					} catch(e) {
+						console.log("Error loading watchlist from localStorage", e);
+					}
+					return JSON.parse(JSON.stringify(DEFAULT_WATCHLIST));
+				}
+
+				function saveWatchlistToStorage() {
+					try {
+						localStorage.setItem('portfolio_watchlist_items', JSON.stringify(watchlist));
+					} catch(e) {
+						console.log("Error saving watchlist", e);
+					}
+					updatePythonSnippet();
+				}
+
+				function loadTelegramCredentials() {
+					const token = localStorage.getItem('portfolio_telegram_token') || '';
+					const chatId = localStorage.getItem('portfolio_telegram_chatid') || '';
+					document.getElementById('telegramToken').value = token;
+					document.getElementById('telegramChatId').value = chatId;
+				}
+
+				function saveTelegramCredentials(showFeedback = false) {
+					const token = document.getElementById('telegramToken').value.trim();
+					const chatId = document.getElementById('telegramChatId').value.trim();
+					localStorage.setItem('portfolio_telegram_token', token);
+					localStorage.setItem('portfolio_telegram_chatid', chatId);
+					
+					const statusBox = document.getElementById('telegramStatusBox');
+					if (showFeedback) {
+						statusBox.className = 'status-msg status-success';
+						statusBox.style.display = 'block';
+						statusBox.innerHTML = '💾 Credenciais do Telegram salvas com sucesso no seu navegador!';
+						setTimeout(() => { statusBox.style.display = 'none'; }, 4000);
+					}
+					updatePythonSnippet();
+				}
+
+				function toggleTokenVisibility() {
+					const tokenInput = document.getElementById('telegramToken');
+					tokenInput.type = tokenInput.type === 'password' ? 'text' : 'password';
+				}
+
+				async function sendTelegramMessage(text) {
+					const token = document.getElementById('telegramToken').value.trim();
+					const chatId = document.getElementById('telegramChatId').value.trim();
+
+					if (!token || !chatId) {
+						throw new Error("Por favor, preencha o Bot Token e o Chat ID do Telegram nas configurações acima.");
+					}
+
+					const url = 'https://api.telegram.org/bot' + token + '/sendMessage';
+					const response = await fetch(url, {
+						method: 'POST',
+						headers: { 'Content-Type': 'application/json' },
+						body: JSON.stringify({
+							chat_id: chatId,
+							text: text,
+							parse_mode: 'Markdown'
+						})
+					});
+
+					const resData = await response.json();
+					if (!resData.ok) {
+						throw new Error(resData.description || "Erro ao comunicar com a API do Telegram.");
+					}
+					return resData;
+				}
+
+				async function testTelegramAlert() {
+					saveTelegramCredentials();
+					const statusBox = document.getElementById('telegramStatusBox');
+					statusBox.className = 'status-msg status-loading';
+					statusBox.style.display = 'block';
+					statusBox.innerHTML = '⏳ A enviar mensagem de teste para o Telegram...';
+
+					try {
+						await sendTelegramMessage("🧪 *TESTE DE ALERTA TELEGRAM*\n\nConexão estabelecida com sucesso! O seu sistema de Watchlist e Alertas está operacional.");
+						statusBox.className = 'status-msg status-success';
+						statusBox.innerHTML = '✅ Mensagem enviada com sucesso! Verifique a sua conversa no Telegram.';
+					} catch(e) {
+						statusBox.className = 'status-msg status-error';
+						statusBox.innerHTML = '❌ Falha ao enviar alerta: ' + e.message;
+					}
+				}
+
+				function renderWatchlistTable() {
+					const tbody = document.getElementById('watchlistTableBody');
+					if (!tbody) return;
+					tbody.innerHTML = '';
+
+					if (watchlist.length === 0) {
+						tbody.innerHTML = '<tr><td colspan="6" style="text-align:center; padding: 1.5rem; color: #718096;">Nenhuma empresa na Watchlist. Adicione uma empresa acima ou repor a lista padrão.</td></tr>';
+						return;
+					}
+
+					watchlist.forEach((item, index) => {
+						const tr = document.createElement('tr');
+						tr.style.borderBottom = '1px solid #e2e8f0';
+
+						let statusBadge = '<span class="badge-hold">🟡 NEUTRO</span>';
+						if (item.status === 'BUY') {
+							statusBadge = '<span class="badge-buy">🟢 COMPRA</span>';
+						} else if (item.status === 'SELL') {
+							statusBadge = '<span class="badge-sell">🔴 VENDA</span>';
+						}
+
+						const lastPriceStr = item.lastPrice > 0 ? item.lastPrice.toFixed(2) : '-';
+
+						tr.innerHTML = '<td style="padding: 0.6rem;">' +
+								'<strong>' + item.ticker + '</strong><br />' +
+								'<small style="color:#718096;">' + (item.name || '') + '</small>' +
+							'</td>' +
+							'<td style="padding: 0.6rem; text-align: center;">' +
+								'<input type="number" value="' + item.minBuy + '" step="0.1" style="width: 90px; display:inline-block; padding: 0.25rem; font-size:0.85rem;" onchange="updateWatchlistThreshold(' + index + ', \'minBuy\', this.value)" />' +
+							'</td>' +
+							'<td style="padding: 0.6rem; text-align: center;">' +
+								'<input type="number" value="' + item.maxSell + '" step="0.1" style="width: 90px; display:inline-block; padding: 0.25rem; font-size:0.85rem;" onchange="updateWatchlistThreshold(' + index + ', \'maxSell\', this.value)" />' +
+							'</td>' +
+							'<td style="padding: 0.6rem; text-align: center; font-weight: bold;">' +
+								lastPriceStr +
+							'</td>' +
+							'<td style="padding: 0.6rem; text-align: center;">' +
+								statusBadge +
+							'</td>' +
+							'<td style="padding: 0.6rem; text-align: center;">' +
+								'<button type="button" class="suggestion-btn" title="Analisar na Ferramenta" onclick="analyzeWatchlistItem(\'' + item.ticker + '\')">📊 Analisar</button> ' +
+								'<button type="button" class="action-btn-icon" style="background:#e53e3e; color:white;" title="Remover" onclick="deleteWatchlistItem(' + index + ')">🗑️</button>' +
+							'</td>';
+						tbody.appendChild(tr);
+					});
+				}
+
+				function updateWatchlistThreshold(index, field, value) {
+					const numVal = parseFloat(value) || 0;
+					if (watchlist[index]) {
+						watchlist[index][field] = numVal;
+						saveWatchlistToStorage();
+					}
+				}
+
+				function deleteWatchlistItem(index) {
+					if (index >= 0 && index < watchlist.length) {
+						const removed = watchlist.splice(index, 1);
+						saveWatchlistToStorage();
+						renderWatchlistTable();
+						showWatchlistSummary('🗑️ Empresa <strong>' + removed[0].ticker + '</strong> removida da sua Watchlist.', 'warning');
+					}
+				}
+
+				function addWatchlistItem(ticker, name, minBuy, maxSell) {
+					const cleanTicker = ticker.trim().toUpperCase();
+					if (!cleanTicker) {
+						showWatchlistSummary('⚠️ Por favor insira um código Ticker válido.', 'warning');
+						return;
+					}
+
+					const existingIndex = watchlist.findIndex(w => w.ticker === cleanTicker);
+					if (existingIndex >= 0) {
+						watchlist[existingIndex].minBuy = parseFloat(minBuy) || watchlist[existingIndex].minBuy;
+						watchlist[existingIndex].maxSell = parseFloat(maxSell) || watchlist[existingIndex].maxSell;
+						if (name) watchlist[existingIndex].name = name;
+						showWatchlistSummary('🔄 Empresa <strong>' + cleanTicker + '</strong> já existia e os seus limites foram atualizados!', 'success');
+					} else {
+						watchlist.push({
+							ticker: cleanTicker,
+							name: name || cleanTicker,
+							minBuy: parseFloat(minBuy) || 0,
+							maxSell: parseFloat(maxSell) || 0,
+							lastPrice: 0,
+							status: "HOLD"
+						});
+						showWatchlistSummary('✅ Empresa <strong>' + cleanTicker + '</strong> adicionada à Watchlist com sucesso!', 'success');
+					}
+
+					saveWatchlistToStorage();
+					renderWatchlistTable();
+				}
+
+				function addNewWatchlistEntry() {
+					const ticker = document.getElementById('newWatchlistTicker').value;
+					const name = document.getElementById('newWatchlistName').value;
+					const minBuy = document.getElementById('newWatchlistMin').value;
+					const maxSell = document.getElementById('newWatchlistMax').value;
+
+					addWatchlistItem(ticker, name, minBuy, maxSell);
+
+					document.getElementById('newWatchlistTicker').value = '';
+					document.getElementById('newWatchlistName').value = '';
+					document.getElementById('newWatchlistMin').value = '';
+					document.getElementById('newWatchlistMax').value = '';
+				}
+
+				function addCurrentCompanyToWatchlist() {
+					const tickerInput = document.getElementById('tickerInput').value.trim();
+					const companyTitle = document.getElementById('companyTitle').innerText.replace('📊 Company Metrics: ', '');
+					const minBuy = document.getElementById('alertMin').value;
+					const maxSell = document.getElementById('alertMax').value;
+
+					if (!tickerInput && !companyTitle) {
+						showWatchlistSummary('⚠️ Nenhuma empresa carregada atualmente para adicionar.', 'warning');
+						return;
+					}
+
+					const canonical = aliasMap[tickerInput.toUpperCase()] || tickerInput.toUpperCase() || "CUSTOM";
+					addWatchlistItem(canonical, companyTitle, minBuy, maxSell);
+				}
+
+				function resetWatchlistToDefault() {
+					watchlist = JSON.parse(JSON.stringify(DEFAULT_WATCHLIST));
+					saveWatchlistToStorage();
+					renderWatchlistTable();
+					showWatchlistSummary('🔄 Watchlist restaurada para os valores padrão com sucesso.', 'success');
+				}
+
+				function showWatchlistSummary(msg, type) {
+					const box = document.getElementById('watchlistSummaryBox');
+					box.className = 'status-msg status-' + type;
+					box.style.display = 'block';
+					box.innerHTML = msg;
+					setTimeout(() => { box.style.display = 'none'; }, 5000);
+				}
+
+				function analyzeWatchlistItem(ticker) {
+					document.getElementById('tickerInput').value = ticker;
+					fetchTickerData();
+					window.scrollTo({ top: document.getElementById('tickerInput').offsetTop - 100, behavior: 'smooth' });
+				}
+
+				async function checkAllWatchlistAlerts() {
+					if (watchlist.length === 0) {
+						showWatchlistSummary('⚠️ A Watchlist está vazia. Adicione empresas primeiro.', 'warning');
+						return;
+					}
+
+					saveTelegramCredentials();
+					const summaryBox = document.getElementById('watchlistSummaryBox');
+					summaryBox.className = 'status-msg status-loading';
+					summaryBox.style.display = 'block';
+					summaryBox.innerHTML = '⏳ A verificar cotações em tempo real para ' + watchlist.length + ' empresas...';
+
+					let alertsSent = 0;
+					let errors = 0;
+
+					for (let i = 0; i < watchlist.length; i++) {
+						const item = watchlist[i];
+						let currentPrice = 0;
+
+						const canonical = aliasMap[item.ticker] || item.ticker;
+						if (knownData[canonical] && knownData[canonical].price) {
+							currentPrice = knownData[canonical].price;
+						} else {
+							const proxies = ['https://corsproxy.io/?', 'https://api.allorigins.win/raw?url='];
+							for (const proxyPrefix of proxies) {
+								try {
+									const targetUrl = 'https://query1.finance.yahoo.com/v7/finance/quote?symbols=' + encodeURIComponent(item.ticker);
+									const response = await fetch(proxyPrefix + encodeURIComponent(targetUrl));
+									const result = await response.json();
+									const quote = result.quoteResponse && result.quoteResponse.result && result.quoteResponse.result[0];
+									if (quote && (quote.regularMarketPrice || quote.currentPrice)) {
+										currentPrice = quote.regularMarketPrice || quote.currentPrice;
+										break;
+									}
+								} catch(e) {}
+							}
+						}
+
+						if (currentPrice > 0) {
+							item.lastPrice = currentPrice;
+							if (item.minBuy > 0 && currentPrice <= item.minBuy) {
+								item.status = 'BUY';
+								try {
+									await sendTelegramMessage('🟢 *ALERTA DE COMPRA:* ' + item.ticker + ' (' + item.name + ')\nCotação Atual: *' + currentPrice.toFixed(2) + '*\nMínimo Target (Compra): ' + item.minBuy.toFixed(2));
+									alertsSent++;
+								} catch(err) { errors++; }
+							} else if (item.maxSell > 0 && currentPrice >= item.maxSell) {
+								item.status = 'SELL';
+								try {
+									await sendTelegramMessage('🔴 *ALERTA DE VENDA:* ' + item.ticker + ' (' + item.name + ')\nCotação Atual: *' + currentPrice.toFixed(2) + '*\nMáximo Target (Venda): ' + item.maxSell.toFixed(2));
+									alertsSent++;
+								} catch(err) { errors++; }
+							} else {
+								item.status = 'HOLD';
+							}
+						}
+					}
+
+					saveWatchlistToStorage();
+					renderWatchlistTable();
+
+					let summaryText = '✅ Verificação concluída! ' + watchlist.length + ' empresas atualizadas.';
+					if (alertsSent > 0) {
+						summaryText += ' 🚀 <strong>' + alertsSent + ' alerta(s) de Telegram enviado(s)!</strong>';
+					} else {
+						summaryText += ' (Nenhuma cotação ultrapassou os limites configurados).';
+					}
+					if (errors > 0) {
+						summaryText += ' ⚠️ Nota: Ocorreram ' + errors + ' erro(s) ao enviar para o Telegram (verifique o Token/ChatID).';
+					}
+
+					summaryBox.className = 'status-msg status-success';
+					summaryBox.innerHTML = summaryText;
+				}
+
+				function updatePythonSnippet() {
+					const codeElem = document.getElementById('pythonCodeSnippet');
+					if (!codeElem) return;
+
+					const token = document.getElementById('telegramToken').value.trim() || "YOUR_BOT_TOKEN";
+					const chatId = document.getElementById('telegramChatId').value.trim() || "YOUR_CHAT_ID";
+
+					const watchlistArrayStr = JSON.stringify(watchlist.map(w => ({
+						ticker: w.ticker,
+						buy: w.minBuy,
+						sell: w.maxSell
+					})), null, 4);
+
+					codeElem.innerText = 'import yfinance as yf\n' +
+'import requests\n\n' +
+'TELEGRAM_BOT_TOKEN = "' + token + '"\n' +
+'TELEGRAM_CHAT_ID = "' + chatId + '"\n\n' +
+'def send_alert(msg):\n' +
+'    url = f"https://api.telegram.org/bot{TELEGRAM_BOT_TOKEN}/sendMessage"\n' +
+'    requests.post(url, json={"chat_id": TELEGRAM_CHAT_ID, "text": msg, "parse_mode": "Markdown"})\n\n' +
+'def check_objective_metrics(ticker_symbol, target_buy, target_sell):\n' +
+'    ticker = yf.Ticker(ticker_symbol)\n' +
+'    info = ticker.info\n' +
+'    price = info.get(\'currentPrice\') or info.get(\'regularMarketPrice\')\n' +
+'    \n' +
+'    if not price: return\n' +
+'    \n' +
+'    if price <= target_buy:\n' +
+'        send_alert(f"🟢 *BUY ALERT:* {ticker_symbol} price is {price:.2f} (Target Buy: {target_buy:.2f})")\n' +
+'    elif price >= target_sell:\n' +
+'        send_alert(f"🔴 *SELL ALERT:* {ticker_symbol} price is {price:.2f} (Target Sell: {target_sell:.2f})")\n\n' +
+'# Executar verificação para a sua Watchlist personalizada\n' +
+'watchlist = ' + watchlistArrayStr + '\n\n' +
+'for item in watchlist:\n' +
+'    check_objective_metrics(item["ticker"], item["buy"], item["sell"])';
+				}
+
+				// Initialize Watchlist on Page Load
+				window.addEventListener('DOMContentLoaded', () => {
+					loadTelegramCredentials();
+					watchlist = getStoredWatchlist();
+					renderWatchlistTable();
+					updatePythonSnippet();
+				});
 			</script>
 
 	</body>
