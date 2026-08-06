@@ -1,0 +1,8 @@
+[
+  { "ticker": "NOVO-B.CO", "name": "Novo Nordisk A/S", "minBuy": 780.0, "maxSell": 950.0 },
+  { "ticker": "ADS.DE", "name": "Adidas AG", "minBuy": 190.0, "maxSell": 240.0 },
+  { "ticker": "NVO", "name": "Novo Nordisk ADR", "minBuy": 110.0, "maxSell": 140.0 },
+  { "ticker": "NKE", "name": "Nike, Inc.", "minBuy": 70.0, "maxSell": 95.0 },
+  { "ticker": "AAPL", "name": "Apple Inc.", "minBuy": 195.0, "maxSell": 245.0 },
+  { "ticker": "MSFT", "name": "Microsoft Corp", "minBuy": 370.0, "maxSell": 450.0 }
+]
