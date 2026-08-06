@@ -16,5 +16,11 @@
     "name": "Apple Inc.",
     "minBuy": 175,
     "maxSell": 245
+  },
+  {
+    "ticker": "GALP",
+    "name": "GALP",
+    "minBuy": 15,
+    "maxSell": 20
   }
 ]
