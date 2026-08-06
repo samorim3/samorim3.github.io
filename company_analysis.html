@@ -487,20 +487,24 @@
 								<p>Adicione as empresas do seu interesse, defina os valores mínimo (Compra) e máximo (Venda), e configure o seu <strong>Telegram Bot</strong> para enviar notificações instantâneas.</p>
 
 								<div class="tool-container" style="background: #ffffff; border: 2px solid #3182ce; box-shadow: 0 4px 6px rgba(0,0,0,0.05);">
-									<!-- Telegram Bot Configuration Box -->
-									<h3 style="color: #2b6cb0; border-bottom: 2px solid #e2e8f0; padding-bottom: 0.5rem; margin-bottom: 1.25rem;">⚙️ Configuração do Telegram Bot</h3>
-									<div class="tool-grid" style="grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 1rem; margin-bottom: 1rem;">
+									<!-- Telegram & GitHub Configuration Box -->
+									<h3 style="color: #2b6cb0; border-bottom: 2px solid #e2e8f0; padding-bottom: 0.5rem; margin-bottom: 1.25rem;">⚙️ Configuração de Alertas & Sincronização</h3>
+									<div class="tool-grid" style="grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 1rem; margin-bottom: 1rem;">
 										<div class="input-group">
 											<label for="telegramToken">Telegram Bot Token:</label>
-											<input type="password" id="telegramToken" placeholder="ex: 123456789:ABCdefGhIJKlmNoPQRsTUVwxyZ" onchange="saveTelegramCredentials()" />
+											<input type="password" id="telegramToken" placeholder="ex: 123456789:ABCdefGh..." onchange="saveTelegramCredentials()" />
 										</div>
 										<div class="input-group">
 											<label for="telegramChatId">Telegram Chat ID:</label>
-											<input type="text" id="telegramChatId" placeholder="ex: 987654321 ou -100123456789" onchange="saveTelegramCredentials()" />
+											<input type="text" id="telegramChatId" placeholder="ex: 2065190784" onchange="saveTelegramCredentials()" />
+										</div>
+										<div class="input-group">
+											<label for="githubToken">GitHub Token (p/ Sincronizar ☁️):</label>
+											<input type="password" id="githubToken" placeholder="ex: ghp_abc123..." onchange="saveTelegramCredentials()" />
 										</div>
 									</div>
 									<div style="display: flex; gap: 0.75rem; flex-wrap: wrap; margin-bottom: 1rem;">
-										<button type="button" onclick="toggleTokenVisibility()" class="button small">👁️ Mostrar/Ocultar Token</button>
+										<button type="button" onclick="toggleTokenVisibility()" class="button small">👁️ Ocultar/Mostrar Tokens</button>
 										<button type="button" onclick="testTelegramAlert()" class="button primary small">⚡ Testar Notificação Telegram</button>
 										<button type="button" onclick="saveTelegramCredentials(true)" class="button small">💾 Guardar Credenciais</button>
 									</div>
@@ -533,6 +537,7 @@
 										<h3 style="color: #1a202c; margin: 0;">📊 Empresas Monitorizadas (Watchlist)</h3>
 										<div style="display: flex; gap: 0.5rem; flex-wrap: wrap;">
 											<button type="button" onclick="checkAllWatchlistAlerts()" class="button primary small">🔍 Verificar Cotações Live & Enviar Alertas Telegram</button>
+											<button type="button" onclick="syncWatchlistToGitHub()" class="button small" style="background:#2b6cb0; color:white;">☁️ Sincronizar com GitHub</button>
 											<button type="button" onclick="resetWatchlistToDefault()" class="button small">🔄 Repor Lista Padrão</button>
 										</div>
 									</div>
@@ -952,21 +957,27 @@ for item in watchlist:
 				function loadTelegramCredentials() {
 					const token = localStorage.getItem('portfolio_telegram_token') || '';
 					const chatId = localStorage.getItem('portfolio_telegram_chatid') || '';
+					const ghToken = localStorage.getItem('portfolio_github_token') || '';
 					document.getElementById('telegramToken').value = token;
 					document.getElementById('telegramChatId').value = chatId;
+					if (document.getElementById('githubToken')) {
+						document.getElementById('githubToken').value = ghToken;
+					}
 				}
 
 				function saveTelegramCredentials(showFeedback = false) {
 					const token = document.getElementById('telegramToken').value.trim();
 					const chatId = document.getElementById('telegramChatId').value.trim();
+					const ghToken = document.getElementById('githubToken') ? document.getElementById('githubToken').value.trim() : '';
 					localStorage.setItem('portfolio_telegram_token', token);
 					localStorage.setItem('portfolio_telegram_chatid', chatId);
+					if (ghToken) localStorage.setItem('portfolio_github_token', ghToken);
 					
 					const statusBox = document.getElementById('telegramStatusBox');
 					if (showFeedback) {
 						statusBox.className = 'status-msg status-success';
 						statusBox.style.display = 'block';
-						statusBox.innerHTML = '💾 Credenciais do Telegram salvas com sucesso no seu navegador!';
+						statusBox.innerHTML = '💾 Credenciais guardadas com sucesso no seu navegador!';
 						setTimeout(() => { statusBox.style.display = 'none'; }, 4000);
 					}
 					updatePythonSnippet();
@@ -974,7 +985,87 @@ for item in watchlist:
 
 				function toggleTokenVisibility() {
 					const tokenInput = document.getElementById('telegramToken');
+					const ghInput = document.getElementById('githubToken');
 					tokenInput.type = tokenInput.type === 'password' ? 'text' : 'password';
+					if (ghInput) ghInput.type = ghInput.type === 'password' ? 'text' : 'password';
+				}
+
+				async function syncWatchlistToGitHub() {
+					saveTelegramCredentials();
+					const token = document.getElementById('githubToken') ? document.getElementById('githubToken').value.trim() : '';
+					const summaryBox = document.getElementById('watchlistSummaryBox');
+
+					if (!token) {
+						summaryBox.className = 'status-msg status-warning';
+						summaryBox.style.display = 'block';
+						summaryBox.innerHTML = '⚠️ Para sincronizar com o GitHub em 1-Clique, insira um <strong>GitHub Personal Access Token (PAT)</strong> no campo de configuração acima.';
+						return;
+					}
+
+					summaryBox.className = 'status-msg status-loading';
+					summaryBox.style.display = 'block';
+					summaryBox.innerHTML = '⏳ A enviar a Watchlist atualizada diretamente para o seu ficheiro <code>watchlist.json</code> no GitHub...';
+
+					try {
+						const repoOwner = 'samorim3';
+						const repoName = 'samorim3.github.io';
+						const filePath = 'watchlist.json';
+						const getUrl = 'https://api.github.com/repos/' + repoOwner + '/' + repoName + '/contents/' + filePath;
+
+						// 1. Fetch current file SHA
+						const getRes = await fetch(getUrl, {
+							headers: {
+								'Authorization': 'Bearer ' + token,
+								'Accept': 'application/vnd.github+json'
+							}
+						});
+
+						let sha = '';
+						if (getRes.ok) {
+							const getData = await getRes.json();
+							sha = getData.sha;
+						}
+
+						// 2. Format JSON array
+						const cleanItems = watchlist.map(w => ({
+							ticker: w.ticker,
+							name: w.name || w.ticker,
+							minBuy: w.minBuy,
+							maxSell: w.maxSell
+						}));
+						const jsonStr = JSON.stringify(cleanItems, null, 2);
+
+						// Safe UTF-8 Base64 Encoding
+						const base64Content = btoa(encodeURIComponent(jsonStr).replace(/%([0-9A-F]{2})/g, (match, p1) => String.fromCharCode('0x' + p1)));
+
+						// 3. PUT payload
+						const putBody = {
+							message: "Update watchlist.json from web tool",
+							content: base64Content
+						};
+						if (sha) putBody.sha = sha;
+
+						const putRes = await fetch(getUrl, {
+							method: 'PUT',
+							headers: {
+								'Authorization': 'Bearer ' + token,
+								'Accept': 'application/vnd.github+json',
+								'Content-Type': 'application/json'
+							},
+							body: JSON.stringify(putBody)
+						});
+
+						if (putRes.ok) {
+							summaryBox.className = 'status-msg status-success';
+							summaryBox.innerHTML = '🚀 <strong>SUCESSO!</strong> O ficheiro <code>watchlist.json</code> foi atualizado no GitHub! O robô automático 24/7 já está a usar os seus novos limites.';
+						} else {
+							const errData = await putRes.json();
+							throw new Error(errData.message || 'Erro de autorização no Token do GitHub.');
+						}
+					} catch(e) {
+						summaryBox.className = 'status-msg status-error';
+						summaryBox.innerHTML = '❌ Falha ao sincronizar com GitHub: ' + e.message;
+					}
 				}
 
 				async function sendTelegramMessage(text) {
