@@ -2,8 +2,8 @@ name: Automated Telegram Price Alerts
 
 on:
   schedule:
-    # Runs at 09:00, 13:00, 17:00 UTC Monday through Friday (during market hours)
-    - cron: '0 9,13,17 * * 1-5'
+    # Runs hourly from 08:00 to 21:00 UTC Monday through Friday
+    - cron: '0 8-21 * * 1-5'
   workflow_dispatch: # Allows manual trigger anytime from GitHub Actions tab
 
 jobs:
