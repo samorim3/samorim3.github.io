@@ -1072,6 +1072,7 @@ for item in watchlist:
 					if (watchlist[index]) {
 						watchlist[index][field] = numVal;
 						saveWatchlistToStorage();
+						showWatchlistSummary('💾 Limites de <strong>' + watchlist[index].ticker + '</strong> guardados com sucesso no navegador!', 'success');
 					}
 				}
 
