@@ -2,20 +2,14 @@
   {
     "ticker": "ADS.DE",
     "name": "Adidas AG",
-    "minBuy": 150,
+    "minBuy": 120,
     "maxSell": 240
   },
   {
     "ticker": "NKE",
     "name": "Nike, Inc.",
-    "minBuy": 50,
+    "minBuy": 30,
     "maxSell": 95
-  },
-  {
-    "ticker": "AAPL",
-    "name": "Apple Inc.",
-    "minBuy": 175,
-    "maxSell": 245
   },
   {
     "ticker": "GALP",
