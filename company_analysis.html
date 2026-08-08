@@ -538,7 +538,6 @@
 										<div style="display: flex; gap: 0.5rem; flex-wrap: wrap;">
 											<button type="button" onclick="checkAllWatchlistAlerts()" class="button primary small">🔍 Check Live Quotes & Send Telegram Alerts</button>
 											<button type="button" onclick="syncWatchlistToGitHub()" class="button small" style="background:#2b6cb0; color:white;">☁️ Sync with GitHub</button>
-											<button type="button" onclick="resetWatchlistToDefault()" class="button small">🔄 Reset to Default List</button>
 										</div>
 									</div>
 
@@ -621,11 +620,18 @@
 					"MSFT": "MSFT",
 					"MICROSOFT": "MSFT",
 					"NVDA": "NVDA",
-					"NVIDIA": "NVDA"
+					"NVIDIA": "NVDA",
+					"GALP": "GALP.LS",
+					"GALP.LS": "GALP.LS",
+					"GALP ENERGIA": "GALP.LS",
+					"PETR4": "PETR4.SA",
+					"PETR4.SA": "PETR4.SA",
+					"PETROBRAS": "PETR4.SA"
 				};
 
 				// Annualized FY metrics for DCF mathematical consistency
 				const knownData = {
+					"GALP.LS": { name: "Galp Energia, SGPS, S.A. (GALP.LS)", currency: "EUR (€)", symbol: "€", reportDate: "FY2026 (Annualized H1 2026)", price: 18.20, shares: 772.8, revenue: 20800, grossProfit: 4200, ebit: 1550, netIncome: 1010, totalDebt: 3100, cash: 1800, equity: 4500, fco: 2400, capex: 950, div: 0.54, minBuy: 15.00, maxSell: 20.00 },
 					"ADS.DE": { name: "Adidas AG (ADS.DE)", currency: "EUR (€)", symbol: "€", reportDate: "FY2026 (Annualized Q2 2026)", price: 220.00, shares: 178.50, revenue: 21400, grossProfit: 10800, ebit: 1100, netIncome: 780, totalDebt: 3400, cash: 1500, equity: 5200, fco: 2100, capex: 550, div: 1.45, minBuy: 190.00, maxSell: 240.00 },
 					"NOVO-B.CO": { name: "Novo Nordisk A/S (NOVO-B.CO)", currency: "DKK (Danish Krone)", symbol: "DKK", reportDate: "H1 2026 (04/08/2026 - Annualized for Valuation)", price: 840.00, shares: 4460.0, revenue: 303822, grossProfit: 257000, ebit: 173040, netIncome: 139092, totalDebt: 32000, cash: 18500, equity: 94000, fco: 158566, capex: 49680, div: 15.84, minBuy: 780.00, maxSell: 950.00 },
 					"NVO": { name: "Novo Nordisk A/S ADR (NVO)", currency: "USD ($)", symbol: "$", reportDate: "H1 2026 (04/08/2026 - Annualized for Valuation)", price: 124.50, shares: 4460.0, revenue: 43400, grossProfit: 36700, ebit: 24720, netIncome: 19870, totalDebt: 4500, cash: 2600, equity: 13400, fco: 22640, capex: 7100, div: 2.26, minBuy: 110.00, maxSell: 140.00 },
@@ -1235,22 +1241,33 @@
 						const item = watchlist[i];
 						let currentPrice = 0;
 
-						const canonical = aliasMap[item.ticker] || item.ticker;
+						const canonical = aliasMap[item.ticker.toUpperCase()] || aliasMap[item.ticker] || item.ticker;
 						if (knownData[canonical] && knownData[canonical].price) {
 							currentPrice = knownData[canonical].price;
-						} else {
-							const proxies = ['https://corsproxy.io/?', 'https://api.allorigins.win/raw?url='];
-							for (const proxyPrefix of proxies) {
-								try {
-									const targetUrl = 'https://query1.finance.yahoo.com/v7/finance/quote?symbols=' + encodeURIComponent(item.ticker);
-									const response = await fetch(proxyPrefix + encodeURIComponent(targetUrl));
-									const result = await response.json();
-									const quote = result.quoteResponse && result.quoteResponse.result && result.quoteResponse.result[0];
-									if (quote && (quote.regularMarketPrice || quote.currentPrice)) {
-										currentPrice = quote.regularMarketPrice || quote.currentPrice;
-										break;
-									}
-								} catch(e) {}
+						}
+
+						if (currentPrice === 0) {
+							const symbolsToTry = [canonical];
+							if (!canonical.includes('.')) {
+								symbolsToTry.push(canonical + '.LS');
+								symbolsToTry.push(canonical + '.SA');
+							}
+
+							for (const targetSym of symbolsToTry) {
+								if (currentPrice > 0) break;
+								const proxies = ['https://corsproxy.io/?', 'https://api.allorigins.win/raw?url='];
+								for (const proxyPrefix of proxies) {
+									try {
+										const targetUrl = 'https://query1.finance.yahoo.com/v7/finance/quote?symbols=' + encodeURIComponent(targetSym);
+										const response = await fetch(proxyPrefix + encodeURIComponent(targetUrl));
+										const result = await response.json();
+										const quote = result.quoteResponse && result.quoteResponse.result && result.quoteResponse.result[0];
+										if (quote && (quote.regularMarketPrice || quote.currentPrice)) {
+											currentPrice = quote.regularMarketPrice || quote.currentPrice;
+											break;
+										}
+									} catch(e) {}
+								}
 							}
 						}
 

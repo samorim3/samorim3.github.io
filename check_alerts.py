@@ -38,45 +38,60 @@ def send_telegram_alert(msg):
 def get_current_price(ticker_symbol):
     """
     Attempts multiple fast and resilient methods to fetch current price via yfinance.
+    Handles exchange suffixes (e.g. GALP -> GALP.LS for Euronext Lisbon).
     """
-    try:
-        ticker = yf.Ticker(ticker_symbol)
+    aliases = {
+        "GALP": "GALP.LS",
+        "NOVO-B": "NOVO-B.CO",
+        "ADS": "ADS.DE",
+        "PETR4": "PETR4.SA"
+    }
+    symbol_to_try = aliases.get(ticker_symbol.upper(), ticker_symbol)
 
-        # Method 1: Try fast_info attributes (fastest and lightest)
+    symbols_list = [symbol_to_try]
+    if "." not in symbol_to_try:
+        symbols_list.append(f"{symbol_to_try}.LS")
+        symbols_list.append(f"{symbol_to_try}.SA")
+
+    for sym in symbols_list:
         try:
-            fast_info = getattr(ticker, 'fast_info', None)
-            if fast_info:
-                if hasattr(fast_info, 'last_price') and fast_info.last_price is not None:
-                    return float(fast_info.last_price)
-                if hasattr(fast_info, 'lastPrice') and fast_info.lastPrice is not None:
-                    return float(fast_info.lastPrice)
-                if isinstance(fast_info, dict):
-                    price = fast_info.get('lastPrice') or fast_info.get('last_price')
+            ticker = yf.Ticker(sym)
+
+            # Method 1: Try fast_info attributes (fastest and lightest)
+            try:
+                fast_info = getattr(ticker, 'fast_info', None)
+                if fast_info:
+                    if hasattr(fast_info, 'last_price') and fast_info.last_price is not None:
+                        return float(fast_info.last_price)
+                    if hasattr(fast_info, 'lastPrice') and fast_info.lastPrice is not None:
+                        return float(fast_info.lastPrice)
+                    if isinstance(fast_info, dict):
+                        price = fast_info.get('lastPrice') or fast_info.get('last_price')
+                        if price:
+                            return float(price)
+            except Exception:
+                pass
+
+            # Method 2: Try 1-day history (fast & reliable Yahoo historical endpoint)
+            try:
+                df = ticker.history(period="1d", timeout=10)
+                if not df.empty and 'Close' in df.columns:
+                    return float(df['Close'].iloc[-1])
+            except Exception:
+                pass
+
+            # Method 3: Fallback to ticker.info
+            try:
+                info = ticker.info
+                if info:
+                    price = info.get('currentPrice') or info.get('regularMarketPrice') or info.get('previousClose')
                     if price:
                         return float(price)
-        except Exception as e:
-            print(f"  ℹ️ fast_info fetch failed for {ticker_symbol}: {e}")
+            except Exception:
+                pass
 
-        # Method 2: Try 1-day history (fast & reliable Yahoo historical endpoint)
-        try:
-            df = ticker.history(period="1d", timeout=10)
-            if not df.empty and 'Close' in df.columns:
-                return float(df['Close'].iloc[-1])
         except Exception as e:
-            print(f"  ℹ️ history fetch failed for {ticker_symbol}: {e}")
-
-        # Method 3: Fallback to ticker.info (heavy web scraper call)
-        try:
-            info = ticker.info
-            if info:
-                price = info.get('currentPrice') or info.get('regularMarketPrice') or info.get('previousClose')
-                if price:
-                    return float(price)
-        except Exception as e:
-            print(f"  ℹ️ ticker.info fetch failed for {ticker_symbol}: {e}")
-
-    except Exception as e:
-        print(f"  ❌ Exception fetching ticker {ticker_symbol}: {e}")
+            print(f"  ❌ Exception fetching ticker {sym}: {e}")
 
     return None
 
