@@ -875,67 +875,54 @@
 					const cleanSym = tickerSymbol.trim().toUpperCase();
 					const canonical = aliasMap[cleanSym] || cleanSym;
 
-					// Build Yahoo symbols list
-					const yahooSymbols = [canonical];
-					if (cleanSym === 'GALP') yahooSymbols.unshift('GALP.LS');
-					if (cleanSym === 'ADS') yahooSymbols.unshift('ADS.DE');
-					if (cleanSym === 'NOVO-B') yahooSymbols.unshift('NOVO-B.CO');
+					const symbolsToTry = [canonical];
+					if (cleanSym === 'GALP' || canonical === 'GALP') symbolsToTry.unshift('GALP.LS');
+					if (cleanSym === 'ADS' || canonical === 'ADS') symbolsToTry.unshift('ADS.DE');
+					if (cleanSym === 'NOVO-B' || canonical === 'NOVO-B') symbolsToTry.unshift('NOVO-B.CO');
 					if (!canonical.includes('.')) {
-						yahooSymbols.push(canonical + '.LS');
-						yahooSymbols.push(canonical + '.DE');
-						yahooSymbols.push(canonical + '.SA');
-						yahooSymbols.push(canonical + '.CO');
+						symbolsToTry.push(canonical + '.LS');
+						symbolsToTry.push(canonical + '.DE');
+						symbolsToTry.push(canonical + '.SA');
+						symbolsToTry.push(canonical + '.CO');
 					}
 
-					// 1. Yahoo Finance API via CORS proxies
-					const proxies = ['https://corsproxy.io/?', 'https://api.allorigins.win/raw?url='];
-					for (const targetSym of yahooSymbols) {
-						for (const proxyPrefix of proxies) {
+					// 1. Direct Yahoo v8 Chart API (query2 and query1) - Works directly without authorization/crumbs!
+					for (const sym of symbolsToTry) {
+						const hosts = [
+							'https://query2.finance.yahoo.com/v8/finance/chart/',
+							'https://query1.finance.yahoo.com/v8/finance/chart/'
+						];
+						for (const host of hosts) {
 							try {
-								const targetUrl = 'https://query1.finance.yahoo.com/v7/finance/quote?symbols=' + encodeURIComponent(targetSym);
-								const response = await fetch(proxyPrefix + encodeURIComponent(targetUrl));
-								const result = await response.json();
-								const quote = result.quoteResponse && result.quoteResponse.result && result.quoteResponse.result[0];
-								if (quote && (quote.regularMarketPrice || quote.currentPrice)) {
-									const px = quote.regularMarketPrice || quote.currentPrice;
-									if (px > 0) {
-										return {
-											price: px,
-											currency: quote.currency || quote.financialCurrency || getTickerCurrencySymbol(targetSym),
-											source: "Yahoo / Google Finance",
-											symbol: targetSym
-										};
-									}
+								const res = await fetch(host + encodeURIComponent(sym) + '?interval=1d');
+								const data = await res.json();
+								const meta = data?.chart?.result?.[0]?.meta;
+								if (meta && meta.regularMarketPrice && meta.regularMarketPrice > 0) {
+									return {
+										price: meta.regularMarketPrice,
+										currency: meta.currency || getTickerCurrencySymbol(sym),
+										source: "Yahoo / Google Finance",
+										symbol: sym
+									};
 								}
 							} catch(e) {}
 						}
 					}
 
-					// 2. Google Finance Scraper via CORS proxy
-					const googleSymbols = [];
-					if (cleanSym.includes('GALP')) googleSymbols.push('GALP:ELI');
-					if (cleanSym.includes('ADS')) googleSymbols.push('ADS:ETR');
-					if (cleanSym.includes('NOVO')) googleSymbols.push('NOVO_B:CPH');
-					if (cleanSym === 'NKE') googleSymbols.push('NKE:NYSE');
-					if (cleanSym === 'AAPL') googleSymbols.push('AAPL:NASDAQ');
-					if (cleanSym === 'MSFT') googleSymbols.push('MSFT:NASDAQ');
-
-					for (const gSym of googleSymbols) {
+					// 2. Try AllOrigins CORS proxy fallback with v8 chart
+					for (const sym of symbolsToTry) {
 						try {
-							const targetUrl = 'https://www.google.com/finance/quote/' + gSym;
+							const targetUrl = 'https://query2.finance.yahoo.com/v8/finance/chart/' + encodeURIComponent(sym) + '?interval=1d';
 							const res = await fetch('https://api.allorigins.win/raw?url=' + encodeURIComponent(targetUrl));
-							const html = await res.text();
-							const match = html.match(/data-last-price="([0-9.]+)"/) || html.match(/class="YMlAzd"[^>]*>([0-9.,]+)<\/div>/);
-							if (match && match[1]) {
-								const priceNum = parseFloat(match[1].replace(',', '.'));
-								if (priceNum > 0) {
-									return {
-										price: priceNum,
-										currency: gSym.includes('ELI') || gSym.includes('ETR') ? "EUR" : "USD",
-										source: "Google Finance",
-										symbol: gSym
-									};
-								}
+							const data = await res.json();
+							const meta = data?.chart?.result?.[0]?.meta;
+							if (meta && meta.regularMarketPrice && meta.regularMarketPrice > 0) {
+								return {
+									price: meta.regularMarketPrice,
+									currency: meta.currency || getTickerCurrencySymbol(sym),
+									source: "Yahoo / Google Finance",
+									symbol: sym
+								};
 							}
 						} catch(e) {}
 					}
@@ -1133,7 +1120,22 @@
 						const stored = localStorage.getItem('portfolio_watchlist_items');
 						if (stored) {
 							const parsed = JSON.parse(stored);
-							if (Array.isArray(parsed) && parsed.length > 0) return parsed;
+							if (Array.isArray(parsed) && parsed.length > 0) {
+								parsed.forEach(item => {
+									const canonical = aliasMap[item.ticker.toUpperCase()] || item.ticker.toUpperCase();
+									if (canonical === 'ADS.DE' || item.ticker === 'ADS.DE' || item.ticker === 'ADS') {
+										if (item.lastPrice === 220 || item.lastPrice === 220.00 || !item.lastPrice) item.lastPrice = 164.05;
+										if (item.minBuy === 120) item.minBuy = 140;
+										if (item.maxSell === 240) item.maxSell = 200;
+									}
+									if (canonical === 'GALP.LS' || item.ticker === 'GALP' || item.ticker === 'GALP.LS') {
+										if (item.lastPrice === 18.2 || item.lastPrice === 18.20 || !item.lastPrice) item.lastPrice = 19.82;
+										if (item.minBuy === 15) item.minBuy = 15;
+										if (item.maxSell === 20) item.maxSell = 22;
+									}
+								});
+								return parsed;
+							}
 						}
 					} catch(e) {
 						console.log("Error loading watchlist from localStorage", e);
@@ -1549,6 +1551,10 @@
 					watchlist = getStoredWatchlist();
 					renderWatchlistTable();
 					updatePythonSnippet();
+					// Auto refresh live market quotes on load
+					setTimeout(() => {
+						checkAllWatchlistAlerts();
+					}, 500);
 				});
 			</script>
 
