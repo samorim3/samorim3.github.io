@@ -802,8 +802,8 @@
 
 				// Annualized FY metrics for DCF mathematical consistency
 				const knownData = {
-					"GALP.LS": { name: "Galp Energia, SGPS, S.A. (GALP.LS)", currency: "EUR (€)", symbol: "€", reportDate: "FY2026 (Annualized H1 2026)", price: 18.20, shares: 772.8, revenue: 20800, grossProfit: 4200, ebit: 1550, netIncome: 1010, totalDebt: 3100, cash: 1800, equity: 4500, fco: 2400, capex: 950, div: 0.54, minBuy: 15.00, maxSell: 20.00 },
-					"ADS.DE": { name: "Adidas AG (ADS.DE)", currency: "EUR (€)", symbol: "€", reportDate: "FY2026 (Annualized Q2 2026)", price: 220.00, shares: 178.50, revenue: 21400, grossProfit: 10800, ebit: 1100, netIncome: 780, totalDebt: 3400, cash: 1500, equity: 5200, fco: 2100, capex: 550, div: 1.45, minBuy: 190.00, maxSell: 240.00 },
+					"GALP.LS": { name: "Galp Energia, SGPS, S.A. (GALP.LS)", currency: "EUR (€)", symbol: "€", reportDate: "FY2026 (Annualized H1 2026)", price: 19.82, shares: 772.8, revenue: 20800, grossProfit: 4200, ebit: 1550, netIncome: 1010, totalDebt: 3100, cash: 1800, equity: 4500, fco: 2400, capex: 950, div: 0.54, minBuy: 15.00, maxSell: 22.00 },
+					"ADS.DE": { name: "Adidas AG (ADS.DE)", currency: "EUR (€)", symbol: "€", reportDate: "FY2026 (Annualized Q2 2026)", price: 164.05, shares: 178.50, revenue: 21400, grossProfit: 10800, ebit: 1100, netIncome: 780, totalDebt: 3400, cash: 1500, equity: 5200, fco: 2100, capex: 550, div: 1.45, minBuy: 140.00, maxSell: 200.00 },
 					"NOVO-B.CO": { name: "Novo Nordisk A/S (NOVO-B.CO)", currency: "DKK (Danish Krone)", symbol: "DKK", reportDate: "H1 2026 (04/08/2026 - Annualized for Valuation)", price: 840.00, shares: 4460.0, revenue: 303822, grossProfit: 257000, ebit: 173040, netIncome: 139092, totalDebt: 32000, cash: 18500, equity: 94000, fco: 158566, capex: 49680, div: 15.84, minBuy: 780.00, maxSell: 950.00 },
 					"NVO": { name: "Novo Nordisk A/S ADR (NVO)", currency: "USD ($)", symbol: "$", reportDate: "H1 2026 (04/08/2026 - Annualized for Valuation)", price: 124.50, shares: 4460.0, revenue: 43400, grossProfit: 36700, ebit: 24720, netIncome: 19870, totalDebt: 4500, cash: 2600, equity: 13400, fco: 22640, capex: 7100, div: 2.26, minBuy: 110.00, maxSell: 140.00 },
 					"NKE": { name: "Nike, Inc. (NKE)", currency: "USD ($)", symbol: "$", reportDate: "Q4 FY2026 (June 2026)", price: 75.20, shares: 1500.0, revenue: 51300, grossProfit: 22800, ebit: 6200, netIncome: 5700, totalDebt: 12100, cash: 7500, equity: 14300, fco: 6800, capex: 950, div: 1.48, minBuy: 70.00, maxSell: 95.00 },
@@ -870,58 +870,116 @@
 					calculateAll();
 				}
 
+				async function fetchLiveStockPrice(tickerSymbol) {
+					if (!tickerSymbol) return null;
+					const cleanSym = tickerSymbol.trim().toUpperCase();
+					const canonical = aliasMap[cleanSym] || cleanSym;
+
+					// Build Yahoo symbols list
+					const yahooSymbols = [canonical];
+					if (cleanSym === 'GALP') yahooSymbols.unshift('GALP.LS');
+					if (cleanSym === 'ADS') yahooSymbols.unshift('ADS.DE');
+					if (cleanSym === 'NOVO-B') yahooSymbols.unshift('NOVO-B.CO');
+					if (!canonical.includes('.')) {
+						yahooSymbols.push(canonical + '.LS');
+						yahooSymbols.push(canonical + '.DE');
+						yahooSymbols.push(canonical + '.SA');
+						yahooSymbols.push(canonical + '.CO');
+					}
+
+					// 1. Yahoo Finance API via CORS proxies
+					const proxies = ['https://corsproxy.io/?', 'https://api.allorigins.win/raw?url='];
+					for (const targetSym of yahooSymbols) {
+						for (const proxyPrefix of proxies) {
+							try {
+								const targetUrl = 'https://query1.finance.yahoo.com/v7/finance/quote?symbols=' + encodeURIComponent(targetSym);
+								const response = await fetch(proxyPrefix + encodeURIComponent(targetUrl));
+								const result = await response.json();
+								const quote = result.quoteResponse && result.quoteResponse.result && result.quoteResponse.result[0];
+								if (quote && (quote.regularMarketPrice || quote.currentPrice)) {
+									const px = quote.regularMarketPrice || quote.currentPrice;
+									if (px > 0) {
+										return {
+											price: px,
+											currency: quote.currency || quote.financialCurrency || getTickerCurrencySymbol(targetSym),
+											source: "Yahoo / Google Finance",
+											symbol: targetSym
+										};
+									}
+								}
+							} catch(e) {}
+						}
+					}
+
+					// 2. Google Finance Scraper via CORS proxy
+					const googleSymbols = [];
+					if (cleanSym.includes('GALP')) googleSymbols.push('GALP:ELI');
+					if (cleanSym.includes('ADS')) googleSymbols.push('ADS:ETR');
+					if (cleanSym.includes('NOVO')) googleSymbols.push('NOVO_B:CPH');
+					if (cleanSym === 'NKE') googleSymbols.push('NKE:NYSE');
+					if (cleanSym === 'AAPL') googleSymbols.push('AAPL:NASDAQ');
+					if (cleanSym === 'MSFT') googleSymbols.push('MSFT:NASDAQ');
+
+					for (const gSym of googleSymbols) {
+						try {
+							const targetUrl = 'https://www.google.com/finance/quote/' + gSym;
+							const res = await fetch('https://api.allorigins.win/raw?url=' + encodeURIComponent(targetUrl));
+							const html = await res.text();
+							const match = html.match(/data-last-price="([0-9.]+)"/) || html.match(/class="YMlAzd"[^>]*>([0-9.,]+)<\/div>/);
+							if (match && match[1]) {
+								const priceNum = parseFloat(match[1].replace(',', '.'));
+								if (priceNum > 0) {
+									return {
+										price: priceNum,
+										currency: gSym.includes('ELI') || gSym.includes('ETR') ? "EUR" : "USD",
+										source: "Google Finance",
+										symbol: gSym
+									};
+								}
+							}
+						} catch(e) {}
+					}
+
+					// 3. Fallback to knownData baseline
+					if (knownData[canonical] && knownData[canonical].price) {
+						return {
+							price: knownData[canonical].price,
+							currency: knownData[canonical].currency,
+							source: "Official Statement Baseline",
+							symbol: canonical
+						};
+					}
+
+					return null;
+				}
+
 				async function loadSymbolQuote(symbolToLoad, displayName) {
-					// Check local dictionary
-					const canonical = aliasMap[symbolToLoad] || symbolToLoad;
-					if (knownData[canonical]) {
-						const data = knownData[canonical];
-						populateForm(data);
-						showStatus('✅ Official data for <strong>' + data.name + '</strong> loaded! (DCF calibrated with Actual FCF Margin)', 'success');
+					const canonical = aliasMap[symbolToLoad.toUpperCase()] || aliasMap[symbolToLoad] || symbolToLoad;
+					
+					// Always fetch live market quote FIRST!
+					const liveData = await fetchLiveStockPrice(symbolToLoad);
+					
+					if (liveData && liveData.price > 0) {
+						let dataToUse = knownData[canonical] ? { ...knownData[canonical] } : {};
+						dataToUse.name = dataToUse.name || displayName || symbolToLoad;
+						dataToUse.price = liveData.price;
+						dataToUse.symbol = getTickerCurrencySymbol(symbolToLoad);
+						dataToUse.currency = liveData.currency || dataToUse.currency || "EUR";
+						dataToUse.reportDate = dataToUse.reportDate || ("Live Market Quote (" + liveData.source + ")");
+						
+						populateForm(dataToUse);
+						showStatus('✅ Live market quote for <strong>' + dataToUse.name + '</strong> (' + formatPriceWithCurrency(liveData.price, dataToUse.symbol) + ') loaded successfully!', 'success');
 						return true;
 					}
 
-					// Try live CORS proxies
-					const proxies = [
-						'https://corsproxy.io/?',
-						'https://api.allorigins.win/raw?url='
-					];
-
-					for (const proxyPrefix of proxies) {
-						try {
-							const targetUrl = 'https://query1.finance.yahoo.com/v7/finance/quote?symbols=' + encodeURIComponent(symbolToLoad);
-							const response = await fetch(proxyPrefix + encodeURIComponent(targetUrl));
-							const result = await response.json();
-							const quote = result.quoteResponse && result.quoteResponse.result && result.quoteResponse.result[0];
-
-							if (quote && (quote.regularMarketPrice || quote.currentPrice)) {
-								const price = quote.regularMarketPrice || quote.currentPrice || 0;
-								const shares = (quote.sharesOutstanding || 0) / 1000000;
-								const companyName = quote.longName || quote.shortName || displayName || symbolToLoad;
-								const currencyCode = quote.currency || quote.financialCurrency || "USD";
-								
-								let rDate = "Recent Report Q2 2026";
-								if (quote.mostRecentQuarter) {
-									const d = new Date(quote.mostRecentQuarter * 1000);
-									rDate = d.toLocaleDateString('en-US') + " (Q" + (Math.floor(d.getMonth() / 3) + 1) + " " + d.getFullYear() + ")";
-								}
-
-								document.getElementById('companyTitle').innerText = '📊 Company Metrics: ' + companyName + ' (' + symbolToLoad + ')';
-								document.getElementById('reportDateBadge').innerText = '📅 Latest Report Date: ' + rDate;
-								updateCurrencyUI(currencyCode, currencyCode);
-
-								document.getElementById('reportDate').value = rDate;
-								document.getElementById('price').value = price > 0 ? price.toFixed(2) : '';
-								document.getElementById('shares').value = shares > 0 ? shares.toFixed(1) : '';
-								document.getElementById('alertMin').value = price > 0 ? (price * 0.85).toFixed(2) : '';
-								document.getElementById('alertMax').value = price > 0 ? (price * 1.15).toFixed(2) : '';
-								calculateAll();
-								showStatus('✅ Quote for <strong>' + companyName + ' (' + symbolToLoad + ')</strong> in ' + currencyCode + ' loaded successfully!', 'success');
-								return true;
-							}
-						} catch(e) {
-							console.log('Proxy attempt failed:', e);
-						}
+					// Fallback to local baseline
+					if (knownData[canonical]) {
+						const data = knownData[canonical];
+						populateForm(data);
+						showStatus('✅ Baseline data for <strong>' + data.name + '</strong> loaded!', 'success');
+						return true;
 					}
+
 					return false;
 				}
 
@@ -1060,10 +1118,10 @@
 				// Telegram Alerts & Watchlist Manager
 				// ==========================================
 				const DEFAULT_WATCHLIST = [
-					{ ticker: "NOVO-B.CO", name: "Novo Nordisk A/S", minBuy: 780.00, maxSell: 950.00, lastPrice: 840.00, status: "HOLD" },
-					{ ticker: "ADS.DE", name: "Adidas AG", minBuy: 190.00, maxSell: 240.00, lastPrice: 220.00, status: "HOLD" },
-					{ ticker: "NVO", name: "Novo Nordisk ADR", minBuy: 110.00, maxSell: 140.00, lastPrice: 124.50, status: "HOLD" },
+					{ ticker: "ADS.DE", name: "Adidas AG", minBuy: 140.00, maxSell: 200.00, lastPrice: 164.05, status: "HOLD" },
 					{ ticker: "NKE", name: "Nike, Inc.", minBuy: 70.00, maxSell: 95.00, lastPrice: 75.20, status: "HOLD" },
+					{ ticker: "GALP", name: "Galp Energia", minBuy: 15.00, maxSell: 22.00, lastPrice: 19.82, status: "HOLD" },
+					{ ticker: "NOVO-B.CO", name: "Novo Nordisk A/S", minBuy: 780.00, maxSell: 950.00, lastPrice: 840.00, status: "HOLD" },
 					{ ticker: "AAPL", name: "Apple Inc.", minBuy: 195.00, maxSell: 245.00, lastPrice: 222.50, status: "HOLD" },
 					{ ticker: "MSFT", name: "Microsoft Corp", minBuy: 370.00, maxSell: 450.00, lastPrice: 410.00, status: "HOLD" }
 				];
@@ -1443,37 +1501,8 @@
 
 					for (let i = 0; i < watchlist.length; i++) {
 						const item = watchlist[i];
-						let currentPrice = 0;
-
-						const canonical = aliasMap[item.ticker.toUpperCase()] || aliasMap[item.ticker] || item.ticker;
-						if (knownData[canonical] && knownData[canonical].price) {
-							currentPrice = knownData[canonical].price;
-						}
-
-						if (currentPrice === 0) {
-							const symbolsToTry = [canonical];
-							if (!canonical.includes('.')) {
-								symbolsToTry.push(canonical + '.LS');
-								symbolsToTry.push(canonical + '.SA');
-							}
-
-							for (const targetSym of symbolsToTry) {
-								if (currentPrice > 0) break;
-								const proxies = ['https://corsproxy.io/?', 'https://api.allorigins.win/raw?url='];
-								for (const proxyPrefix of proxies) {
-									try {
-										const targetUrl = 'https://query1.finance.yahoo.com/v7/finance/quote?symbols=' + encodeURIComponent(targetSym);
-										const response = await fetch(proxyPrefix + encodeURIComponent(targetUrl));
-										const result = await response.json();
-										const quote = result.quoteResponse && result.quoteResponse.result && result.quoteResponse.result[0];
-										if (quote && (quote.regularMarketPrice || quote.currentPrice)) {
-											currentPrice = quote.regularMarketPrice || quote.currentPrice;
-											break;
-										}
-									} catch(e) {}
-								}
-							}
-						}
+						const liveRes = await fetchLiveStockPrice(item.ticker);
+						let currentPrice = (liveRes && liveRes.price > 0) ? liveRes.price : 0;
 
 						if (currentPrice > 0) {
 							item.lastPrice = currentPrice;
