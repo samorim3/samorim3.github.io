@@ -324,8 +324,8 @@
 
 									<h3 id="companyTitle" style="margin-top: 0; margin-bottom: 0.5rem; color: #1a202c;">📊 Company Objective Metrics</h3>
 									<div>
-										<div id="reportDateBadge" class="report-badge">📅 Financial Filing Date: N/D</div>
-										<div id="currencyBadge" class="currency-badge">💱 Reporting Currency / Moeda: N/D</div>
+										<div id="reportDateBadge" class="report-badge">📅 Financial Filing Date: N/A</div>
+										<div id="currencyBadge" class="currency-badge">💱 Reporting Currency: N/A</div>
 									</div>
 									<p style="font-size: 0.9rem; color: #4a5568;">Official corporate figures are displayed as fixed read-only data published by the company (annualized 12-month metrics for DCF valuation consistency).</p>
 
@@ -334,8 +334,8 @@
 										<div class="tool-card">
 											<h4>1. Market & Income Statement (Annualized Official Data)</h4>
 											<div class="input-group">
-												<label for="reportDate">Filing / Report Period (Período do Relatório):</label>
-												<input type="text" id="reportDate" value="" placeholder="N/D" readonly />
+												<label for="reportDate">Filing / Report Period:</label>
+												<input type="text" id="reportDate" value="" placeholder="N/A" readonly />
 											</div>
 											<div class="input-group">
 												<label id="labelStockPrice" for="price">Stock Price (€ / $ / DKK):</label>
@@ -431,14 +431,14 @@
 									</div>
 
 									<!-- Simplified DCF Valuation Model -->
-									<h4 style="color: #1a202c; border-bottom: 2px solid #3182ce; padding-bottom: 0.4rem; margin-top: 2rem;">🧮 Simplified DCF Valuation Model (Projeções Baseadas na Margem Real FCF)</h4>
+									<h4 style="color: #1a202c; border-bottom: 2px solid #3182ce; padding-bottom: 0.4rem; margin-top: 2rem;">🧮 Simplified DCF Valuation Model (Projections Based on Actual FCF Margin)</h4>
 									<div class="tool-grid" style="margin-bottom: 1rem;">
 										<div class="input-group">
 											<label for="dcfGrowth">5-Yr Revenue Growth Rate (%):</label>
 											<input type="number" id="dcfGrowth" value="7.0" step="0.5" oninput="calculateAll()" />
 										</div>
 										<div class="input-group">
-											<label for="dcfFcfMargin">Target FCF Margin (%) [Auto-Preenchido com FCF Real]:</label>
+											<label for="dcfFcfMargin">Target FCF Margin (%) [Auto-Filled with Actual FCF]:</label>
 											<input type="number" id="dcfFcfMargin" value="" placeholder="35.8" step="0.5" oninput="calculateAll()" />
 										</div>
 										<div class="input-group">
@@ -479,66 +479,66 @@
 										🟡 Insert a ticker symbol and target prices to activate live price alert monitoring.
 									</div>
 									
-									<button type="button" onclick="addCurrentCompanyToWatchlist()" class="button primary small" style="margin-top: 1.25rem; width: 100%;">➕ Adicionar esta Empresa & Limites à Lista Telegram (Watchlist)</button>
+									<button type="button" onclick="addCurrentCompanyToWatchlist()" class="button primary small" style="margin-top: 1.25rem; width: 100%;">➕ Add This Company & Limits to Telegram Watchlist</button>
 								</div>
 
 								<!-- Telegram Alerts & Watchlist Section -->
-								<h2 style="color: #2b6cb0; border-bottom: 3px solid #3182ce; padding-bottom: 0.5rem; margin-top: 2.5rem;">📱 Gestão de Alertas Telegram & Lista de Vigilância (Watchlist)</h2>
-								<p>Adicione as empresas do seu interesse, defina os valores mínimo (Compra) e máximo (Venda), e configure o seu <strong>Telegram Bot</strong> para enviar notificações instantâneas.</p>
+								<h2 style="color: #2b6cb0; border-bottom: 3px solid #3182ce; padding-bottom: 0.5rem; margin-top: 2.5rem;">📱 Telegram Alert Management & Watchlist</h2>
+								<p>Add companies of interest, set minimum (Buy) and maximum (Sell) threshold prices, and configure your <strong>Telegram Bot</strong> to send instant notifications.</p>
 
 								<div class="tool-container" style="background: #ffffff; border: 2px solid #3182ce; box-shadow: 0 4px 6px rgba(0,0,0,0.05);">
 									<!-- Telegram & GitHub Configuration Box -->
-									<h3 style="color: #2b6cb0; border-bottom: 2px solid #e2e8f0; padding-bottom: 0.5rem; margin-bottom: 1.25rem;">⚙️ Configuração de Alertas & Sincronização</h3>
+									<h3 style="color: #2b6cb0; border-bottom: 2px solid #e2e8f0; padding-bottom: 0.5rem; margin-bottom: 1.25rem;">⚙️ Alert Configuration & Synchronization</h3>
 									<div class="tool-grid" style="grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 1rem; margin-bottom: 1rem;">
 										<div class="input-group">
 											<label for="telegramToken">Telegram Bot Token:</label>
-											<input type="password" id="telegramToken" placeholder="ex: 123456789:ABCdefGh..." onchange="saveTelegramCredentials()" />
+											<input type="password" id="telegramToken" placeholder="e.g. 123456789:ABCdefGh..." onchange="saveTelegramCredentials()" />
 										</div>
 										<div class="input-group">
 											<label for="telegramChatId">Telegram Chat ID:</label>
-											<input type="text" id="telegramChatId" placeholder="ex: 2065190784" onchange="saveTelegramCredentials()" />
+											<input type="text" id="telegramChatId" placeholder="e.g. 2065190784" onchange="saveTelegramCredentials()" />
 										</div>
 										<div class="input-group">
-											<label for="githubToken">GitHub Token (p/ Sincronizar ☁️):</label>
-											<input type="password" id="githubToken" placeholder="ex: ghp_abc123..." onchange="saveTelegramCredentials()" />
+											<label for="githubToken">GitHub Token (for Sync ☁️):</label>
+											<input type="password" id="githubToken" placeholder="e.g. ghp_abc123..." onchange="saveTelegramCredentials()" />
 										</div>
 									</div>
 									<div style="display: flex; gap: 0.75rem; flex-wrap: wrap; margin-bottom: 1rem;">
-										<button type="button" onclick="toggleTokenVisibility()" class="button small">👁️ Ocultar/Mostrar Tokens</button>
-										<button type="button" onclick="testTelegramAlert()" class="button primary small">⚡ Testar Notificação Telegram</button>
-										<button type="button" onclick="saveTelegramCredentials(true)" class="button small">💾 Guardar Credenciais</button>
+										<button type="button" onclick="toggleTokenVisibility()" class="button small">👁️ Hide/Show Tokens</button>
+										<button type="button" onclick="testTelegramAlert()" class="button primary small">⚡ Test Telegram Notification</button>
+										<button type="button" onclick="saveTelegramCredentials(true)" class="button small">💾 Save Credentials</button>
 									</div>
 									<div id="telegramStatusBox" class="status-msg" style="display:none; margin-bottom: 1.5rem;"></div>
 
 									<!-- Add New Company Form -->
-									<h3 style="color: #2b6cb0; border-bottom: 2px solid #e2e8f0; padding-bottom: 0.5rem; margin-top: 1.5rem; margin-bottom: 1.25rem;">➕ Adicionar Nova Empresa à Lista</h3>
+									<h3 style="color: #2b6cb0; border-bottom: 2px solid #e2e8f0; padding-bottom: 0.5rem; margin-top: 1.5rem; margin-bottom: 1.25rem;">➕ Add New Company to Watchlist</h3>
 									<div class="tool-grid" style="grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 1rem; margin-bottom: 1rem;">
 										<div class="input-group">
 											<label for="newWatchlistTicker">Ticker Symbol:</label>
-											<input type="text" id="newWatchlistTicker" placeholder="ex: NVDA, AAPL, PETR4.SA" style="text-transform: uppercase;" />
+											<input type="text" id="newWatchlistTicker" placeholder="e.g. NVDA, AAPL, PETR4" style="text-transform: uppercase;" />
 										</div>
 										<div class="input-group">
-											<label for="newWatchlistName">Nome da Empresa (Opcional):</label>
-											<input type="text" id="newWatchlistName" placeholder="ex: Nvidia Corp" />
+											<label for="newWatchlistName">Company Name (Optional):</label>
+											<input type="text" id="newWatchlistName" placeholder="e.g. Nvidia Corp" />
 										</div>
 										<div class="input-group">
-											<label for="newWatchlistMin">Mínimo / Alerta Compra (🟢):</label>
-											<input type="number" id="newWatchlistMin" placeholder="ex: 100.00" step="0.1" />
+											<label for="newWatchlistMin">Min / Buy Alert (🟢):</label>
+											<input type="number" id="newWatchlistMin" placeholder="e.g. 100.00" step="0.1" />
 										</div>
 										<div class="input-group">
-											<label for="newWatchlistMax">Máximo / Alerta Venda (🔴):</label>
-											<input type="number" id="newWatchlistMax" placeholder="ex: 140.00" step="0.1" />
+											<label for="newWatchlistMax">Max / Sell Alert (🔴):</label>
+											<input type="number" id="newWatchlistMax" placeholder="e.g. 140.00" step="0.1" />
 										</div>
 									</div>
-									<button type="button" onclick="addNewWatchlistEntry()" class="button primary small" style="margin-bottom: 2rem;">➕ Adicionar à Watchlist</button>
+									<button type="button" onclick="addNewWatchlistEntry()" class="button primary small" style="margin-bottom: 2rem;">➕ Add to Watchlist</button>
 
 									<!-- Watchlist Table -->
 									<div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; margin-bottom: 1rem; gap: 0.5rem;">
-										<h3 style="color: #1a202c; margin: 0;">📊 Empresas Monitorizadas (Watchlist)</h3>
+										<h3 style="color: #1a202c; margin: 0;">📊 Monitored Companies (Watchlist)</h3>
 										<div style="display: flex; gap: 0.5rem; flex-wrap: wrap;">
-											<button type="button" onclick="checkAllWatchlistAlerts()" class="button primary small">🔍 Verificar Cotações Live & Enviar Alertas Telegram</button>
-											<button type="button" onclick="syncWatchlistToGitHub()" class="button small" style="background:#2b6cb0; color:white;">☁️ Sincronizar com GitHub</button>
-											<button type="button" onclick="resetWatchlistToDefault()" class="button small">🔄 Repor Lista Padrão</button>
+											<button type="button" onclick="checkAllWatchlistAlerts()" class="button primary small">🔍 Check Live Quotes & Send Telegram Alerts</button>
+											<button type="button" onclick="syncWatchlistToGitHub()" class="button small" style="background:#2b6cb0; color:white;">☁️ Sync with GitHub</button>
+											<button type="button" onclick="resetWatchlistToDefault()" class="button small">🔄 Reset to Default List</button>
 										</div>
 									</div>
 
@@ -546,12 +546,12 @@
 										<table style="width: 100%; border-collapse: collapse; margin: 0; font-size: 0.9rem;">
 											<thead>
 												<tr style="background: #edf2f7; color: #2d3748; border-bottom: 2px solid #cbd5e0;">
-													<th style="padding: 0.75rem; text-align: left;">Empresa / Ticker</th>
-													<th style="padding: 0.75rem; text-align: center;">Mínimo Compra (🟢)</th>
-													<th style="padding: 0.75rem; text-align: center;">Máximo Venda (🔴)</th>
-													<th style="padding: 0.75rem; text-align: center;">Último Preço Live</th>
-													<th style="padding: 0.75rem; text-align: center;">Estado / Sinal</th>
-													<th style="padding: 0.75rem; text-align: center;">Ações</th>
+													<th style="padding: 0.75rem; text-align: left;">Company / Ticker</th>
+													<th style="padding: 0.75rem; text-align: center;">Min Buy (🟢)</th>
+													<th style="padding: 0.75rem; text-align: center;">Max Sell (🔴)</th>
+													<th style="padding: 0.75rem; text-align: center;">Last Live Price</th>
+													<th style="padding: 0.75rem; text-align: center;">Status / Signal</th>
+													<th style="padding: 0.75rem; text-align: center;">Actions</th>
 												</tr>
 											</thead>
 											<tbody id="watchlistTableBody">
@@ -561,45 +561,6 @@
 									</div>
 									<div id="watchlistSummaryBox" class="status-msg" style="display:none; margin-top: 1rem;"></div>
 								</div>
-
-								<h2>Python Implementation Architecture (Gerado Dinamicamente)</h2>
-								<p>Pode executar esta lógica exata em Python utilizando <code>yfinance</code> e Telegram para automação 24/7 (ex: via GitHub Actions ou CronJob):</p>
-
-<pre><code id="pythonCodeSnippet">import yfinance as yf
-import requests
-
-TELEGRAM_BOT_TOKEN = "YOUR_BOT_TOKEN"
-TELEGRAM_CHAT_ID = "YOUR_CHAT_ID"
-
-def send_alert(msg):
-    url = f"https://api.telegram.org/bot{TELEGRAM_BOT_TOKEN}/sendMessage"
-    requests.post(url, json={"chat_id": TELEGRAM_CHAT_ID, "text": msg, "parse_mode": "Markdown"})
-
-def check_objective_metrics(ticker_symbol, target_buy, target_sell):
-    ticker = yf.Ticker(ticker_symbol)
-    info = ticker.info
-    price = info.get('currentPrice') or info.get('regularMarketPrice')
-    
-    if not price: return
-    
-    if price <= target_buy:
-        send_alert(f"🟢 *BUY ALERT:* {ticker_symbol} price is {price:.2f} (Target Buy: {target_buy:.2f})")
-    elif price >= target_sell:
-        send_alert(f"🔴 *SELL ALERT:* {ticker_symbol} price is {price:.2f} (Target Sell: {target_sell:.2f})")
-
-# Executar verificação para a sua Watchlist
-watchlist = [
-    {"ticker": "NOVO-B.CO", "buy": 780.00, "sell": 950.00},
-    {"ticker": "ADS.DE", "buy": 190.00, "sell": 240.00},
-    {"ticker": "NVO", "buy": 110.00, "sell": 140.00},
-    {"ticker": "NKE", "buy": 70.00, "sell": 95.00},
-    {"ticker": "AAPL", "buy": 195.00, "sell": 245.00},
-    {"ticker": "MSFT", "buy": 370.00, "sell": 450.00}
-]
-
-for item in watchlist:
-    check_objective_metrics(item["ticker"], item["buy"], item["sell"])
-</code></pre>
 
 								<ul class="actions special">
 									<li><a href="index.html" class="button">Back to Portfolio</a></li>
@@ -666,18 +627,18 @@ for item in watchlist:
 				// Annualized FY metrics for DCF mathematical consistency
 				const knownData = {
 					"ADS.DE": { name: "Adidas AG (ADS.DE)", currency: "EUR (€)", symbol: "€", reportDate: "FY2026 (Annualized Q2 2026)", price: 220.00, shares: 178.50, revenue: 21400, grossProfit: 10800, ebit: 1100, netIncome: 780, totalDebt: 3400, cash: 1500, equity: 5200, fco: 2100, capex: 550, div: 1.45, minBuy: 190.00, maxSell: 240.00 },
-					"NOVO-B.CO": { name: "Novo Nordisk A/S (NOVO-B.CO)", currency: "DKK (Coroa Dinamarquesa)", symbol: "DKK", reportDate: "H1 2026 (04/08/2026 - Anualizado para Valuation)", price: 840.00, shares: 4460.0, revenue: 303822, grossProfit: 257000, ebit: 173040, netIncome: 139092, totalDebt: 32000, cash: 18500, equity: 94000, fco: 158566, capex: 49680, div: 15.84, minBuy: 780.00, maxSell: 950.00 },
-					"NVO": { name: "Novo Nordisk A/S ADR (NVO)", currency: "USD ($)", symbol: "$", reportDate: "H1 2026 (04/08/2026 - Anualizado para Valuation)", price: 124.50, shares: 4460.0, revenue: 43400, grossProfit: 36700, ebit: 24720, netIncome: 19870, totalDebt: 4500, cash: 2600, equity: 13400, fco: 22640, capex: 7100, div: 2.26, minBuy: 110.00, maxSell: 140.00 },
-					"NKE": { name: "Nike, Inc. (NKE)", currency: "USD ($)", symbol: "$", reportDate: "Q4 FY2026 (Junho 2026)", price: 75.20, shares: 1500.0, revenue: 51300, grossProfit: 22800, ebit: 6200, netIncome: 5700, totalDebt: 12100, cash: 7500, equity: 14300, fco: 6800, capex: 950, div: 1.48, minBuy: 70.00, maxSell: 95.00 },
-					"AAPL": { name: "Apple Inc. (AAPL)", currency: "USD ($)", symbol: "$", reportDate: "Q3 FY2026 (Agosto 2026)", price: 222.50, shares: 15200.0, revenue: 385600, grossProfit: 170700, ebit: 114300, netIncome: 93700, totalDebt: 104600, cash: 61800, equity: 62100, fco: 118200, capex: 9400, div: 1.00, minBuy: 195.00, maxSell: 245.00 },
-					"MSFT": { name: "Microsoft Corp (MSFT)", currency: "USD ($)", symbol: "$", reportDate: "Q4 FY2026 (Julho 2026)", price: 410.00, shares: 7430.0, revenue: 245100, grossProfit: 170000, ebit: 109400, netIncome: 88100, totalDebt: 79000, cash: 75500, equity: 268000, fco: 118500, capex: 44500, div: 3.00, minBuy: 370.00, maxSell: 450.00 }
+					"NOVO-B.CO": { name: "Novo Nordisk A/S (NOVO-B.CO)", currency: "DKK (Danish Krone)", symbol: "DKK", reportDate: "H1 2026 (04/08/2026 - Annualized for Valuation)", price: 840.00, shares: 4460.0, revenue: 303822, grossProfit: 257000, ebit: 173040, netIncome: 139092, totalDebt: 32000, cash: 18500, equity: 94000, fco: 158566, capex: 49680, div: 15.84, minBuy: 780.00, maxSell: 950.00 },
+					"NVO": { name: "Novo Nordisk A/S ADR (NVO)", currency: "USD ($)", symbol: "$", reportDate: "H1 2026 (04/08/2026 - Annualized for Valuation)", price: 124.50, shares: 4460.0, revenue: 43400, grossProfit: 36700, ebit: 24720, netIncome: 19870, totalDebt: 4500, cash: 2600, equity: 13400, fco: 22640, capex: 7100, div: 2.26, minBuy: 110.00, maxSell: 140.00 },
+					"NKE": { name: "Nike, Inc. (NKE)", currency: "USD ($)", symbol: "$", reportDate: "Q4 FY2026 (June 2026)", price: 75.20, shares: 1500.0, revenue: 51300, grossProfit: 22800, ebit: 6200, netIncome: 5700, totalDebt: 12100, cash: 7500, equity: 14300, fco: 6800, capex: 950, div: 1.48, minBuy: 70.00, maxSell: 95.00 },
+					"AAPL": { name: "Apple Inc. (AAPL)", currency: "USD ($)", symbol: "$", reportDate: "Q3 FY2026 (August 2026)", price: 222.50, shares: 15200.0, revenue: 385600, grossProfit: 170700, ebit: 114300, netIncome: 93700, totalDebt: 104600, cash: 61800, equity: 62100, fco: 118200, capex: 9400, div: 1.00, minBuy: 195.00, maxSell: 245.00 },
+					"MSFT": { name: "Microsoft Corp (MSFT)", currency: "USD ($)", symbol: "$", reportDate: "Q4 FY2026 (July 2026)", price: 410.00, shares: 7430.0, revenue: 245100, grossProfit: 170000, ebit: 109400, netIncome: 88100, totalDebt: 79000, cash: 75500, equity: 268000, fco: 118500, capex: 44500, div: 3.00, minBuy: 370.00, maxSell: 450.00 }
 				};
 
 				let currentCurrencySymbol = "€ / $ / DKK";
 
 				function updateCurrencyUI(currName, currSymbol) {
 					currentCurrencySymbol = currSymbol || currName || "€ / $";
-					document.getElementById('currencyBadge').innerText = '💱 Reporting Currency / Moeda: ' + (currName || "EUR / USD / DKK");
+					document.getElementById('currencyBadge').innerText = '💱 Reporting Currency: ' + (currName || "EUR / USD / DKK");
 					document.getElementById('labelStockPrice').innerText = 'Stock Price (' + currentCurrencySymbol + '):';
 					document.getElementById('labelDiv').innerText = 'Dividend Per Share (' + currentCurrencySymbol + '):';
 					document.getElementById('labelAlertMin').innerText = 'Target Buy Price / Minimum (' + currentCurrencySymbol + '):';
@@ -704,7 +665,7 @@ for item in watchlist:
 
 				function populateForm(data) {
 					document.getElementById('companyTitle').innerText = '📊 Company Metrics: ' + data.name;
-					document.getElementById('reportDateBadge').innerText = '📅 Data do Relatório: ' + data.reportDate;
+					document.getElementById('reportDateBadge').innerText = '📅 Filing Date: ' + data.reportDate;
 					updateCurrencyUI(data.currency, data.symbol);
 					document.getElementById('reportDate').value = data.reportDate;
 					document.getElementById('price').value = data.price;
@@ -738,7 +699,7 @@ for item in watchlist:
 					if (knownData[canonical]) {
 						const data = knownData[canonical];
 						populateForm(data);
-						showStatus('✅ Dados oficiais de <strong>' + data.name + '</strong> carregados! (DCF calibrado com Margem FCF Real)', 'success');
+						showStatus('✅ Official data for <strong>' + data.name + '</strong> loaded! (DCF calibrated with Actual FCF Margin)', 'success');
 						return true;
 					}
 
@@ -761,14 +722,14 @@ for item in watchlist:
 								const companyName = quote.longName || quote.shortName || displayName || symbolToLoad;
 								const currencyCode = quote.currency || quote.financialCurrency || "USD";
 								
-								let rDate = "Relatório Recente Q2 2026";
+								let rDate = "Recent Report Q2 2026";
 								if (quote.mostRecentQuarter) {
 									const d = new Date(quote.mostRecentQuarter * 1000);
-									rDate = d.toLocaleDateString('pt-PT') + " (Q" + (Math.floor(d.getMonth() / 3) + 1) + " " + d.getFullYear() + ")";
+									rDate = d.toLocaleDateString('en-US') + " (Q" + (Math.floor(d.getMonth() / 3) + 1) + " " + d.getFullYear() + ")";
 								}
 
 								document.getElementById('companyTitle').innerText = '📊 Company Metrics: ' + companyName + ' (' + symbolToLoad + ')';
-								document.getElementById('reportDateBadge').innerText = '📅 Data do Último Relatório: ' + rDate;
+								document.getElementById('reportDateBadge').innerText = '📅 Latest Report Date: ' + rDate;
 								updateCurrencyUI(currencyCode, currencyCode);
 
 								document.getElementById('reportDate').value = rDate;
@@ -777,7 +738,7 @@ for item in watchlist:
 								document.getElementById('alertMin').value = price > 0 ? (price * 0.85).toFixed(2) : '';
 								document.getElementById('alertMax').value = price > 0 ? (price * 1.15).toFixed(2) : '';
 								calculateAll();
-								showStatus('✅ Cotação de <strong>' + companyName + ' (' + symbolToLoad + ')</strong> em ' + currencyCode + ' carregada com sucesso!', 'success');
+								showStatus('✅ Quote for <strong>' + companyName + ' (' + symbolToLoad + ')</strong> in ' + currencyCode + ' loaded successfully!', 'success');
 								return true;
 							}
 						} catch(e) {
@@ -790,14 +751,14 @@ for item in watchlist:
 				async function fetchTickerData() {
 					const inputRaw = document.getElementById('tickerInput').value.trim();
 					if(!inputRaw) {
-						showStatus('⚠️ Por favor, introduza um código ou nome de empresa (ex: NOVO-B, ADS.DE, AAPL, NKE, Novo Nordisk).', 'warning');
+						showStatus('⚠️ Please enter a ticker symbol or company name (e.g., NOVO-B, ADS.DE, AAPL, NKE, Novo Nordisk).', 'warning');
 						return;
 					}
 
 					const cleanInput = inputRaw.toUpperCase().replace(/\s+/g, ' ');
 					const canonical = aliasMap[cleanInput] || aliasMap[inputRaw.toUpperCase()] || cleanInput;
 
-					showStatus('⏳ A carregar dados financeiros para "<strong>' + inputRaw + '</strong>"...', 'loading');
+					showStatus('⏳ Loading financial data for "<strong>' + inputRaw + '</strong>"...', 'loading');
 
 					// 1. Direct or alias match
 					const directSuccess = await loadSymbolQuote(canonical, inputRaw);
@@ -813,13 +774,13 @@ for item in watchlist:
 							const topMatch = quotes[0];
 							const loaded = await loadSymbolQuote(topMatch.symbol, topMatch.shortname || topMatch.longname);
 
-							let suggestionsHTML = '💡 Ticker "<strong>' + inputRaw + '</strong>" não encontrado diretamente.<br />';
+							let suggestionsHTML = '💡 Ticker "<strong>' + inputRaw + '</strong>" not found directly.<br />';
 							if(loaded) {
-								suggestionsHTML += 'Carregámos a melhor correspondência: <strong>' + (topMatch.shortname || topMatch.symbol) + ' (' + topMatch.symbol + ')</strong>.<br />';
+								suggestionsHTML += 'Loaded best match: <strong>' + (topMatch.shortname || topMatch.symbol) + ' (' + topMatch.symbol + ')</strong>.<br />';
 							}
 							
 							if(quotes.length > 1) {
-								suggestionsHTML += '<span style="display:block; margin-top:0.3rem;">Outras sugestões encontradas: ';
+								suggestionsHTML += '<span style="display:block; margin-top:0.3rem;">Other suggestions found: ';
 								quotes.slice(0, 4).forEach(q => {
 									suggestionsHTML += '<button class="suggestion-btn" onclick="document.getElementById(\'tickerInput\').value=\'' + q.symbol + '\'; fetchTickerData();">' + q.symbol + ' (' + (q.shortname || q.symbol) + ')</button> ';
 								});
@@ -832,7 +793,7 @@ for item in watchlist:
 						console.log('Search API failed:', e);
 					}
 
-					showStatus('❌ Nenhuma empresa encontrada para "<strong>' + inputRaw + '</strong>". Experimente introduzir <code>NOVO-B</code>, <code>ADS.DE</code>, <code>AAPL</code> ou <code>NKE</code>.', 'error');
+					showStatus('❌ No company found for "<strong>' + inputRaw + '</strong>". Try entering <code>NOVO-B</code>, <code>ADS.DE</code>, <code>AAPL</code>, or <code>NKE</code>.', 'error');
 				}
 
 				function calculateAll() {
@@ -977,7 +938,7 @@ for item in watchlist:
 					if (showFeedback) {
 						statusBox.className = 'status-msg status-success';
 						statusBox.style.display = 'block';
-						statusBox.innerHTML = '💾 Credenciais guardadas com sucesso no seu navegador!';
+						statusBox.innerHTML = '💾 Credentials saved successfully in your browser!';
 						setTimeout(() => { statusBox.style.display = 'none'; }, 4000);
 					}
 					updatePythonSnippet();
@@ -998,13 +959,13 @@ for item in watchlist:
 					if (!token) {
 						summaryBox.className = 'status-msg status-warning';
 						summaryBox.style.display = 'block';
-						summaryBox.innerHTML = '⚠️ Para sincronizar com o GitHub em 1-Clique, insira um <strong>GitHub Personal Access Token (PAT)</strong> no campo de configuração acima.';
+						summaryBox.innerHTML = '⚠️ To sync with GitHub in 1-Click, enter a <strong>GitHub Personal Access Token (PAT)</strong> in the configuration field above.';
 						return;
 					}
 
 					summaryBox.className = 'status-msg status-loading';
 					summaryBox.style.display = 'block';
-					summaryBox.innerHTML = '⏳ A enviar a Watchlist atualizada diretamente para o seu ficheiro <code>watchlist.json</code> no GitHub...';
+					summaryBox.innerHTML = '⏳ Sending updated Watchlist directly to your <code>watchlist.json</code> file on GitHub...';
 
 					try {
 						const repoOwner = 'samorim3';
@@ -1057,14 +1018,14 @@ for item in watchlist:
 
 						if (putRes.ok) {
 							summaryBox.className = 'status-msg status-success';
-							summaryBox.innerHTML = '🚀 <strong>SUCESSO!</strong> O ficheiro <code>watchlist.json</code> foi atualizado no GitHub! O robô automático 24/7 já está a usar os seus novos limites.';
+							summaryBox.innerHTML = '🚀 <strong>SUCCESS!</strong> The <code>watchlist.json</code> file was updated on GitHub! The 24/7 automated bot is now using your new thresholds.';
 						} else {
 							const errData = await putRes.json();
-							throw new Error(errData.message || 'Erro de autorização no Token do GitHub.');
+							throw new Error(errData.message || 'Authorization error with GitHub Token.');
 						}
 					} catch(e) {
 						summaryBox.className = 'status-msg status-error';
-						summaryBox.innerHTML = '❌ Falha ao sincronizar com GitHub: ' + e.message;
+						summaryBox.innerHTML = '❌ Failed to sync with GitHub: ' + e.message;
 					}
 				}
 
@@ -1073,7 +1034,7 @@ for item in watchlist:
 					const chatId = document.getElementById('telegramChatId').value.trim();
 
 					if (!token || !chatId) {
-						throw new Error("Por favor, preencha o Bot Token e o Chat ID do Telegram nas configurações acima.");
+						throw new Error("Please fill in the Telegram Bot Token and Chat ID in the settings above.");
 					}
 
 					const url = 'https://api.telegram.org/bot' + token + '/sendMessage';
@@ -1089,7 +1050,7 @@ for item in watchlist:
 
 					const resData = await response.json();
 					if (!resData.ok) {
-						throw new Error(resData.description || "Erro ao comunicar com a API do Telegram.");
+						throw new Error(resData.description || "Error communicating with Telegram API.");
 					}
 					return resData;
 				}
@@ -1099,15 +1060,15 @@ for item in watchlist:
 					const statusBox = document.getElementById('telegramStatusBox');
 					statusBox.className = 'status-msg status-loading';
 					statusBox.style.display = 'block';
-					statusBox.innerHTML = '⏳ A enviar mensagem de teste para o Telegram...';
+					statusBox.innerHTML = '⏳ Sending test message to Telegram...';
 
 					try {
-						await sendTelegramMessage("🧪 *TESTE DE ALERTA TELEGRAM*\n\nConexão estabelecida com sucesso! O seu sistema de Watchlist e Alertas está operacional.");
+						await sendTelegramMessage("🧪 *TELEGRAM ALERT TEST*\n\nConnection established successfully! Your Watchlist & Alert system is operational.");
 						statusBox.className = 'status-msg status-success';
-						statusBox.innerHTML = '✅ Mensagem enviada com sucesso! Verifique a sua conversa no Telegram.';
+						statusBox.innerHTML = '✅ Message sent successfully! Check your Telegram chat.';
 					} catch(e) {
 						statusBox.className = 'status-msg status-error';
-						statusBox.innerHTML = '❌ Falha ao enviar alerta: ' + e.message;
+						statusBox.innerHTML = '❌ Failed to send alert: ' + e.message;
 					}
 				}
 
@@ -1117,7 +1078,7 @@ for item in watchlist:
 					tbody.innerHTML = '';
 
 					if (watchlist.length === 0) {
-						tbody.innerHTML = '<tr><td colspan="6" style="text-align:center; padding: 1.5rem; color: #718096;">Nenhuma empresa na Watchlist. Adicione uma empresa acima ou repor a lista padrão.</td></tr>';
+						tbody.innerHTML = '<tr><td colspan="6" style="text-align:center; padding: 1.5rem; color: #718096;">No companies in Watchlist. Add a company above or reset to default list.</td></tr>';
 						return;
 					}
 
@@ -1125,11 +1086,11 @@ for item in watchlist:
 						const tr = document.createElement('tr');
 						tr.style.borderBottom = '1px solid #e2e8f0';
 
-						let statusBadge = '<span class="badge-hold">🟡 NEUTRO</span>';
+						let statusBadge = '<span class="badge-hold">🟡 HOLD</span>';
 						if (item.status === 'BUY') {
-							statusBadge = '<span class="badge-buy">🟢 COMPRA</span>';
+							statusBadge = '<span class="badge-buy">🟢 BUY</span>';
 						} else if (item.status === 'SELL') {
-							statusBadge = '<span class="badge-sell">🔴 VENDA</span>';
+							statusBadge = '<span class="badge-sell">🔴 SELL</span>';
 						}
 
 						const lastPriceStr = item.lastPrice > 0 ? item.lastPrice.toFixed(2) : '-';
@@ -1151,8 +1112,8 @@ for item in watchlist:
 								statusBadge +
 							'</td>' +
 							'<td style="padding: 0.6rem; text-align: center;">' +
-								'<button type="button" class="suggestion-btn" title="Analisar na Ferramenta" onclick="analyzeWatchlistItem(\'' + item.ticker + '\')">📊 Analisar</button> ' +
-								'<button type="button" class="action-btn-icon" style="background:#e53e3e; color:white;" title="Remover" onclick="deleteWatchlistItem(' + index + ')">🗑️</button>' +
+								'<button type="button" class="suggestion-btn" title="Analyze in Tool" onclick="analyzeWatchlistItem(\'' + item.ticker + '\')">📊 Analyze</button> ' +
+								'<button type="button" class="action-btn-icon" style="background:#e53e3e; color:white;" title="Remove" onclick="deleteWatchlistItem(' + index + ')">🗑️</button>' +
 							'</td>';
 						tbody.appendChild(tr);
 					});
@@ -1163,7 +1124,7 @@ for item in watchlist:
 					if (watchlist[index]) {
 						watchlist[index][field] = numVal;
 						saveWatchlistToStorage();
-						showWatchlistSummary('💾 Limites de <strong>' + watchlist[index].ticker + '</strong> guardados com sucesso no navegador!', 'success');
+						showWatchlistSummary('💾 Thresholds for <strong>' + watchlist[index].ticker + '</strong> saved successfully in browser!', 'success');
 					}
 				}
 
@@ -1172,14 +1133,14 @@ for item in watchlist:
 						const removed = watchlist.splice(index, 1);
 						saveWatchlistToStorage();
 						renderWatchlistTable();
-						showWatchlistSummary('🗑️ Empresa <strong>' + removed[0].ticker + '</strong> removida da sua Watchlist.', 'warning');
+						showWatchlistSummary('🗑️ Company <strong>' + removed[0].ticker + '</strong> removed from Watchlist.', 'warning');
 					}
 				}
 
 				function addWatchlistItem(ticker, name, minBuy, maxSell) {
 					const cleanTicker = ticker.trim().toUpperCase();
 					if (!cleanTicker) {
-						showWatchlistSummary('⚠️ Por favor insira um código Ticker válido.', 'warning');
+						showWatchlistSummary('⚠️ Please enter a valid Ticker symbol.', 'warning');
 						return;
 					}
 
@@ -1188,7 +1149,7 @@ for item in watchlist:
 						watchlist[existingIndex].minBuy = parseFloat(minBuy) || watchlist[existingIndex].minBuy;
 						watchlist[existingIndex].maxSell = parseFloat(maxSell) || watchlist[existingIndex].maxSell;
 						if (name) watchlist[existingIndex].name = name;
-						showWatchlistSummary('🔄 Empresa <strong>' + cleanTicker + '</strong> já existia e os seus limites foram atualizados!', 'success');
+						showWatchlistSummary('🔄 Company <strong>' + cleanTicker + '</strong> already existed and its thresholds were updated!', 'success');
 					} else {
 						watchlist.push({
 							ticker: cleanTicker,
@@ -1198,7 +1159,7 @@ for item in watchlist:
 							lastPrice: 0,
 							status: "HOLD"
 						});
-						showWatchlistSummary('✅ Empresa <strong>' + cleanTicker + '</strong> adicionada à Watchlist com sucesso!', 'success');
+						showWatchlistSummary('✅ Company <strong>' + cleanTicker + '</strong> added to Watchlist successfully!', 'success');
 					}
 
 					saveWatchlistToStorage();
@@ -1226,7 +1187,7 @@ for item in watchlist:
 					const maxSell = document.getElementById('alertMax').value;
 
 					if (!tickerInput && !companyTitle) {
-						showWatchlistSummary('⚠️ Nenhuma empresa carregada atualmente para adicionar.', 'warning');
+						showWatchlistSummary('⚠️ No company currently loaded to add.', 'warning');
 						return;
 					}
 
@@ -1238,7 +1199,7 @@ for item in watchlist:
 					watchlist = JSON.parse(JSON.stringify(DEFAULT_WATCHLIST));
 					saveWatchlistToStorage();
 					renderWatchlistTable();
-					showWatchlistSummary('🔄 Watchlist restaurada para os valores padrão com sucesso.', 'success');
+					showWatchlistSummary('🔄 Watchlist restored to default values successfully.', 'success');
 				}
 
 				function showWatchlistSummary(msg, type) {
@@ -1257,7 +1218,7 @@ for item in watchlist:
 
 				async function checkAllWatchlistAlerts() {
 					if (watchlist.length === 0) {
-						showWatchlistSummary('⚠️ A Watchlist está vazia. Adicione empresas primeiro.', 'warning');
+						showWatchlistSummary('⚠️ Watchlist is empty. Add companies first.', 'warning');
 						return;
 					}
 
@@ -1265,7 +1226,7 @@ for item in watchlist:
 					const summaryBox = document.getElementById('watchlistSummaryBox');
 					summaryBox.className = 'status-msg status-loading';
 					summaryBox.style.display = 'block';
-					summaryBox.innerHTML = '⏳ A verificar cotações em tempo real para ' + watchlist.length + ' empresas...';
+					summaryBox.innerHTML = '⏳ Checking live quotes for ' + watchlist.length + ' companies...';
 
 					let alertsSent = 0;
 					let errors = 0;
@@ -1298,13 +1259,13 @@ for item in watchlist:
 							if (item.minBuy > 0 && currentPrice <= item.minBuy) {
 								item.status = 'BUY';
 								try {
-									await sendTelegramMessage('🟢 *ALERTA DE COMPRA:* ' + item.ticker + ' (' + item.name + ')\nCotação Atual: *' + currentPrice.toFixed(2) + '*\nMínimo Target (Compra): ' + item.minBuy.toFixed(2));
+									await sendTelegramMessage('🟢 *BUY ALERT:* ' + item.ticker + ' (' + item.name + ')\nCurrent Price: *' + currentPrice.toFixed(2) + '*\nTarget Buy Price: ' + item.minBuy.toFixed(2));
 									alertsSent++;
 								} catch(err) { errors++; }
 							} else if (item.maxSell > 0 && currentPrice >= item.maxSell) {
 								item.status = 'SELL';
 								try {
-									await sendTelegramMessage('🔴 *ALERTA DE VENDA:* ' + item.ticker + ' (' + item.name + ')\nCotação Atual: *' + currentPrice.toFixed(2) + '*\nMáximo Target (Venda): ' + item.maxSell.toFixed(2));
+									await sendTelegramMessage('🔴 *SELL ALERT:* ' + item.ticker + ' (' + item.name + ')\nCurrent Price: *' + currentPrice.toFixed(2) + '*\nTarget Sell Price: ' + item.maxSell.toFixed(2));
 									alertsSent++;
 								} catch(err) { errors++; }
 							} else {
@@ -1316,56 +1277,21 @@ for item in watchlist:
 					saveWatchlistToStorage();
 					renderWatchlistTable();
 
-					let summaryText = '✅ Verificação concluída! ' + watchlist.length + ' empresas atualizadas.';
+					let summaryText = '✅ Check complete! ' + watchlist.length + ' companies updated.';
 					if (alertsSent > 0) {
-						summaryText += ' 🚀 <strong>' + alertsSent + ' alerta(s) de Telegram enviado(s)!</strong>';
+						summaryText += ' 🚀 <strong>' + alertsSent + ' Telegram alert(s) sent!</strong>';
 					} else {
-						summaryText += ' (Nenhuma cotação ultrapassou os limites configurados).';
+						summaryText += ' (No prices crossed configured threshold limits).';
 					}
 					if (errors > 0) {
-						summaryText += ' ⚠️ Nota: Ocorreram ' + errors + ' erro(s) ao enviar para o Telegram (verifique o Token/ChatID).';
+						summaryText += ' ⚠️ Note: ' + errors + ' error(s) occurred sending to Telegram (check Token/ChatID).';
 					}
 
 					summaryBox.className = 'status-msg status-success';
 					summaryBox.innerHTML = summaryText;
 				}
 
-				function updatePythonSnippet() {
-					const codeElem = document.getElementById('pythonCodeSnippet');
-					if (!codeElem) return;
-
-					const token = document.getElementById('telegramToken').value.trim() || "YOUR_BOT_TOKEN";
-					const chatId = document.getElementById('telegramChatId').value.trim() || "YOUR_CHAT_ID";
-
-					const watchlistArrayStr = JSON.stringify(watchlist.map(w => ({
-						ticker: w.ticker,
-						buy: w.minBuy,
-						sell: w.maxSell
-					})), null, 4);
-
-					codeElem.innerText = 'import yfinance as yf\n' +
-'import requests\n\n' +
-'TELEGRAM_BOT_TOKEN = "' + token + '"\n' +
-'TELEGRAM_CHAT_ID = "' + chatId + '"\n\n' +
-'def send_alert(msg):\n' +
-'    url = f"https://api.telegram.org/bot{TELEGRAM_BOT_TOKEN}/sendMessage"\n' +
-'    requests.post(url, json={"chat_id": TELEGRAM_CHAT_ID, "text": msg, "parse_mode": "Markdown"})\n\n' +
-'def check_objective_metrics(ticker_symbol, target_buy, target_sell):\n' +
-'    ticker = yf.Ticker(ticker_symbol)\n' +
-'    info = ticker.info\n' +
-'    price = info.get(\'currentPrice\') or info.get(\'regularMarketPrice\')\n' +
-'    \n' +
-'    if not price: return\n' +
-'    \n' +
-'    if price <= target_buy:\n' +
-'        send_alert(f"🟢 *BUY ALERT:* {ticker_symbol} price is {price:.2f} (Target Buy: {target_buy:.2f})")\n' +
-'    elif price >= target_sell:\n' +
-'        send_alert(f"🔴 *SELL ALERT:* {ticker_symbol} price is {price:.2f} (Target Sell: {target_sell:.2f})")\n\n' +
-'# Executar verificação para a sua Watchlist personalizada\n' +
-'watchlist = ' + watchlistArrayStr + '\n\n' +
-'for item in watchlist:\n' +
-'    check_objective_metrics(item["ticker"], item["buy"], item["sell"])';
-				}
+				function updatePythonSnippet() {}
 
 				// Initialize Watchlist on Page Load
 				window.addEventListener('DOMContentLoaded', () => {

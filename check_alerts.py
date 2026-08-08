@@ -1,7 +1,11 @@
 import os
 import json
+import socket
 import requests
 import yfinance as yf
+
+# Set global socket timeout (15s) to prevent requests hanging indefinitely
+socket.setdefaulttimeout(15)
 
 TELEGRAM_BOT_TOKEN = os.environ.get("TELEGRAM_BOT_TOKEN")
 TELEGRAM_CHAT_ID = os.environ.get("TELEGRAM_CHAT_ID")
@@ -31,6 +35,51 @@ def send_telegram_alert(msg):
         print(f"❌ Exception sending Telegram alert: {e}")
         return False
 
+def get_current_price(ticker_symbol):
+    """
+    Attempts multiple fast and resilient methods to fetch current price via yfinance.
+    """
+    try:
+        ticker = yf.Ticker(ticker_symbol)
+
+        # Method 1: Try fast_info attributes (fastest and lightest)
+        try:
+            fast_info = getattr(ticker, 'fast_info', None)
+            if fast_info:
+                if hasattr(fast_info, 'last_price') and fast_info.last_price is not None:
+                    return float(fast_info.last_price)
+                if hasattr(fast_info, 'lastPrice') and fast_info.lastPrice is not None:
+                    return float(fast_info.lastPrice)
+                if isinstance(fast_info, dict):
+                    price = fast_info.get('lastPrice') or fast_info.get('last_price')
+                    if price:
+                        return float(price)
+        except Exception as e:
+            print(f"  ℹ️ fast_info fetch failed for {ticker_symbol}: {e}")
+
+        # Method 2: Try 1-day history (fast & reliable Yahoo historical endpoint)
+        try:
+            df = ticker.history(period="1d", timeout=10)
+            if not df.empty and 'Close' in df.columns:
+                return float(df['Close'].iloc[-1])
+        except Exception as e:
+            print(f"  ℹ️ history fetch failed for {ticker_symbol}: {e}")
+
+        # Method 3: Fallback to ticker.info (heavy web scraper call)
+        try:
+            info = ticker.info
+            if info:
+                price = info.get('currentPrice') or info.get('regularMarketPrice') or info.get('previousClose')
+                if price:
+                    return float(price)
+        except Exception as e:
+            print(f"  ℹ️ ticker.info fetch failed for {ticker_symbol}: {e}")
+
+    except Exception as e:
+        print(f"  ❌ Exception fetching ticker {ticker_symbol}: {e}")
+
+    return None
+
 def main():
     watchlist_path = os.path.join(os.path.dirname(__file__), "watchlist.json")
     if not os.path.exists(watchlist_path):
@@ -48,29 +97,19 @@ def main():
         min_buy = float(item.get("minBuy", 0))
         max_sell = float(item.get("maxSell", 0))
 
-        try:
-            ticker = yf.Ticker(ticker_symbol)
-            fast_info = getattr(ticker, 'fast_info', None)
-            price = None
-            if fast_info and 'lastPrice' in fast_info:
-                price = fast_info['lastPrice']
-            if not price:
-                info = ticker.info
-                price = info.get('currentPrice') or info.get('regularMarketPrice')
+        price = get_current_price(ticker_symbol)
 
-            if not price:
-                print(f"⚠️ Could not fetch price for {ticker_symbol}")
-                continue
+        if price is None:
+            print(f"⚠️ Could not fetch price for {ticker_symbol}")
+            continue
 
-            print(f"📊 {ticker_symbol} ({name}): Current Price = {price:.2f} | Target Buy = {min_buy:.2f} | Target Sell = {max_sell:.2f}")
+        print(f"📊 {ticker_symbol} ({name}): Current Price = {price:.2f} | Target Buy = {min_buy:.2f} | Target Sell = {max_sell:.2f}")
 
-            if min_buy > 0 and price <= min_buy:
-                send_telegram_alert(f"🟢 *ALERTA DE COMPRA:* {ticker_symbol} ({name})\nCotação Atual: *{price:.2f}*\nMínimo Target (Compra): {min_buy:.2f}")
-            elif max_sell > 0 and price >= max_sell:
-                send_telegram_alert(f"🔴 *ALERTA DE VENDA:* {ticker_symbol} ({name})\nCotação Atual: *{price:.2f}*\nMáximo Target (Venda): {max_sell:.2f}")
-
-        except Exception as e:
-            print(f"❌ Error checking {ticker_symbol}: {e}")
+        if min_buy > 0 and price <= min_buy:
+            send_telegram_alert(f"🟢 *BUY ALERT:* {ticker_symbol} ({name})\nCurrent Price: *{price:.2f}*\nTarget Buy Price: {min_buy:.2f}")
+        elif max_sell > 0 and price >= max_sell:
+            send_telegram_alert(f"🔴 *SELL ALERT:* {ticker_symbol} ({name})\nCurrent Price: *{price:.2f}*\nTarget Sell Price: {max_sell:.2f}")
 
 if __name__ == "__main__":
     main()
+
