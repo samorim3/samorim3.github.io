@@ -20,166 +20,244 @@
 
 		  gtag('config', 'G-W76N1EJ13Q');
 		</script>
+		<link rel="preconnect" href="https://fonts.googleapis.com">
+		<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+		<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 		<style>
-			/* Custom Valuation Tool Styling */
+			/* Modern French Editorial Visual Design System */
+			body, input, button, select, textarea {
+				font-family: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+			}
+
 			.tool-container {
-				background: #f8f9fa;
-				border: 1px solid #e2e8f0;
-				border-radius: 8px;
-				padding: 2rem;
-				margin: 1rem 0 2rem 0;
-				color: #2d3748;
+				background: #ffffff;
+				border: 1px solid rgba(226, 232, 240, 0.8);
+				border-radius: 24px;
+				padding: 2.25rem 2.5rem;
+				margin: 2rem 0 3rem 0;
+				box-shadow: 0 20px 45px -15px rgba(15, 23, 42, 0.05), 0 0 1px 1px rgba(15, 23, 42, 0.02);
+				color: #1e293b;
 			}
-			.badge-buy {
-				background: #c6f6d5;
-				color: #22543d;
-				border: 1px solid #9ae6b4;
-				padding: 0.2rem 0.5rem;
-				border-radius: 4px;
-				font-weight: bold;
-				font-size: 0.8rem;
-			}
-			.badge-sell {
-				background: #fed7d7;
-				color: #9b2c2c;
-				border: 1px solid #feb2b2;
-				padding: 0.2rem 0.5rem;
-				border-radius: 4px;
-				font-weight: bold;
-				font-size: 0.8rem;
-			}
-			.badge-hold {
-				background: #feebc8;
-				color: #7b341e;
-				border: 1px solid #fbd38d;
-				padding: 0.2rem 0.5rem;
-				border-radius: 4px;
-				font-weight: bold;
-				font-size: 0.8rem;
-			}
-			.action-btn-icon {
-				padding: 0.25rem 0.5rem;
-				font-size: 0.8rem;
-				margin: 0.1rem;
-				cursor: pointer;
-				border-radius: 4px;
-				border: none;
-			}
+
 			.search-bar-box {
-				background: #edf2f7;
-				border: 2px solid #cbd5e0;
-				border-radius: 8px;
-				padding: 1.25rem 1.5rem;
-				margin-bottom: 1.5rem;
+				background: linear-gradient(135deg, #f8fafc 0%, #f1f5f9 100%);
+				border: 1px solid #e2e8f0;
+				border-radius: 20px;
+				padding: 1.75rem 2rem;
+				margin-bottom: 2rem;
+				box-shadow: inset 0 2px 4px rgba(255, 255, 255, 0.8);
 			}
+
 			.search-input-wrapper {
 				display: flex;
 				gap: 0.75rem;
 				width: 100%;
+				margin-top: 0.5rem;
 			}
+
 			.search-input-wrapper input {
-				font-size: 1.1rem;
-				font-weight: bold;
+				font-family: 'Plus Jakarta Sans', sans-serif;
+				font-size: 1rem;
+				font-weight: 700;
+				letter-spacing: 0.05em;
 				text-transform: uppercase;
 				flex-grow: 1;
+				border-radius: 14px;
+				border: 1px solid #cbd5e1;
+				background: #ffffff;
+				padding: 0.75rem 1.25rem;
+				color: #0f172a;
+				transition: all 0.2s ease;
+				box-shadow: 0 2px 4px rgba(0,0,0,0.02);
 			}
+
+			.search-input-wrapper input:focus {
+				outline: none;
+				border-color: #2563eb;
+				box-shadow: 0 0 0 4px rgba(37, 99, 235, 0.12);
+			}
+
+			/* French Pill Buttons */
+			.french-btn {
+				font-family: 'Plus Jakarta Sans', sans-serif;
+				display: inline-flex;
+				align-items: center;
+				justify-content: center;
+				gap: 0.5rem;
+				padding: 0.7rem 1.4rem;
+				font-size: 0.85rem;
+				font-weight: 700;
+				border-radius: 9999px;
+				cursor: pointer;
+				transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+				border: none;
+				text-decoration: none !important;
+				white-space: nowrap;
+				letter-spacing: 0.01em;
+			}
+
+			.french-btn-dark {
+				background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%);
+				color: #ffffff !important;
+				box-shadow: 0 4px 14px rgba(15, 23, 42, 0.15);
+			}
+
+			.french-btn-dark:hover {
+				transform: translateY(-2px);
+				box-shadow: 0 8px 20px rgba(15, 23, 42, 0.25);
+				background: linear-gradient(135deg, #1e293b 0%, #334155 100%);
+			}
+
+			.french-btn-blue {
+				background: linear-gradient(135deg, #2563eb 0%, #1d4ed8 100%);
+				color: #ffffff !important;
+				box-shadow: 0 4px 14px rgba(37, 99, 235, 0.2);
+			}
+
+			.french-btn-blue:hover {
+				transform: translateY(-2px);
+				box-shadow: 0 8px 22px rgba(37, 99, 235, 0.35);
+			}
+
+			.french-btn-outline {
+				background: #ffffff;
+				color: #334155 !important;
+				border: 1px solid #cbd5e1;
+				box-shadow: 0 2px 6px rgba(0,0,0,0.03);
+			}
+
+			.french-btn-outline:hover {
+				background: #f8fafc;
+				border-color: #94a3b8;
+				color: #0f172a !important;
+				transform: translateY(-1px);
+			}
+
 			.status-msg {
-				margin-top: 0.75rem;
-				padding: 0.6rem 1rem;
-				border-radius: 6px;
-				font-size: 0.9rem;
-				font-weight: bold;
+				margin-top: 1rem;
+				padding: 0.85rem 1.25rem;
+				border-radius: 14px;
+				font-size: 0.88rem;
+				font-weight: 700;
 				display: none;
 			}
+
 			.status-loading {
-				background: #e2e8f0;
-				color: #2d3748;
-				border: 1px solid #cbd5e0;
+				background: #f1f5f9;
+				color: #334155;
+				border: 1px solid #cbd5e1;
 				display: block;
 			}
+
 			.status-error {
-				background: #fed7d7;
-				color: #9b2c2c;
-				border: 1px solid #feb2b2;
+				background: #fff1f2;
+				color: #be123c;
+				border: 1px solid #fecdd3;
 				display: block;
 			}
+
 			.status-success {
-				background: #c6f6d5;
-				color: #22543d;
-				border: 1px solid #9ae6b4;
+				background: #ecfdf5;
+				color: #047857;
+				border: 1px solid #a7f3d0;
 				display: block;
 			}
+
 			.status-warning {
-				background: #feebc8;
-				color: #7b341e;
-				border: 1px solid #fbd38d;
+				background: #fffbeb;
+				color: #b45309;
+				border: 1px solid #fde68a;
 				display: block;
 			}
+
 			.suggestion-btn {
 				display: inline-block;
 				margin: 0.2rem 0.3rem 0.2rem 0;
-				padding: 0.25rem 0.6rem;
-				background: #3182ce;
-				color: white !important;
-				border-radius: 4px;
-				font-size: 0.8rem;
-				font-weight: bold;
+				padding: 0.3rem 0.75rem;
+				background: #2563eb;
+				color: #ffffff !important;
+				border-radius: 9999px;
+				font-size: 0.78rem;
+				font-weight: 700;
 				cursor: pointer;
 				text-decoration: none;
 				border: none;
+				transition: all 0.2s ease;
 			}
+
 			.suggestion-btn:hover {
-				background: #2b6cb0;
+				background: #1d4ed8;
+				transform: translateY(-1px);
 			}
+
 			.tool-grid {
 				display: grid;
 				grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
-				gap: 1.5rem;
+				gap: 1.75rem;
 				margin-bottom: 2rem;
 			}
+
 			.tool-card {
 				background: #ffffff;
-				border: 1px solid #cbd5e0;
-				border-radius: 6px;
-				padding: 1.25rem;
-				box-shadow: 0 2px 4px rgba(0,0,0,0.04);
-			}
-			.tool-card h4 {
-				margin: 0 0 0.75rem 0;
-				color: #1a202c;
-				font-size: 1.05rem;
-				border-bottom: 2px solid #3182ce;
-				padding-bottom: 0.4rem;
-			}
-			.input-group {
-				margin-bottom: 0.85rem;
-			}
-			.input-group label {
-				display: block;
-				font-size: 0.85rem;
-				font-weight: 600;
-				color: #4a5568;
-				margin-bottom: 0.25rem;
-				text-transform: none;
-				letter-spacing: normal;
-			}
-			.input-group input {
-				width: 100%;
-				padding: 0.4rem 0.6rem;
-				border: 1px solid #cbd5e0;
-				border-radius: 4px;
-				font-size: 0.95rem;
-				background: #fff;
-				color: #1a202c;
+				border: 1px solid #f1f5f9;
+				border-radius: 18px;
+				padding: 1.75rem;
+				box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.03), 0 4px 6px -2px rgba(0, 0, 0, 0.01);
+				transition: all 0.2s ease;
 			}
 
-			/* Readonly fixed official data fields */
+			.tool-card:hover {
+				border-color: #e2e8f0;
+				box-shadow: 0 15px 30px -5px rgba(0, 0, 0, 0.05);
+			}
+
+			.tool-card h4 {
+				margin: 0 0 1.25rem 0;
+				color: #0f172a;
+				font-size: 1.05rem;
+				font-weight: 800;
+				letter-spacing: -0.01em;
+				border-bottom: 2px solid #2563eb;
+				padding-bottom: 0.6rem;
+			}
+
+			.input-group {
+				margin-bottom: 1rem;
+			}
+
+			.input-group label {
+				display: block;
+				font-size: 0.75rem;
+				font-weight: 800;
+				color: #64748b;
+				margin-bottom: 0.35rem;
+				text-transform: uppercase;
+				letter-spacing: 0.05em;
+			}
+
+			.input-group input {
+				width: 100%;
+				padding: 0.6rem 0.85rem;
+				border: 1px solid #cbd5e1;
+				border-radius: 10px;
+				font-size: 0.95rem;
+				font-weight: 600;
+				background: #ffffff;
+				color: #0f172a;
+				transition: all 0.2s ease;
+			}
+
+			.input-group input:focus {
+				outline: none;
+				border-color: #2563eb;
+				box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.12);
+			}
+
 			.input-group input[readonly] {
-				background: #f7fafc !important;
-				color: #2d3748 !important;
-				border: 1px solid #e2e8f0 !important;
-				font-weight: bold;
-				cursor: default;
+				background: #f8fafc !important;
+				color: #334155 !important;
+				border-color: #e2e8f0 !important;
+				font-weight: 700;
 			}
 
 			/* Hide HTML5 number spinner arrows */
@@ -194,85 +272,178 @@
 
 			.metric-grid {
 				display: grid;
-				grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
-				gap: 1rem;
-				margin-top: 1rem;
+				grid-template-columns: repeat(auto-fit, minmax(170px, 1fr));
+				gap: 1.25rem;
+				margin-top: 1.25rem;
 			}
+
 			.metric-box {
-				background: #ebf8ff;
-				border: 1px solid #bee3f8;
-				border-radius: 6px;
-				padding: 1rem;
+				background: linear-gradient(135deg, #f0f9ff 0%, #e0f2fe 100%);
+				border: 1px solid #bae6fd;
+				border-radius: 14px;
+				padding: 1.1rem;
 				text-align: center;
+				transition: transform 0.2s ease;
 			}
+
+			.metric-box:hover {
+				transform: translateY(-2px);
+			}
+
 			.metric-box label {
 				display: block;
-				font-size: 0.75rem;
-				font-weight: bold;
-				color: #2b6cb0;
+				font-size: 0.72rem;
+				font-weight: 800;
+				color: #0369a1;
 				text-transform: uppercase;
-				margin-bottom: 0.2rem;
+				letter-spacing: 0.06em;
+				margin-bottom: 0.3rem;
 			}
+
 			.metric-value {
-				font-size: 1.4rem;
-				font-weight: 700;
-				color: #2c5282;
+				font-size: 1.45rem;
+				font-weight: 800;
+				color: #0c4a6e;
+				letter-spacing: -0.02em;
 			}
+
 			.alert-banner {
-				padding: 1.25rem;
-				border-radius: 6px;
+				padding: 1.25rem 1.5rem;
+				border-radius: 16px;
 				margin-top: 1.5rem;
-				font-weight: 600;
+				font-weight: 700;
 				text-align: center;
-				font-size: 1.1rem;
+				font-size: 1.05rem;
 				transition: all 0.3s ease;
 			}
+
 			.alert-buy {
-				background: #c6f6d5;
-				border: 2px solid #38a169;
-				color: #22543d;
+				background: #ecfdf5;
+				border: 2px solid #10b981;
+				color: #065f46;
+				box-shadow: 0 4px 12px rgba(16, 185, 129, 0.12);
 			}
+
 			.alert-sell {
-				background: #fed7d7;
-				border: 2px solid #e53e3e;
-				color: #742a2a;
+				background: #fff1f2;
+				border: 2px solid #f43f5e;
+				color: #9f1239;
+				box-shadow: 0 4px 12px rgba(244, 63, 94, 0.12);
 			}
+
 			.alert-hold {
-				background: #feebc8;
-				border: 2px solid #dd6b20;
-				color: #7b341e;
+				background: #fffbeb;
+				border: 2px solid #f59e0b;
+				color: #92400e;
+				box-shadow: 0 4px 12px rgba(245, 158, 11, 0.12);
 			}
+
 			.report-badge {
-				display: inline-block;
-				background: #edf2f7;
-				border: 1px solid #cbd5e0;
-				padding: 0.4rem 0.9rem;
-				border-radius: 20px;
-				font-size: 0.85rem;
-				font-weight: bold;
-				color: #2d3748;
+				display: inline-flex;
+				align-items: center;
+				gap: 0.4rem;
+				background: #f1f5f9;
+				border: 1px solid #cbd5e1;
+				padding: 0.45rem 1rem;
+				border-radius: 9999px;
+				font-size: 0.82rem;
+				font-weight: 700;
+				color: #334155;
 				margin-bottom: 1.25rem;
 				margin-right: 0.5rem;
 			}
+
 			.currency-badge {
-				display: inline-block;
-				background: #ebf8ff;
-				border: 1px solid #bee3f8;
-				padding: 0.4rem 0.9rem;
-				border-radius: 20px;
-				font-size: 0.85rem;
-				font-weight: bold;
-				color: #2b6cb0;
+				display: inline-flex;
+				align-items: center;
+				gap: 0.4rem;
+				background: #eff6ff;
+				border: 1px solid #bfdbfe;
+				padding: 0.45rem 1rem;
+				border-radius: 9999px;
+				font-size: 0.82rem;
+				font-weight: 700;
+				color: #1d4ed8;
 				margin-bottom: 1.25rem;
 			}
-			pre code {
-				background: #1a202c;
-				color: #e2e8f0;
-				padding: 1rem;
-				display: block;
-				border-radius: 6px;
+
+			/* Badges */
+			.badge-buy {
+				background: #ecfdf5;
+				color: #047857;
+				border: 1px solid #a7f3d0;
+				padding: 0.35rem 0.85rem;
+				border-radius: 9999px;
+				font-weight: 800;
+				font-size: 0.75rem;
+				letter-spacing: 0.04em;
+				display: inline-block;
+			}
+
+			.badge-sell {
+				background: #fff1f2;
+				color: #be123c;
+				border: 1px solid #fecdd3;
+				padding: 0.35rem 0.85rem;
+				border-radius: 9999px;
+				font-weight: 800;
+				font-size: 0.75rem;
+				letter-spacing: 0.04em;
+				display: inline-block;
+			}
+
+			.badge-hold {
+				background: #fffbeb;
+				color: #b45309;
+				border: 1px solid #fde68a;
+				padding: 0.35rem 0.85rem;
+				border-radius: 9999px;
+				font-weight: 800;
+				font-size: 0.75rem;
+				letter-spacing: 0.04em;
+				display: inline-block;
+			}
+
+			/* Watchlist Table Styling */
+			.table-container-french {
 				overflow-x: auto;
-				font-size: 0.85rem;
+				background: #ffffff;
+				border: 1px solid #e2e8f0;
+				border-radius: 16px;
+				box-shadow: 0 4px 12px rgba(0, 0, 0, 0.02);
+			}
+
+			.table-french {
+				width: 100%;
+				border-collapse: separate;
+				border-spacing: 0;
+				margin: 0;
+				font-size: 0.9rem;
+			}
+
+			.table-french th {
+				background: #f8fafc;
+				color: #475569;
+				font-size: 0.75rem;
+				font-weight: 800;
+				text-transform: uppercase;
+				letter-spacing: 0.06em;
+				padding: 1rem 1.25rem;
+				border-bottom: 2px solid #e2e8f0;
+			}
+
+			.table-french td {
+				padding: 1rem 1.25rem;
+				border-bottom: 1px solid #f1f5f9;
+				vertical-align: middle;
+			}
+
+			.table-french tr:last-child td {
+				border-bottom: none;
+			}
+
+			.table-french tr:hover td {
+				background: #f8fafc;
 			}
 		</style>
 	</head>
@@ -314,20 +485,20 @@
 									
 									<!-- Ticker Search Header -->
 									<div class="search-bar-box">
-										<label for="tickerInput" style="font-weight: bold; color: #1a202c; display: block; margin-bottom: 0.5rem;">🔍 Insert Company Ticker Symbol or Name:</label>
+										<label for="tickerInput" style="font-weight: 800; color: #0f172a; display: block; font-size: 0.85rem; text-transform: uppercase; letter-spacing: 0.05em; margin-bottom: 0.5rem;">🔍 Search Company Ticker Symbol or Name:</label>
 										<div class="search-input-wrapper">
-											<input type="text" id="tickerInput" value="" placeholder="e.g. NOVO-B, NOVO-B.CO, ADS.DE, AAPL, NKE, Adidas, Novo Nordisk" onkeypress="if(event.key === 'Enter') fetchTickerData()" />
-											<button onclick="fetchTickerData()" style="white-space: nowrap; height: auto;">Load Ticker Data</button>
+											<input type="text" id="tickerInput" value="" placeholder="e.g. GALP, NOVO-B, ADS.DE, AAPL, NKE, Adidas, Novo Nordisk" onkeypress="if(event.key === 'Enter') fetchTickerData()" />
+											<button onclick="fetchTickerData()" class="french-btn french-btn-dark">Load Ticker Data</button>
 										</div>
 										<div id="statusBox" class="status-msg"></div>
 									</div>
 
-									<h3 id="companyTitle" style="margin-top: 0; margin-bottom: 0.5rem; color: #1a202c;">📊 Company Objective Metrics</h3>
+									<h3 id="companyTitle" style="margin-top: 0; margin-bottom: 0.5rem; color: #0f172a; font-weight: 800;">📊 Company Objective Metrics</h3>
 									<div>
 										<div id="reportDateBadge" class="report-badge">📅 Financial Filing Date: N/A</div>
 										<div id="currencyBadge" class="currency-badge">💱 Reporting Currency: N/A</div>
 									</div>
-									<p style="font-size: 0.9rem; color: #4a5568;">Official corporate figures are displayed as fixed read-only data published by the company (annualized 12-month metrics for DCF valuation consistency).</p>
+									<p style="font-size: 0.9rem; color: #64748b; margin-bottom: 1.75rem;">Official corporate figures are displayed as fixed read-only data published by the company (annualized 12-month metrics for DCF valuation consistency).</p>
 
 									<div class="tool-grid">
 										<!-- Column 1: Market & Income Data -->
@@ -394,7 +565,7 @@
 									</div>
 
 									<!-- Calculated Ratios Grid -->
-									<h4 style="color: #1a202c; border-bottom: 2px solid #3182ce; padding-bottom: 0.4rem; margin-top: 1.5rem;">📈 Key Financial Ratios & Metrics</h4>
+									<h4 style="color: #0f172a; font-weight: 800; border-bottom: 2px solid #2563eb; padding-bottom: 0.6rem; margin-top: 2rem;">📈 Key Financial Ratios & Metrics</h4>
 									<div class="metric-grid">
 										<div class="metric-box">
 											<label>Gross Margin</label>
@@ -431,7 +602,7 @@
 									</div>
 
 									<!-- Simplified DCF Valuation Model -->
-									<h4 style="color: #1a202c; border-bottom: 2px solid #3182ce; padding-bottom: 0.4rem; margin-top: 2rem;">🧮 Simplified DCF Valuation Model (Projections Based on Actual FCF Margin)</h4>
+									<h4 style="color: #0f172a; font-weight: 800; border-bottom: 2px solid #2563eb; padding-bottom: 0.6rem; margin-top: 2.5rem;">🧮 Simplified DCF Valuation Model (Projections Based on Actual FCF Margin)</h4>
 									<div class="tool-grid" style="margin-bottom: 1rem;">
 										<div class="input-group">
 											<label for="dcfGrowth">5-Yr Revenue Growth Rate (%):</label>
@@ -452,18 +623,18 @@
 									</div>
 
 									<div class="metric-grid">
-										<div class="metric-box" style="background: #e6fffa; border-color: #81e6d9;">
-											<label style="color: #234e52;">Intrinsic Value / Share</label>
-											<div class="metric-value" style="color: #234e52;" id="resIntrinsicValue">0.00</div>
+										<div class="metric-box" style="background: linear-gradient(135deg, #ecfdf5 0%, #d1fae5 100%); border-color: #6ee7b7;">
+											<label style="color: #047857;">Intrinsic Value / Share</label>
+											<div class="metric-value" style="color: #064e3b;" id="resIntrinsicValue">0.00</div>
 										</div>
-										<div class="metric-box" style="background: #e6fffa; border-color: #81e6d9;">
-											<label style="color: #234e52;">Margin of Safety</label>
-											<div class="metric-value" style="color: #234e52;" id="resMarginSafety">0.0%</div>
+										<div class="metric-box" style="background: linear-gradient(135deg, #ecfdf5 0%, #d1fae5 100%); border-color: #6ee7b7;">
+											<label style="color: #047857;">Margin of Safety</label>
+											<div class="metric-value" style="color: #064e3b;" id="resMarginSafety">0.0%</div>
 										</div>
 									</div>
 
 									<!-- Target Price Alerts System -->
-									<h4 style="color: #1a202c; border-bottom: 2px solid #e53e3e; padding-bottom: 0.4rem; margin-top: 2rem;">🔔 Target Price Alert System</h4>
+									<h4 style="color: #0f172a; font-weight: 800; border-bottom: 2px solid #f43f5e; padding-bottom: 0.6rem; margin-top: 2.5rem;">🔔 Target Price Alert System</h4>
 									<div class="tool-grid" style="margin-bottom: 0.5rem;">
 										<div class="input-group">
 											<label id="labelAlertMin" for="alertMin">Target Buy Price / Minimum (€ / $ / DKK):</label>
@@ -479,17 +650,17 @@
 										🟡 Insert a ticker symbol and target prices to activate live price alert monitoring.
 									</div>
 									
-									<button type="button" onclick="addCurrentCompanyToWatchlist()" class="button primary small" style="margin-top: 1.25rem; width: 100%;">➕ Add This Company & Limits to Telegram Watchlist</button>
+									<button type="button" onclick="addCurrentCompanyToWatchlist()" class="french-btn french-btn-blue" style="margin-top: 1.5rem; width: 100%;">➕ Add This Company & Limits to Telegram Watchlist</button>
 								</div>
 
 								<!-- Telegram Alerts & Watchlist Section -->
-								<h2 style="color: #2b6cb0; border-bottom: 3px solid #3182ce; padding-bottom: 0.5rem; margin-top: 2.5rem;">📱 Telegram Alert Management & Watchlist</h2>
-								<p>Add companies of interest, set minimum (Buy) and maximum (Sell) threshold prices, and configure your <strong>Telegram Bot</strong> to send instant notifications.</p>
+								<h2 style="color: #0f172a; font-weight: 800; border-bottom: 3px solid #2563eb; padding-bottom: 0.6rem; margin-top: 3rem;">📱 Telegram Alert Management & Watchlist</h2>
+								<p style="color: #64748b;">Add companies of interest, set minimum (Buy) and maximum (Sell) threshold prices, and configure your <strong>Telegram Bot</strong> to send instant notifications.</p>
 
-								<div class="tool-container" style="background: #ffffff; border: 2px solid #3182ce; box-shadow: 0 4px 6px rgba(0,0,0,0.05);">
+								<div class="tool-container">
 									<!-- Telegram & GitHub Configuration Box -->
-									<h3 style="color: #2b6cb0; border-bottom: 2px solid #e2e8f0; padding-bottom: 0.5rem; margin-bottom: 1.25rem;">⚙️ Alert Configuration & Synchronization</h3>
-									<div class="tool-grid" style="grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 1rem; margin-bottom: 1rem;">
+									<h3 style="color: #0f172a; font-weight: 800; border-bottom: 1px solid #e2e8f0; padding-bottom: 0.75rem; margin-bottom: 1.5rem;">⚙️ Alert Configuration & Synchronization</h3>
+									<div class="tool-grid" style="grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 1rem; margin-bottom: 1.25rem;">
 										<div class="input-group">
 											<label for="telegramToken">Telegram Bot Token:</label>
 											<input type="password" id="telegramToken" placeholder="e.g. 123456789:ABCdefGh..." onchange="saveTelegramCredentials()" />
@@ -503,54 +674,54 @@
 											<input type="password" id="githubToken" placeholder="e.g. ghp_abc123..." onchange="saveTelegramCredentials()" />
 										</div>
 									</div>
-									<div style="display: flex; gap: 0.75rem; flex-wrap: wrap; margin-bottom: 1rem;">
-										<button type="button" onclick="toggleTokenVisibility()" class="button small">👁️ Hide/Show Tokens</button>
-										<button type="button" onclick="testTelegramAlert()" class="button primary small">⚡ Test Telegram Notification</button>
-										<button type="button" onclick="saveTelegramCredentials(true)" class="button small">💾 Save Credentials</button>
+									<div style="display: flex; gap: 0.75rem; flex-wrap: wrap; margin-bottom: 1.25rem;">
+										<button type="button" onclick="toggleTokenVisibility()" class="french-btn french-btn-outline">👁️ Hide/Show Tokens</button>
+										<button type="button" onclick="testTelegramAlert()" class="french-btn french-btn-blue">⚡ Test Telegram Notification</button>
+										<button type="button" onclick="saveTelegramCredentials(true)" class="french-btn french-btn-outline">💾 Save Credentials</button>
 									</div>
 									<div id="telegramStatusBox" class="status-msg" style="display:none; margin-bottom: 1.5rem;"></div>
 
 									<!-- Add New Company Form -->
-									<h3 style="color: #2b6cb0; border-bottom: 2px solid #e2e8f0; padding-bottom: 0.5rem; margin-top: 1.5rem; margin-bottom: 1.25rem;">➕ Add New Company to Watchlist</h3>
-									<div class="tool-grid" style="grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 1rem; margin-bottom: 1rem;">
+									<h3 style="color: #0f172a; font-weight: 800; border-bottom: 1px solid #e2e8f0; padding-bottom: 0.75rem; margin-top: 2rem; margin-bottom: 1.5rem;">➕ Add New Company to Watchlist</h3>
+									<div class="tool-grid" style="grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 1rem; margin-bottom: 1.25rem;">
 										<div class="input-group">
 											<label for="newWatchlistTicker">Ticker Symbol:</label>
-											<input type="text" id="newWatchlistTicker" placeholder="e.g. NVDA, AAPL, PETR4" style="text-transform: uppercase;" />
+											<input type="text" id="newWatchlistTicker" placeholder="e.g. GALP, NVDA, AAPL" style="text-transform: uppercase;" />
 										</div>
 										<div class="input-group">
 											<label for="newWatchlistName">Company Name (Optional):</label>
-											<input type="text" id="newWatchlistName" placeholder="e.g. Nvidia Corp" />
+											<input type="text" id="newWatchlistName" placeholder="e.g. Galp Energia" />
 										</div>
 										<div class="input-group">
 											<label for="newWatchlistMin">Min / Buy Alert (🟢):</label>
-											<input type="number" id="newWatchlistMin" placeholder="e.g. 100.00" step="0.1" />
+											<input type="number" id="newWatchlistMin" placeholder="e.g. 15.00" step="0.1" />
 										</div>
 										<div class="input-group">
 											<label for="newWatchlistMax">Max / Sell Alert (🔴):</label>
-											<input type="number" id="newWatchlistMax" placeholder="e.g. 140.00" step="0.1" />
+											<input type="number" id="newWatchlistMax" placeholder="e.g. 20.00" step="0.1" />
 										</div>
 									</div>
-									<button type="button" onclick="addNewWatchlistEntry()" class="button primary small" style="margin-bottom: 2rem;">➕ Add to Watchlist</button>
+									<button type="button" onclick="addNewWatchlistEntry()" class="french-btn french-btn-dark" style="margin-bottom: 2rem;">➕ Add to Watchlist</button>
 
 									<!-- Watchlist Table -->
-									<div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; margin-bottom: 1rem; gap: 0.5rem;">
-										<h3 style="color: #1a202c; margin: 0;">📊 Monitored Companies (Watchlist)</h3>
-										<div style="display: flex; gap: 0.5rem; flex-wrap: wrap;">
-											<button type="button" onclick="checkAllWatchlistAlerts()" class="button primary small">🔍 Check Live Quotes & Send Telegram Alerts</button>
-											<button type="button" onclick="syncWatchlistToGitHub()" class="button small" style="background:#2b6cb0; color:white;">☁️ Sync with GitHub</button>
+									<div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; margin-bottom: 1.25rem; gap: 0.75rem;">
+										<h3 style="color: #0f172a; font-weight: 800; margin: 0;">📊 Monitored Companies (Watchlist)</h3>
+										<div style="display: flex; gap: 0.75rem; flex-wrap: wrap;">
+											<button type="button" onclick="checkAllWatchlistAlerts()" class="french-btn french-btn-dark">🔍 Check Live Quotes & Send Telegram Alerts</button>
+											<button type="button" onclick="syncWatchlistToGitHub()" class="french-btn french-btn-blue">☁️ Sync with GitHub</button>
 										</div>
 									</div>
 
-									<div style="overflow-x: auto; background: #fff; border: 1px solid #cbd5e0; border-radius: 6px;">
-										<table style="width: 100%; border-collapse: collapse; margin: 0; font-size: 0.9rem;">
+									<div class="table-container-french">
+										<table class="table-french">
 											<thead>
-												<tr style="background: #edf2f7; color: #2d3748; border-bottom: 2px solid #cbd5e0;">
-													<th style="padding: 0.75rem; text-align: left;">Company / Ticker</th>
-													<th style="padding: 0.75rem; text-align: center;">Min Buy (🟢)</th>
-													<th style="padding: 0.75rem; text-align: center;">Max Sell (🔴)</th>
-													<th style="padding: 0.75rem; text-align: center;">Last Live Price</th>
-													<th style="padding: 0.75rem; text-align: center;">Status / Signal</th>
-													<th style="padding: 0.75rem; text-align: center;">Actions</th>
+												<tr>
+													<th style="text-align: left;">Company / Ticker</th>
+													<th style="text-align: center;">Min Buy (🟢)</th>
+													<th style="text-align: center;">Max Sell (🔴)</th>
+													<th style="text-align: center;">Last Live Price</th>
+													<th style="text-align: center;">Status / Signal</th>
+													<th style="text-align: center;">Actions</th>
 												</tr>
 											</thead>
 											<tbody id="watchlistTableBody">
@@ -558,7 +729,7 @@
 											</tbody>
 										</table>
 									</div>
-									<div id="watchlistSummaryBox" class="status-msg" style="display:none; margin-top: 1rem;"></div>
+									<div id="watchlistSummaryBox" class="status-msg" style="display:none; margin-top: 1.25rem;"></div>
 								</div>
 
 								<ul class="actions special">
@@ -1101,25 +1272,25 @@
 
 						const lastPriceStr = item.lastPrice > 0 ? item.lastPrice.toFixed(2) : '-';
 
-						tr.innerHTML = '<td style="padding: 0.6rem;">' +
-								'<strong>' + item.ticker + '</strong><br />' +
-								'<small style="color:#718096;">' + (item.name || '') + '</small>' +
+						tr.innerHTML = '<td style="padding: 0.85rem 1.25rem;">' +
+								'<strong style="font-weight:800; color:#0f172a; font-size:0.95rem;">' + item.ticker + '</strong><br />' +
+								'<small style="color:#64748b; font-weight:600;">' + (item.name || '') + '</small>' +
 							'</td>' +
-							'<td style="padding: 0.6rem; text-align: center;">' +
-								'<input type="number" value="' + item.minBuy + '" step="0.1" style="width: 90px; display:inline-block; padding: 0.25rem; font-size:0.85rem;" onchange="updateWatchlistThreshold(' + index + ', \'minBuy\', this.value)" />' +
+							'<td style="padding: 0.85rem; text-align: center;">' +
+								'<input type="number" value="' + item.minBuy + '" step="0.1" style="width: 90px; display:inline-block; padding: 0.4rem 0.5rem; font-size:0.88rem; border-radius:10px; border:1px solid #cbd5e1; text-align:center; font-weight:700;" onchange="updateWatchlistThreshold(' + index + ', \'minBuy\', this.value)" />' +
 							'</td>' +
-							'<td style="padding: 0.6rem; text-align: center;">' +
-								'<input type="number" value="' + item.maxSell + '" step="0.1" style="width: 90px; display:inline-block; padding: 0.25rem; font-size:0.85rem;" onchange="updateWatchlistThreshold(' + index + ', \'maxSell\', this.value)" />' +
+							'<td style="padding: 0.85rem; text-align: center;">' +
+								'<input type="number" value="' + item.maxSell + '" step="0.1" style="width: 90px; display:inline-block; padding: 0.4rem 0.5rem; font-size:0.88rem; border-radius:10px; border:1px solid #cbd5e1; text-align:center; font-weight:700;" onchange="updateWatchlistThreshold(' + index + ', \'maxSell\', this.value)" />' +
 							'</td>' +
-							'<td style="padding: 0.6rem; text-align: center; font-weight: bold;">' +
+							'<td style="padding: 0.85rem; text-align: center; font-weight: 800; color:#0f172a; font-size:0.95rem;">' +
 								lastPriceStr +
 							'</td>' +
-							'<td style="padding: 0.6rem; text-align: center;">' +
+							'<td style="padding: 0.85rem; text-align: center;">' +
 								statusBadge +
 							'</td>' +
-							'<td style="padding: 0.6rem; text-align: center;">' +
-								'<button type="button" class="suggestion-btn" title="Analyze in Tool" onclick="analyzeWatchlistItem(\'' + item.ticker + '\')">📊 Analyze</button> ' +
-								'<button type="button" class="action-btn-icon" style="background:#e53e3e; color:white;" title="Remove" onclick="deleteWatchlistItem(' + index + ')">🗑️</button>' +
+							'<td style="padding: 0.85rem; text-align: center;">' +
+								'<button type="button" class="french-btn french-btn-blue" style="padding: 0.35rem 0.85rem; font-size: 0.78rem;" title="Analyze in Tool" onclick="analyzeWatchlistItem(\'' + item.ticker + '\')">📊 Analyze</button> ' +
+								'<button type="button" class="french-btn" style="background:#fff1f2; color:#be123c !important; border:1px solid #fecdd3; padding:0.35rem 0.75rem; font-size:0.78rem;" title="Remove" onclick="deleteWatchlistItem(' + index + ')">🗑️</button>' +
 							'</td>';
 						tbody.appendChild(tr);
 					});
