@@ -1249,6 +1249,29 @@
 					}
 				}
 
+				function getTickerCurrencySymbol(tickerStr) {
+					if (!tickerStr) return '€';
+					const canonical = aliasMap[tickerStr.toUpperCase()] || aliasMap[tickerStr] || tickerStr;
+					if (knownData[canonical] && knownData[canonical].symbol) {
+						return knownData[canonical].symbol;
+					}
+					const t = tickerStr.toUpperCase();
+					if (t.endsWith('.LS') || t.endsWith('.DE') || t.endsWith('.PA') || t.endsWith('.AS') || t.endsWith('.MI') || t.endsWith('.MC') || t === 'GALP') return '€';
+					if (t.endsWith('.CO')) return 'DKK';
+					if (t.endsWith('.SA') || t === 'PETR4') return 'R$';
+					if (t.endsWith('.L')) return '£';
+					return '$';
+				}
+
+				function formatPriceWithCurrency(priceNum, currSymbol) {
+					if (!priceNum || priceNum <= 0) return '-';
+					const valStr = priceNum.toFixed(2);
+					if (currSymbol === '$' || currSymbol === 'R$' || currSymbol === '£') {
+						return currSymbol + valStr;
+					}
+					return valStr + ' ' + currSymbol;
+				}
+
 				function renderWatchlistTable() {
 					const tbody = document.getElementById('watchlistTableBody');
 					if (!tbody) return;
@@ -1270,27 +1293,37 @@
 							statusBadge = '<span class="badge-sell">🔴 SELL</span>';
 						}
 
-						const lastPriceStr = item.lastPrice > 0 ? item.lastPrice.toFixed(2) : '-';
+						const currSym = getTickerCurrencySymbol(item.ticker);
+						const lastPriceStr = formatPriceWithCurrency(item.lastPrice, currSym);
 
 						tr.innerHTML = '<td style="padding: 0.85rem 1.25rem;">' +
-								'<strong style="font-weight:800; color:#0f172a; font-size:0.95rem;">' + item.ticker + '</strong><br />' +
+								'<strong style="font-weight:800; color:#0f172a; font-size:0.95rem;">' + item.ticker + '</strong> ' +
+								'<span style="font-size:0.7rem; background:#eff6ff; color:#1d4ed8; border:1px solid #bfdbfe; padding:0.15rem 0.5rem; border-radius:9999px; font-weight:700; display:inline-block; margin-left:0.25rem;">' + currSym + '</span><br />' +
 								'<small style="color:#64748b; font-weight:600;">' + (item.name || '') + '</small>' +
 							'</td>' +
-							'<td style="padding: 0.85rem; text-align: center;">' +
-								'<input type="number" value="' + item.minBuy + '" step="0.1" style="width: 90px; display:inline-block; padding: 0.4rem 0.5rem; font-size:0.88rem; border-radius:10px; border:1px solid #cbd5e1; text-align:center; font-weight:700;" onchange="updateWatchlistThreshold(' + index + ', \'minBuy\', this.value)" />' +
+							'<td style="padding: 0.85rem; text-align: center; white-space:nowrap;">' +
+								'<div style="display:inline-flex; align-items:center; gap:0.25rem;">' +
+									'<span style="font-size:0.8rem; color:#64748b; font-weight:700;">' + currSym + '</span>' +
+									'<input type="number" value="' + item.minBuy + '" step="0.1" style="width: 85px; padding: 0.4rem 0.5rem; font-size:0.88rem; border-radius:10px; border:1px solid #cbd5e1; text-align:center; font-weight:700;" onchange="updateWatchlistThreshold(' + index + ', \'minBuy\', this.value)" />' +
+								'</div>' +
 							'</td>' +
-							'<td style="padding: 0.85rem; text-align: center;">' +
-								'<input type="number" value="' + item.maxSell + '" step="0.1" style="width: 90px; display:inline-block; padding: 0.4rem 0.5rem; font-size:0.88rem; border-radius:10px; border:1px solid #cbd5e1; text-align:center; font-weight:700;" onchange="updateWatchlistThreshold(' + index + ', \'maxSell\', this.value)" />' +
+							'<td style="padding: 0.85rem; text-align: center; white-space:nowrap;">' +
+								'<div style="display:inline-flex; align-items:center; gap:0.25rem;">' +
+									'<span style="font-size:0.8rem; color:#64748b; font-weight:700;">' + currSym + '</span>' +
+									'<input type="number" value="' + item.maxSell + '" step="0.1" style="width: 85px; padding: 0.4rem 0.5rem; font-size:0.88rem; border-radius:10px; border:1px solid #cbd5e1; text-align:center; font-weight:700;" onchange="updateWatchlistThreshold(' + index + ', \'maxSell\', this.value)" />' +
+								'</div>' +
 							'</td>' +
-							'<td style="padding: 0.85rem; text-align: center; font-weight: 800; color:#0f172a; font-size:0.95rem;">' +
+							'<td style="padding: 0.85rem; text-align: center; font-weight: 800; color:#0f172a; font-size:0.95rem; white-space:nowrap;">' +
 								lastPriceStr +
 							'</td>' +
 							'<td style="padding: 0.85rem; text-align: center;">' +
 								statusBadge +
 							'</td>' +
-							'<td style="padding: 0.85rem; text-align: center;">' +
-								'<button type="button" class="french-btn french-btn-blue" style="padding: 0.35rem 0.85rem; font-size: 0.78rem;" title="Analyze in Tool" onclick="analyzeWatchlistItem(\'' + item.ticker + '\')">📊 Analyze</button> ' +
-								'<button type="button" class="french-btn" style="background:#fff1f2; color:#be123c !important; border:1px solid #fecdd3; padding:0.35rem 0.75rem; font-size:0.78rem;" title="Remove" onclick="deleteWatchlistItem(' + index + ')">🗑️</button>' +
+							'<td style="padding: 0.85rem; text-align: center; white-space: nowrap;">' +
+								'<div style="display: inline-flex; gap: 0.4rem; align-items: center; justify-content: center;">' +
+									'<button type="button" class="french-btn french-btn-blue" style="padding: 0.4rem 0.85rem; font-size: 0.78rem;" title="Analyze in Tool" onclick="analyzeWatchlistItem(\'' + item.ticker + '\')">📊 Analyze</button>' +
+									'<button type="button" class="french-btn" style="background:#fff1f2; color:#be123c !important; border:1px solid #fecdd3; padding:0.4rem 0.65rem; font-size:0.78rem;" title="Remove" onclick="deleteWatchlistItem(' + index + ')">🗑️</button>' +
+								'</div>' +
 							'</td>';
 						tbody.appendChild(tr);
 					});
