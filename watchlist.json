@@ -8,12 +8,12 @@
   {
     "ticker": "NKE",
     "name": "Nike, Inc.",
-    "minBuy": 70,
+    "minBuy": 30,
     "maxSell": 95
   },
   {
     "ticker": "GALP",
-    "name": "Galp Energia",
+    "name": "GALP",
     "minBuy": 15,
     "maxSell": 22
   }
