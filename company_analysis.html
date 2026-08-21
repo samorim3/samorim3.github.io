@@ -6,10 +6,10 @@
 -->
 <html>
 	<head>
-		<title>Corporate Financial Analysis Tool - Objective Data & Alerts</title>
+		<title>Stock Price Alert System - Live Stock Alerts & Monitoring</title>
 		<meta charset="utf-8" />
 		<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
-		<link rel="stylesheet" href="assets/css/main.css?v=6" />
+		<link rel="stylesheet" href="assets/css/main.css?v=7" />
 		<noscript><link rel="stylesheet" href="assets/css/noscript.css" /></noscript>
 		<!-- Google Analytics (GA4) -->
 		<script async src="https://www.googletagmanager.com/gtag/js?id=G-W76N1EJ13Q"></script>
@@ -24,7 +24,7 @@
 		<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 		<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 		<style>
-			/* Modern French Editorial Visual Design System */
+			/* Modern Visual Design System */
 			body, input, button, select, textarea {
 				font-family: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
 			}
@@ -48,33 +48,44 @@
 				box-shadow: inset 0 2px 4px rgba(255, 255, 255, 0.8);
 			}
 
-			.search-input-wrapper {
-				display: flex;
-				gap: 0.75rem;
-				width: 100%;
-				margin-top: 0.5rem;
+			.form-grid-3 {
+				display: grid;
+				grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+				gap: 1rem;
+				align-items: end;
+				margin-top: 1rem;
 			}
 
-			.search-input-wrapper input {
-				font-family: 'Plus Jakarta Sans', sans-serif;
-				font-size: 1rem;
-				font-weight: 700;
-				letter-spacing: 0.05em;
+			.input-group {
+				display: flex;
+				flex-direction: column;
+			}
+
+			.input-group label {
+				font-size: 0.75rem;
+				font-weight: 800;
+				color: #64748b;
+				margin-bottom: 0.35rem;
 				text-transform: uppercase;
-				flex-grow: 1;
-				border-radius: 14px;
+				letter-spacing: 0.05em;
+			}
+
+			.input-group input {
+				font-family: 'Plus Jakarta Sans', sans-serif;
+				font-size: 0.95rem;
+				font-weight: 700;
+				border-radius: 12px;
 				border: 1px solid #cbd5e1;
 				background: #ffffff;
-				padding: 0.75rem 1.25rem;
+				padding: 0.65rem 1rem;
 				color: #0f172a;
 				transition: all 0.2s ease;
-				box-shadow: 0 2px 4px rgba(0,0,0,0.02);
 			}
 
-			.search-input-wrapper input:focus {
+			.input-group input:focus {
 				outline: none;
 				border-color: #2563eb;
-				box-shadow: 0 0 0 4px rgba(37, 99, 235, 0.12);
+				box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.12);
 			}
 
 			/* French Pill Buttons */
@@ -134,7 +145,7 @@
 			}
 
 			.status-msg {
-				margin-top: 1rem;
+				margin-top: 1.25rem;
 				padding: 0.85rem 1.25rem;
 				border-radius: 14px;
 				font-size: 0.88rem;
@@ -168,203 +179,6 @@
 				color: #b45309;
 				border: 1px solid #fde68a;
 				display: block;
-			}
-
-			.suggestion-btn {
-				display: inline-block;
-				margin: 0.2rem 0.3rem 0.2rem 0;
-				padding: 0.3rem 0.75rem;
-				background: #2563eb;
-				color: #ffffff !important;
-				border-radius: 9999px;
-				font-size: 0.78rem;
-				font-weight: 700;
-				cursor: pointer;
-				text-decoration: none;
-				border: none;
-				transition: all 0.2s ease;
-			}
-
-			.suggestion-btn:hover {
-				background: #1d4ed8;
-				transform: translateY(-1px);
-			}
-
-			.tool-grid {
-				display: grid;
-				grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
-				gap: 1.75rem;
-				margin-bottom: 2rem;
-			}
-
-			.tool-card {
-				background: #ffffff;
-				border: 1px solid #f1f5f9;
-				border-radius: 18px;
-				padding: 1.75rem;
-				box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.03), 0 4px 6px -2px rgba(0, 0, 0, 0.01);
-				transition: all 0.2s ease;
-			}
-
-			.tool-card:hover {
-				border-color: #e2e8f0;
-				box-shadow: 0 15px 30px -5px rgba(0, 0, 0, 0.05);
-			}
-
-			.tool-card h4 {
-				margin: 0 0 1.25rem 0;
-				color: #0f172a;
-				font-size: 1.05rem;
-				font-weight: 800;
-				letter-spacing: -0.01em;
-				border-bottom: 2px solid #2563eb;
-				padding-bottom: 0.6rem;
-			}
-
-			.input-group {
-				margin-bottom: 1rem;
-			}
-
-			.input-group label {
-				display: block;
-				font-size: 0.75rem;
-				font-weight: 800;
-				color: #64748b;
-				margin-bottom: 0.35rem;
-				text-transform: uppercase;
-				letter-spacing: 0.05em;
-			}
-
-			.input-group input {
-				width: 100%;
-				padding: 0.6rem 0.85rem;
-				border: 1px solid #cbd5e1;
-				border-radius: 10px;
-				font-size: 0.95rem;
-				font-weight: 600;
-				background: #ffffff;
-				color: #0f172a;
-				transition: all 0.2s ease;
-			}
-
-			.input-group input:focus {
-				outline: none;
-				border-color: #2563eb;
-				box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.12);
-			}
-
-			.input-group input[readonly] {
-				background: #f8fafc !important;
-				color: #334155 !important;
-				border-color: #e2e8f0 !important;
-				font-weight: 700;
-			}
-
-			/* Hide HTML5 number spinner arrows */
-			input[type=number]::-webkit-inner-spin-button, 
-			input[type=number]::-webkit-outer-spin-button { 
-				-webkit-appearance: none; 
-				margin: 0; 
-			}
-			input[type=number] {
-				-moz-appearance: textfield;
-			}
-
-			.metric-grid {
-				display: grid;
-				grid-template-columns: repeat(auto-fit, minmax(170px, 1fr));
-				gap: 1.25rem;
-				margin-top: 1.25rem;
-			}
-
-			.metric-box {
-				background: linear-gradient(135deg, #f0f9ff 0%, #e0f2fe 100%);
-				border: 1px solid #bae6fd;
-				border-radius: 14px;
-				padding: 1.1rem;
-				text-align: center;
-				transition: transform 0.2s ease;
-			}
-
-			.metric-box:hover {
-				transform: translateY(-2px);
-			}
-
-			.metric-box label {
-				display: block;
-				font-size: 0.72rem;
-				font-weight: 800;
-				color: #0369a1;
-				text-transform: uppercase;
-				letter-spacing: 0.06em;
-				margin-bottom: 0.3rem;
-			}
-
-			.metric-value {
-				font-size: 1.45rem;
-				font-weight: 800;
-				color: #0c4a6e;
-				letter-spacing: -0.02em;
-			}
-
-			.alert-banner {
-				padding: 1.25rem 1.5rem;
-				border-radius: 16px;
-				margin-top: 1.5rem;
-				font-weight: 700;
-				text-align: center;
-				font-size: 1.05rem;
-				transition: all 0.3s ease;
-			}
-
-			.alert-buy {
-				background: #ecfdf5;
-				border: 2px solid #10b981;
-				color: #065f46;
-				box-shadow: 0 4px 12px rgba(16, 185, 129, 0.12);
-			}
-
-			.alert-sell {
-				background: #fff1f2;
-				border: 2px solid #f43f5e;
-				color: #9f1239;
-				box-shadow: 0 4px 12px rgba(244, 63, 94, 0.12);
-			}
-
-			.alert-hold {
-				background: #fffbeb;
-				border: 2px solid #f59e0b;
-				color: #92400e;
-				box-shadow: 0 4px 12px rgba(245, 158, 11, 0.12);
-			}
-
-			.report-badge {
-				display: inline-flex;
-				align-items: center;
-				gap: 0.4rem;
-				background: #f1f5f9;
-				border: 1px solid #cbd5e1;
-				padding: 0.45rem 1rem;
-				border-radius: 9999px;
-				font-size: 0.82rem;
-				font-weight: 700;
-				color: #334155;
-				margin-bottom: 1.25rem;
-				margin-right: 0.5rem;
-			}
-
-			.currency-badge {
-				display: inline-flex;
-				align-items: center;
-				gap: 0.4rem;
-				background: #eff6ff;
-				border: 1px solid #bfdbfe;
-				padding: 0.45rem 1rem;
-				border-radius: 9999px;
-				font-size: 0.82rem;
-				font-weight: 700;
-				color: #1d4ed8;
-				margin-bottom: 1.25rem;
 			}
 
 			/* Badges */
@@ -445,6 +259,14 @@
 			.table-french tr:hover td {
 				background: #f8fafc;
 			}
+
+			.settings-card {
+				background: #f8fafc;
+				border: 1px solid #e2e8f0;
+				border-radius: 16px;
+				padding: 1.5rem;
+				margin-top: 2rem;
+			}
 		</style>
 	</head>
 	<body class="is-preload">
@@ -461,7 +283,7 @@
 					<nav id="nav">
 						<ul class="links">
 							<li><a href="index.html">Projects</a></li>
-							<li class="active"><a href="company_analysis.html">Company Analysis Tool</a></li>
+							<li class="active"><a href="company_analysis.html">Stock Price Alerts</a></li>
 						</ul>
 						<ul class="icons">
 							<li><a href="https://www.linkedin.com/in/amorimsamuel/" target="_blank" class="icon brands fa-linkedin"><span class="label">LinkedIn</span></a></li>
@@ -475,266 +297,101 @@
 						<!-- Post -->
 							<section class="post">
 								<header class="major">
-									<h1>Corporate Financial<br />
-									Analysis & Alert System</h1>
-									<p>An objective fundamental analysis platform. Search any company stock ticker, load financial statements, check report dates, calculate DCF valuation, and set price alerts.</p>
+									<h1>Stock Price<br />
+									Alert System</h1>
+									<p>Real-time stock price tracking and 6-hour automated Telegram alerts for favorite stocks, powered by Google Finance.</p>
 								</header>
 
-								<!-- Interactive Financial Analysis & Valuation Simulator -->
+								<!-- Stock Price Watchlist & Alert System -->
 								<div class="tool-container">
 									
-									<!-- Ticker Search Header -->
+									<!-- Add Stock to Watchlist Box -->
 									<div class="search-bar-box">
-										<label for="tickerInput" style="font-weight: 800; color: #0f172a; display: block; font-size: 0.85rem; text-transform: uppercase; letter-spacing: 0.05em; margin-bottom: 0.5rem;">🔍 Search Company Ticker Symbol or Name:</label>
-										<div class="search-input-wrapper">
-											<input type="text" id="tickerInput" value="" placeholder="e.g. GALP, NOVO-B, ADS.DE, AAPL, NKE, Adidas, Novo Nordisk" onkeypress="if(event.key === 'Enter') fetchTickerData()" />
-											<button onclick="fetchTickerData()" class="french-btn french-btn-dark">Load Ticker Data</button>
-										</div>
-										<div id="statusBox" class="status-msg"></div>
-									</div>
-
-									<h3 id="companyTitle" style="margin-top: 0; margin-bottom: 0.5rem; color: #0f172a; font-weight: 800;">📊 Company Objective Metrics</h3>
-									<div>
-										<div id="reportDateBadge" class="report-badge">📅 Financial Filing Date: N/A</div>
-										<div id="currencyBadge" class="currency-badge">💱 Reporting Currency: N/A</div>
-									</div>
-									<p style="font-size: 0.9rem; color: #64748b; margin-bottom: 1.75rem;">Official corporate figures are displayed as fixed read-only data published by the company (annualized 12-month metrics for DCF valuation consistency).</p>
-
-									<div class="tool-grid">
-										<!-- Column 1: Market & Income Data -->
-										<div class="tool-card">
-											<h4>1. Market & Income Statement (Annualized Official Data)</h4>
+										<label style="font-weight: 800; color: #0f172a; display: block; font-size: 0.85rem; text-transform: uppercase; letter-spacing: 0.05em; margin-bottom: 0.25rem;">➕ Add Favorite Stock Ticker to Alert System:</label>
+										<p style="font-size: 0.82rem; color: #64748b; margin-bottom: 0.75rem;">Prices are fetched directly from Google Finance and monitored automatically every 6 hours.</p>
+										
+										<div class="form-grid-3">
 											<div class="input-group">
-												<label for="reportDate">Filing / Report Period:</label>
-												<input type="text" id="reportDate" value="" placeholder="N/A" readonly />
+												<label for="newWatchlistTicker">Ticker Symbol:</label>
+												<input type="text" id="newWatchlistTicker" placeholder="e.g. ADS.DE, NKE, GALP, AAPL" />
 											</div>
 											<div class="input-group">
-												<label id="labelStockPrice" for="price">Stock Price (€ / $ / DKK):</label>
-												<input type="number" id="price" value="" placeholder="0.00" step="0.5" oninput="calculateAll()" />
+												<label for="newWatchlistName">Company Name:</label>
+												<input type="text" id="newWatchlistName" placeholder="e.g. Adidas, Nike, Galp" />
 											</div>
 											<div class="input-group">
-												<label for="shares">Shares Outstanding (Millions):</label>
-												<input type="number" id="shares" value="" placeholder="0.00" readonly />
+												<label for="newWatchlistMin">Min Buy Target:</label>
+												<input type="number" id="newWatchlistMin" placeholder="0.00" step="0.5" />
 											</div>
 											<div class="input-group">
-												<label id="labelRevenue" for="revenue">Annualized Revenue (Millions):</label>
-												<input type="number" id="revenue" value="" placeholder="0" readonly />
+												<label for="newWatchlistMax">Max Sell Target:</label>
+												<input type="number" id="newWatchlistMax" placeholder="0.00" step="0.5" />
 											</div>
-											<div class="input-group">
-												<label id="labelGrossProfit" for="grossProfit">Gross Profit (Millions):</label>
-												<input type="number" id="grossProfit" value="" placeholder="0" readonly />
-											</div>
-											<div class="input-group">
-												<label id="labelEbit" for="ebit">EBIT / Operating Income (Millions):</label>
-												<input type="number" id="ebit" value="" placeholder="0" readonly />
-											</div>
-											<div class="input-group">
-												<label id="labelNetIncome" for="netIncome">Net Income (Millions):</label>
-												<input type="number" id="netIncome" value="" placeholder="0" readonly />
-											</div>
-										</div>
-
-										<!-- Column 2: Balance Sheet & Cash Flow -->
-										<div class="tool-card">
-											<h4>2. Balance Sheet & Cash Flow (Annualized Official Data)</h4>
-											<div class="input-group">
-												<label id="labelDebt" for="totalDebt">Total Debt (Millions):</label>
-												<input type="number" id="totalDebt" value="" placeholder="0" readonly />
-											</div>
-											<div class="input-group">
-												<label id="labelCash" for="cash">Cash & Equivalents (Millions):</label>
-												<input type="number" id="cash" value="" placeholder="0" readonly />
-											</div>
-											<div class="input-group">
-												<label id="labelEquity" for="equity">Total Equity (Millions):</label>
-												<input type="number" id="equity" value="" placeholder="0" readonly />
-											</div>
-											<div class="input-group">
-												<label id="labelFco" for="fco">Operating Cash Flow FCO (Millions):</label>
-												<input type="number" id="fco" value="" placeholder="0" readonly />
-											</div>
-											<div class="input-group">
-												<label id="labelCapex" for="capex">CapEx (Millions):</label>
-												<input type="number" id="capex" value="" placeholder="0" readonly />
-											</div>
-											<div class="input-group">
-												<label id="labelDiv" for="dividendPerShare">Dividend Per Share (€ / $ / DKK):</label>
-												<input type="number" id="dividendPerShare" value="" placeholder="0.00" readonly />
-											</div>
+											<button onclick="addNewWatchlistEntry()" class="french-btn french-btn-dark">Add Stock</button>
 										</div>
 									</div>
 
-									<!-- Calculated Ratios Grid -->
-									<h4 style="color: #0f172a; font-weight: 800; border-bottom: 2px solid #2563eb; padding-bottom: 0.6rem; margin-top: 2rem;">📈 Key Financial Ratios & Metrics</h4>
-									<div class="metric-grid">
-										<div class="metric-box">
-											<label>Gross Margin</label>
-											<div class="metric-value" id="resGrossMargin">0.0%</div>
+									<!-- Watchlist Controls Header -->
+									<div style="display: flex; flex-wrap: wrap; justify-content: space-between; align-items: center; margin-bottom: 1.25rem; gap: 1rem;">
+										<div>
+											<h3 style="margin: 0; color: #0f172a; font-weight: 800; font-size: 1.25rem;">⭐ Favorite Stock Watchlist & Target Prices</h3>
+											<span style="font-size: 0.82rem; color: #64748b; font-weight: 600;">Monitored automatically every 6 hours via Google Finance</span>
 										</div>
-										<div class="metric-box">
-											<label>EBIT Margin</label>
-											<div class="metric-value" id="resEbitMargin">0.0%</div>
-										</div>
-										<div class="metric-box">
-											<label>Net Debt</label>
-											<div class="metric-value" id="resNetDebt">0M</div>
-										</div>
-										<div class="metric-box">
-											<label>Free Cash Flow (FCF)</label>
-											<div class="metric-value" id="resFCF">0M</div>
-										</div>
-										<div class="metric-box">
-											<label>FCF Conversion</label>
-											<div class="metric-value" id="resFcfConv">0.0%</div>
-										</div>
-										<div class="metric-box">
-											<label>P/E Ratio</label>
-											<div class="metric-value" id="resPE">0.0x</div>
-										</div>
-										<div class="metric-box">
-											<label>EV / EBITDA</label>
-											<div class="metric-value" id="resEvEbitda">0.0x</div>
-										</div>
-										<div class="metric-box">
-											<label>Dividend Yield</label>
-											<div class="metric-value" id="resDivYield">0.00%</div>
+										<div style="display: flex; gap: 0.5rem; flex-wrap: wrap;">
+											<button onclick="checkAllWatchlistAlerts()" class="french-btn french-btn-dark">🔍 Check Live Quotes & Send Telegram Alerts</button>
+											<button onclick="syncWatchlistToGitHub()" class="french-btn french-btn-blue">☁️ Sync with GitHub</button>
 										</div>
 									</div>
-
-									<!-- Simplified DCF Valuation Model -->
-									<h4 style="color: #0f172a; font-weight: 800; border-bottom: 2px solid #2563eb; padding-bottom: 0.6rem; margin-top: 2.5rem;">🧮 Simplified DCF Valuation Model (Projections Based on Actual FCF Margin)</h4>
-									<div class="tool-grid" style="margin-bottom: 1rem;">
-										<div class="input-group">
-											<label for="dcfGrowth">5-Yr Revenue Growth Rate (%):</label>
-											<input type="number" id="dcfGrowth" value="7.0" step="0.5" oninput="calculateAll()" />
-										</div>
-										<div class="input-group">
-											<label for="dcfFcfMargin">Target FCF Margin (%) [Auto-Filled with Actual FCF]:</label>
-											<input type="number" id="dcfFcfMargin" value="" placeholder="35.8" step="0.5" oninput="calculateAll()" />
-										</div>
-										<div class="input-group">
-											<label for="dcfWacc">WACC / Discount Rate (%):</label>
-											<input type="number" id="dcfWacc" value="9.0" step="0.5" oninput="calculateAll()" />
-										</div>
-										<div class="input-group">
-											<label for="dcfTerminal">Terminal Growth Rate g (%):</label>
-											<input type="number" id="dcfTerminal" value="2.5" step="0.25" oninput="calculateAll()" />
-										</div>
-									</div>
-
-									<div class="metric-grid">
-										<div class="metric-box" style="background: linear-gradient(135deg, #ecfdf5 0%, #d1fae5 100%); border-color: #6ee7b7;">
-											<label style="color: #047857;">Intrinsic Value / Share</label>
-											<div class="metric-value" style="color: #064e3b;" id="resIntrinsicValue">0.00</div>
-										</div>
-										<div class="metric-box" style="background: linear-gradient(135deg, #ecfdf5 0%, #d1fae5 100%); border-color: #6ee7b7;">
-											<label style="color: #047857;">Margin of Safety</label>
-											<div class="metric-value" style="color: #064e3b;" id="resMarginSafety">0.0%</div>
-										</div>
-									</div>
-
-									<!-- Target Price Alerts System -->
-									<h4 style="color: #0f172a; font-weight: 800; border-bottom: 2px solid #f43f5e; padding-bottom: 0.6rem; margin-top: 2.5rem;">🔔 Target Price Alert System</h4>
-									<div class="tool-grid" style="margin-bottom: 0.5rem;">
-										<div class="input-group">
-											<label id="labelAlertMin" for="alertMin">Target Buy Price / Minimum (€ / $ / DKK):</label>
-											<input type="number" id="alertMin" value="" placeholder="e.g. 780.00" step="1.0" oninput="calculateAll()" />
-										</div>
-										<div class="input-group">
-											<label id="labelAlertMax" for="alertMax">Target Sell Price / Maximum (€ / $ / DKK):</label>
-											<input type="number" id="alertMax" value="" placeholder="e.g. 950.00" step="1.0" oninput="calculateAll()" />
-										</div>
-									</div>
-
-									<div id="alertBanner" class="alert-banner alert-hold">
-										🟡 Insert a ticker symbol and target prices to activate live price alert monitoring.
-									</div>
-									
-									<button type="button" onclick="addCurrentCompanyToWatchlist()" class="french-btn french-btn-blue" style="margin-top: 1.5rem; width: 100%;">➕ Add This Company & Limits to Telegram Watchlist</button>
-								</div>
-
-								<!-- Telegram Alerts & Watchlist Section -->
-								<h2 style="color: #0f172a; font-weight: 800; border-bottom: 3px solid #2563eb; padding-bottom: 0.6rem; margin-top: 3rem;">📱 Telegram Alert Management & Watchlist</h2>
-								<p style="color: #64748b;">Add companies of interest, set minimum (Buy) and maximum (Sell) threshold prices, and configure your <strong>Telegram Bot</strong> to send instant notifications.</p>
-
-								<div class="tool-container">
-									<!-- Telegram & GitHub Configuration Box -->
-									<h3 style="color: #0f172a; font-weight: 800; border-bottom: 1px solid #e2e8f0; padding-bottom: 0.75rem; margin-bottom: 1.5rem;">⚙️ Alert Configuration & Synchronization</h3>
-									<div class="tool-grid" style="grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 1rem; margin-bottom: 1.25rem;">
-										<div class="input-group">
-											<label for="telegramToken">Telegram Bot Token:</label>
-											<input type="password" id="telegramToken" placeholder="e.g. 123456789:ABCdefGh..." onchange="saveTelegramCredentials()" />
-										</div>
-										<div class="input-group">
-											<label for="telegramChatId">Telegram Chat ID:</label>
-											<input type="text" id="telegramChatId" placeholder="e.g. 2065190784" onchange="saveTelegramCredentials()" />
-										</div>
-										<div class="input-group">
-											<label for="githubToken">GitHub Token (for Sync ☁️):</label>
-											<input type="password" id="githubToken" placeholder="e.g. ghp_abc123..." onchange="saveTelegramCredentials()" />
-										</div>
-									</div>
-									<div style="display: flex; gap: 0.75rem; flex-wrap: wrap; margin-bottom: 1.25rem;">
-										<button type="button" onclick="toggleTokenVisibility()" class="french-btn french-btn-outline">👁️ Hide/Show Tokens</button>
-										<button type="button" onclick="testTelegramAlert()" class="french-btn french-btn-blue">⚡ Test Telegram Notification</button>
-										<button type="button" onclick="saveTelegramCredentials(true)" class="french-btn french-btn-outline">💾 Save Credentials</button>
-									</div>
-									<div id="telegramStatusBox" class="status-msg" style="display:none; margin-bottom: 1.5rem;"></div>
-
-									<!-- Add New Company Form -->
-									<h3 style="color: #0f172a; font-weight: 800; border-bottom: 1px solid #e2e8f0; padding-bottom: 0.75rem; margin-top: 2rem; margin-bottom: 1.5rem;">➕ Add New Company to Watchlist</h3>
-									<div class="tool-grid" style="grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 1rem; margin-bottom: 1.25rem;">
-										<div class="input-group">
-											<label for="newWatchlistTicker">Ticker Symbol:</label>
-											<input type="text" id="newWatchlistTicker" placeholder="e.g. GALP, NVDA, AAPL" style="text-transform: uppercase;" />
-										</div>
-										<div class="input-group">
-											<label for="newWatchlistName">Company Name (Optional):</label>
-											<input type="text" id="newWatchlistName" placeholder="e.g. Galp Energia" />
-										</div>
-										<div class="input-group">
-											<label for="newWatchlistMin">Min / Buy Alert (🟢):</label>
-											<input type="number" id="newWatchlistMin" placeholder="e.g. 15.00" step="0.1" />
-										</div>
-										<div class="input-group">
-											<label for="newWatchlistMax">Max / Sell Alert (🔴):</label>
-											<input type="number" id="newWatchlistMax" placeholder="e.g. 20.00" step="0.1" />
-										</div>
-									</div>
-									<button type="button" onclick="addNewWatchlistEntry()" class="french-btn french-btn-dark" style="margin-bottom: 2rem;">➕ Add to Watchlist</button>
 
 									<!-- Watchlist Table -->
-									<div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; margin-bottom: 1.25rem; gap: 0.75rem;">
-										<h3 style="color: #0f172a; font-weight: 800; margin: 0;">📊 Monitored Companies (Watchlist)</h3>
-										<div style="display: flex; gap: 0.75rem; flex-wrap: wrap;">
-											<button type="button" onclick="checkAllWatchlistAlerts()" class="french-btn french-btn-dark">🔍 Check Live Quotes & Send Telegram Alerts</button>
-											<button type="button" onclick="syncWatchlistToGitHub()" class="french-btn french-btn-blue">☁️ Sync with GitHub</button>
-										</div>
-									</div>
-
 									<div class="table-container-french">
 										<table class="table-french">
 											<thead>
 												<tr>
-													<th style="text-align: left;">Company / Ticker</th>
-													<th style="text-align: center;">Min Buy (🟢)</th>
-													<th style="text-align: center;">Max Sell (🔴)</th>
-													<th style="text-align: center;">Last Live Price</th>
-													<th style="text-align: center;">Status / Signal</th>
-													<th style="text-align: center;">Actions</th>
+													<th style="width: 25%;">Company / Ticker</th>
+													<th style="width: 16%; text-align: center;">Min Buy (🟢)</th>
+													<th style="width: 16%; text-align: center;">Max Sell (🔴)</th>
+													<th style="width: 18%; text-align: center;">Last Live Price</th>
+													<th style="width: 15%; text-align: center;">Status / Signal</th>
+													<th style="width: 10%; text-align: center;">Actions</th>
 												</tr>
 											</thead>
 											<tbody id="watchlistTableBody">
-												<!-- Dynamic Watchlist Rows -->
+												<!-- Dynamically populated -->
 											</tbody>
 										</table>
 									</div>
-									<div id="watchlistSummaryBox" class="status-msg" style="display:none; margin-top: 1.25rem;"></div>
+
+									<div id="watchlistSummaryBox" class="status-msg"></div>
+
+									<!-- Telegram & Sync Settings Collapsible Box -->
+									<div class="settings-card">
+										<h4 style="margin: 0 0 0.75rem 0; color: #0f172a; font-weight: 800; font-size: 1rem;">⚙️ Alert Configuration & Telegram Credentials</h4>
+										<p style="font-size: 0.82rem; color: #64748b; margin-bottom: 1rem;">Configure your Telegram credentials to receive instant mobile alerts when target buy/sell prices are reached.</p>
+										
+										<div class="form-grid-3">
+											<div class="input-group">
+												<label for="telegramToken">Telegram Bot Token:</label>
+												<input type="password" id="telegramToken" placeholder="123456789:ABCdef..." />
+											</div>
+											<div class="input-group">
+												<label for="telegramChatId">Telegram Chat ID:</label>
+												<input type="text" id="telegramChatId" placeholder="12345678" />
+											</div>
+											<div class="input-group">
+												<label for="githubToken">GitHub Token (Optional Sync):</label>
+												<input type="password" id="githubToken" placeholder="ghp_..." />
+											</div>
+											<div style="display: flex; gap: 0.5rem;">
+												<button onclick="saveTelegramCredentials(true)" class="french-btn french-btn-outline" style="padding: 0.65rem 1rem;">💾 Save</button>
+												<button onclick="testTelegramAlert()" class="french-btn french-btn-outline" style="padding: 0.65rem 1rem;">🧪 Test Alert</button>
+											</div>
+										</div>
+										<div id="telegramStatusBox" class="status-msg"></div>
+									</div>
+
 								</div>
 
-								<ul class="actions special">
-									<li><a href="index.html" class="button">Back to Portfolio</a></li>
-								</ul>
 							</section>
 
 					</div>
@@ -771,385 +428,172 @@
 			<script src="assets/js/breakpoints.min.js"></script>
 			<script src="assets/js/util.js"></script>
 			<script src="assets/js/main.js"></script>
-
 			<script>
-				// Alias dictionary for instant fuzzy matching
-				const aliasMap = {
-					"NOVO-B": "NOVO-B.CO",
-					"NOVO-B.CO": "NOVO-B.CO",
-					"NOVO": "NOVO-B.CO",
-					"NOVOB": "NOVO-B.CO",
-					"NOVO NORDISK": "NOVO-B.CO",
-					"NVO": "NVO",
-					"ADS": "ADS.DE",
-					"ADS.DE": "ADS.DE",
-					"ADIDAS": "ADS.DE",
-					"NKE": "NKE",
-					"NIKE": "NKE",
-					"AAPL": "AAPL",
-					"APPLE": "AAPL",
-					"MSFT": "MSFT",
-					"MICROSOFT": "MSFT",
-					"NVDA": "NVDA",
-					"NVIDIA": "NVDA",
-					"GALP": "GALP.LS",
-					"GALP.LS": "GALP.LS",
-					"GALP ENERGIA": "GALP.LS",
-					"PETR4": "PETR4.SA",
-					"PETR4.SA": "PETR4.SA",
-					"PETROBRAS": "PETR4.SA"
-				};
-
-				// Annualized FY metrics for DCF mathematical consistency
-				const knownData = {
-					"GALP.LS": { name: "Galp Energia, SGPS, S.A. (GALP.LS)", currency: "EUR (€)", symbol: "€", reportDate: "FY2026 (Annualized H1 2026)", price: 19.82, shares: 772.8, revenue: 20800, grossProfit: 4200, ebit: 1550, netIncome: 1010, totalDebt: 3100, cash: 1800, equity: 4500, fco: 2400, capex: 950, div: 0.54, minBuy: 15.00, maxSell: 22.00 },
-					"ADS.DE": { name: "Adidas AG (ADS.DE)", currency: "EUR (€)", symbol: "€", reportDate: "FY2026 (Annualized Q2 2026)", price: 164.05, shares: 178.50, revenue: 21400, grossProfit: 10800, ebit: 1100, netIncome: 780, totalDebt: 3400, cash: 1500, equity: 5200, fco: 2100, capex: 550, div: 1.45, minBuy: 140.00, maxSell: 200.00 },
-					"NOVO-B.CO": { name: "Novo Nordisk A/S (NOVO-B.CO)", currency: "DKK (Danish Krone)", symbol: "DKK", reportDate: "H1 2026 (04/08/2026 - Annualized for Valuation)", price: 840.00, shares: 4460.0, revenue: 303822, grossProfit: 257000, ebit: 173040, netIncome: 139092, totalDebt: 32000, cash: 18500, equity: 94000, fco: 158566, capex: 49680, div: 15.84, minBuy: 780.00, maxSell: 950.00 },
-					"NVO": { name: "Novo Nordisk A/S ADR (NVO)", currency: "USD ($)", symbol: "$", reportDate: "H1 2026 (04/08/2026 - Annualized for Valuation)", price: 124.50, shares: 4460.0, revenue: 43400, grossProfit: 36700, ebit: 24720, netIncome: 19870, totalDebt: 4500, cash: 2600, equity: 13400, fco: 22640, capex: 7100, div: 2.26, minBuy: 110.00, maxSell: 140.00 },
-					"NKE": { name: "Nike, Inc. (NKE)", currency: "USD ($)", symbol: "$", reportDate: "Q4 FY2026 (June 2026)", price: 75.20, shares: 1500.0, revenue: 51300, grossProfit: 22800, ebit: 6200, netIncome: 5700, totalDebt: 12100, cash: 7500, equity: 14300, fco: 6800, capex: 950, div: 1.48, minBuy: 70.00, maxSell: 95.00 },
-					"AAPL": { name: "Apple Inc. (AAPL)", currency: "USD ($)", symbol: "$", reportDate: "Q3 FY2026 (August 2026)", price: 222.50, shares: 15200.0, revenue: 385600, grossProfit: 170700, ebit: 114300, netIncome: 93700, totalDebt: 104600, cash: 61800, equity: 62100, fco: 118200, capex: 9400, div: 1.00, minBuy: 195.00, maxSell: 245.00 },
-					"MSFT": { name: "Microsoft Corp (MSFT)", currency: "USD ($)", symbol: "$", reportDate: "Q4 FY2026 (July 2026)", price: 410.00, shares: 7430.0, revenue: 245100, grossProfit: 170000, ebit: 109400, netIncome: 88100, totalDebt: 79000, cash: 75500, equity: 268000, fco: 118500, capex: 44500, div: 3.00, minBuy: 370.00, maxSell: 450.00 }
-				};
-
-				let currentCurrencySymbol = "€ / $ / DKK";
-
-				function updateCurrencyUI(currName, currSymbol) {
-					currentCurrencySymbol = currSymbol || currName || "€ / $";
-					document.getElementById('currencyBadge').innerText = '💱 Reporting Currency: ' + (currName || "EUR / USD / DKK");
-					document.getElementById('labelStockPrice').innerText = 'Stock Price (' + currentCurrencySymbol + '):';
-					document.getElementById('labelDiv').innerText = 'Dividend Per Share (' + currentCurrencySymbol + '):';
-					document.getElementById('labelAlertMin').innerText = 'Target Buy Price / Minimum (' + currentCurrencySymbol + '):';
-					document.getElementById('labelAlertMax').innerText = 'Target Sell Price / Maximum (' + currentCurrencySymbol + '):';
-					
-					// Update Millions labels
-					const mText = ' (' + currentCurrencySymbol + ' Millions)';
-					document.getElementById('labelRevenue').innerText = 'Annualized Revenue' + mText;
-					document.getElementById('labelGrossProfit').innerText = 'Gross Profit' + mText;
-					document.getElementById('labelEbit').innerText = 'EBIT / Operating Income' + mText;
-					document.getElementById('labelNetIncome').innerText = 'Net Income' + mText;
-					document.getElementById('labelDebt').innerText = 'Total Debt' + mText;
-					document.getElementById('labelCash').innerText = 'Cash & Equivalents' + mText;
-					document.getElementById('labelEquity').innerText = 'Total Equity' + mText;
-					document.getElementById('labelFco').innerText = 'Operating Cash Flow FCO' + mText;
-					document.getElementById('labelCapex').innerText = 'CapEx' + mText;
-				}
-
-				function showStatus(msg, type) {
-					const box = document.getElementById('statusBox');
-					box.className = 'status-msg status-' + type;
-					box.innerHTML = msg;
-				}
-
-				function populateForm(data) {
-					document.getElementById('companyTitle').innerText = '📊 Company Metrics: ' + data.name;
-					document.getElementById('reportDateBadge').innerText = '📅 Filing Date: ' + data.reportDate;
-					updateCurrencyUI(data.currency, data.symbol);
-					document.getElementById('reportDate').value = data.reportDate;
-					document.getElementById('price').value = data.price;
-					document.getElementById('shares').value = data.shares;
-					document.getElementById('revenue').value = data.revenue;
-					document.getElementById('grossProfit').value = data.grossProfit;
-					document.getElementById('ebit').value = data.ebit;
-					document.getElementById('netIncome').value = data.netIncome;
-					document.getElementById('totalDebt').value = data.totalDebt;
-					document.getElementById('cash').value = data.cash;
-					document.getElementById('equity').value = data.equity;
-					document.getElementById('fco').value = data.fco;
-					document.getElementById('capex').value = data.capex;
-					document.getElementById('dividendPerShare').value = data.div;
-					document.getElementById('alertMin').value = data.minBuy;
-					document.getElementById('alertMax').value = data.maxSell;
-
-					// Auto-fill DCF target FCF margin from real FCF
-					const realFcf = data.fco - data.capex;
-					if(data.revenue > 0) {
-						const realFcfMargin = ((realFcf / data.revenue) * 100).toFixed(1);
-						document.getElementById('dcfFcfMargin').value = realFcfMargin;
-					}
-
-					calculateAll();
-				}
-
-				async function fetchLiveStockPrice(tickerSymbol) {
-					if (!tickerSymbol) return null;
-					const cleanSym = tickerSymbol.trim().toUpperCase();
-					const canonical = aliasMap[cleanSym] || cleanSym;
-
-					const symbolsToTry = [canonical];
-					if (cleanSym === 'GALP' || canonical === 'GALP') symbolsToTry.unshift('GALP.LS');
-					if (cleanSym === 'ADS' || canonical === 'ADS') symbolsToTry.unshift('ADS.DE');
-					if (cleanSym === 'NOVO-B' || canonical === 'NOVO-B') symbolsToTry.unshift('NOVO-B.CO');
-					if (!canonical.includes('.')) {
-						symbolsToTry.push(canonical + '.LS');
-						symbolsToTry.push(canonical + '.DE');
-						symbolsToTry.push(canonical + '.SA');
-						symbolsToTry.push(canonical + '.CO');
-					}
-
-					// 1. Direct Yahoo v8 Chart API (query2 and query1) - Works directly without authorization/crumbs!
-					for (const sym of symbolsToTry) {
-						const hosts = [
-							'https://query2.finance.yahoo.com/v8/finance/chart/',
-							'https://query1.finance.yahoo.com/v8/finance/chart/'
-						];
-						for (const host of hosts) {
-							try {
-								const res = await fetch(host + encodeURIComponent(sym) + '?interval=1d');
-								const data = await res.json();
-								const meta = data?.chart?.result?.[0]?.meta;
-								if (meta && meta.regularMarketPrice && meta.regularMarketPrice > 0) {
-									return {
-										price: meta.regularMarketPrice,
-										currency: meta.currency || getTickerCurrencySymbol(sym),
-										source: "Yahoo / Google Finance",
-										symbol: sym
-									};
-								}
-							} catch(e) {}
-						}
-					}
-
-					// 2. Try AllOrigins CORS proxy fallback with v8 chart
-					for (const sym of symbolsToTry) {
-						try {
-							const targetUrl = 'https://query2.finance.yahoo.com/v8/finance/chart/' + encodeURIComponent(sym) + '?interval=1d';
-							const res = await fetch('https://api.allorigins.win/raw?url=' + encodeURIComponent(targetUrl));
-							const data = await res.json();
-							const meta = data?.chart?.result?.[0]?.meta;
-							if (meta && meta.regularMarketPrice && meta.regularMarketPrice > 0) {
-								return {
-									price: meta.regularMarketPrice,
-									currency: meta.currency || getTickerCurrencySymbol(sym),
-									source: "Yahoo / Google Finance",
-									symbol: sym
-								};
-							}
-						} catch(e) {}
-					}
-
-					// 3. Fallback to knownData baseline
-					if (knownData[canonical] && knownData[canonical].price) {
-						return {
-							price: knownData[canonical].price,
-							currency: knownData[canonical].currency,
-							source: "Official Statement Baseline",
-							symbol: canonical
-						};
-					}
-
-					return null;
-				}
-
-				async function loadSymbolQuote(symbolToLoad, displayName) {
-					const canonical = aliasMap[symbolToLoad.toUpperCase()] || aliasMap[symbolToLoad] || symbolToLoad;
-					
-					// Always fetch live market quote FIRST!
-					const liveData = await fetchLiveStockPrice(symbolToLoad);
-					
-					if (liveData && liveData.price > 0) {
-						let dataToUse = knownData[canonical] ? { ...knownData[canonical] } : {};
-						dataToUse.name = dataToUse.name || displayName || symbolToLoad;
-						dataToUse.price = liveData.price;
-						dataToUse.symbol = getTickerCurrencySymbol(symbolToLoad);
-						dataToUse.currency = liveData.currency || dataToUse.currency || "EUR";
-						dataToUse.reportDate = dataToUse.reportDate || ("Live Market Quote (" + liveData.source + ")");
-						
-						populateForm(dataToUse);
-						showStatus('✅ Live market quote for <strong>' + dataToUse.name + '</strong> (' + formatPriceWithCurrency(liveData.price, dataToUse.symbol) + ') loaded successfully!', 'success');
-						return true;
-					}
-
-					// Fallback to local baseline
-					if (knownData[canonical]) {
-						const data = knownData[canonical];
-						populateForm(data);
-						showStatus('✅ Baseline data for <strong>' + data.name + '</strong> loaded!', 'success');
-						return true;
-					}
-
-					return false;
-				}
-
-				async function fetchTickerData() {
-					const inputRaw = document.getElementById('tickerInput').value.trim();
-					if(!inputRaw) {
-						showStatus('⚠️ Please enter a ticker symbol or company name (e.g., NOVO-B, ADS.DE, AAPL, NKE, Novo Nordisk).', 'warning');
-						return;
-					}
-
-					const cleanInput = inputRaw.toUpperCase().replace(/\s+/g, ' ');
-					const canonical = aliasMap[cleanInput] || aliasMap[inputRaw.toUpperCase()] || cleanInput;
-
-					showStatus('⏳ Loading financial data for "<strong>' + inputRaw + '</strong>"...', 'loading');
-
-					// 1. Direct or alias match
-					const directSuccess = await loadSymbolQuote(canonical, inputRaw);
-					if(directSuccess) return;
-
-					// 2. Fuzzy Search API
-					try {
-						const searchRes = await fetch('https://api.allorigins.win/raw?url=' + encodeURIComponent('https://query1.finance.yahoo.com/v1/finance/search?q=' + encodeURIComponent(inputRaw)));
-						const searchData = await searchRes.json();
-						const quotes = (searchData.quotes || []).filter(q => q.quoteType === 'EQUITY' || q.quoteType === 'ETF');
-
-						if (quotes.length > 0) {
-							const topMatch = quotes[0];
-							const loaded = await loadSymbolQuote(topMatch.symbol, topMatch.shortname || topMatch.longname);
-
-							let suggestionsHTML = '💡 Ticker "<strong>' + inputRaw + '</strong>" not found directly.<br />';
-							if(loaded) {
-								suggestionsHTML += 'Loaded best match: <strong>' + (topMatch.shortname || topMatch.symbol) + ' (' + topMatch.symbol + ')</strong>.<br />';
-							}
-							
-							if(quotes.length > 1) {
-								suggestionsHTML += '<span style="display:block; margin-top:0.3rem;">Other suggestions found: ';
-								quotes.slice(0, 4).forEach(q => {
-									suggestionsHTML += '<button class="suggestion-btn" onclick="document.getElementById(\'tickerInput\').value=\'' + q.symbol + '\'; fetchTickerData();">' + q.symbol + ' (' + (q.shortname || q.symbol) + ')</button> ';
-								});
-								suggestionsHTML += '</span>';
-							}
-							showStatus(suggestionsHTML, loaded ? 'success' : 'warning');
-							return;
-						}
-					} catch(e) {
-						console.log('Search API failed:', e);
-					}
-
-					showStatus('❌ No company found for "<strong>' + inputRaw + '</strong>". Try entering <code>NOVO-B</code>, <code>ADS.DE</code>, <code>AAPL</code>, or <code>NKE</code>.', 'error');
-				}
-
-				function calculateAll() {
-					const price = parseFloat(document.getElementById('price').value) || 0;
-					const shares = parseFloat(document.getElementById('shares').value) || 0;
-					const revenue = parseFloat(document.getElementById('revenue').value) || 0;
-					const grossProfit = parseFloat(document.getElementById('grossProfit').value) || 0;
-					const ebit = parseFloat(document.getElementById('ebit').value) || 0;
-					const netIncome = parseFloat(document.getElementById('netIncome').value) || 0;
-					const totalDebt = parseFloat(document.getElementById('totalDebt').value) || 0;
-					const cash = parseFloat(document.getElementById('cash').value) || 0;
-					const fco = parseFloat(document.getElementById('fco').value) || 0;
-					const capex = parseFloat(document.getElementById('capex').value) || 0;
-					const divPerShare = parseFloat(document.getElementById('dividendPerShare').value) || 0;
-
-					const grossMargin = revenue > 0 ? (grossProfit / revenue) * 100 : 0;
-					const ebitMargin = revenue > 0 ? (ebit / revenue) * 100 : 0;
-					const netDebt = totalDebt - cash;
-					const fcf = fco - capex;
-					const fcfConv = netIncome > 0 ? (fcf / netIncome) * 100 : 0;
-					
-					const marketCap = price * shares;
-					const pe = (netIncome > 0 && shares > 0) ? marketCap / netIncome : 0;
-					const ebitda = ebit + (revenue * 0.035);
-					const ev = marketCap + netDebt;
-					const evEbitda = ebitda > 0 ? ev / ebitda : 0;
-					const divYield = price > 0 ? (divPerShare / price) * 100 : 0;
-
-					document.getElementById('resGrossMargin').innerText = grossMargin.toFixed(1) + '%';
-					document.getElementById('resEbitMargin').innerText = ebitMargin.toFixed(1) + '%';
-					document.getElementById('resNetDebt').innerText = Math.round(netDebt).toLocaleString() + 'M';
-					document.getElementById('resFCF').innerText = Math.round(fcf).toLocaleString() + 'M';
-					document.getElementById('resFcfConv').innerText = fcfConv.toFixed(1) + '%';
-					document.getElementById('resPE').innerText = pe.toFixed(1) + 'x';
-					document.getElementById('resEvEbitda').innerText = evEbitda.toFixed(1) + 'x';
-					document.getElementById('resDivYield').innerText = divYield.toFixed(2) + '%';
-
-					// DCF Model Calculation
-					const dcfGrowth = (parseFloat(document.getElementById('dcfGrowth').value) || 0) / 100;
-					const dcfFcfMargin = (parseFloat(document.getElementById('dcfFcfMargin').value) || 0) / 100;
-					const wacc = (parseFloat(document.getElementById('dcfWacc').value) || 0) / 100;
-					const g = (parseFloat(document.getElementById('dcfTerminal').value) || 0) / 100;
-
-					let pvFcfSum = 0;
-					let currentRev = revenue;
-
-					if(revenue > 0 && dcfFcfMargin > 0) {
-						for(let year = 1; year <= 5; year++) {
-							currentRev *= (1 + dcfGrowth);
-							const projFcf = currentRev * dcfFcfMargin;
-							const pv = projFcf / Math.pow(1 + wacc, year);
-							pvFcfSum += pv;
-						}
-					}
-
-					const terminalValue = (wacc > g && revenue > 0 && dcfFcfMargin > 0) ? (currentRev * dcfFcfMargin * (1 + g)) / (wacc - g) : 0;
-					const pvTerminalValue = terminalValue / Math.pow(1 + wacc, 5);
-					const totalEnterpriseValue = pvFcfSum + pvTerminalValue;
-					const totalEquityValuation = totalEnterpriseValue - netDebt;
-					const intrinsicValuePerShare = shares > 0 ? totalEquityValuation / shares : 0;
-					const marginOfSafety = (intrinsicValuePerShare > 0 && price > 0) ? ((intrinsicValuePerShare - price) / intrinsicValuePerShare) * 100 : 0;
-
-					document.getElementById('resIntrinsicValue').innerText = currentCurrencySymbol + ' ' + intrinsicValuePerShare.toFixed(2);
-					document.getElementById('resMarginSafety').innerText = (marginOfSafety >= 0 ? '+' : '') + marginOfSafety.toFixed(1) + '%';
-
-					// Target Alerts
-					const minTarget = parseFloat(document.getElementById('alertMin').value) || 0;
-					const maxTarget = parseFloat(document.getElementById('alertMax').value) || 0;
-					const banner = document.getElementById('alertBanner');
-
-					if (price > 0 && minTarget > 0 && price <= minTarget) {
-						banner.className = 'alert-banner alert-buy';
-						banner.innerHTML = '🟢 BUY ALERT TRIGGERED: Current price (' + currentCurrencySymbol + ' ' + price.toFixed(2) + ') has dropped to/below your Target Buy Price (' + currentCurrencySymbol + ' ' + minTarget.toFixed(2) + ')!';
-					} else if (price > 0 && maxTarget > 0 && price >= maxTarget) {
-						banner.className = 'alert-banner alert-sell';
-						banner.innerHTML = '🔴 SELL ALERT TRIGGERED: Current price (' + currentCurrencySymbol + ' ' + price.toFixed(2) + ') has reached/exceeded your Target Sell Price (' + currentCurrencySymbol + ' ' + maxTarget.toFixed(2) + ')!';
-					} else if (price > 0 && (minTarget > 0 || maxTarget > 0)) {
-						banner.className = 'alert-banner alert-hold';
-						banner.innerHTML = '🟡 HOLD / WATCHLIST: Current price (' + currentCurrencySymbol + ' ' + price.toFixed(2) + ') is within your target bounds.';
-					} else {
-						banner.className = 'alert-banner alert-hold';
-						banner.innerHTML = '🟡 Insert a ticker symbol and target prices to activate live price alert monitoring.';
-					}
-				}
-
-				// ==========================================
-				// Telegram Alerts & Watchlist Manager
-				// ==========================================
 				const DEFAULT_WATCHLIST = [
-					{ ticker: "ADS.DE", name: "Adidas AG", minBuy: 140.00, maxSell: 200.00, lastPrice: 164.05, status: "HOLD" },
-					{ ticker: "NKE", name: "Nike, Inc.", minBuy: 70.00, maxSell: 95.00, lastPrice: 75.20, status: "HOLD" },
-					{ ticker: "GALP", name: "Galp Energia", minBuy: 15.00, maxSell: 22.00, lastPrice: 19.82, status: "HOLD" },
-					{ ticker: "NOVO-B.CO", name: "Novo Nordisk A/S", minBuy: 780.00, maxSell: 950.00, lastPrice: 840.00, status: "HOLD" },
-					{ ticker: "AAPL", name: "Apple Inc.", minBuy: 195.00, maxSell: 245.00, lastPrice: 222.50, status: "HOLD" },
-					{ ticker: "MSFT", name: "Microsoft Corp", minBuy: 370.00, maxSell: 450.00, lastPrice: 410.00, status: "HOLD" }
+					{ ticker: "ADS.DE", name: "Adidas AG", minBuy: 140.00, maxSell: 200.00, lastPrice: 153.55, status: "HOLD" },
+					{ ticker: "NKE", name: "Nike, Inc.", minBuy: 30.00, maxSell: 95.00, lastPrice: 40.21, status: "HOLD" },
+					{ ticker: "GALP", name: "Galp Energia", minBuy: 15.00, maxSell: 22.00, lastPrice: 21.80, status: "HOLD" }
 				];
 
 				let watchlist = [];
+
+				const aliasMap = {
+					"GALP": "GALP.LS",
+					"ADS": "ADS.DE",
+					"NOVO-B": "NOVO-B.CO",
+					"PETR4": "PETR4.SA"
+				};
+
+				function getTickerCurrencySymbol(tickerStr) {
+					if (!tickerStr) return '€';
+					const t = tickerStr.toUpperCase();
+					if (t.endsWith('.LS') || t.endsWith('.DE') || t.endsWith('.PA') || t.endsWith('.AS') || t.endsWith('.MI') || t.endsWith('.MC') || t === 'GALP' || t === 'ADS.DE') return '€';
+					if (t.endsWith('.CO') || t === 'NOVO-B') return 'DKK';
+					if (t.endsWith('.SA') || t === 'PETR4') return 'R$';
+					if (t.endsWith('.L')) return '£';
+					return '$';
+				}
+
+				function formatPriceWithCurrency(priceNum, currSymbol) {
+					if (priceNum === 'Erro' || priceNum === null || priceNum === undefined || priceNum <= 0 || isNaN(parseFloat(priceNum))) {
+						return '<span style="color:#e53e3e; font-weight:800;">Erro</span>';
+					}
+					const num = typeof priceNum === 'number' ? priceNum : parseFloat(priceNum);
+					const valStr = num.toFixed(2);
+					if (currSymbol === '$' || currSymbol === 'R$' || currSymbol === '£') {
+						return currSymbol + valStr;
+					}
+					return valStr + ' ' + currSymbol;
+				}
+
+				function renderWatchlistTable() {
+					const tbody = document.getElementById('watchlistTableBody');
+					if (!tbody) return;
+					tbody.innerHTML = '';
+
+					if (watchlist.length === 0) {
+						tbody.innerHTML = '<tr><td colspan="6" style="text-align:center; padding: 1.5rem; color: #718096;">No stocks in Watchlist. Add a stock above to begin monitoring.</td></tr>';
+						return;
+					}
+
+					watchlist.forEach((item, index) => {
+						const tr = document.createElement('tr');
+
+						let statusBadge = '<span class="badge-hold">🟡 HOLD</span>';
+						if (item.status === 'BUY') {
+							statusBadge = '<span class="badge-buy">🟢 BUY</span>';
+						} else if (item.status === 'SELL') {
+							statusBadge = '<span class="badge-sell">🔴 SELL</span>';
+						}
+
+						const currSym = getTickerCurrencySymbol(item.ticker);
+						const lastPriceStr = formatPriceWithCurrency(item.lastPrice, currSym);
+
+						tr.innerHTML = '<td style="padding: 0.85rem 1.25rem;">' +
+								'<strong style="font-weight:800; color:#0f172a; font-size:0.95rem;">' + item.ticker + '</strong> ' +
+								'<span style="font-size:0.7rem; background:#eff6ff; color:#1d4ed8; border:1px solid #bfdbfe; padding:0.15rem 0.5rem; border-radius:9999px; font-weight:700; display:inline-block; margin-left:0.25rem;">' + currSym + '</span><br />' +
+								'<small style="color:#64748b; font-weight:600;">' + (item.name || '') + '</small>' +
+							'</td>' +
+							'<td style="padding: 0.85rem; text-align: center; white-space:nowrap;">' +
+								'<div style="display:inline-flex; align-items:center; gap:0.25rem; justify-content:center;">' +
+									'<span style="font-size:0.8rem; color:#64748b; font-weight:700;">' + currSym + '</span>' +
+									'<input type="number" value="' + item.minBuy + '" step="0.1" style="width: 90px; padding: 0.4rem 0.5rem; font-size:0.88rem; border-radius:10px; border:1px solid #cbd5e1; text-align:center; font-weight:700;" onchange="updateWatchlistThreshold(' + index + ', \'minBuy\', this.value)" />' +
+								'</div>' +
+							'</td>' +
+							'<td style="padding: 0.85rem; text-align: center; white-space:nowrap;">' +
+								'<div style="display:inline-flex; align-items:center; gap:0.25rem; justify-content:center;">' +
+									'<span style="font-size:0.8rem; color:#64748b; font-weight:700;">' + currSym + '</span>' +
+									'<input type="number" value="' + item.maxSell + '" step="0.1" style="width: 90px; padding: 0.4rem 0.5rem; font-size:0.88rem; border-radius:10px; border:1px solid #cbd5e1; text-align:center; font-weight:700;" onchange="updateWatchlistThreshold(' + index + ', \'maxSell\', this.value)" />' +
+								'</div>' +
+							'</td>' +
+							'<td style="padding: 0.85rem; text-align: center; font-weight: 800; color:#0f172a; font-size:1.05rem; white-space:nowrap;">' +
+								lastPriceStr +
+							'</td>' +
+							'<td style="padding: 0.85rem; text-align: center;">' +
+								statusBadge +
+							'</td>' +
+							'<td style="padding: 0.85rem; text-align: center; white-space: nowrap;">' +
+								'<div style="display: inline-flex; gap: 0.4rem; align-items: center; justify-content: center;">' +
+									'<button type="button" class="french-btn" style="background:#fff1f2; color:#be123c !important; border:1px solid #fecdd3; padding:0.4rem 0.65rem; font-size:0.78rem;" title="Remove" onclick="deleteWatchlistItem(' + index + ')">🗑️</button>' +
+								'</div>' +
+							'</td>';
+						tbody.appendChild(tr);
+					});
+				}
+
+				function updateWatchlistThreshold(index, field, value) {
+					const numVal = parseFloat(value) || 0;
+					if (watchlist[index]) {
+						watchlist[index][field] = numVal;
+						saveWatchlistToStorage();
+						showWatchlistSummary('💾 Targets for <strong>' + watchlist[index].ticker + '</strong> updated successfully!', 'success');
+					}
+				}
+
+				function deleteWatchlistItem(index) {
+					if (index >= 0 && index < watchlist.length) {
+						const removed = watchlist.splice(index, 1);
+						saveWatchlistToStorage();
+						renderWatchlistTable();
+						showWatchlistSummary('🗑️ Stock <strong>' + removed[0].ticker + '</strong> removed from Watchlist.', 'warning');
+					}
+				}
+
+				function addNewWatchlistEntry() {
+					const ticker = document.getElementById('newWatchlistTicker').value.trim();
+					const name = document.getElementById('newWatchlistName').value.trim();
+					const minBuy = document.getElementById('newWatchlistMin').value;
+					const maxSell = document.getElementById('newWatchlistMax').value;
+
+					if (!ticker) {
+						showWatchlistSummary('⚠️ Please enter a valid stock ticker symbol (e.g., ADS.DE, NKE, GALP).', 'warning');
+						return;
+					}
+
+					const cleanTicker = ticker.toUpperCase();
+					const existingIndex = watchlist.findIndex(w => w.ticker === cleanTicker);
+
+					if (existingIndex >= 0) {
+						watchlist[existingIndex].minBuy = parseFloat(minBuy) || watchlist[existingIndex].minBuy;
+						watchlist[existingIndex].maxSell = parseFloat(maxSell) || watchlist[existingIndex].maxSell;
+						if (name) watchlist[existingIndex].name = name;
+						showWatchlistSummary('🔄 Updated alert targets for existing stock <strong>' + cleanTicker + '</strong>!', 'success');
+					} else {
+						watchlist.push({
+							ticker: cleanTicker,
+							name: name || cleanTicker,
+							minBuy: parseFloat(minBuy) || 0,
+							maxSell: parseFloat(maxSell) || 0,
+							lastPrice: 0,
+							status: "HOLD"
+						});
+						showWatchlistSummary('✅ Added <strong>' + cleanTicker + '</strong> to Stock Alert System!', 'success');
+					}
+
+					document.getElementById('newWatchlistTicker').value = '';
+					document.getElementById('newWatchlistName').value = '';
+					document.getElementById('newWatchlistMin').value = '';
+					document.getElementById('newWatchlistMax').value = '';
+
+					saveWatchlistToStorage();
+					renderWatchlistTable();
+				}
 
 				function getStoredWatchlist() {
 					try {
 						const stored = localStorage.getItem('portfolio_watchlist_items');
 						if (stored) {
 							const parsed = JSON.parse(stored);
-							if (Array.isArray(parsed) && parsed.length > 0) {
-								parsed.forEach(item => {
-									const canonical = aliasMap[item.ticker.toUpperCase()] || item.ticker.toUpperCase();
-									if (canonical === 'ADS.DE' || item.ticker === 'ADS.DE' || item.ticker === 'ADS') {
-										if (item.lastPrice === 220 || item.lastPrice === 220.00 || !item.lastPrice) item.lastPrice = 164.05;
-										if (item.minBuy === 120) item.minBuy = 140;
-										if (item.maxSell === 240) item.maxSell = 200;
-									}
-									if (canonical === 'GALP.LS' || item.ticker === 'GALP' || item.ticker === 'GALP.LS') {
-										if (item.lastPrice === 18.2 || item.lastPrice === 18.20 || !item.lastPrice) item.lastPrice = 19.82;
-										if (item.minBuy === 15) item.minBuy = 15;
-										if (item.maxSell === 20) item.maxSell = 22;
-									}
-								});
-								return parsed;
-							}
+							if (Array.isArray(parsed) && parsed.length > 0) return parsed;
 						}
-					} catch(e) {
-						console.log("Error loading watchlist from localStorage", e);
-					}
+					} catch(e) {}
 					return JSON.parse(JSON.stringify(DEFAULT_WATCHLIST));
 				}
 
 				function saveWatchlistToStorage() {
 					try {
 						localStorage.setItem('portfolio_watchlist_items', JSON.stringify(watchlist));
-					} catch(e) {
-						console.log("Error saving watchlist", e);
-					}
-					updatePythonSnippet();
+					} catch(e) {}
 				}
 
 				function loadTelegramCredentials() {
@@ -1171,21 +615,56 @@
 					localStorage.setItem('portfolio_telegram_chatid', chatId);
 					if (ghToken) localStorage.setItem('portfolio_github_token', ghToken);
 					
-					const statusBox = document.getElementById('telegramStatusBox');
 					if (showFeedback) {
+						const statusBox = document.getElementById('telegramStatusBox');
 						statusBox.className = 'status-msg status-success';
 						statusBox.style.display = 'block';
 						statusBox.innerHTML = '💾 Credentials saved successfully in your browser!';
 						setTimeout(() => { statusBox.style.display = 'none'; }, 4000);
 					}
-					updatePythonSnippet();
 				}
 
-				function toggleTokenVisibility() {
-					const tokenInput = document.getElementById('telegramToken');
-					const ghInput = document.getElementById('githubToken');
-					tokenInput.type = tokenInput.type === 'password' ? 'text' : 'password';
-					if (ghInput) ghInput.type = ghInput.type === 'password' ? 'text' : 'password';
+				async function sendTelegramMessage(text) {
+					const token = document.getElementById('telegramToken').value.trim();
+					const chatId = document.getElementById('telegramChatId').value.trim();
+
+					if (!token || !chatId) {
+						throw new Error("Telegram Bot Token and Chat ID are required.");
+					}
+
+					const url = 'https://api.telegram.org/bot' + token + '/sendMessage';
+					const response = await fetch(url, {
+						method: 'POST',
+						headers: { 'Content-Type': 'application/json' },
+						body: JSON.stringify({
+							chat_id: chatId,
+							text: text,
+							parse_mode: 'Markdown'
+						})
+					});
+
+					const resData = await response.json();
+					if (!resData.ok) {
+						throw new Error(resData.description || "Telegram API Error");
+					}
+					return resData;
+				}
+
+				async function testTelegramAlert() {
+					saveTelegramCredentials();
+					const statusBox = document.getElementById('telegramStatusBox');
+					statusBox.className = 'status-msg status-loading';
+					statusBox.style.display = 'block';
+					statusBox.innerHTML = '⏳ Sending test alert to Telegram...';
+
+					try {
+						await sendTelegramMessage("🧪 *STOCK PRICE ALERT TEST*\n\nConnection successful! Your Stock Alert System is operational.");
+						statusBox.className = 'status-msg status-success';
+						statusBox.innerHTML = '✅ Alert sent successfully to your Telegram!';
+					} catch(e) {
+						statusBox.className = 'status-msg status-error';
+						statusBox.innerHTML = '❌ Failed to send alert: ' + e.message;
+					}
 				}
 
 				async function syncWatchlistToGitHub() {
@@ -1196,13 +675,13 @@
 					if (!token) {
 						summaryBox.className = 'status-msg status-warning';
 						summaryBox.style.display = 'block';
-						summaryBox.innerHTML = '⚠️ To sync with GitHub in 1-Click, enter a <strong>GitHub Personal Access Token (PAT)</strong> in the configuration field above.';
+						summaryBox.innerHTML = '⚠️ Enter a <strong>GitHub Personal Access Token</strong> in the settings below to sync target prices with <code>watchlist.json</code>.';
 						return;
 					}
 
 					summaryBox.className = 'status-msg status-loading';
 					summaryBox.style.display = 'block';
-					summaryBox.innerHTML = '⏳ Sending updated Watchlist directly to your <code>watchlist.json</code> file on GitHub...';
+					summaryBox.innerHTML = '⏳ Syncing updated Stock Alert targets to <code>watchlist.json</code> on GitHub...';
 
 					try {
 						const repoOwner = 'samorim3';
@@ -1210,7 +689,6 @@
 						const filePath = 'watchlist.json';
 						const getUrl = 'https://api.github.com/repos/' + repoOwner + '/' + repoName + '/contents/' + filePath;
 
-						// 1. Fetch current file SHA
 						const getRes = await fetch(getUrl, {
 							headers: {
 								'Authorization': 'Bearer ' + token,
@@ -1224,7 +702,6 @@
 							sha = getData.sha;
 						}
 
-						// 2. Format JSON array
 						const cleanItems = watchlist.map(w => ({
 							ticker: w.ticker,
 							name: w.name || w.ticker,
@@ -1233,12 +710,10 @@
 						}));
 						const jsonStr = JSON.stringify(cleanItems, null, 2);
 
-						// Safe UTF-8 Base64 Encoding
 						const base64Content = btoa(encodeURIComponent(jsonStr).replace(/%([0-9A-F]{2})/g, (match, p1) => String.fromCharCode('0x' + p1)));
 
-						// 3. PUT payload
 						const putBody = {
-							message: "Update watchlist.json from web tool",
+							message: "Update stock alert targets in watchlist.json",
 							content: base64Content
 						};
 						if (sha) putBody.sha = sha;
@@ -1255,221 +730,58 @@
 
 						if (putRes.ok) {
 							summaryBox.className = 'status-msg status-success';
-							summaryBox.innerHTML = '🚀 <strong>SUCCESS!</strong> The <code>watchlist.json</code> file was updated on GitHub! The 24/7 automated bot is now using your new thresholds.';
+							summaryBox.innerHTML = '🚀 <strong>SYNCED WITH GITHUB!</strong> <code>watchlist.json</code> updated successfully. Automated 6-hour checks now use your updated targets.';
 						} else {
 							const errData = await putRes.json();
-							throw new Error(errData.message || 'Authorization error with GitHub Token.');
+							throw new Error(errData.message || 'GitHub Authorization Error');
 						}
 					} catch(e) {
 						summaryBox.className = 'status-msg status-error';
-						summaryBox.innerHTML = '❌ Failed to sync with GitHub: ' + e.message;
+						summaryBox.innerHTML = '❌ GitHub Sync failed: ' + e.message;
 					}
 				}
 
-				async function sendTelegramMessage(text) {
-					const token = document.getElementById('telegramToken').value.trim();
-					const chatId = document.getElementById('telegramChatId').value.trim();
-
-					if (!token || !chatId) {
-						throw new Error("Please fill in the Telegram Bot Token and Chat ID in the settings above.");
-					}
-
-					const url = 'https://api.telegram.org/bot' + token + '/sendMessage';
-					const response = await fetch(url, {
-						method: 'POST',
-						headers: { 'Content-Type': 'application/json' },
-						body: JSON.stringify({
-							chat_id: chatId,
-							text: text,
-							parse_mode: 'Markdown'
-						})
-					});
-
-					const resData = await response.json();
-					if (!resData.ok) {
-						throw new Error(resData.description || "Error communicating with Telegram API.");
-					}
-					return resData;
-				}
-
-				async function testTelegramAlert() {
-					saveTelegramCredentials();
-					const statusBox = document.getElementById('telegramStatusBox');
-					statusBox.className = 'status-msg status-loading';
-					statusBox.style.display = 'block';
-					statusBox.innerHTML = '⏳ Sending test message to Telegram...';
-
-					try {
-						await sendTelegramMessage("🧪 *TELEGRAM ALERT TEST*\n\nConnection established successfully! Your Watchlist & Alert system is operational.");
-						statusBox.className = 'status-msg status-success';
-						statusBox.innerHTML = '✅ Message sent successfully! Check your Telegram chat.';
-					} catch(e) {
-						statusBox.className = 'status-msg status-error';
-						statusBox.innerHTML = '❌ Failed to send alert: ' + e.message;
-					}
-				}
-
-				function getTickerCurrencySymbol(tickerStr) {
-					if (!tickerStr) return '€';
-					const canonical = aliasMap[tickerStr.toUpperCase()] || aliasMap[tickerStr] || tickerStr;
-					if (knownData[canonical] && knownData[canonical].symbol) {
-						return knownData[canonical].symbol;
-					}
-					const t = tickerStr.toUpperCase();
-					if (t.endsWith('.LS') || t.endsWith('.DE') || t.endsWith('.PA') || t.endsWith('.AS') || t.endsWith('.MI') || t.endsWith('.MC') || t === 'GALP') return '€';
-					if (t.endsWith('.CO')) return 'DKK';
-					if (t.endsWith('.SA') || t === 'PETR4') return 'R$';
-					if (t.endsWith('.L')) return '£';
-					return '$';
-				}
-
-				function formatPriceWithCurrency(priceNum, currSymbol) {
-					if (!priceNum || priceNum <= 0) return '-';
-					const valStr = priceNum.toFixed(2);
-					if (currSymbol === '$' || currSymbol === 'R$' || currSymbol === '£') {
-						return currSymbol + valStr;
-					}
-					return valStr + ' ' + currSymbol;
-				}
-
-				function renderWatchlistTable() {
-					const tbody = document.getElementById('watchlistTableBody');
-					if (!tbody) return;
-					tbody.innerHTML = '';
-
+				async function checkAllWatchlistAlerts() {
 					if (watchlist.length === 0) {
-						tbody.innerHTML = '<tr><td colspan="6" style="text-align:center; padding: 1.5rem; color: #718096;">No companies in Watchlist. Add a company above or reset to default list.</td></tr>';
+						showWatchlistSummary('⚠️ Watchlist is empty. Add stocks first.', 'warning');
 						return;
 					}
 
-					watchlist.forEach((item, index) => {
-						const tr = document.createElement('tr');
-						tr.style.borderBottom = '1px solid #e2e8f0';
+					saveTelegramCredentials();
+					const summaryBox = document.getElementById('watchlistSummaryBox');
+					summaryBox.className = 'status-msg status-loading';
+					summaryBox.style.display = 'block';
+					summaryBox.innerHTML = '⚡ Checking live stock quotes for ' + watchlist.length + ' favorite companies...';
 
-						let statusBadge = '<span class="badge-hold">🟡 HOLD</span>';
-						if (item.status === 'BUY') {
-							statusBadge = '<span class="badge-buy">🟢 BUY</span>';
-						} else if (item.status === 'SELL') {
-							statusBadge = '<span class="badge-sell">🔴 SELL</span>';
+					// Sync with latest watchlist.json from server if available
+					try {
+						const res = await fetch('./watchlist.json?t=' + Date.now());
+						if (res.ok) {
+							const jsonItems = await res.json();
+							if (Array.isArray(jsonItems) && jsonItems.length > 0) {
+								watchlist = jsonItems;
+								saveWatchlistToStorage();
+							}
 						}
+					} catch(e) {}
 
-						const currSym = getTickerCurrencySymbol(item.ticker);
-						const lastPriceStr = formatPriceWithCurrency(item.lastPrice, currSym);
+					let alertsSent = 0;
 
-						tr.innerHTML = '<td style="padding: 0.85rem 1.25rem;">' +
-								'<strong style="font-weight:800; color:#0f172a; font-size:0.95rem;">' + item.ticker + '</strong> ' +
-								'<span style="font-size:0.7rem; background:#eff6ff; color:#1d4ed8; border:1px solid #bfdbfe; padding:0.15rem 0.5rem; border-radius:9999px; font-weight:700; display:inline-block; margin-left:0.25rem;">' + currSym + '</span><br />' +
-								'<small style="color:#64748b; font-weight:600;">' + (item.name || '') + '</small>' +
-							'</td>' +
-							'<td style="padding: 0.85rem; text-align: center; white-space:nowrap;">' +
-								'<div style="display:inline-flex; align-items:center; gap:0.25rem;">' +
-									'<span style="font-size:0.8rem; color:#64748b; font-weight:700;">' + currSym + '</span>' +
-									'<input type="number" value="' + item.minBuy + '" step="0.1" style="width: 85px; padding: 0.4rem 0.5rem; font-size:0.88rem; border-radius:10px; border:1px solid #cbd5e1; text-align:center; font-weight:700;" onchange="updateWatchlistThreshold(' + index + ', \'minBuy\', this.value)" />' +
-								'</div>' +
-							'</td>' +
-							'<td style="padding: 0.85rem; text-align: center; white-space:nowrap;">' +
-								'<div style="display:inline-flex; align-items:center; gap:0.25rem;">' +
-									'<span style="font-size:0.8rem; color:#64748b; font-weight:700;">' + currSym + '</span>' +
-									'<input type="number" value="' + item.maxSell + '" step="0.1" style="width: 85px; padding: 0.4rem 0.5rem; font-size:0.88rem; border-radius:10px; border:1px solid #cbd5e1; text-align:center; font-weight:700;" onchange="updateWatchlistThreshold(' + index + ', \'maxSell\', this.value)" />' +
-								'</div>' +
-							'</td>' +
-							'<td style="padding: 0.85rem; text-align: center; font-weight: 800; color:#0f172a; font-size:0.95rem; white-space:nowrap;">' +
-								lastPriceStr +
-							'</td>' +
-							'<td style="padding: 0.85rem; text-align: center;">' +
-								statusBadge +
-							'</td>' +
-							'<td style="padding: 0.85rem; text-align: center; white-space: nowrap;">' +
-								'<div style="display: inline-flex; gap: 0.4rem; align-items: center; justify-content: center;">' +
-									'<button type="button" class="french-btn french-btn-blue" style="padding: 0.4rem 0.85rem; font-size: 0.78rem;" title="Analyze in Tool" onclick="analyzeWatchlistItem(\'' + item.ticker + '\')">📊 Analyze</button>' +
-									'<button type="button" class="french-btn" style="background:#fff1f2; color:#be123c !important; border:1px solid #fecdd3; padding:0.4rem 0.65rem; font-size:0.78rem;" title="Remove" onclick="deleteWatchlistItem(' + index + ')">🗑️</button>' +
-								'</div>' +
-							'</td>';
-						tbody.appendChild(tr);
+					watchlist.forEach(item => {
+						const p = item.lastPrice || 0;
+						if (p > 0 && item.minBuy > 0 && p <= item.minBuy) {
+							item.status = 'BUY';
+						} else if (p > 0 && item.maxSell > 0 && p >= item.maxSell) {
+							item.status = 'SELL';
+						} else {
+							item.status = 'HOLD';
+						}
 					});
-				}
 
-				function updateWatchlistThreshold(index, field, value) {
-					const numVal = parseFloat(value) || 0;
-					if (watchlist[index]) {
-						watchlist[index][field] = numVal;
-						saveWatchlistToStorage();
-						showWatchlistSummary('💾 Thresholds for <strong>' + watchlist[index].ticker + '</strong> saved successfully in browser!', 'success');
-					}
-				}
-
-				function deleteWatchlistItem(index) {
-					if (index >= 0 && index < watchlist.length) {
-						const removed = watchlist.splice(index, 1);
-						saveWatchlistToStorage();
-						renderWatchlistTable();
-						showWatchlistSummary('🗑️ Company <strong>' + removed[0].ticker + '</strong> removed from Watchlist.', 'warning');
-					}
-				}
-
-				function addWatchlistItem(ticker, name, minBuy, maxSell) {
-					const cleanTicker = ticker.trim().toUpperCase();
-					if (!cleanTicker) {
-						showWatchlistSummary('⚠️ Please enter a valid Ticker symbol.', 'warning');
-						return;
-					}
-
-					const existingIndex = watchlist.findIndex(w => w.ticker === cleanTicker);
-					if (existingIndex >= 0) {
-						watchlist[existingIndex].minBuy = parseFloat(minBuy) || watchlist[existingIndex].minBuy;
-						watchlist[existingIndex].maxSell = parseFloat(maxSell) || watchlist[existingIndex].maxSell;
-						if (name) watchlist[existingIndex].name = name;
-						showWatchlistSummary('🔄 Company <strong>' + cleanTicker + '</strong> already existed and its thresholds were updated!', 'success');
-					} else {
-						watchlist.push({
-							ticker: cleanTicker,
-							name: name || cleanTicker,
-							minBuy: parseFloat(minBuy) || 0,
-							maxSell: parseFloat(maxSell) || 0,
-							lastPrice: 0,
-							status: "HOLD"
-						});
-						showWatchlistSummary('✅ Company <strong>' + cleanTicker + '</strong> added to Watchlist successfully!', 'success');
-					}
-
-					saveWatchlistToStorage();
 					renderWatchlistTable();
-				}
 
-				function addNewWatchlistEntry() {
-					const ticker = document.getElementById('newWatchlistTicker').value;
-					const name = document.getElementById('newWatchlistName').value;
-					const minBuy = document.getElementById('newWatchlistMin').value;
-					const maxSell = document.getElementById('newWatchlistMax').value;
-
-					addWatchlistItem(ticker, name, minBuy, maxSell);
-
-					document.getElementById('newWatchlistTicker').value = '';
-					document.getElementById('newWatchlistName').value = '';
-					document.getElementById('newWatchlistMin').value = '';
-					document.getElementById('newWatchlistMax').value = '';
-				}
-
-				function addCurrentCompanyToWatchlist() {
-					const tickerInput = document.getElementById('tickerInput').value.trim();
-					const companyTitle = document.getElementById('companyTitle').innerText.replace('📊 Company Metrics: ', '');
-					const minBuy = document.getElementById('alertMin').value;
-					const maxSell = document.getElementById('alertMax').value;
-
-					if (!tickerInput && !companyTitle) {
-						showWatchlistSummary('⚠️ No company currently loaded to add.', 'warning');
-						return;
-					}
-
-					const canonical = aliasMap[tickerInput.toUpperCase()] || tickerInput.toUpperCase() || "CUSTOM";
-					addWatchlistItem(canonical, companyTitle, minBuy, maxSell);
-				}
-
-				function resetWatchlistToDefault() {
-					watchlist = JSON.parse(JSON.stringify(DEFAULT_WATCHLIST));
-					saveWatchlistToStorage();
-					renderWatchlistTable();
-					showWatchlistSummary('🔄 Watchlist restored to default values successfully.', 'success');
+					summaryBox.className = 'status-msg status-success';
+					summaryBox.innerHTML = '✅ Stock quotes updated! Favorite stocks are checked automatically every 6 hours via Google Finance.';
 				}
 
 				function showWatchlistSummary(msg, type) {
@@ -1480,81 +792,27 @@
 					setTimeout(() => { box.style.display = 'none'; }, 5000);
 				}
 
-				function analyzeWatchlistItem(ticker) {
-					document.getElementById('tickerInput').value = ticker;
-					fetchTickerData();
-					window.scrollTo({ top: document.getElementById('tickerInput').offsetTop - 100, behavior: 'smooth' });
-				}
-
-				async function checkAllWatchlistAlerts() {
-					if (watchlist.length === 0) {
-						showWatchlistSummary('⚠️ Watchlist is empty. Add companies first.', 'warning');
-						return;
-					}
-
-					saveTelegramCredentials();
-					const summaryBox = document.getElementById('watchlistSummaryBox');
-					summaryBox.className = 'status-msg status-loading';
-					summaryBox.style.display = 'block';
-					summaryBox.innerHTML = '⏳ Checking live quotes for ' + watchlist.length + ' companies...';
-
-					let alertsSent = 0;
-					let errors = 0;
-
-					for (let i = 0; i < watchlist.length; i++) {
-						const item = watchlist[i];
-						const liveRes = await fetchLiveStockPrice(item.ticker);
-						let currentPrice = (liveRes && liveRes.price > 0) ? liveRes.price : 0;
-
-						if (currentPrice > 0) {
-							item.lastPrice = currentPrice;
-							if (item.minBuy > 0 && currentPrice <= item.minBuy) {
-								item.status = 'BUY';
-								try {
-									await sendTelegramMessage('🟢 *BUY ALERT:* ' + item.ticker + ' (' + item.name + ')\nCurrent Price: *' + currentPrice.toFixed(2) + '*\nTarget Buy Price: ' + item.minBuy.toFixed(2));
-									alertsSent++;
-								} catch(err) { errors++; }
-							} else if (item.maxSell > 0 && currentPrice >= item.maxSell) {
-								item.status = 'SELL';
-								try {
-									await sendTelegramMessage('🔴 *SELL ALERT:* ' + item.ticker + ' (' + item.name + ')\nCurrent Price: *' + currentPrice.toFixed(2) + '*\nTarget Sell Price: ' + item.maxSell.toFixed(2));
-									alertsSent++;
-								} catch(err) { errors++; }
-							} else {
-								item.status = 'HOLD';
-							}
-						}
-					}
-
-					saveWatchlistToStorage();
-					renderWatchlistTable();
-
-					let summaryText = '✅ Check complete! ' + watchlist.length + ' companies updated.';
-					if (alertsSent > 0) {
-						summaryText += ' 🚀 <strong>' + alertsSent + ' Telegram alert(s) sent!</strong>';
-					} else {
-						summaryText += ' (No prices crossed configured threshold limits).';
-					}
-					if (errors > 0) {
-						summaryText += ' ⚠️ Note: ' + errors + ' error(s) occurred sending to Telegram (check Token/ChatID).';
-					}
-
-					summaryBox.className = 'status-msg status-success';
-					summaryBox.innerHTML = summaryText;
-				}
-
-				function updatePythonSnippet() {}
-
-				// Initialize Watchlist on Page Load
-				window.addEventListener('DOMContentLoaded', () => {
+				window.addEventListener('DOMContentLoaded', async () => {
 					loadTelegramCredentials();
-					watchlist = getStoredWatchlist();
+					
+					try {
+						const res = await fetch('./watchlist.json?t=' + Date.now());
+						if (res.ok) {
+							const jsonItems = await res.json();
+							if (Array.isArray(jsonItems) && jsonItems.length > 0) {
+								watchlist = jsonItems;
+								saveWatchlistToStorage();
+							} else {
+								watchlist = getStoredWatchlist();
+							}
+						} else {
+							watchlist = getStoredWatchlist();
+						}
+					} catch(e) {
+						watchlist = getStoredWatchlist();
+					}
+
 					renderWatchlistTable();
-					updatePythonSnippet();
-					// Auto refresh live market quotes on load
-					setTimeout(() => {
-						checkAllWatchlistAlerts();
-					}, 500);
 				});
 			</script>
 
