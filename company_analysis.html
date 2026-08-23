@@ -1071,9 +1071,18 @@
 
 					const aliasMap = {
 						"GALP": "GALP.LS",
+						"GALP:ELI": "GALP.LS",
+						"ELI:GALP": "GALP.LS",
 						"ADS": "ADS.DE",
+						"ADS:ETR": "ADS.DE",
+						"ETR:ADS": "ADS.DE",
 						"NOVO-B": "NOVO-B.CO",
-						"PETR4": "PETR4.SA"
+						"NOVO-B:CO": "NOVO-B.CO",
+						"PETR4": "PETR4.SA",
+						"PETR4:BVMF": "PETR4.SA",
+						"AAPL:NASDAQ": "AAPL",
+						"MSFT:NASDAQ": "MSFT",
+						"NKE:NYSE": "NKE"
 					};
 					const ticker = aliasMap[rawInput] || rawInput;
 
