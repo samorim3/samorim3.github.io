@@ -314,8 +314,11 @@
 									<!-- Ticker Search Bar -->
 									<div style="background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 12px; padding: 1.25rem; margin-bottom: 1.25rem;">
 										<label style="font-weight: 700; color: #475569; display: block; font-size: 0.75rem; text-transform: uppercase; letter-spacing: 0.06em; margin-bottom: 0.35rem;">Ticker da Empresa</label>
-										<div style="display: flex; gap: 0.75rem; flex-wrap: wrap; align-items: center;">
-											<input type="text" id="dcfTickerInput" placeholder="ex.: GALP.LS, AAPL, MSFT, ADS.DE, NKE" value="" style="flex: 1; min-width: 200px; font-weight: 700; border-radius: 8px; text-transform: uppercase;" onkeypress="if(event.key==='Enter') loadDCFTickerData()" />
+										<div style="display: flex; gap: 0.75rem; flex-wrap: wrap; align-items: center; position: relative;">
+											<div style="position: relative; flex: 1; min-width: 200px;">
+												<input type="text" id="dcfTickerInput" placeholder="ex.: GALP, NOVO, AAPL, MSFT, ADS, NKE" value="" autocomplete="off" style="width: 100%; font-weight: 700; border-radius: 8px; text-transform: uppercase;" oninput="onDCFInputType(this.value)" onkeypress="if(event.key==='Enter') loadDCFTickerData()" onfocus="onDCFInputType(this.value)" />
+												<div id="dcfSuggestionsDropdown" style="display: none; position: absolute; top: 105%; left: 0; right: 0; background: #ffffff; border: 1px solid #cbd5e1; border-radius: 8px; box-shadow: 0 10px 25px -5px rgba(0,0,0,0.12); z-index: 9999; max-height: 260px; overflow-y: auto;"></div>
+											</div>
 											<button onclick="loadDCFTickerData()" class="french-btn french-btn-dark" style="border-radius: 8px; padding: 0.65rem 1.25rem;">Validar & Carregar Dados</button>
 										</div>
 										<div id="dcfStatusBox" class="status-msg" style="margin-top: 0.75rem;"></div>
@@ -1048,6 +1051,75 @@
 						}
 					}
 				}
+
+				const POPULAR_SUGGESTIONS = [
+					{ ticker: "GALP.LS", alias: "GALP", name: "Galp Energia, SGPS, S.A.", exchange: "Euronext Lisbon" },
+					{ ticker: "NOVO-B.CO", alias: "NOVO", name: "Novo Nordisk A/S", exchange: "Nasdaq Copenhagen" },
+					{ ticker: "NVO", alias: "NVO", name: "Novo Nordisk A/S (ADR)", exchange: "NYSE" },
+					{ ticker: "ADS.DE", alias: "ADS", name: "Adidas AG", exchange: "XETRA" },
+					{ ticker: "AAPL", alias: "AAPL", name: "Apple Inc.", exchange: "NASDAQ" },
+					{ ticker: "MSFT", alias: "MSFT", name: "Microsoft Corporation", exchange: "NASDAQ" },
+					{ ticker: "GOOGL", alias: "GOOGL", name: "Alphabet Inc. (Google)", exchange: "NASDAQ" },
+					{ ticker: "AMZN", alias: "AMZN", name: "Amazon.com, Inc.", exchange: "NASDAQ" },
+					{ ticker: "NVDA", alias: "NVDA", name: "NVIDIA Corporation", exchange: "NASDAQ" },
+					{ ticker: "TSLA", alias: "TSLA", name: "Tesla, Inc.", exchange: "NASDAQ" },
+					{ ticker: "META", alias: "META", name: "Meta Platforms, Inc.", exchange: "NASDAQ" },
+					{ ticker: "NKE", alias: "NKE", name: "Nike, Inc.", exchange: "NYSE" },
+					{ ticker: "MA", alias: "MA", name: "Mastercard Incorporated", exchange: "NYSE" },
+					{ ticker: "PETR4.SA", alias: "PETR4", name: "Petrobras", exchange: "B3 Brasil" }
+				];
+
+				function onDCFInputType(rawVal) {
+					const dropdown = document.getElementById('dcfSuggestionsDropdown');
+					if (!dropdown) return;
+					const query = (rawVal || '').trim().toUpperCase();
+					if (!query) {
+						dropdown.style.display = 'none';
+						return;
+					}
+
+					const matches = POPULAR_SUGGESTIONS.filter(s => 
+						s.alias.includes(query) || 
+						s.ticker.includes(query) || 
+						s.name.toUpperCase().includes(query)
+					);
+
+					if (matches.length === 0) {
+						dropdown.style.display = 'none';
+						return;
+					}
+
+					let html = '';
+					matches.forEach(item => {
+						html += `
+						<div onclick="selectDCFSuggestion('${item.alias || item.ticker}')" style="padding: 0.6rem 0.85rem; border-bottom: 1px solid #f1f5f9; cursor: pointer; display: flex; justify-content: space-between; align-items: center; background: #ffffff;" onmouseover="this.style.background='#f8fafc'" onmouseout="this.style.background='#ffffff'">
+							<div>
+								<strong style="color:#0f172a; font-size:0.85rem;">${item.alias || item.ticker}</strong>
+								<span style="color:#64748b; font-size:0.75rem; margin-left: 0.4rem;">— ${item.name}</span>
+							</div>
+							<span style="font-size:0.65rem; background:#f1f5f9; color:#475569; padding:0.15rem 0.45rem; border-radius:4px; font-weight:700; text-transform:uppercase;">${item.exchange}</span>
+						</div>`;
+					});
+
+					dropdown.innerHTML = html;
+					dropdown.style.display = 'block';
+				}
+
+				function selectDCFSuggestion(symbol) {
+					const input = document.getElementById('dcfTickerInput');
+					const dropdown = document.getElementById('dcfSuggestionsDropdown');
+					if (input) input.value = symbol;
+					if (dropdown) dropdown.style.display = 'none';
+					loadDCFTickerData();
+				}
+
+				document.addEventListener('click', function(e) {
+					const dropdown = document.getElementById('dcfSuggestionsDropdown');
+					const input = document.getElementById('dcfTickerInput');
+					if (dropdown && input && !dropdown.contains(e.target) && !input.contains(e.target)) {
+						dropdown.style.display = 'none';
+					}
+				});
 
 				async function fetchYahooQuote(ticker) {
 					const targetUrl1 = 'https://query1.finance.yahoo.com/v8/finance/chart/' + encodeURIComponent(ticker) + '?interval=1d&range=1d';
