@@ -297,10 +297,128 @@
 						<!-- Post -->
 							<section class="post">
 								<header class="major">
-									<h1>Stock Price<br />
-									Alert System</h1>
-									<p>Real-time stock price tracking and 6-hour automated Telegram alerts for favorite stocks, powered by Google Finance.</p>
+									<h1>Stock Analysis &<br />Alert System</h1>
+									<p>Real-time stock price tracking, Telegram alerts, and DCF Intrinsic Value Valuation (Adam Khoo Model).</p>
 								</header>
+
+								<!-- Intrinsic Value Calculator (Adam Khoo / DCF Multi-Scenario Model) -->
+								<div class="tool-container" style="border-left: 6px solid #2563eb;">
+									<div style="display: flex; justify-content: space-between; align-items: flex-start; flex-wrap: wrap; gap: 1rem; margin-bottom: 1.5rem;">
+										<div>
+											<h2 style="margin: 0; color: #0f172a; font-weight: 800; font-size: 1.5rem;">🧮 Calculadora de Valor Intrínseco</h2>
+											<p style="margin: 0.25rem 0 0 0; font-size: 0.85rem; color: #64748b; font-weight: 600;">
+												Modelo DCF Multi-Cenário (Adam Khoo 20 Anos + Perpetuidade de Gordon), ajustado por Caixa e Dívida.
+											</p>
+										</div>
+										<div style="display: flex; gap: 0.4rem; flex-wrap: wrap;">
+											<span style="font-size: 0.75rem; background: #e0f2fe; color: #0369a1; border: 1px solid #bae6fd; padding: 0.35rem 0.75rem; border-radius: 9999px; font-weight: 800;">DCF 3-Fases</span>
+											<span style="font-size: 0.75rem; background: #f0fdf4; color: #15803d; border: 1px solid #bbf7d0; padding: 0.35rem 0.75rem; border-radius: 9999px; font-weight: 800;">Gordon Perpetuity</span>
+										</div>
+									</div>
+
+									<!-- Ticker Search & Presets -->
+									<div class="search-bar-box">
+										<label style="font-weight: 800; color: #0f172a; display: block; font-size: 0.85rem; text-transform: uppercase; letter-spacing: 0.05em; margin-bottom: 0.35rem;">🔍 Selecionar Empresa / Ticker para Avaliação:</label>
+										<div style="display: flex; gap: 0.75rem; flex-wrap: wrap; align-items: center;">
+											<input type="text" id="dcfTickerInput" placeholder="ex: MA, MSFT, AAPL, NKE, GOOGL, GALP" value="MA" style="flex: 1; min-width: 200px; font-weight: 800; text-transform: uppercase;" />
+											<button onclick="loadDCFTickerData()" class="french-btn french-btn-blue">⚡ Carregar Dados & Calcular</button>
+										</div>
+										<div style="margin-top: 0.75rem; display: flex; gap: 0.5rem; align-items: center; flex-wrap: wrap;">
+											<small style="font-size: 0.78rem; font-weight: 700; color: #64748b;">Atalhos rápidos:</small>
+											<button type="button" class="french-btn french-btn-outline" style="padding: 0.25rem 0.65rem; font-size: 0.75rem;" onclick="setDCFPreset('MA')">MA (Mastercard)</button>
+											<button type="button" class="french-btn french-btn-outline" style="padding: 0.25rem 0.65rem; font-size: 0.75rem;" onclick="setDCFPreset('MSFT')">MSFT (Microsoft)</button>
+											<button type="button" class="french-btn french-btn-outline" style="padding: 0.25rem 0.65rem; font-size: 0.75rem;" onclick="setDCFPreset('AAPL')">AAPL (Apple)</button>
+											<button type="button" class="french-btn french-btn-outline" style="padding: 0.25rem 0.65rem; font-size: 0.75rem;" onclick="setDCFPreset('GOOGL')">GOOGL (Alphabet)</button>
+											<button type="button" class="french-btn french-btn-outline" style="padding: 0.25rem 0.65rem; font-size: 0.75rem;" onclick="setDCFPreset('NKE')">NKE (Nike)</button>
+											<button type="button" class="french-btn french-btn-outline" style="padding: 0.25rem 0.65rem; font-size: 0.75rem;" onclick="setDCFPreset('GALP')">GALP (Galp Energia)</button>
+										</div>
+									</div>
+
+									<!-- DCF Inputs Grid -->
+									<div style="background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 16px; padding: 1.5rem; margin-bottom: 1.5rem;">
+										<h4 style="margin: 0 0 1rem 0; color: #0f172a; font-weight: 800; font-size: 0.95rem; text-transform: uppercase; letter-spacing: 0.04em;">⚙️ Premissas Financeiras e Projeções de Crescimento</h4>
+										
+										<div class="form-grid-3" style="grid-template-columns: repeat(auto-fit, minmax(160px, 1fr)); gap: 0.85rem;">
+											<div class="input-group">
+												<label for="dcfPrice">Preço Atual Mercado:</label>
+												<input type="number" id="dcfPrice" value="480.00" step="0.5" oninput="recalculateDCF()" />
+											</div>
+											<div class="input-group">
+												<label for="dcfFcf">Free Cash Flow TTM (B):</label>
+												<input type="number" id="dcfFcf" value="12.5" step="0.1" oninput="recalculateDCF()" />
+											</div>
+											<div class="input-group">
+												<label for="dcfShares">Ações em Circulação (B):</label>
+												<input type="number" id="dcfShares" value="0.93" step="0.01" oninput="recalculateDCF()" />
+											</div>
+											<div class="input-group">
+												<label for="dcfCash">Caixa Total (B):</label>
+												<input type="number" id="dcfCash" value="9.2" step="0.1" oninput="recalculateDCF()" />
+											</div>
+											<div class="input-group">
+												<label for="dcfDebt">Dívida Total (B):</label>
+												<input type="number" id="dcfDebt" value="15.5" step="0.1" oninput="recalculateDCF()" />
+											</div>
+										</div>
+
+										<div class="form-grid-3" style="grid-template-columns: repeat(auto-fit, minmax(160px, 1fr)); gap: 0.85rem; margin-top: 1rem;">
+											<div class="input-group">
+												<label for="dcfDiscount">Taxa Desconto / WACC (%):</label>
+												<input type="number" id="dcfDiscount" value="9.0" step="0.5" oninput="recalculateDCF()" />
+											</div>
+											<div class="input-group">
+												<label for="dcfGrowth1_5">Crescimento Anos 1-5 (%):</label>
+												<input type="number" id="dcfGrowth1_5" value="14.0" step="0.5" oninput="recalculateDCF()" />
+											</div>
+											<div class="input-group">
+												<label for="dcfGrowth6_10">Crescimento Anos 6-10 (%):</label>
+												<input type="number" id="dcfGrowth6_10" value="10.5" step="0.5" oninput="recalculateDCF()" />
+											</div>
+											<div class="input-group">
+												<label for="dcfTerminal">Crescimento Terminal (%):</label>
+												<input type="number" id="dcfTerminal" value="3.5" step="0.25" oninput="recalculateDCF()" />
+											</div>
+											<div class="input-group">
+												<label for="dcfMarginSafety">Margem Segurança (%):</label>
+												<input type="number" id="dcfMarginSafety" value="20" step="5" oninput="recalculateDCF()" />
+											</div>
+										</div>
+									</div>
+
+									<!-- DCF Results Scenarios -->
+									<div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 1rem; margin-bottom: 1.5rem;">
+										
+										<!-- Bear Case Card -->
+										<div style="background: #fff1f2; border: 1px solid #fecdd3; border-radius: 16px; padding: 1.25rem; text-align: center;">
+											<span style="font-size: 0.75rem; font-weight: 800; color: #be123c; text-transform: uppercase; letter-spacing: 0.05em;">🐻 Cenário Pessimista (Bear)</span>
+											<h3 id="dcfBearValue" style="margin: 0.5rem 0 0.25rem 0; color: #9f1239; font-size: 1.6rem; font-weight: 800;">$0.00</h3>
+											<small id="dcfBearMargin" style="font-weight: 700; color: #be123c; font-size: 0.82rem;">Margem: N/A</small>
+										</div>
+
+										<!-- Base Case Card (Highlighted) -->
+										<div style="background: linear-gradient(135deg, #eff6ff 0%, #dbeafe 100%); border: 2px solid #3b82f6; border-radius: 16px; padding: 1.25rem; text-align: center; box-shadow: 0 10px 25px -5px rgba(59, 130, 246, 0.2);">
+											<span style="font-size: 0.75rem; font-weight: 800; color: #1d4ed8; text-transform: uppercase; letter-spacing: 0.05em;">⭐ Cenário Base (Valor Intrínseco)</span>
+											<h3 id="dcfBaseValue" style="margin: 0.5rem 0 0.25rem 0; color: #1e40af; font-size: 1.85rem; font-weight: 800;">$0.00</h3>
+											<div id="dcfBuyPriceBox" style="font-size: 0.82rem; font-weight: 800; color: #1d4ed8; margin-top: 0.25rem;">Preço c/ Margem Segurança: $0.00</div>
+										</div>
+
+										<!-- Bull Case Card -->
+										<div style="background: #f0fdf4; border: 1px solid #bbf7d0; border-radius: 16px; padding: 1.25rem; text-align: center;">
+											<span style="font-size: 0.75rem; font-weight: 800; color: #15803d; text-transform: uppercase; letter-spacing: 0.05em;">🐂 Cenário Otimista (Bull)</span>
+											<h3 id="dcfBullValue" style="margin: 0.5rem 0 0.25rem 0; color: #166534; font-size: 1.6rem; font-weight: 800;">$0.00</h3>
+											<small id="dcfBullMargin" style="font-weight: 700; color: #15803d; font-size: 0.82rem;">Margem: N/A</small>
+										</div>
+									</div>
+
+									<!-- Diagnosis & Watchlist Integration Action -->
+									<div style="display: flex; flex-wrap: wrap; justify-content: space-between; align-items: center; gap: 1rem; background: #ffffff; border: 1px solid #e2e8f0; border-radius: 16px; padding: 1.25rem;">
+										<div id="dcfDiagnosisBadge" style="font-size: 0.92rem; font-weight: 800;">
+											<!-- Dynamically populated diagnosis -->
+										</div>
+										<button onclick="addDCFResultToWatchlist()" class="french-btn french-btn-dark">➕ Adicionar este Alvo à Watchlist</button>
+									</div>
+
+								</div>
 
 								<!-- Stock Price Watchlist & Alert System -->
 								<div class="tool-container">
@@ -784,13 +902,199 @@
 					summaryBox.innerHTML = '✅ Stock quotes updated! Favorite stocks are checked automatically every 6 hours via Google Finance.';
 				}
 
-				function showWatchlistSummary(msg, type) {
+				// ---------------------------------------------------------
+				// INTRINSIC VALUE CALCULATOR (ADAM KHOO DCF MODEL)
+				// ---------------------------------------------------------
+				const DCF_PRESETS = {
+					'MA': { name: 'Mastercard Inc.', price: 480.00, fcf: 12.5, shares: 0.93, cash: 9.2, debt: 15.5, g1: 14.0, g2: 10.5, term: 3.5, discount: 9.0 },
+					'MSFT': { name: 'Microsoft Corp.', price: 415.00, fcf: 74.1, shares: 7.43, cash: 75.5, debt: 77.2, g1: 14.0, g2: 10.5, term: 3.5, discount: 9.0 },
+					'AAPL': { name: 'Apple Inc.', price: 225.00, fcf: 108.8, shares: 15.2, cash: 61.8, debt: 104.6, g1: 10.0, g2: 7.5, term: 3.0, discount: 8.5 },
+					'GOOGL': { name: 'Alphabet Inc.', price: 165.00, fcf: 69.4, shares: 12.3, cash: 100.7, debt: 28.5, g1: 12.5, g2: 9.3, term: 3.5, discount: 9.0 },
+					'NKE': { name: 'Nike, Inc.', price: 78.00, fcf: 6.4, shares: 1.5, cash: 11.6, debt: 12.1, g1: 8.0, g2: 6.0, term: 3.0, discount: 9.0 },
+					'GALP': { name: 'Galp Energia', price: 18.50, fcf: 1.4, shares: 0.77, cash: 1.8, debt: 2.1, g1: 6.0, g2: 4.5, term: 2.5, discount: 9.5 }
+				};
+
+				function calculateDCFFairValue(fcfB, g1Pct, g2Pct, termPct, discountPct, sharesB, cashB, debtB) {
+					if (fcfB <= 0 || sharesB <= 0) return 0;
+
+					const g1 = g1Pct / 100;
+					const g2 = g2Pct / 100;
+					const gTerm = termPct / 100;
+					const r = discountPct / 100;
+
+					let pvFutureCash = 0;
+					let currentCash = fcfB;
+
+					// Years 1 to 5
+					for (let year = 1; year <= 5; year++) {
+						currentCash *= (1 + g1);
+						pvFutureCash += currentCash / Math.pow(1 + r, year);
+					}
+
+					// Years 6 to 10
+					for (let year = 6; year <= 10; year++) {
+						currentCash *= (1 + g2);
+						pvFutureCash += currentCash / Math.pow(1 + r, year);
+					}
+
+					// Years 11 to 20
+					for (let year = 11; year <= 20; year++) {
+						currentCash *= (1 + gTerm);
+						pvFutureCash += currentCash / Math.pow(1 + r, year);
+					}
+
+					// Gordon Perpetuity Terminal Value at Year 20
+					if (r > gTerm) {
+						const terminalValue20 = (currentCash * (1 + gTerm)) / (r - gTerm);
+						const pvTerminalValue = terminalValue20 / Math.pow(1 + r, 20);
+						pvFutureCash += pvTerminalValue;
+					}
+
+					const equityValueB = pvFutureCash + cashB - debtB;
+					const fairValue = equityValueB / sharesB;
+					return Math.max(0, fairValue);
+				}
+
+				function recalculateDCF() {
+					const priceEl = document.getElementById('dcfPrice');
+					if (!priceEl) return;
+
+					const price = parseFloat(priceEl.value) || 0;
+					const fcf = parseFloat(document.getElementById('dcfFcf').value) || 0;
+					const shares = parseFloat(document.getElementById('dcfShares').value) || 1;
+					const cash = parseFloat(document.getElementById('dcfCash').value) || 0;
+					const debt = parseFloat(document.getElementById('dcfDebt').value) || 0;
+
+					const discount = parseFloat(document.getElementById('dcfDiscount').value) || 9.0;
+					const g1 = parseFloat(document.getElementById('dcfGrowth1_5').value) || 10.0;
+					const g2 = parseFloat(document.getElementById('dcfGrowth6_10').value) || 7.5;
+					const term = parseFloat(document.getElementById('dcfTerminal').value) || 3.0;
+					const marginPct = parseFloat(document.getElementById('dcfMarginSafety').value) || 20;
+
+					const tickerInput = document.getElementById('dcfTickerInput').value.trim().toUpperCase();
+					const currSym = getTickerCurrencySymbol(tickerInput);
+
+					// Base Case
+					const baseVal = calculateDCFFairValue(fcf, g1, g2, term, discount, shares, cash, debt);
+					// Bear Case (-30% growth, +1% discount rate)
+					const bearVal = calculateDCFFairValue(fcf, g1 * 0.7, g2 * 0.7, term, discount + 1.0, shares, cash, debt);
+					// Bull Case (+25% growth, -1% discount rate)
+					const bullVal = calculateDCFFairValue(fcf, g1 * 1.25, g2 * 1.25, term, Math.max(6.0, discount - 1.0), shares, cash, debt);
+
+					const buyTargetPrice = baseVal * (1 - marginPct / 100);
+
+					// Update UI Cards
+					document.getElementById('dcfBaseValue').innerHTML = formatPriceWithCurrency(baseVal, currSym);
+					document.getElementById('dcfBearValue').innerHTML = formatPriceWithCurrency(bearVal, currSym);
+					document.getElementById('dcfBullValue').innerHTML = formatPriceWithCurrency(bullVal, currSym);
+
+					document.getElementById('dcfBuyPriceBox').innerHTML = 'Preço c/ Margem (' + marginPct + '%): <strong>' + formatPriceWithCurrency(buyTargetPrice, currSym) + '</strong>';
+
+					// Margins
+					const bearMargin = bearVal > 0 ? (((bearVal - price) / bearVal) * 100).toFixed(1) : 'N/A';
+					const bullMargin = bullVal > 0 ? (((bullVal - price) / bullVal) * 100).toFixed(1) : 'N/A';
+					document.getElementById('dcfBearMargin').innerText = 'Margem: ' + (bearMargin !== 'N/A' && parseFloat(bearMargin) > 0 ? '+' : '') + bearMargin + '%';
+					document.getElementById('dcfBullMargin').innerText = 'Margem: ' + (bullMargin !== 'N/A' && parseFloat(bullMargin) > 0 ? '+' : '') + bullMargin + '%';
+
+					// Diagnosis Badge
+					const diagBox = document.getElementById('dcfDiagnosisBadge');
+					if (baseVal > 0 && price > 0) {
+						const diffPct = ((price - baseVal) / baseVal) * 100;
+						if (price <= buyTargetPrice) {
+							diagBox.innerHTML = '<span class="badge-buy">🟢 FORTE OPORTUNIDADE (SUBAVALIADA)</span> <span style="color:#047857; margin-left:0.5rem;">Preço atual (' + formatPriceWithCurrency(price, currSym) + ') está ' + Math.abs(diffPct).toFixed(1) + '% abaixo do Valor Intrínseco (' + formatPriceWithCurrency(baseVal, currSym) + ').</span>';
+						} else if (price <= baseVal) {
+							diagBox.innerHTML = '<span class="badge-hold">🟡 LIGEIRAMENTE SUBAVALIADA</span> <span style="color:#b45309; margin-left:0.5rem;">Ação a negociar ' + Math.abs(diffPct).toFixed(1) + '% abaixo do valor justo de referência.</span>';
+						} else {
+							diagBox.innerHTML = '<span class="badge-sell">🔴 SOBREAVALIADA</span> <span style="color:#be123c; margin-left:0.5rem;">Preço atual está ' + diffPct.toFixed(1) + '% acima do Valor Intrínseco calculado.</span>';
+						}
+					} else {
+						diagBox.innerHTML = '<span style="color:#64748b;">Insira premissas válidas para calcular a avaliação.</span>';
+					}
+				}
+
+				function setDCFPreset(ticker) {
+					const t = ticker.toUpperCase();
+					document.getElementById('dcfTickerInput').value = t;
+					const preset = DCF_PRESETS[t];
+					if (preset) {
+						document.getElementById('dcfPrice').value = preset.price;
+						document.getElementById('dcfFcf').value = preset.fcf;
+						document.getElementById('dcfShares').value = preset.shares;
+						document.getElementById('dcfCash').value = preset.cash;
+						document.getElementById('dcfDebt').value = preset.debt;
+						document.getElementById('dcfGrowth1_5').value = preset.g1;
+						document.getElementById('dcfGrowth6_10').value = preset.g2;
+						document.getElementById('dcfTerminal').value = preset.term;
+						document.getElementById('dcfDiscount').value = preset.discount;
+					}
+					recalculateDCF();
+				}
+
+				function loadDCFTickerData() {
+					const ticker = document.getElementById('dcfTickerInput').value.trim().toUpperCase();
+					if (!ticker) return;
+
+					if (DCF_PRESETS[ticker]) {
+						setDCFPreset(ticker);
+						showWatchlistSummary('✅ Premissas carregadas com sucesso para <strong>' + ticker + '</strong>!', 'success');
+					} else {
+						recalculateDCF();
+						showWatchlistSummary('ℹ️ Premissas ajustadas para <strong>' + ticker + '</strong>. Pode ajustar qualquer valor manualmente!', 'success');
+					}
+				}
+
+				function addDCFResultToWatchlist() {
+					const ticker = document.getElementById('dcfTickerInput').value.trim().toUpperCase();
+					const price = parseFloat(document.getElementById('dcfPrice').value) || 0;
+					const fcf = parseFloat(document.getElementById('dcfFcf').value) || 0;
+					const shares = parseFloat(document.getElementById('dcfShares').value) || 1;
+					const cash = parseFloat(document.getElementById('dcfCash').value) || 0;
+					const debt = parseFloat(document.getElementById('dcfDebt').value) || 0;
+					const discount = parseFloat(document.getElementById('dcfDiscount').value) || 9.0;
+					const g1 = parseFloat(document.getElementById('dcfGrowth1_5').value) || 10.0;
+					const g2 = parseFloat(document.getElementById('dcfGrowth6_10').value) || 7.5;
+					const term = parseFloat(document.getElementById('dcfTerminal').value) || 3.0;
+					const marginPct = parseFloat(document.getElementById('dcfMarginSafety').value) || 20;
+
+					const baseVal = calculateDCFFairValue(fcf, g1, g2, term, discount, shares, cash, debt);
+					if (baseVal <= 0) {
+						showWatchlistSummary('⚠️ Por favor calcule primeiro um valor intrínseco válido antes de adicionar à Watchlist.', 'warning');
+						return;
+					}
+
+					const minBuyTarget = Math.round(baseVal * (1 - marginPct / 100) * 100) / 100;
+					const maxSellTarget = Math.round(baseVal * 1.15 * 100) / 100;
+
+					const existingIdx = watchlist.findIndex(w => w.ticker === ticker);
+					if (existingIdx >= 0) {
+						watchlist[existingIdx].minBuy = minBuyTarget;
+						watchlist[existingIdx].maxSell = maxSellTarget;
+						if (price > 0) watchlist[existingIdx].lastPrice = price;
+						showWatchlistSummary('🔄 Atualizado alvo de compra (🟢 ' + minBuyTarget + ') para a ação <strong>' + ticker + '</strong>!', 'success');
+					} else {
+						watchlist.push({
+							ticker: ticker,
+							name: ticker,
+							minBuy: minBuyTarget,
+							maxSell: maxSellTarget,
+							lastPrice: price,
+							status: "HOLD"
+						});
+						showWatchlistSummary('✅ Adicionada a ação <strong>' + ticker + '</strong> à Watchlist com Alvo de Compra de 🟢 ' + minBuyTarget + '!', 'success');
+					}
+
+					saveWatchlistToStorage();
+					renderWatchlistTable();
+				}
+
+				showWatchlistSummary = function(msg, type) {
 					const box = document.getElementById('watchlistSummaryBox');
+					if (!box) return;
 					box.className = 'status-msg status-' + type;
 					box.style.display = 'block';
 					box.innerHTML = msg;
 					setTimeout(() => { box.style.display = 'none'; }, 5000);
-				}
+				};
 
 				window.addEventListener('DOMContentLoaded', async () => {
 					loadTelegramCredentials();
@@ -813,6 +1117,7 @@
 					}
 
 					renderWatchlistTable();
+					recalculateDCF();
 				});
 			</script>
 
