@@ -1049,8 +1049,8 @@
 					}
 				}
 
-				async function fetchYahooQuote(query) {
-					const targetUrl = 'https://query1.finance.yahoo.com/v7/finance/quote?symbols=' + encodeURIComponent(query);
+				async function fetchYahooQuote(ticker) {
+					const targetUrl = 'https://query1.finance.yahoo.com/v8/finance/chart/' + encodeURIComponent(ticker) + '?interval=1d&range=1d';
 					const proxies = [
 						'https://corsproxy.io/?' + encodeURIComponent(targetUrl),
 						'https://api.allorigins.win/raw?url=' + encodeURIComponent(targetUrl),
@@ -1062,8 +1062,14 @@
 							const res = await fetch(pUrl);
 							if (res.ok) {
 								const data = await res.json();
-								if (data?.quoteResponse?.result && Array.isArray(data.quoteResponse.result) && data.quoteResponse.result.length > 0) {
-									return data.quoteResponse.result;
+								const meta = data?.chart?.result?.[0]?.meta;
+								if (meta && meta.regularMarketPrice > 0) {
+									return {
+										symbol: meta.symbol || ticker,
+										longName: meta.shortName || meta.longName || meta.symbol || ticker,
+										regularMarketPrice: meta.regularMarketPrice,
+										currency: meta.currency
+									};
 								}
 							}
 						} catch(e) {}
@@ -1110,24 +1116,17 @@
 					showDCFStatus('A consultar cotação em tempo real para <strong>' + ticker + '</strong> na bolsa de valores...', 'loading');
 
 					// Query 100% live market API only - NO hardcoded fallback values
-					const result = await fetchYahooQuote(ticker);
+					const q = await fetchYahooQuote(ticker);
 
-					if (!result || result.length === 0) {
+					if (!q || !q.regularMarketPrice || q.regularMarketPrice <= 0) {
 						showDCFStatus('<strong>Empresa / Ticker "' + rawInput + '" não encontrado na bolsa de valores.</strong> Verifique o código (ex.: GALP.LS, AAPL, MSFT, NOVO-B.CO).', 'error');
 						clearDCFResults('Ticker "' + rawInput + '" não encontrado.');
 						return;
 					}
 
-					const q = result[0];
-					const compName = q.longName || q.shortName || q.symbol;
-					const currPrice = q.regularMarketPrice || q.currentPrice || q.postMarketPrice || 0;
+					const compName = q.longName || q.symbol;
+					const currPrice = q.regularMarketPrice;
 					const currSym = getTickerCurrencySymbol(ticker);
-
-					if (!q.symbol || !currPrice || currPrice <= 0) {
-						showDCFStatus('<strong>Ticker "' + rawInput + '" não possui cotação de mercado ativa.</strong> Verifique se a empresa está cotada na bolsa (ex.: GALP.LS, AAPL).', 'error');
-						clearDCFResults('Cotação indisponível para ' + rawInput);
-						return;
-					}
 
 					// Preencher EXCLUSIVAMENTE a cotação real obtida da API ao vivo
 					document.getElementById('dcfPrice').value = currPrice.toFixed(2);
