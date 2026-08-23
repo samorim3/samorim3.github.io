@@ -1051,18 +1051,16 @@
 
 				async function fetchYahooQuote(ticker) {
 					const targetUrl = 'https://query1.finance.yahoo.com/v8/finance/chart/' + encodeURIComponent(ticker) + '?interval=1d&range=1d';
-					const proxies = [
-						'https://corsproxy.io/?' + encodeURIComponent(targetUrl),
-						'https://api.allorigins.win/raw?url=' + encodeURIComponent(targetUrl),
-						targetUrl
-					];
-
-					for (const pUrl of proxies) {
-						try {
-							const res = await fetch(pUrl);
-							if (res.ok) {
-								const data = await res.json();
-								const meta = data?.chart?.result?.[0]?.meta;
+					
+					// Method 1: AllOrigins GET wrapper (Guaranteed CORS compliant)
+					try {
+						const wrapUrl = 'https://api.allorigins.win/get?url=' + encodeURIComponent(targetUrl);
+						const res = await fetch(wrapUrl);
+						if (res.ok) {
+							const data = await res.json();
+							if (data && data.contents) {
+								const parsed = JSON.parse(data.contents);
+								const meta = parsed?.chart?.result?.[0]?.meta;
 								if (meta && meta.regularMarketPrice > 0) {
 									return {
 										symbol: meta.symbol || ticker,
@@ -1072,8 +1070,44 @@
 									};
 								}
 							}
-						} catch(e) {}
-					}
+						}
+					} catch(e) {}
+
+					// Method 2: Corsproxy.io
+					try {
+						const pUrl = 'https://corsproxy.io/?' + encodeURIComponent(targetUrl);
+						const res = await fetch(pUrl);
+						if (res.ok) {
+							const data = await res.json();
+							const meta = data?.chart?.result?.[0]?.meta;
+							if (meta && meta.regularMarketPrice > 0) {
+								return {
+									symbol: meta.symbol || ticker,
+									longName: meta.shortName || meta.longName || meta.symbol || ticker,
+									regularMarketPrice: meta.regularMarketPrice,
+									currency: meta.currency
+								};
+							}
+						}
+					} catch(e) {}
+
+					// Method 3: Direct fetch
+					try {
+						const res = await fetch(targetUrl);
+						if (res.ok) {
+							const data = await res.json();
+							const meta = data?.chart?.result?.[0]?.meta;
+							if (meta && meta.regularMarketPrice > 0) {
+								return {
+									symbol: meta.symbol || ticker,
+									longName: meta.shortName || meta.longName || meta.symbol || ticker,
+									regularMarketPrice: meta.regularMarketPrice,
+									currency: meta.currency
+								};
+							}
+						}
+					} catch(e) {}
+
 					return null;
 				}
 
