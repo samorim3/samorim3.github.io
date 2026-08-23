@@ -1050,35 +1050,21 @@
 				}
 
 				async function fetchYahooQuote(ticker) {
-					const targetUrl = 'https://query1.finance.yahoo.com/v8/finance/chart/' + encodeURIComponent(ticker) + '?interval=1d&range=1d';
-					
-					// Method 1: AllOrigins GET wrapper (Guaranteed CORS compliant)
-					try {
-						const wrapUrl = 'https://api.allorigins.win/get?url=' + encodeURIComponent(targetUrl);
-						const res = await fetch(wrapUrl);
-						if (res.ok) {
-							const data = await res.json();
-							if (data && data.contents) {
-								const parsed = JSON.parse(data.contents);
-								const meta = parsed?.chart?.result?.[0]?.meta;
-								if (meta && meta.regularMarketPrice > 0) {
-									return {
-										symbol: meta.symbol || ticker,
-										longName: meta.shortName || meta.longName || meta.symbol || ticker,
-										regularMarketPrice: meta.regularMarketPrice,
-										currency: meta.currency
-									};
-								}
-							}
-						}
-					} catch(e) {}
+					const targetUrl1 = 'https://query1.finance.yahoo.com/v8/finance/chart/' + encodeURIComponent(ticker) + '?interval=1d&range=1d';
+					const targetUrl2 = 'https://query2.finance.yahoo.com/v8/finance/chart/' + encodeURIComponent(ticker) + '?interval=1d&range=1d';
 
-					// Method 2: Corsproxy.io
-					try {
-						const pUrl = 'https://corsproxy.io/?' + encodeURIComponent(targetUrl);
-						const res = await fetch(pUrl);
-						if (res.ok) {
-							const data = await res.json();
+					const fetchSingle = async (url, isJsonWrapper = false) => {
+						const controller = typeof AbortController !== 'undefined' ? new AbortController() : null;
+						const timeoutId = controller ? setTimeout(() => controller.abort(), 3500) : null;
+						try {
+							const fetchOptions = controller ? { signal: controller.signal } : {};
+							const res = await fetch(url, fetchOptions);
+							if (timeoutId) clearTimeout(timeoutId);
+							if (!res.ok) return null;
+							let data = await res.json();
+							if (isJsonWrapper && data && data.contents) {
+								data = JSON.parse(data.contents);
+							}
 							const meta = data?.chart?.result?.[0]?.meta;
 							if (meta && meta.regularMarketPrice > 0) {
 								return {
@@ -1088,23 +1074,25 @@
 									currency: meta.currency
 								};
 							}
+						} catch(e) {
+							if (timeoutId) clearTimeout(timeoutId);
 						}
-					} catch(e) {}
+						return null;
+					};
 
-					// Method 3: Direct fetch
+					// Parallel fetch across 5 endpoints simultaneously - races to return the fastest live quote
+					const endpoints = [
+						fetchSingle('https://corsproxy.io/?' + encodeURIComponent(targetUrl1)),
+						fetchSingle('https://api.allorigins.win/get?url=' + encodeURIComponent(targetUrl1), true),
+						fetchSingle('https://api.codetabs.com/v1/proxy?quest=' + encodeURIComponent(targetUrl1)),
+						fetchSingle(targetUrl1),
+						fetchSingle(targetUrl2)
+					];
+
 					try {
-						const res = await fetch(targetUrl);
-						if (res.ok) {
-							const data = await res.json();
-							const meta = data?.chart?.result?.[0]?.meta;
-							if (meta && meta.regularMarketPrice > 0) {
-								return {
-									symbol: meta.symbol || ticker,
-									longName: meta.shortName || meta.longName || meta.symbol || ticker,
-									regularMarketPrice: meta.regularMarketPrice,
-									currency: meta.currency
-								};
-							}
+						const results = await Promise.all(endpoints);
+						for (const r of results) {
+							if (r && r.regularMarketPrice > 0) return r;
 						}
 					} catch(e) {}
 
