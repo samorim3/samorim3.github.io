@@ -323,15 +323,18 @@
 
 									<!-- DCF Inputs Grid -->
 									<div style="background: #ffffff; border: 1px solid #e2e8f0; border-radius: 12px; padding: 1.25rem; margin-bottom: 1.25rem;">
-										<div style="font-size: 0.75rem; font-weight: 800; color: #475569; text-transform: uppercase; letter-spacing: 0.06em; margin-bottom: 1rem; border-bottom: 1px solid #f1f5f9; padding-bottom: 0.5rem;">Premissas Financeiras</div>
+										<div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1rem; border-bottom: 1px solid #f1f5f9; padding-bottom: 0.5rem;">
+											<div style="font-size: 0.75rem; font-weight: 800; color: #475569; text-transform: uppercase; letter-spacing: 0.06em;">Premissas Financeiras</div>
+											<span id="dcfCurrencyBadge" style="font-size: 0.72rem; font-weight: 800; color: #0f172a; background: #e2e8f0; border-radius: 4px; padding: 0.2rem 0.55rem; text-transform: uppercase;">Moeda: EUR (€)</span>
+										</div>
 										
 										<div class="form-grid-3" style="grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 0.75rem;">
 											<div class="input-group">
-												<label for="dcfPrice" style="font-size: 0.7rem;">Preço de Mercado</label>
+												<label id="lblDcfPrice" for="dcfPrice" style="font-size: 0.7rem;">Preço de Mercado (€)</label>
 												<input type="number" id="dcfPrice" placeholder="0.00" step="0.01" style="border-radius: 8px; padding: 0.5rem 0.75rem;" oninput="recalculateDCF()" />
 											</div>
 											<div class="input-group">
-												<label for="dcfFcf" style="font-size: 0.7rem;">Free Cash Flow (B)</label>
+												<label id="lblDcfFcf" for="dcfFcf" style="font-size: 0.7rem;">Free Cash Flow (B €)</label>
 												<input type="number" id="dcfFcf" placeholder="0.00" step="0.01" style="border-radius: 8px; padding: 0.5rem 0.75rem;" oninput="recalculateDCF()" />
 											</div>
 											<div class="input-group">
@@ -339,11 +342,11 @@
 												<input type="number" id="dcfShares" placeholder="0.00" step="0.01" style="border-radius: 8px; padding: 0.5rem 0.75rem;" oninput="recalculateDCF()" />
 											</div>
 											<div class="input-group">
-												<label for="dcfCash" style="font-size: 0.7rem;">Caixa Total (B)</label>
+												<label id="lblDcfCash" for="dcfCash" style="font-size: 0.7rem;">Caixa Total (B €)</label>
 												<input type="number" id="dcfCash" placeholder="0.00" step="0.01" style="border-radius: 8px; padding: 0.5rem 0.75rem;" oninput="recalculateDCF()" />
 											</div>
 											<div class="input-group">
-												<label for="dcfDebt" style="font-size: 0.7rem;">Dívida Total (B)</label>
+												<label id="lblDcfDebt" for="dcfDebt" style="font-size: 0.7rem;">Dívida Total (B €)</label>
 												<input type="number" id="dcfDebt" placeholder="0.00" step="0.01" style="border-radius: 8px; padding: 0.5rem 0.75rem;" oninput="recalculateDCF()" />
 											</div>
 										</div>
@@ -552,9 +555,9 @@
 				function getTickerCurrencySymbol(tickerStr) {
 					if (!tickerStr) return '€';
 					const t = tickerStr.toUpperCase();
-					if (t.endsWith('.LS') || t.endsWith('.DE') || t.endsWith('.PA') || t.endsWith('.AS') || t.endsWith('.MI') || t.endsWith('.MC') || t === 'GALP' || t === 'ADS.DE') return '€';
-					if (t.endsWith('.CO') || t === 'NOVO-B') return 'DKK';
-					if (t.endsWith('.SA') || t === 'PETR4') return 'R$';
+					if (t.includes('NOVO') || t.endsWith('.CO') || t === 'NOVO-B') return 'DKK';
+					if (t.endsWith('.LS') || t.endsWith('.DE') || t.endsWith('.PA') || t.endsWith('.AS') || t.endsWith('.MI') || t.endsWith('.MC') || t === 'GALP' || t === 'ADS.DE' || t === 'ADS') return '€';
+					if (t.endsWith('.SA') || t === 'PETR4' || t.includes('PETROBRAS')) return 'R$';
 					if (t.endsWith('.L')) return '£';
 					return '$';
 				}
@@ -990,6 +993,25 @@
 					}
 
 					const currSym = getTickerCurrencySymbol(tickerInput);
+					const currencyNameMap = {
+						'€': 'EUR (€)',
+						'DKK': 'DKK (Coroa Dinamarquesa)',
+						'$': 'USD ($)',
+						'£': 'GBP (£)',
+						'R$': 'BRL (R$)'
+					};
+					const currLabel = currencyNameMap[currSym] || currSym;
+					const badgeEl = document.getElementById('dcfCurrencyBadge');
+					if (badgeEl) badgeEl.innerText = 'Moeda: ' + currLabel;
+
+					const lblPrice = document.getElementById('lblDcfPrice');
+					if (lblPrice) lblPrice.innerText = 'Preço de Mercado (' + currSym + ')';
+					const lblFcf = document.getElementById('lblDcfFcf');
+					if (lblFcf) lblFcf.innerText = 'Free Cash Flow (B ' + currSym + ')';
+					const lblCash = document.getElementById('lblDcfCash');
+					if (lblCash) lblCash.innerText = 'Caixa Total (B ' + currSym + ')';
+					const lblDebt = document.getElementById('lblDcfDebt');
+					if (lblDebt) lblDebt.innerText = 'Dívida Total (B ' + currSym + ')';
 
 					// Base Case
 					const baseVal = calculateDCFFairValue(fcf, g1, g2, term, discount, shares, cash, debt);
