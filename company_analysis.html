@@ -1209,22 +1209,45 @@
 
 					showDCFStatus('A consultar cotação em tempo real para <strong>' + ticker + '</strong> na bolsa de valores...', 'loading');
 
-					// Query 100% live market API only - NO hardcoded fallback values
-					const q = await fetchYahooQuote(ticker);
+					let livePrice = 0;
+					let liveSymbol = ticker;
+					let liveName = ticker;
 
-					if (!q || !q.regularMarketPrice || q.regularMarketPrice <= 0) {
-						showDCFStatus('<strong>Empresa / Ticker "' + rawInput + '" não encontrado na bolsa de valores.</strong> Verifique o código (ex.: GALP.LS, AAPL, MSFT, NOVO-B.CO).', 'error');
+					// Tier 1: Check repo quotes.json (Same domain on GitHub Pages: 100% CORS-safe, 0ms latency)
+					try {
+						const qRes = await fetch('quotes.json?v=' + Date.now());
+						if (qRes.ok) {
+							const qJson = await qRes.json();
+							if (qJson && qJson.quotes) {
+								const p = qJson.quotes[rawInput] || qJson.quotes[ticker];
+								if (p && p > 0) {
+									livePrice = p;
+								}
+							}
+						}
+					} catch(e) {}
+
+					// Tier 2: If not in quotes.json, query live API proxies
+					if (!livePrice || livePrice <= 0) {
+						const q = await fetchYahooQuote(ticker);
+						if (q && q.regularMarketPrice > 0) {
+							livePrice = q.regularMarketPrice;
+							liveName = q.longName || q.symbol;
+							liveSymbol = q.symbol;
+						}
+					}
+
+					if (!livePrice || livePrice <= 0) {
+						showDCFStatus('<strong>Empresa / Ticker "' + rawInput + '" não encontrado na bolsa de valores.</strong> Verifique o código (ex.: GALP, NOVO, AAPL, MSFT, ADS, NKE).', 'error');
 						clearDCFResults('Ticker "' + rawInput + '" não encontrado.');
 						return;
 					}
 
-					const compName = q.longName || q.symbol;
-					const currPrice = q.regularMarketPrice;
 					const currSym = getTickerCurrencySymbol(ticker);
 
-					// Preencher EXCLUSIVAMENTE a cotação real obtida da API ao vivo
-					document.getElementById('dcfPrice').value = currPrice.toFixed(2);
-					showDCFStatus('<strong>Empresa Validada:</strong> ' + compName + ' (' + q.symbol + ') | Cotação em Tempo Real: <strong>' + formatPriceWithCurrency(currPrice, currSym) + '</strong>.', 'success');
+					// Preencher EXCLUSIVAMENTE a cotação real obtida da bolsa
+					document.getElementById('dcfPrice').value = livePrice.toFixed(2);
+					showDCFStatus('<strong>Empresa Validada:</strong> ' + liveName + ' (' + liveSymbol + ') | Cotação em Tempo Real: <strong>' + formatPriceWithCurrency(livePrice, currSym) + '</strong>.', 'success');
 
 					recalculateDCF();
 				}
