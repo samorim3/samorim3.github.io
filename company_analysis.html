@@ -1027,6 +1027,28 @@
 					}
 				}
 
+				async function fetchYahooQuote(ticker) {
+					const targetUrl = 'https://query1.finance.yahoo.com/v7/finance/quote?symbols=' + encodeURIComponent(ticker);
+					const proxies = [
+						'https://corsproxy.io/?' + encodeURIComponent(targetUrl),
+						'https://api.allorigins.win/raw?url=' + encodeURIComponent(targetUrl),
+						targetUrl
+					];
+
+					for (const pUrl of proxies) {
+						try {
+							const res = await fetch(pUrl);
+							if (res.ok) {
+								const data = await res.json();
+								if (data?.quoteResponse?.result && Array.isArray(data.quoteResponse.result)) {
+									return data.quoteResponse.result;
+								}
+							}
+						} catch(e) {}
+					}
+					return null;
+				}
+
 				async function loadDCFTickerData() {
 					const rawInput = document.getElementById('dcfTickerInput').value.trim().toUpperCase();
 					if (!rawInput) {
@@ -1043,48 +1065,32 @@
 					};
 					const ticker = aliasMap[rawInput] || rawInput;
 
-					showDCFStatus('A validar empresa <strong>' + ticker + '</strong>...', 'loading');
+					showDCFStatus('A validar empresa <strong>' + ticker + '</strong> na bolsa de valores...', 'loading');
 
-					try {
-						const url = 'https://query1.finance.yahoo.com/v7/finance/quote?symbols=' + encodeURIComponent(ticker);
-						const proxyUrl = 'https://api.allorigins.win/raw?url=' + encodeURIComponent(url);
+					const result = await fetchYahooQuote(ticker);
 
-						const res = await fetch(proxyUrl);
-						if (!res.ok) throw new Error('Servidor indisponível.');
-						
-						const data = await res.json();
-						const result = data?.quoteResponse?.result;
-
-						if (!Array.isArray(result) || result.length === 0) {
-							showDCFStatus('<strong>Empresa / Ticker "' + rawInput + '" não encontrado.</strong> Verifique o código (ex.: GALP.LS, AAPL, MSFT).', 'error');
-							clearDCFResults('Empresa "' + rawInput + '" inválida.');
-							return;
-						}
-
-						const q = result[0];
-						const compName = q.longName || q.shortName || ticker;
-						const currPrice = q.regularMarketPrice || q.currentPrice || 0;
-						const currSym = getTickerCurrencySymbol(ticker);
-
-						if (!currPrice || currPrice <= 0) {
-							showDCFStatus('Não foi possível obter a cotação para <strong>' + compName + '</strong> (' + ticker + ').', 'error');
-							clearDCFResults('Cotação indisponível para ' + ticker);
-							return;
-						}
-
-						document.getElementById('dcfPrice').value = currPrice.toFixed(2);
-						showDCFStatus('<strong>Empresa Validada:</strong> ' + compName + ' (' + ticker + ') | Preço Atual: <strong>' + formatPriceWithCurrency(currPrice, currSym) + '</strong>.', 'success');
-
-						recalculateDCF();
-					} catch(e) {
-						if (ticker.length >= 2) {
-							showDCFStatus('Ticker <strong>' + ticker + '</strong> aceite. Insira as premissas financeiras abaixo.', 'warning');
-							recalculateDCF();
-						} else {
-							showDCFStatus('<strong>Ticker "' + rawInput + '" inválido.</strong>', 'error');
-							clearDCFResults('Ticker inválido.');
-						}
+					if (!result || result.length === 0) {
+						showDCFStatus('<strong>Empresa / Ticker "' + rawInput + '" não existe ou não foi encontrado na bolsa de valores.</strong> Verifique o código (ex.: GALP.LS, AAPL, MSFT, ADS.DE).', 'error');
+						clearDCFResults('Ticker "' + rawInput + '" inexistente ou não encontrado.');
+						return;
 					}
+
+					const q = result[0];
+					const compName = q.longName || q.shortName || q.symbol;
+					const currPrice = q.regularMarketPrice || q.currentPrice || q.postMarketPrice || 0;
+					const currSym = getTickerCurrencySymbol(ticker);
+
+					if (!q.symbol || !currPrice || currPrice <= 0) {
+						showDCFStatus('<strong>Ticker "' + rawInput + '" não possui cotação ativa ou válida.</strong> Verifique se a empresa está cotada na bolsa (ex.: GALP.LS, AAPL, MSFT).', 'error');
+						clearDCFResults('Cotação indisponível para ' + rawInput);
+						return;
+					}
+
+					// Ticker 100% validado na Bolsa
+					document.getElementById('dcfPrice').value = currPrice.toFixed(2);
+					showDCFStatus('<strong>Empresa Validada:</strong> ' + compName + ' (' + q.symbol + ') | Cotação Atual: <strong>' + formatPriceWithCurrency(currPrice, currSym) + '</strong>.', 'success');
+
+					recalculateDCF();
 				}
 
 				function addDCFResultToWatchlist() {
