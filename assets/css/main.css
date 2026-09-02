@@ -4791,17 +4791,21 @@ input, select, textarea {
 /* Homepage Chronological Single-Column Featured Posts */
 #main > .post.featured {
 	text-align: center;
-	padding: 5.5rem 6rem 4.5rem 6rem;
+	padding: 3.75rem 4rem 3.25rem 4rem;
 }
 
 #main > .post.featured header.major {
-	margin-bottom: 2rem;
+	margin-bottom: 1.5rem;
+}
+
+#main > .post.featured header.major > .date {
+	margin-bottom: 1.5rem;
 }
 
 #main > .post.featured header.major > h2 {
-	font-size: 2.75rem;
-	line-height: 1.2;
-	margin: 0 0 1.25rem 0;
+	font-size: 2.25rem;
+	line-height: 1.25;
+	margin: 0 0 1rem 0;
 	text-align: center !important;
 }
 
@@ -4816,27 +4820,48 @@ input, select, textarea {
 
 #main > .post.featured p {
 	text-align: center !important;
-	max-width: 50rem;
-	margin: 0 auto 2rem auto !important;
-	font-size: 1.1rem !important;
+	max-width: 44rem;
+	margin: 0 auto 1.75rem auto !important;
+	font-size: 1.05rem !important;
 	color: #555555 !important;
 }
 
 #main > .post.featured .image.main {
-	margin: 2rem auto;
-	border-radius: 10px;
+	max-width: 32rem;
+	margin: 1.75rem auto;
+	border-radius: 12px;
 	overflow: hidden;
-	box-shadow: 0 6px 24px rgba(15, 23, 42, 0.08);
+	box-shadow: 0 8px 24px rgba(15, 23, 42, 0.08);
 	display: block;
 }
 
 #main > .post.featured .image.main img {
+	width: 100%;
+	height: auto;
+	max-height: 330px;
+	object-fit: cover;
 	transition: transform 0.35s ease;
 	display: block;
 }
 
 #main > .post.featured .image.main:hover img {
-	transform: scale(1.02);
+	transform: scale(1.03);
+}
+
+/* Post page image scaling */
+.post .image.main {
+	max-width: 34rem;
+	margin: 2rem auto 2.5rem auto;
+	border-radius: 12px;
+	overflow: hidden;
+	box-shadow: 0 8px 24px rgba(15, 23, 42, 0.08);
+	display: block;
+}
+
+.post .image.main img {
+	width: 100%;
+	height: auto;
+	display: block;
 }
 
 /* Callout Banner & Info Cards */
