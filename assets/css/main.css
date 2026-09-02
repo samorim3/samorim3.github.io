@@ -4787,3 +4787,132 @@ input, select, textarea {
 	text-align: left !important;
 	margin: 2rem 0 1rem 0 !important;
 }
+
+/* Homepage Chronological Single-Column Featured Posts */
+#main > .post.featured {
+	text-align: center;
+	padding: 5.5rem 6rem 4.5rem 6rem;
+}
+
+#main > .post.featured header.major {
+	margin-bottom: 2rem;
+}
+
+#main > .post.featured header.major > h2 {
+	font-size: 2.75rem;
+	line-height: 1.2;
+	margin: 0 0 1.25rem 0;
+	text-align: center !important;
+}
+
+#main > .post.featured header.major > h2 a {
+	border-bottom: none;
+	transition: color 0.2s ease-in-out;
+}
+
+#main > .post.featured header.major > h2 a:hover {
+	color: #2563eb;
+}
+
+#main > .post.featured p {
+	text-align: center !important;
+	max-width: 50rem;
+	margin: 0 auto 2rem auto !important;
+	font-size: 1.1rem !important;
+	color: #555555 !important;
+}
+
+#main > .post.featured .image.main {
+	margin: 2rem auto;
+	border-radius: 10px;
+	overflow: hidden;
+	box-shadow: 0 6px 24px rgba(15, 23, 42, 0.08);
+	display: block;
+}
+
+#main > .post.featured .image.main img {
+	transition: transform 0.35s ease;
+	display: block;
+}
+
+#main > .post.featured .image.main:hover img {
+	transform: scale(1.02);
+}
+
+/* Callout Banner & Info Cards */
+.status-callout-card {
+	background: #f0fdf4;
+	border: 1px solid #bbf7d0;
+	border-left: 5px solid #16a34a;
+	border-radius: 12px;
+	padding: 1.5rem 2rem;
+	margin: 2.5rem 0;
+	box-shadow: 0 4px 12px rgba(22, 163, 74, 0.06);
+}
+
+.status-callout-card.warning {
+	background: #eff6ff;
+	border-color: #bfdbfe;
+	border-left-color: #2563eb;
+	box-shadow: 0 4px 12px rgba(37, 99, 235, 0.06);
+}
+
+.feature-grid-cards {
+	display: grid;
+	grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+	gap: 1.5rem;
+	margin: 2rem 0;
+}
+
+.feature-card {
+	background: #ffffff;
+	border: 1px solid #e2e8f0;
+	border-radius: 14px;
+	padding: 1.5rem 1.75rem;
+	box-shadow: 0 4px 14px rgba(15, 23, 42, 0.04);
+	transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.feature-card:hover {
+	transform: translateY(-3px);
+	box-shadow: 0 8px 22px rgba(15, 23, 42, 0.08);
+}
+
+.feature-card h4 {
+	font-family: 'Source Sans Pro', Helvetica, sans-serif !important;
+	font-weight: 700;
+	font-size: 1.15rem;
+	color: #0f172a;
+	margin: 0 0 0.5rem 0;
+	display: flex;
+	align-items: center;
+	gap: 0.5rem;
+}
+
+.feature-card p {
+	font-size: 0.95rem !important;
+	line-height: 1.6 !important;
+	color: #475569 !important;
+	margin: 0 !important;
+	text-align: left !important;
+}
+
+@media screen and (max-width: 1280px) {
+	#main > .post.featured {
+		padding: 4.5rem 3.5rem 3.5rem 3.5rem;
+	}
+}
+
+@media screen and (max-width: 736px) {
+	#main > .post.featured {
+		padding: 3rem 1.5rem 2.5rem 1.5rem;
+	}
+
+	#main > .post.featured header.major > h2 {
+		font-size: 2rem;
+	}
+
+	.status-callout-card {
+		padding: 1.25rem 1.25rem;
+	}
+}
