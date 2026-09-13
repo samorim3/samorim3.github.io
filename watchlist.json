@@ -19,5 +19,12 @@
     "minBuy": 15,
     "maxSell": 22,
     "lastPrice": 21.93
+  },
+  {
+    "ticker": "NVDA",
+    "name": "NVIDIA Corporation",
+    "minBuy": 150,
+    "maxSell": 300,
+    "lastPrice": 214.72
   }
 ]

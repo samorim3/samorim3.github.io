@@ -454,7 +454,10 @@
 				}
 
 				function formatPriceWithCurrency(priceNum, currSymbol) {
-					if (priceNum === 'Error' || priceNum === 'Erro' || priceNum === null || priceNum === undefined || priceNum <= 0 || isNaN(parseFloat(priceNum))) {
+					if (priceNum === null || priceNum === undefined || priceNum === 0 || priceNum === '0' || isNaN(parseFloat(priceNum))) {
+						return '<span style="color:#64748b; font-weight:600;">—</span>';
+					}
+					if (priceNum === 'Error' || priceNum === 'Erro' || priceNum < 0) {
 						return '<span style="color:#e53e3e; font-weight:800;">Error</span>';
 					}
 					const num = typeof priceNum === 'number' ? priceNum : parseFloat(priceNum);
@@ -463,6 +466,66 @@
 						return currSymbol + valStr;
 					}
 					return valStr + ' ' + currSymbol;
+				}
+
+				async function fetchLiveStockPrice(rawTicker) {
+					if (!rawTicker) return 0;
+					const ticker = aliasMap[rawTicker.toUpperCase()] || rawTicker.toUpperCase();
+
+					// 1. Check repo quotes.json (Fastest & 100% CORS-safe)
+					try {
+						const qRes = await fetch('./quotes.json?v=' + Date.now());
+						if (qRes.ok) {
+							const qJson = await qRes.json();
+							if (qJson && qJson.quotes) {
+								const p = qJson.quotes[rawTicker.toUpperCase()] || qJson.quotes[ticker];
+								if (p && p > 0) return p;
+							}
+						}
+					} catch(e) {}
+
+					// 2. Query Yahoo Finance Chart API via multi-proxy racing
+					const targetUrl1 = 'https://query1.finance.yahoo.com/v8/finance/chart/' + encodeURIComponent(ticker) + '?interval=1d&range=1d';
+					const targetUrl2 = 'https://query2.finance.yahoo.com/v8/finance/chart/' + encodeURIComponent(ticker) + '?interval=1d&range=1d';
+
+					const fetchSingle = async (url, isJsonWrapper = false) => {
+						const controller = typeof AbortController !== 'undefined' ? new AbortController() : null;
+						const timeoutId = controller ? setTimeout(() => controller.abort(), 4000) : null;
+						try {
+							const fetchOptions = controller ? { signal: controller.signal } : {};
+							const res = await fetch(url, fetchOptions);
+							if (timeoutId) clearTimeout(timeoutId);
+							if (!res.ok) return null;
+							let data = await res.json();
+							if (isJsonWrapper && data && data.contents) {
+								data = JSON.parse(data.contents);
+							}
+							const meta = data?.chart?.result?.[0]?.meta;
+							if (meta && meta.regularMarketPrice > 0) {
+								return meta.regularMarketPrice;
+							}
+						} catch(e) {
+							if (timeoutId) clearTimeout(timeoutId);
+						}
+						return null;
+					};
+
+					const endpoints = [
+						fetchSingle('https://corsproxy.io/?' + encodeURIComponent(targetUrl1)),
+						fetchSingle('https://api.allorigins.win/get?url=' + encodeURIComponent(targetUrl1), true),
+						fetchSingle('https://api.codetabs.com/v1/proxy?quest=' + encodeURIComponent(targetUrl1)),
+						fetchSingle(targetUrl1),
+						fetchSingle(targetUrl2)
+					];
+
+					try {
+						const results = await Promise.all(endpoints);
+						for (const r of results) {
+							if (r && r > 0) return r;
+						}
+					} catch(e) {}
+
+					return 0;
 				}
 
 				function renderWatchlistTable() {
@@ -538,35 +601,38 @@
 					}
 				}
 
-				function addNewWatchlistEntry() {
+				async function addNewWatchlistEntry() {
 					const ticker = document.getElementById('newWatchlistTicker').value.trim();
 					const name = document.getElementById('newWatchlistName').value.trim();
 					const minBuy = document.getElementById('newWatchlistMin').value;
 					const maxSell = document.getElementById('newWatchlistMax').value;
 
 					if (!ticker) {
-						showWatchlistSummary('⚠️ Please enter a valid stock ticker symbol (e.g., ADS.DE, NKE, GALP).', 'warning');
+						showWatchlistSummary('⚠️ Please enter a valid stock ticker symbol (e.g., ADS.DE, NKE, GALP, NVDA).', 'warning');
 						return;
 					}
 
 					const cleanTicker = ticker.toUpperCase();
 					const existingIndex = watchlist.findIndex(w => w.ticker === cleanTicker);
 
+					let currentItem;
 					if (existingIndex >= 0) {
 						watchlist[existingIndex].minBuy = parseFloat(minBuy) || watchlist[existingIndex].minBuy;
 						watchlist[existingIndex].maxSell = parseFloat(maxSell) || watchlist[existingIndex].maxSell;
 						if (name) watchlist[existingIndex].name = name;
+						currentItem = watchlist[existingIndex];
 						showWatchlistSummary('🔄 Updated alert targets for existing stock <strong>' + cleanTicker + '</strong>!', 'success');
 					} else {
-						watchlist.push({
+						currentItem = {
 							ticker: cleanTicker,
 							name: name || cleanTicker,
 							minBuy: parseFloat(minBuy) || 0,
 							maxSell: parseFloat(maxSell) || 0,
 							lastPrice: 0,
 							status: "HOLD"
-						});
-						showWatchlistSummary('✅ Added <strong>' + cleanTicker + '</strong> to Stock Alert System!', 'success');
+						};
+						watchlist.push(currentItem);
+						showWatchlistSummary('⏳ Added <strong>' + cleanTicker + '</strong>! Fetching live quote...', 'loading');
 					}
 
 					document.getElementById('newWatchlistTicker').value = '';
@@ -576,6 +642,23 @@
 
 					saveWatchlistToStorage();
 					renderWatchlistTable();
+
+					// Fetch live price immediately
+					const livePrice = await fetchLiveStockPrice(cleanTicker);
+					if (livePrice && livePrice > 0) {
+						currentItem.lastPrice = livePrice;
+						if (currentItem.minBuy > 0 && livePrice <= currentItem.minBuy) {
+							currentItem.status = 'BUY';
+						} else if (currentItem.maxSell > 0 && livePrice >= currentItem.maxSell) {
+							currentItem.status = 'SELL';
+						} else {
+							currentItem.status = 'HOLD';
+						}
+						saveWatchlistToStorage();
+						renderWatchlistTable();
+						const currSym = getTickerCurrencySymbol(cleanTicker);
+						showWatchlistSummary('✅ Live quote updated for <strong>' + cleanTicker + '</strong>: ' + formatPriceWithCurrency(livePrice, currSym), 'success');
+					}
 				}
 
 				function getStoredWatchlist() {
@@ -752,35 +835,71 @@
 					summaryBox.style.display = 'block';
 					summaryBox.innerHTML = '⚡ Checking live stock quotes for ' + watchlist.length + ' favorite companies...';
 
-					// Sync with latest watchlist.json from server if available
+					let quotesMap = {};
 					try {
-						const res = await fetch('./watchlist.json?t=' + Date.now());
-						if (res.ok) {
-							const jsonItems = await res.json();
-							if (Array.isArray(jsonItems) && jsonItems.length > 0) {
-								watchlist = jsonItems;
-								saveWatchlistToStorage();
+						const qRes = await fetch('./quotes.json?v=' + Date.now());
+						if (qRes.ok) {
+							const qJson = await qRes.json();
+							if (qJson && qJson.quotes) {
+								quotesMap = qJson.quotes;
 							}
 						}
 					} catch(e) {}
 
-					let alertsSent = 0;
+					let alertsTriggered = [];
 
-					watchlist.forEach(item => {
-						const p = item.lastPrice || 0;
-						if (p > 0 && item.minBuy > 0 && p <= item.minBuy) {
-							item.status = 'BUY';
-						} else if (p > 0 && item.maxSell > 0 && p >= item.maxSell) {
-							item.status = 'SELL';
-						} else {
-							item.status = 'HOLD';
+					for (let item of watchlist) {
+						const t = item.ticker.toUpperCase();
+						let p = quotesMap[t] || quotesMap[aliasMap[t]] || 0;
+						if (!p || p <= 0) {
+							p = await fetchLiveStockPrice(item.ticker);
 						}
-					});
 
+						if (p && p > 0) {
+							item.lastPrice = p;
+							if (item.minBuy > 0 && p <= item.minBuy) {
+								item.status = 'BUY';
+								alertsTriggered.push({ type: 'BUY', item, price: p });
+							} else if (item.maxSell > 0 && p >= item.maxSell) {
+								item.status = 'SELL';
+								alertsTriggered.push({ type: 'SELL', item, price: p });
+							} else {
+								item.status = 'HOLD';
+							}
+						}
+					}
+
+					saveWatchlistToStorage();
 					renderWatchlistTable();
 
+					// Send Telegram alerts if configured and target reached
+					const token = document.getElementById('telegramToken') ? document.getElementById('telegramToken').value.trim() : '';
+					const chatId = document.getElementById('telegramChatId') ? document.getElementById('telegramChatId').value.trim() : '';
+					let sentCount = 0;
+
+					if (token && chatId && alertsTriggered.length > 0) {
+						for (let a of alertsTriggered) {
+							try {
+								const sym = getTickerCurrencySymbol(a.item.ticker);
+								const emoji = a.type === 'BUY' ? '🟢' : '🔴';
+								const msg = `${emoji} *STOCK ${a.type} ALERT:* ${a.item.ticker} (${a.item.name || a.item.ticker})\n` +
+											`Current Price: *${formatPriceWithCurrency(a.price, sym)}*\n` +
+											`Target Threshold: ${a.type === 'BUY' ? a.item.minBuy : a.item.maxSell} ${sym}`;
+								await sendTelegramMessage(msg);
+								sentCount++;
+							} catch(e) {
+								console.error("Failed to send Telegram alert:", e);
+							}
+						}
+					}
+
 					summaryBox.className = 'status-msg status-success';
-					summaryBox.innerHTML = '✅ Stock quotes updated! Favorite stocks are checked automatically every 6 hours via Google Finance.';
+					let summaryText = '✅ Stock quotes updated for ' + watchlist.length + ' companies!';
+					if (sentCount > 0) {
+						summaryText += ' 🚀 <strong>' + sentCount + ' Telegram alert(s) sent!</strong>';
+					}
+					summaryBox.innerHTML = summaryText;
+					setTimeout(() => { summaryBox.style.display = 'none'; }, 6000);
 				}
 
 				showWatchlistSummary = function(msg, type) {
@@ -813,6 +932,22 @@
 					}
 
 					renderWatchlistTable();
+
+					// Background refresh for any missing prices
+					let needsUpdate = false;
+					for (let item of watchlist) {
+						if (!item.lastPrice || item.lastPrice <= 0) {
+							const p = await fetchLiveStockPrice(item.ticker);
+							if (p && p > 0) {
+								item.lastPrice = p;
+								needsUpdate = true;
+							}
+						}
+					}
+					if (needsUpdate) {
+						saveWatchlistToStorage();
+						renderWatchlistTable();
+					}
 				});
 			</script>
 
