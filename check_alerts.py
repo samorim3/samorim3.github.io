@@ -162,29 +162,29 @@ def get_current_price(ticker_symbol):
     return get_yfinance_fallback(ticker_symbol)
 
 def calculate_dcf(fcf, growth_5y=0.10, growth_10y=0.075, terminal_growth=0.03, discount_rate=0.09, shares_out=1, cash=0, debt=0):
-    """Modelo DCF a 20 anos com valor terminal de Perpetuidade de Gordon (Adam Khoo)"""
+    """20-Year DCF model with Gordon Growth Perpetuity Terminal Value (Adam Khoo)"""
     if fcf <= 0 or shares_out <= 0:
         return 0.0
     
     pv_future_cash = 0.0
     current_cash = fcf
     
-    # Anos 1 a 5
+    # Years 1 to 5
     for year in range(1, 6):
         current_cash *= (1 + growth_5y)
         pv_future_cash += current_cash / ((1 + discount_rate) ** year)
         
-    # Anos 6 a 10
+    # Years 6 to 10
     for year in range(6, 11):
         current_cash *= (1 + growth_10y)
         pv_future_cash += current_cash / ((1 + discount_rate) ** year)
         
-    # Anos 11 a 20
+    # Years 11 to 20
     for year in range(11, 21):
         current_cash *= (1 + terminal_growth)
         pv_future_cash += current_cash / ((1 + discount_rate) ** year)
 
-    # Perpetuidade de Gordon no ano 20
+    # Gordon Growth Perpetuity Terminal Value at Year 20
     if discount_rate > terminal_growth:
         terminal_val_20 = (current_cash * (1 + terminal_growth)) / (discount_rate - terminal_growth)
         pv_terminal = terminal_val_20 / ((1 + discount_rate) ** 20)

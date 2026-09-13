@@ -305,21 +305,21 @@
 								<div class="tool-container" style="border-top: 4px solid #0f172a;">
 									<div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 1rem; margin-bottom: 1.25rem;">
 										<div>
-											<h2 style="margin: 0; color: #0f172a; font-weight: 800; font-size: 1.35rem; letter-spacing: -0.01em;">Avaliação de Valor Intrínseco</h2>
-											<span style="font-size: 0.8rem; color: #64748b; font-weight: 600;">Modelo de Fluxo de Caixa Descontado (DCF 20 Anos + Perpetuidade)</span>
+											<h2 style="margin: 0; color: #0f172a; font-weight: 800; font-size: 1.35rem; letter-spacing: -0.01em;">Intrinsic Value Valuation</h2>
+											<span style="font-size: 0.8rem; color: #64748b; font-weight: 600;">Discounted Cash Flow Model (20-Year DCF + Perpetuity)</span>
 										</div>
-										<span style="font-size: 0.72rem; color: #475569; background: #f1f5f9; border: 1px solid #cbd5e1; padding: 0.25rem 0.65rem; border-radius: 6px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.05em;">DCF Multi-Cenário</span>
+										<span style="font-size: 0.72rem; color: #475569; background: #f1f5f9; border: 1px solid #cbd5e1; padding: 0.25rem 0.65rem; border-radius: 6px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.05em;">Multi-Scenario DCF</span>
 									</div>
 
 									<!-- Ticker Search Bar -->
 									<div style="background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 12px; padding: 1.25rem; margin-bottom: 1.25rem;">
-										<label style="font-weight: 700; color: #475569; display: block; font-size: 0.75rem; text-transform: uppercase; letter-spacing: 0.06em; margin-bottom: 0.35rem;">Ticker da Empresa</label>
+										<label style="font-weight: 700; color: #475569; display: block; font-size: 0.75rem; text-transform: uppercase; letter-spacing: 0.06em; margin-bottom: 0.35rem;">Company Ticker Symbol</label>
 										<div style="display: flex; gap: 0.75rem; flex-wrap: wrap; align-items: center; position: relative;">
 											<div style="position: relative; flex: 1; min-width: 200px;">
-												<input type="text" id="dcfTickerInput" placeholder="ex.: GALP, NOVO, AAPL, MSFT, ADS, NKE" value="" autocomplete="off" style="width: 100%; font-weight: 700; border-radius: 8px; text-transform: uppercase;" oninput="onDCFInputType(this.value)" onkeypress="if(event.key==='Enter') loadDCFTickerData()" onfocus="onDCFInputType(this.value)" />
+												<input type="text" id="dcfTickerInput" placeholder="e.g. GALP, NOVO, AAPL, MSFT, ADS, NKE" value="" autocomplete="off" style="width: 100%; font-weight: 700; border-radius: 8px; text-transform: uppercase;" oninput="onDCFInputType(this.value)" onkeypress="if(event.key==='Enter') loadDCFTickerData()" onfocus="onDCFInputType(this.value)" />
 												<div id="dcfSuggestionsDropdown" style="display: none; position: absolute; top: 105%; left: 0; right: 0; background: #ffffff; border: 1px solid #cbd5e1; border-radius: 8px; box-shadow: 0 10px 25px -5px rgba(0,0,0,0.12); z-index: 9999; max-height: 260px; overflow-y: auto;"></div>
 											</div>
-											<button onclick="loadDCFTickerData()" class="french-btn french-btn-dark" style="border-radius: 8px; padding: 0.65rem 1.25rem;">Validar & Carregar Dados</button>
+											<button onclick="loadDCFTickerData()" class="french-btn french-btn-dark" style="border-radius: 8px; padding: 0.65rem 1.25rem;">Validate & Load Data</button>
 										</div>
 										<div id="dcfStatusBox" class="status-msg" style="margin-top: 0.75rem;"></div>
 									</div>
@@ -327,13 +327,13 @@
 									<!-- DCF Inputs Grid -->
 									<div style="background: #ffffff; border: 1px solid #e2e8f0; border-radius: 12px; padding: 1.25rem; margin-bottom: 1.25rem;">
 										<div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1rem; border-bottom: 1px solid #f1f5f9; padding-bottom: 0.5rem;">
-											<div style="font-size: 0.75rem; font-weight: 800; color: #475569; text-transform: uppercase; letter-spacing: 0.06em;">Premissas Financeiras</div>
-											<span id="dcfCurrencyBadge" style="font-size: 0.72rem; font-weight: 800; color: #0f172a; background: #e2e8f0; border-radius: 4px; padding: 0.2rem 0.55rem; text-transform: uppercase;">Moeda: EUR (€)</span>
+											<div style="font-size: 0.75rem; font-weight: 800; color: #475569; text-transform: uppercase; letter-spacing: 0.06em;">Financial Assumptions</div>
+											<span id="dcfCurrencyBadge" style="font-size: 0.72rem; font-weight: 800; color: #0f172a; background: #e2e8f0; border-radius: 4px; padding: 0.2rem 0.55rem; text-transform: uppercase;">Currency: EUR (€)</span>
 										</div>
 										
 										<div class="form-grid-3" style="grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 0.75rem;">
 											<div class="input-group">
-												<label id="lblDcfPrice" for="dcfPrice" style="font-size: 0.7rem;">Preço de Mercado (€)</label>
+												<label id="lblDcfPrice" for="dcfPrice" style="font-size: 0.7rem;">Market Price (€)</label>
 												<input type="number" id="dcfPrice" placeholder="0.00" step="0.01" style="border-radius: 8px; padding: 0.5rem 0.75rem;" oninput="recalculateDCF()" />
 											</div>
 											<div class="input-group">
@@ -341,38 +341,38 @@
 												<input type="number" id="dcfFcf" placeholder="0.00" step="0.01" style="border-radius: 8px; padding: 0.5rem 0.75rem;" oninput="recalculateDCF()" />
 											</div>
 											<div class="input-group">
-												<label for="dcfShares" style="font-size: 0.7rem;">Ações em Circulação (B)</label>
+												<label for="dcfShares" style="font-size: 0.7rem;">Shares Outstanding (B)</label>
 												<input type="number" id="dcfShares" placeholder="0.00" step="0.01" style="border-radius: 8px; padding: 0.5rem 0.75rem;" oninput="recalculateDCF()" />
 											</div>
 											<div class="input-group">
-												<label id="lblDcfCash" for="dcfCash" style="font-size: 0.7rem;">Caixa Total (B €)</label>
+												<label id="lblDcfCash" for="dcfCash" style="font-size: 0.7rem;">Total Cash (B €)</label>
 												<input type="number" id="dcfCash" placeholder="0.00" step="0.01" style="border-radius: 8px; padding: 0.5rem 0.75rem;" oninput="recalculateDCF()" />
 											</div>
 											<div class="input-group">
-												<label id="lblDcfDebt" for="dcfDebt" style="font-size: 0.7rem;">Dívida Total (B €)</label>
+												<label id="lblDcfDebt" for="dcfDebt" style="font-size: 0.7rem;">Total Debt (B €)</label>
 												<input type="number" id="dcfDebt" placeholder="0.00" step="0.01" style="border-radius: 8px; padding: 0.5rem 0.75rem;" oninput="recalculateDCF()" />
 											</div>
 										</div>
 
 										<div class="form-grid-3" style="grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 0.75rem; margin-top: 0.75rem;">
 											<div class="input-group">
-												<label for="dcfDiscount" style="font-size: 0.7rem;">Taxa Desconto WACC (%)</label>
+												<label for="dcfDiscount" style="font-size: 0.7rem;">Discount Rate WACC (%)</label>
 												<input type="number" id="dcfDiscount" placeholder="9.0" step="0.5" style="border-radius: 8px; padding: 0.5rem 0.75rem;" oninput="recalculateDCF()" />
 											</div>
 											<div class="input-group">
-												<label for="dcfGrowth1_5" style="font-size: 0.7rem;">Crescimento Anos 1-5 (%)</label>
+												<label for="dcfGrowth1_5" style="font-size: 0.7rem;">Growth Rate Y1-5 (%)</label>
 												<input type="number" id="dcfGrowth1_5" placeholder="6.0" step="0.5" style="border-radius: 8px; padding: 0.5rem 0.75rem;" oninput="recalculateDCF()" />
 											</div>
 											<div class="input-group">
-												<label for="dcfGrowth6_10" style="font-size: 0.7rem;">Crescimento Anos 6-10 (%)</label>
+												<label for="dcfGrowth6_10" style="font-size: 0.7rem;">Growth Rate Y6-10 (%)</label>
 												<input type="number" id="dcfGrowth6_10" placeholder="4.5" step="0.5" style="border-radius: 8px; padding: 0.5rem 0.75rem;" oninput="recalculateDCF()" />
 											</div>
 											<div class="input-group">
-												<label for="dcfTerminal" style="font-size: 0.7rem;">Crescimento Terminal (%)</label>
+												<label for="dcfTerminal" style="font-size: 0.7rem;">Terminal Growth Rate (%)</label>
 												<input type="number" id="dcfTerminal" placeholder="2.5" step="0.25" style="border-radius: 8px; padding: 0.5rem 0.75rem;" oninput="recalculateDCF()" />
 											</div>
 											<div class="input-group">
-												<label for="dcfMarginSafety" style="font-size: 0.7rem;">Margem Segurança (%)</label>
+												<label for="dcfMarginSafety" style="font-size: 0.7rem;">Margin of Safety (%)</label>
 												<input type="number" id="dcfMarginSafety" placeholder="20" step="5" style="border-radius: 8px; padding: 0.5rem 0.75rem;" oninput="recalculateDCF()" />
 											</div>
 										</div>
@@ -383,23 +383,23 @@
 										
 										<!-- Bear Case -->
 										<div style="background: #ffffff; border: 1px solid #e2e8f0; border-radius: 10px; padding: 1rem; text-align: center;">
-											<span style="font-size: 0.7rem; font-weight: 700; color: #64748b; text-transform: uppercase; letter-spacing: 0.05em;">Cenário Pessimista</span>
+											<span style="font-size: 0.7rem; font-weight: 700; color: #64748b; text-transform: uppercase; letter-spacing: 0.05em;">Bear Case (Conservative)</span>
 											<h3 id="dcfBearValue" style="margin: 0.35rem 0 0.15rem 0; color: #0f172a; font-size: 1.4rem; font-weight: 800;">-</h3>
-											<small id="dcfBearMargin" style="font-weight: 600; color: #64748b; font-size: 0.78rem;">Margem: N/A</small>
+											<small id="dcfBearMargin" style="font-weight: 600; color: #64748b; font-size: 0.78rem;">Margin: N/A</small>
 										</div>
 
 										<!-- Base Case (Primary) -->
 										<div style="background: #f8fafc; border: 1.5px solid #0f172a; border-radius: 10px; padding: 1rem; text-align: center;">
-											<span style="font-size: 0.7rem; font-weight: 800; color: #0f172a; text-transform: uppercase; letter-spacing: 0.05em;">Valor Intrínseco (Cenário Base)</span>
+											<span style="font-size: 0.7rem; font-weight: 800; color: #0f172a; text-transform: uppercase; letter-spacing: 0.05em;">Intrinsic Value (Base Case)</span>
 											<h3 id="dcfBaseValue" style="margin: 0.35rem 0 0.15rem 0; color: #0f172a; font-size: 1.65rem; font-weight: 800;">-</h3>
-											<div id="dcfBuyPriceBox" style="font-size: 0.78rem; font-weight: 700; color: #334155; margin-top: 0.15rem;">Preço c/ Margem: -</div>
+											<div id="dcfBuyPriceBox" style="font-size: 0.78rem; font-weight: 700; color: #334155; margin-top: 0.15rem;">Target Buy Price: -</div>
 										</div>
 
 										<!-- Bull Case -->
 										<div style="background: #ffffff; border: 1px solid #e2e8f0; border-radius: 10px; padding: 1rem; text-align: center;">
-											<span style="font-size: 0.7rem; font-weight: 700; color: #64748b; text-transform: uppercase; letter-spacing: 0.05em;">Cenário Otimista</span>
+											<span style="font-size: 0.7rem; font-weight: 700; color: #64748b; text-transform: uppercase; letter-spacing: 0.05em;">Bull Case (Optimistic)</span>
 											<h3 id="dcfBullValue" style="margin: 0.35rem 0 0.15rem 0; color: #0f172a; font-size: 1.4rem; font-weight: 800;">-</h3>
-											<small id="dcfBullMargin" style="font-weight: 600; color: #64748b; font-size: 0.78rem;">Margem: N/A</small>
+											<small id="dcfBullMargin" style="font-weight: 600; color: #64748b; font-size: 0.78rem;">Margin: N/A</small>
 										</div>
 									</div>
 
@@ -408,7 +408,7 @@
 										<div id="dcfDiagnosisBadge" style="font-size: 0.85rem; font-weight: 700;">
 											<!-- Dynamically populated diagnosis -->
 										</div>
-										<button onclick="addDCFResultToWatchlist()" class="french-btn french-btn-outline" style="border-radius: 8px; font-size: 0.8rem; padding: 0.5rem 1rem;">Adicionar Alvo à Watchlist</button>
+										<button onclick="addDCFResultToWatchlist()" class="french-btn french-btn-outline" style="border-radius: 8px; font-size: 0.8rem; padding: 0.5rem 1rem;">Add Target to Watchlist</button>
 									</div>
 
 								</div>
@@ -566,8 +566,8 @@
 				}
 
 				function formatPriceWithCurrency(priceNum, currSymbol) {
-					if (priceNum === 'Erro' || priceNum === null || priceNum === undefined || priceNum <= 0 || isNaN(parseFloat(priceNum))) {
-						return '<span style="color:#e53e3e; font-weight:800;">Erro</span>';
+					if (priceNum === 'Error' || priceNum === 'Erro' || priceNum === null || priceNum === undefined || priceNum <= 0 || isNaN(parseFloat(priceNum))) {
+						return '<span style="color:#e53e3e; font-weight:800;">Error</span>';
 					}
 					const num = typeof priceNum === 'number' ? priceNum : parseFloat(priceNum);
 					const valStr = num.toFixed(2);
@@ -950,14 +950,14 @@
 				function clearDCFResults(errorMessage) {
 					const diagBox = document.getElementById('dcfDiagnosisBadge');
 					if (diagBox) {
-						diagBox.innerHTML = '<span style="color:#64748b; font-weight:600;">' + (errorMessage || 'Insira premissas válidas para efetuar a avaliação.') + '</span>';
+						diagBox.innerHTML = '<span style="color:#64748b; font-weight:600;">' + (errorMessage || 'Enter valid assumptions to perform the valuation.') + '</span>';
 					}
 					document.getElementById('dcfBaseValue').innerText = '-';
 					document.getElementById('dcfBearValue').innerText = '-';
 					document.getElementById('dcfBullValue').innerText = '-';
-					document.getElementById('dcfBuyPriceBox').innerHTML = 'Preço c/ Margem: <strong>-</strong>';
-					document.getElementById('dcfBearMargin').innerText = 'Margem: N/A';
-					document.getElementById('dcfBullMargin').innerText = 'Margem: N/A';
+					document.getElementById('dcfBuyPriceBox').innerHTML = 'Target Buy Price: <strong>-</strong>';
+					document.getElementById('dcfBearMargin').innerText = 'Margin: N/A';
+					document.getElementById('dcfBullMargin').innerText = 'Margin: N/A';
 				}
 
 				function recalculateDCF() {
@@ -975,7 +975,7 @@
 
 					// Strict validation
 					if (!priceRaw || !fcfRaw || !sharesRaw || !cashRaw || !debtRaw || !discountRaw || !g1Raw || !g2Raw || !termRaw || !marginRaw) {
-						clearDCFResults('Preencha os campos obrigações com valores válidos para efetuar o cálculo.');
+						clearDCFResults('Fill in all required fields with valid numbers to perform calculation.');
 						return;
 					}
 
@@ -991,30 +991,30 @@
 					const marginPct = parseFloat(marginRaw);
 
 					if (isNaN(price) || price <= 0 || isNaN(shares) || shares <= 0 || isNaN(fcf) || isNaN(cash) || isNaN(debt) || isNaN(discount) || discount <= 0 || discount <= term) {
-						clearDCFResults('Valores inválidos detetados. O preço e ações devem ser superiores a zero.');
+						clearDCFResults('Invalid values detected. Price and shares must be greater than zero.');
 						return;
 					}
 
 					const currSym = getTickerCurrencySymbol(tickerInput);
 					const currencyNameMap = {
 						'€': 'EUR (€)',
-						'DKK': 'DKK (Coroa Dinamarquesa)',
+						'DKK': 'DKK (Danish Krone)',
 						'$': 'USD ($)',
 						'£': 'GBP (£)',
 						'R$': 'BRL (R$)'
 					};
 					const currLabel = currencyNameMap[currSym] || currSym;
 					const badgeEl = document.getElementById('dcfCurrencyBadge');
-					if (badgeEl) badgeEl.innerText = 'Moeda: ' + currLabel;
+					if (badgeEl) badgeEl.innerText = 'Currency: ' + currLabel;
 
 					const lblPrice = document.getElementById('lblDcfPrice');
-					if (lblPrice) lblPrice.innerText = 'Preço de Mercado (' + currSym + ')';
+					if (lblPrice) lblPrice.innerText = 'Market Price (' + currSym + ')';
 					const lblFcf = document.getElementById('lblDcfFcf');
 					if (lblFcf) lblFcf.innerText = 'Free Cash Flow (B ' + currSym + ')';
 					const lblCash = document.getElementById('lblDcfCash');
-					if (lblCash) lblCash.innerText = 'Caixa Total (B ' + currSym + ')';
+					if (lblCash) lblCash.innerText = 'Total Cash (B ' + currSym + ')';
 					const lblDebt = document.getElementById('lblDcfDebt');
-					if (lblDebt) lblDebt.innerText = 'Dívida Total (B ' + currSym + ')';
+					if (lblDebt) lblDebt.innerText = 'Total Debt (B ' + currSym + ')';
 
 					// Base Case
 					const baseVal = calculateDCFFairValue(fcf, g1, g2, term, discount, shares, cash, debt);
@@ -1030,24 +1030,24 @@
 					document.getElementById('dcfBearValue').innerHTML = formatPriceWithCurrency(bearVal, currSym);
 					document.getElementById('dcfBullValue').innerHTML = formatPriceWithCurrency(bullVal, currSym);
 
-					document.getElementById('dcfBuyPriceBox').innerHTML = 'Preço c/ Margem (' + marginPct + '%): <strong>' + formatPriceWithCurrency(buyTargetPrice, currSym) + '</strong>';
+					document.getElementById('dcfBuyPriceBox').innerHTML = 'Target Buy Price (' + marginPct + '%): <strong>' + formatPriceWithCurrency(buyTargetPrice, currSym) + '</strong>';
 
 					// Margins
 					const bearMargin = bearVal > 0 ? (((bearVal - price) / bearVal) * 100).toFixed(1) : 'N/A';
 					const bullMargin = bullVal > 0 ? (((bullVal - price) / bullVal) * 100).toFixed(1) : 'N/A';
-					document.getElementById('dcfBearMargin').innerText = 'Margem: ' + (bearMargin !== 'N/A' && parseFloat(bearMargin) > 0 ? '+' : '') + bearMargin + '%';
-					document.getElementById('dcfBullMargin').innerText = 'Margem: ' + (bullMargin !== 'N/A' && parseFloat(bullMargin) > 0 ? '+' : '') + bullMargin + '%';
+					document.getElementById('dcfBearMargin').innerText = 'Margin: ' + (bearMargin !== 'N/A' && parseFloat(bearMargin) > 0 ? '+' : '') + bearMargin + '%';
+					document.getElementById('dcfBullMargin').innerText = 'Margin: ' + (bullMargin !== 'N/A' && parseFloat(bullMargin) > 0 ? '+' : '') + bullMargin + '%';
 
 					// Diagnosis Badge
 					const diagBox = document.getElementById('dcfDiagnosisBadge');
 					if (baseVal > 0 && price > 0) {
 						const diffPct = ((price - baseVal) / baseVal) * 100;
 						if (price <= buyTargetPrice) {
-							diagBox.innerHTML = '<span class="badge-buy" style="border-radius: 6px; font-weight: 700;">SUBAVALIADA (FORTE MARGEM)</span> <span style="color:#047857; margin-left:0.5rem; font-size:0.82rem;">Cotação de mercado (' + formatPriceWithCurrency(price, currSym) + ') está ' + Math.abs(diffPct).toFixed(1) + '% abaixo do valor justo.</span>';
+							diagBox.innerHTML = '<span class="badge-buy" style="border-radius: 6px; font-weight: 700;">UNDERVALUED (STRONG MARGIN)</span> <span style="color:#047857; margin-left:0.5rem; font-size:0.82rem;">Market price (' + formatPriceWithCurrency(price, currSym) + ') is ' + Math.abs(diffPct).toFixed(1) + '% below fair value.</span>';
 						} else if (price <= baseVal) {
-							diagBox.innerHTML = '<span class="badge-hold" style="border-radius: 6px; font-weight: 700;">PREÇO JUSTO</span> <span style="color:#b45309; margin-left:0.5rem; font-size:0.82rem;">Ação a negociar ' + Math.abs(diffPct).toFixed(1) + '% abaixo do valor intrínseco.</span>';
+							diagBox.innerHTML = '<span class="badge-hold" style="border-radius: 6px; font-weight: 700;">FAIR VALUE</span> <span style="color:#b45309; margin-left:0.5rem; font-size:0.82rem;">Stock trading ' + Math.abs(diffPct).toFixed(1) + '% below intrinsic value.</span>';
 						} else {
-							diagBox.innerHTML = '<span class="badge-sell" style="border-radius: 6px; font-weight: 700;">SOBREAVALIADA</span> <span style="color:#be123c; margin-left:0.5rem; font-size:0.82rem;">Cotação atual está ' + diffPct.toFixed(1) + '% acima do valor intrínseco.</span>';
+							diagBox.innerHTML = '<span class="badge-sell" style="border-radius: 6px; font-weight: 700;">OVERVALUED</span> <span style="color:#be123c; margin-left:0.5rem; font-size:0.82rem;">Current price is ' + diffPct.toFixed(1) + '% above intrinsic value.</span>';
 						}
 					}
 				}
@@ -1066,7 +1066,7 @@
 					{ ticker: "META", alias: "META", name: "Meta Platforms, Inc.", exchange: "NASDAQ" },
 					{ ticker: "NKE", alias: "NKE", name: "Nike, Inc.", exchange: "NYSE" },
 					{ ticker: "MA", alias: "MA", name: "Mastercard Incorporated", exchange: "NYSE" },
-					{ ticker: "PETR4.SA", alias: "PETR4", name: "Petrobras", exchange: "B3 Brasil" }
+					{ ticker: "PETR4.SA", alias: "PETR4", name: "Petrobras", exchange: "B3 Brazil" }
 				];
 
 				function onDCFInputType(rawVal) {
@@ -1174,8 +1174,8 @@
 				async function loadDCFTickerData() {
 					const rawInput = document.getElementById('dcfTickerInput').value.trim().toUpperCase();
 					if (!rawInput) {
-						showDCFStatus('Insira o ticker de uma empresa para validar.', 'warning');
-						clearDCFResults('Ticker não introduzido.');
+						showDCFStatus('Please enter a company ticker symbol to validate.', 'warning');
+						clearDCFResults('No ticker entered.');
 						return;
 					}
 
@@ -1207,7 +1207,7 @@
 					};
 					const ticker = aliasMap[rawInput] || rawInput;
 
-					showDCFStatus('A consultar cotação em tempo real para <strong>' + ticker + '</strong> na bolsa de valores...', 'loading');
+					showDCFStatus('Fetching live quote for <strong>' + ticker + '</strong> from stock exchange...', 'loading');
 
 					let livePrice = 0;
 					let liveSymbol = ticker;
@@ -1238,16 +1238,16 @@
 					}
 
 					if (!livePrice || livePrice <= 0) {
-						showDCFStatus('<strong>Empresa / Ticker "' + rawInput + '" não encontrado na bolsa de valores.</strong> Verifique o código (ex.: GALP, NOVO, AAPL, MSFT, ADS, NKE).', 'error');
-						clearDCFResults('Ticker "' + rawInput + '" não encontrado.');
+						showDCFStatus('<strong>Company / Ticker "' + rawInput + '" not found on stock exchange.</strong> Please verify ticker symbol (e.g. GALP, NOVO, AAPL, MSFT, ADS, NKE).', 'error');
+						clearDCFResults('Ticker "' + rawInput + '" not found.');
 						return;
 					}
 
 					const currSym = getTickerCurrencySymbol(ticker);
 
-					// Preencher EXCLUSIVAMENTE a cotação real obtida da bolsa
+					// Populate live price retrieved from exchange
 					document.getElementById('dcfPrice').value = livePrice.toFixed(2);
-					showDCFStatus('<strong>Empresa Validada:</strong> ' + liveName + ' (' + liveSymbol + ') | Cotação em Tempo Real: <strong>' + formatPriceWithCurrency(livePrice, currSym) + '</strong>.', 'success');
+					showDCFStatus('<strong>Validated Company:</strong> ' + liveName + ' (' + liveSymbol + ') | Live Market Price: <strong>' + formatPriceWithCurrency(livePrice, currSym) + '</strong>.', 'success');
 
 					recalculateDCF();
 				}
@@ -1255,7 +1255,7 @@
 				function addDCFResultToWatchlist() {
 					const tickerInput = document.getElementById('dcfTickerInput').value.trim().toUpperCase();
 					if (!tickerInput) {
-						showWatchlistSummary('⚠️ Por favor introduza um ticker de empresa válido.', 'warning');
+						showWatchlistSummary('⚠️ Please enter a valid company ticker symbol.', 'warning');
 						return;
 					}
 
@@ -1271,13 +1271,13 @@
 					const marginPct = parseFloat(document.getElementById('dcfMarginSafety').value) || 20;
 
 					if (price <= 0 || shares <= 0 || fcf <= 0) {
-						showWatchlistSummary('⚠️ Por favor preencha todos os campos financeiros com valores válidos antes de adicionar à Watchlist.', 'warning');
+						showWatchlistSummary('⚠️ Please fill in all financial assumptions with valid numbers before adding to Watchlist.', 'warning');
 						return;
 					}
 
 					const baseVal = calculateDCFFairValue(fcf, g1, g2, term, discount, shares, cash, debt);
 					if (baseVal <= 0) {
-						showWatchlistSummary('⚠️ Cálculo inválido. Verifique se a taxa de desconto é superior ao crescimento terminal.', 'warning');
+						showWatchlistSummary('⚠️ Invalid calculation. Ensure discount rate is higher than terminal growth rate.', 'warning');
 						return;
 					}
 
@@ -1289,7 +1289,7 @@
 						watchlist[existingIdx].minBuy = minBuyTarget;
 						watchlist[existingIdx].maxSell = maxSellTarget;
 						watchlist[existingIdx].lastPrice = price;
-						showWatchlistSummary('🔄 Atualizado alvo de compra (🟢 ' + minBuyTarget + ') para a ação <strong>' + tickerInput + '</strong>!', 'success');
+						showWatchlistSummary('🔄 Updated buy target (🟢 ' + minBuyTarget + ') for <strong>' + tickerInput + '</strong>!', 'success');
 					} else {
 						watchlist.push({
 							ticker: tickerInput,
@@ -1299,7 +1299,7 @@
 							lastPrice: price,
 							status: "HOLD"
 						});
-						showWatchlistSummary('✅ Adicionada a ação <strong>' + tickerInput + '</strong> à Watchlist com Alvo de Compra de 🟢 ' + minBuyTarget + '!', 'success');
+						showWatchlistSummary('✅ Added <strong>' + tickerInput + '</strong> to Watchlist with Buy Target of 🟢 ' + minBuyTarget + '!', 'success');
 					}
 
 					saveWatchlistToStorage();
