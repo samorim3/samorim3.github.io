@@ -307,27 +307,31 @@
 									<!-- Add Stock to Watchlist Box -->
 									<div class="search-bar-box">
 										<label style="font-weight: 800; color: #0f172a; display: block; font-size: 0.85rem; text-transform: uppercase; letter-spacing: 0.05em; margin-bottom: 0.25rem;">➕ Add Favorite Stock Ticker to Alert System:</label>
-										<p style="font-size: 0.82rem; color: #64748b; margin-bottom: 0.75rem;">Prices are fetched directly from Google Finance and monitored automatically every 6 hours.</p>
+										<p style="font-size: 0.82rem; color: #64748b; margin-bottom: 0.75rem;">Type a ticker or company name below. Prices are validated live before adding and monitored automatically every 6 hours.</p>
 										
-										<div class="form-grid-3">
-											<div class="input-group">
+										<div class="form-grid-3" style="position: relative;">
+											<div class="input-group" style="position: relative;">
 												<label for="newWatchlistTicker">Ticker Symbol:</label>
-												<input type="text" id="newWatchlistTicker" placeholder="e.g. ADS.DE, NKE, GALP, AAPL" />
+												<input type="text" id="newWatchlistTicker" placeholder="e.g. NVDA, ADS.DE, AAPL, GALP" autocomplete="off" oninput="onWatchlistSearchInput(this.value, 'ticker')" onfocus="onWatchlistSearchInput(this.value, 'ticker')" onkeypress="if(event.key==='Enter') addNewWatchlistEntry()" />
 											</div>
-											<div class="input-group">
+											<div class="input-group" style="position: relative;">
 												<label for="newWatchlistName">Company Name:</label>
-												<input type="text" id="newWatchlistName" placeholder="e.g. Adidas, Nike, Galp" />
+												<input type="text" id="newWatchlistName" placeholder="e.g. NVIDIA, Adidas, Apple, Galp" autocomplete="off" oninput="onWatchlistSearchInput(this.value, 'name')" onfocus="onWatchlistSearchInput(this.value, 'name')" onkeypress="if(event.key==='Enter') addNewWatchlistEntry()" />
 											</div>
 											<div class="input-group">
-												<label for="newWatchlistMin">Min Buy Target:</label>
-												<input type="number" id="newWatchlistMin" placeholder="0.00" step="0.5" />
+												<label for="newWatchlistMin">Min Buy Target (🟢):</label>
+												<input type="number" id="newWatchlistMin" placeholder="0.00" step="0.5" onkeypress="if(event.key==='Enter') addNewWatchlistEntry()" />
 											</div>
 											<div class="input-group">
-												<label for="newWatchlistMax">Max Sell Target:</label>
-												<input type="number" id="newWatchlistMax" placeholder="0.00" step="0.5" />
+												<label for="newWatchlistMax">Max Sell Target (🔴):</label>
+												<input type="number" id="newWatchlistMax" placeholder="0.00" step="0.5" onkeypress="if(event.key==='Enter') addNewWatchlistEntry()" />
 											</div>
-											<button onclick="addNewWatchlistEntry()" class="french-btn french-btn-dark">Add Stock</button>
+											<button id="btnAddStock" onclick="addNewWatchlistEntry()" class="french-btn french-btn-dark">Add Stock</button>
+											
+											<!-- Autocomplete Suggestions Dropdown -->
+											<div id="watchlistSuggestionsDropdown" style="display: none; position: absolute; top: 100%; left: 0; right: 0; background: #ffffff; border: 1px solid #cbd5e1; border-radius: 12px; box-shadow: 0 15px 30px -5px rgba(15,23,42,0.18); z-index: 99999; max-height: 280px; overflow-y: auto; margin-top: 0.35rem;"></div>
 										</div>
+										<div id="addStockStatusBox" class="status-msg" style="margin-top: 0.85rem;"></div>
 									</div>
 
 									<!-- Watchlist Controls Header -->
@@ -601,63 +605,216 @@
 					}
 				}
 
+				const POPULAR_COMPANIES = [
+					{ ticker: "NVDA", alias: "NVIDIA", name: "NVIDIA Corporation", exchange: "NASDAQ", currency: "$" },
+					{ ticker: "AAPL", alias: "APPLE", name: "Apple Inc.", exchange: "NASDAQ", currency: "$" },
+					{ ticker: "MSFT", alias: "MICROSOFT", name: "Microsoft Corporation", exchange: "NASDAQ", currency: "$" },
+					{ ticker: "GOOGL", alias: "GOOGLE", name: "Alphabet Inc. (Google)", exchange: "NASDAQ", currency: "$" },
+					{ ticker: "AMZN", alias: "AMAZON", name: "Amazon.com, Inc.", exchange: "NASDAQ", currency: "$" },
+					{ ticker: "TSLA", alias: "TESLA", name: "Tesla, Inc.", exchange: "NASDAQ", currency: "$" },
+					{ ticker: "META", alias: "META / FACEBOOK", name: "Meta Platforms, Inc.", exchange: "NASDAQ", currency: "$" },
+					{ ticker: "ADS.DE", alias: "ADIDAS", name: "Adidas AG", exchange: "XETRA", currency: "€" },
+					{ ticker: "NKE", alias: "NIKE", name: "Nike, Inc.", exchange: "NYSE", currency: "$" },
+					{ ticker: "GALP.LS", alias: "GALP", name: "Galp Energia, SGPS, S.A.", exchange: "Euronext Lisbon", currency: "€" },
+					{ ticker: "EDP.LS", alias: "EDP", name: "EDP - Energias de Portugal", exchange: "Euronext Lisbon", currency: "€" },
+					{ ticker: "JMT.LS", alias: "JERONIMO MARTINS", name: "Jerónimo Martins, SGPS", exchange: "Euronext Lisbon", currency: "€" },
+					{ ticker: "NOVO-B.CO", alias: "NOVO NORDISK", name: "Novo Nordisk A/S", exchange: "Nasdaq Copenhagen", currency: "DKK" },
+					{ ticker: "NVO", alias: "NOVO NORDISK ADR", name: "Novo Nordisk A/S (ADR)", exchange: "NYSE", currency: "$" },
+					{ ticker: "PETR4.SA", alias: "PETROBRAS", name: "Petróleo Brasileiro S.A. - Petrobras", exchange: "B3 Brazil", currency: "R$" },
+					{ ticker: "ASML.AS", alias: "ASML", name: "ASML Holding N.V.", exchange: "Euronext Amsterdam", currency: "€" },
+					{ ticker: "MC.PA", alias: "LVMH", name: "LVMH Moët Hennessy Louis Vuitton", exchange: "Euronext Paris", currency: "€" },
+					{ ticker: "SAP.DE", alias: "SAP", name: "SAP SE", exchange: "XETRA", currency: "€" },
+					{ ticker: "NESN.SW", alias: "NESTLE", name: "Nestlé S.A.", exchange: "SIX Swiss", currency: "CHF" },
+					{ ticker: "AMD", alias: "AMD", name: "Advanced Micro Devices, Inc.", exchange: "NASDAQ", currency: "$" },
+					{ ticker: "PLTR", alias: "PALANTIR", name: "Palantir Technologies Inc.", exchange: "NYSE", currency: "$" },
+					{ ticker: "AVGO", alias: "BROADCOM", name: "Broadcom Inc.", exchange: "NASDAQ", currency: "$" },
+					{ ticker: "TSM", alias: "TSMC", name: "Taiwan Semiconductor Manufacturing", exchange: "NYSE", currency: "$" },
+					{ ticker: "KO", alias: "COCA COLA", name: "The Coca-Cola Company", exchange: "NYSE", currency: "$" },
+					{ ticker: "PEP", alias: "PEPSICO", name: "PepsiCo, Inc.", exchange: "NASDAQ", currency: "$" },
+					{ ticker: "JNJ", alias: "JOHNSON & JOHNSON", name: "Johnson & Johnson", exchange: "NYSE", currency: "$" },
+					{ ticker: "PG", alias: "PROCTER & GAMBLE", name: "The Procter & Gamble Company", exchange: "NYSE", currency: "$" },
+					{ ticker: "V", alias: "VISA", name: "Visa Inc.", exchange: "NYSE", currency: "$" },
+					{ ticker: "MA", alias: "MASTERCARD", name: "Mastercard Incorporated", exchange: "NYSE", currency: "$" },
+					{ ticker: "DIS", alias: "DISNEY", name: "The Walt Disney Company", exchange: "NYSE", currency: "$" },
+					{ ticker: "NFLX", alias: "NETFLIX", name: "Netflix, Inc.", exchange: "NASDAQ", currency: "$" },
+					{ ticker: "BRK.B", alias: "BERKSHIRE", name: "Berkshire Hathaway Inc.", exchange: "NYSE", currency: "$" },
+					{ ticker: "JPM", alias: "JPMORGAN", name: "JPMorgan Chase & Co.", exchange: "NYSE", currency: "$" },
+					{ ticker: "SAN.MC", alias: "SANTANDER", name: "Banco Santander, S.A.", exchange: "Bolsa de Madrid", currency: "€" },
+					{ ticker: "IBE.MC", alias: "IBERDROLA", name: "Iberdrola, S.A.", exchange: "Bolsa de Madrid", currency: "€" }
+				];
+
+				function onWatchlistSearchInput(rawVal, source) {
+					const dropdown = document.getElementById('watchlistSuggestionsDropdown');
+					if (!dropdown) return;
+					const query = (rawVal || '').trim().toUpperCase();
+					if (!query || query.length < 1) {
+						dropdown.style.display = 'none';
+						return;
+					}
+
+					const matches = POPULAR_COMPANIES.filter(s => 
+						s.ticker.toUpperCase().includes(query) || 
+						s.alias.toUpperCase().includes(query) || 
+						s.name.toUpperCase().includes(query)
+					);
+
+					if (matches.length === 0) {
+						dropdown.style.display = 'none';
+						return;
+					}
+
+					let html = '';
+					matches.slice(0, 8).forEach(item => {
+						const safeTicker = item.ticker.replace(/'/g, "\\'");
+						const safeName = item.name.replace(/'/g, "\\'");
+						html += `
+						<div onclick="selectWatchlistSuggestion('${safeTicker}', '${safeName}')" style="padding: 0.75rem 1rem; border-bottom: 1px solid #f1f5f9; cursor: pointer; display: flex; justify-content: space-between; align-items: center; background: #ffffff; transition: background 0.15s ease;" onmouseover="this.style.background='#f8fafc'" onmouseout="this.style.background='#ffffff'">
+							<div>
+								<strong style="color:#0f172a; font-size:0.92rem;">${item.ticker}</strong>
+								<span style="font-size:0.7rem; background:#eff6ff; color:#1d4ed8; border:1px solid #bfdbfe; padding:0.1rem 0.4rem; border-radius:9999px; font-weight:700; margin-left:0.35rem;">${item.currency}</span>
+								<div style="color:#64748b; font-size:0.8rem; font-weight:600; margin-top:0.1rem;">${item.name}</div>
+							</div>
+							<span style="font-size:0.7rem; background:#f1f5f9; color:#475569; padding:0.2rem 0.5rem; border-radius:6px; font-weight:700; text-transform:uppercase; letter-spacing:0.04em;">${item.exchange}</span>
+						</div>`;
+					});
+
+					dropdown.innerHTML = html;
+					dropdown.style.display = 'block';
+				}
+
+				function selectWatchlistSuggestion(ticker, name) {
+					const tickerInput = document.getElementById('newWatchlistTicker');
+					const nameInput = document.getElementById('newWatchlistName');
+					const dropdown = document.getElementById('watchlistSuggestionsDropdown');
+					
+					if (tickerInput) tickerInput.value = ticker;
+					if (nameInput) nameInput.value = name;
+					if (dropdown) dropdown.style.display = 'none';
+
+					// Fetch and show current price helper
+					const statusBox = document.getElementById('addStockStatusBox');
+					if (statusBox) {
+						statusBox.className = 'status-msg status-loading';
+						statusBox.style.display = 'block';
+						statusBox.innerHTML = `⏳ Selected <strong>${ticker}</strong> (${name}). Fetching live market price...`;
+					}
+
+					fetchLiveStockPrice(ticker).then(price => {
+						if (price && price > 0) {
+							const sym = getTickerCurrencySymbol(ticker);
+							if (statusBox) {
+								statusBox.className = 'status-msg status-success';
+								statusBox.innerHTML = `💡 <strong>${ticker}</strong> Live Price: <strong>${formatPriceWithCurrency(price, sym)}</strong>. Now set your Min Buy and Max Sell targets.`;
+							}
+						} else {
+							if (statusBox) statusBox.style.display = 'none';
+						}
+					});
+				}
+
+				document.addEventListener('click', function(e) {
+					const dropdown = document.getElementById('watchlistSuggestionsDropdown');
+					const tickerInput = document.getElementById('newWatchlistTicker');
+					const nameInput = document.getElementById('newWatchlistName');
+					if (dropdown && tickerInput && nameInput) {
+						if (!dropdown.contains(e.target) && !tickerInput.contains(e.target) && !nameInput.contains(e.target)) {
+							dropdown.style.display = 'none';
+						}
+					}
+				});
+
 				async function addNewWatchlistEntry() {
-					const ticker = document.getElementById('newWatchlistTicker').value.trim();
-					const name = document.getElementById('newWatchlistName').value.trim();
-					const minBuy = document.getElementById('newWatchlistMin').value;
-					const maxSell = document.getElementById('newWatchlistMax').value;
+					const tickerInput = document.getElementById('newWatchlistTicker');
+					const nameInput = document.getElementById('newWatchlistName');
+					const minBuyInput = document.getElementById('newWatchlistMin');
+					const maxSellInput = document.getElementById('newWatchlistMax');
+					const statusBox = document.getElementById('addStockStatusBox');
+					const addBtn = document.getElementById('btnAddStock');
+
+					const ticker = (tickerInput ? tickerInput.value : '').trim();
+					const name = (nameInput ? nameInput.value : '').trim();
+					const minBuy = minBuyInput ? minBuyInput.value : '';
+					const maxSell = maxSellInput ? maxSellInput.value : '';
 
 					if (!ticker) {
-						showWatchlistSummary('⚠️ Please enter a valid stock ticker symbol (e.g., ADS.DE, NKE, GALP, NVDA).', 'warning');
+						if (statusBox) {
+							statusBox.className = 'status-msg status-warning';
+							statusBox.style.display = 'block';
+							statusBox.innerHTML = '⚠️ Please enter a stock ticker symbol (e.g., NVDA, AAPL, ADS.DE, GALP).';
+						}
 						return;
 					}
 
 					const cleanTicker = ticker.toUpperCase();
+
+					// Show validating state
+					if (statusBox) {
+						statusBox.className = 'status-msg status-loading';
+						statusBox.style.display = 'block';
+						statusBox.innerHTML = `🔍 <strong>Validating "${cleanTicker}" on stock exchange...</strong> Please wait.`;
+					}
+					if (addBtn) addBtn.disabled = true;
+
+					// PRIOR VALIDATION: Verify if ticker exists on exchange and retrieve live price
+					const livePrice = await fetchLiveStockPrice(cleanTicker);
+
+					if (addBtn) addBtn.disabled = false;
+
+					if (!livePrice || livePrice <= 0) {
+						// BLOCKED: Ticker does not exist!
+						if (statusBox) {
+							statusBox.className = 'status-msg status-error';
+							statusBox.style.display = 'block';
+							statusBox.innerHTML = `❌ <strong>Ticker "${cleanTicker}" not found on stock exchange!</strong><br /><small style="font-size:0.8rem; color:#be123c;">Please verify the ticker symbol or pick from suggestions (e.g., NVDA, AAPL, MSFT, ADS.DE, GALP).</small>`;
+						}
+						return;
+					}
+
+					// VALIDATED: Add or update in Watchlist
+					const currSym = getTickerCurrencySymbol(cleanTicker);
 					const existingIndex = watchlist.findIndex(w => w.ticker === cleanTicker);
 
 					let currentItem;
 					if (existingIndex >= 0) {
 						watchlist[existingIndex].minBuy = parseFloat(minBuy) || watchlist[existingIndex].minBuy;
 						watchlist[existingIndex].maxSell = parseFloat(maxSell) || watchlist[existingIndex].maxSell;
+						watchlist[existingIndex].lastPrice = livePrice;
 						if (name) watchlist[existingIndex].name = name;
 						currentItem = watchlist[existingIndex];
-						showWatchlistSummary('🔄 Updated alert targets for existing stock <strong>' + cleanTicker + '</strong>!', 'success');
 					} else {
 						currentItem = {
 							ticker: cleanTicker,
 							name: name || cleanTicker,
 							minBuy: parseFloat(minBuy) || 0,
 							maxSell: parseFloat(maxSell) || 0,
-							lastPrice: 0,
+							lastPrice: livePrice,
 							status: "HOLD"
 						};
 						watchlist.push(currentItem);
-						showWatchlistSummary('⏳ Added <strong>' + cleanTicker + '</strong>! Fetching live quote...', 'loading');
 					}
 
-					document.getElementById('newWatchlistTicker').value = '';
-					document.getElementById('newWatchlistName').value = '';
-					document.getElementById('newWatchlistMin').value = '';
-					document.getElementById('newWatchlistMax').value = '';
+					// Update signal status based on current price
+					if (currentItem.minBuy > 0 && livePrice <= currentItem.minBuy) {
+						currentItem.status = 'BUY';
+					} else if (currentItem.maxSell > 0 && livePrice >= currentItem.maxSell) {
+						currentItem.status = 'SELL';
+					} else {
+						currentItem.status = 'HOLD';
+					}
 
 					saveWatchlistToStorage();
 					renderWatchlistTable();
 
-					// Fetch live price immediately
-					const livePrice = await fetchLiveStockPrice(cleanTicker);
-					if (livePrice && livePrice > 0) {
-						currentItem.lastPrice = livePrice;
-						if (currentItem.minBuy > 0 && livePrice <= currentItem.minBuy) {
-							currentItem.status = 'BUY';
-						} else if (currentItem.maxSell > 0 && livePrice >= currentItem.maxSell) {
-							currentItem.status = 'SELL';
-						} else {
-							currentItem.status = 'HOLD';
-						}
-						saveWatchlistToStorage();
-						renderWatchlistTable();
-						const currSym = getTickerCurrencySymbol(cleanTicker);
-						showWatchlistSummary('✅ Live quote updated for <strong>' + cleanTicker + '</strong>: ' + formatPriceWithCurrency(livePrice, currSym), 'success');
+					if (tickerInput) tickerInput.value = '';
+					if (nameInput) nameInput.value = '';
+					if (minBuyInput) minBuyInput.value = '';
+					if (maxSellInput) maxSellInput.value = '';
+
+					if (statusBox) {
+						statusBox.className = 'status-msg status-success';
+						statusBox.style.display = 'block';
+						statusBox.innerHTML = `✅ <strong>Validated & Added:</strong> ${cleanTicker} (${currentItem.name}) | Live Price: <strong>${formatPriceWithCurrency(livePrice, currSym)}</strong>.`;
+						setTimeout(() => { if (statusBox.className.includes('status-success')) statusBox.style.display = 'none'; }, 5000);
 					}
 				}
 
