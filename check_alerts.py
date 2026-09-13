@@ -161,38 +161,6 @@ def get_current_price(ticker_symbol):
     print(f"[Warning] Google Finance lookup failed for {ticker_symbol}. Trying yfinance fallback...")
     return get_yfinance_fallback(ticker_symbol)
 
-def calculate_dcf(fcf, growth_5y=0.10, growth_10y=0.075, terminal_growth=0.03, discount_rate=0.09, shares_out=1, cash=0, debt=0):
-    """20-Year DCF model with Gordon Growth Perpetuity Terminal Value (Adam Khoo)"""
-    if fcf <= 0 or shares_out <= 0:
-        return 0.0
-    
-    pv_future_cash = 0.0
-    current_cash = fcf
-    
-    # Years 1 to 5
-    for year in range(1, 6):
-        current_cash *= (1 + growth_5y)
-        pv_future_cash += current_cash / ((1 + discount_rate) ** year)
-        
-    # Years 6 to 10
-    for year in range(6, 11):
-        current_cash *= (1 + growth_10y)
-        pv_future_cash += current_cash / ((1 + discount_rate) ** year)
-        
-    # Years 11 to 20
-    for year in range(11, 21):
-        current_cash *= (1 + terminal_growth)
-        pv_future_cash += current_cash / ((1 + discount_rate) ** year)
-
-    # Gordon Growth Perpetuity Terminal Value at Year 20
-    if discount_rate > terminal_growth:
-        terminal_val_20 = (current_cash * (1 + terminal_growth)) / (discount_rate - terminal_growth)
-        pv_terminal = terminal_val_20 / ((1 + discount_rate) ** 20)
-        pv_future_cash += pv_terminal
-        
-    equity_value = pv_future_cash + cash - debt
-    fair_value = equity_value / shares_out
-    return max(0.0, fair_value)
 
 def main():
     watchlist_path = os.path.join(os.path.dirname(__file__), "watchlist.json")
