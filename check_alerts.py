@@ -202,7 +202,35 @@ def main():
     with open(watchlist_path, "w", encoding="utf-8") as f:
         json.dump(watchlist, f, indent=2)
 
-    print(f"Price check completed. Triggered {alerts_triggered} alert(s). Saved updated watchlist.json.")
+    # Save updated quotes.json for web frontend fallback cache
+    quotes_path = os.path.join(os.path.dirname(__file__), "quotes.json")
+    existing_quotes = {}
+    if os.path.exists(quotes_path):
+        try:
+            with open(quotes_path, "r", encoding="utf-8") as f:
+                qdata = json.load(f)
+                existing_quotes = qdata.get("quotes", {})
+        except Exception:
+            existing_quotes = {}
+
+    import datetime
+    for item in watchlist:
+        t = item.get("ticker")
+        lp = item.get("lastPrice")
+        if t and lp:
+            existing_quotes[t] = round(float(lp), 2)
+            if t == "GALP.LS": existing_quotes["GALP"] = round(float(lp), 2)
+            if t == "ADS.DE": existing_quotes["ADS"] = round(float(lp), 2)
+            if t == "PETR4.SA": existing_quotes["PETR4"] = round(float(lp), 2)
+
+    quotes_payload = {
+        "updated_at": datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S"),
+        "quotes": existing_quotes
+    }
+    with open(quotes_path, "w", encoding="utf-8") as f:
+        json.dump(quotes_payload, f, indent=2)
+
+    print(f"Price check completed. Triggered {alerts_triggered} alert(s). Saved updated watchlist.json and quotes.json.")
 
 if __name__ == "__main__":
     main()

@@ -478,25 +478,13 @@
 					if (!rawTicker) return 0;
 					const ticker = aliasMap[rawTicker.toUpperCase()] || rawTicker.toUpperCase();
 
-					// 1. Check repo quotes.json (Fastest & 100% CORS-safe)
-					try {
-						const qRes = await fetch('./quotes.json?v=' + Date.now());
-						if (qRes.ok) {
-							const qJson = await qRes.json();
-							if (qJson && qJson.quotes) {
-								const p = qJson.quotes[rawTicker.toUpperCase()] || qJson.quotes[ticker];
-								if (p && p > 0) return p;
-							}
-						}
-					} catch(e) {}
-
-					// 2. Query Yahoo Finance Chart API via multi-proxy racing
+					// 1. Query Yahoo Finance Live Market API via multi-proxy racing (True Real-Time)
 					const targetUrl1 = 'https://query1.finance.yahoo.com/v8/finance/chart/' + encodeURIComponent(ticker) + '?interval=1d&range=1d';
 					const targetUrl2 = 'https://query2.finance.yahoo.com/v8/finance/chart/' + encodeURIComponent(ticker) + '?interval=1d&range=1d';
 
 					const fetchSingle = async (url, isJsonWrapper = false) => {
 						const controller = typeof AbortController !== 'undefined' ? new AbortController() : null;
-						const timeoutId = controller ? setTimeout(() => controller.abort(), 4000) : null;
+						const timeoutId = controller ? setTimeout(() => controller.abort(), 3500) : null;
 						try {
 							const fetchOptions = controller ? { signal: controller.signal } : {};
 							const res = await fetch(url, fetchOptions);
@@ -528,6 +516,18 @@
 						const results = await Promise.all(endpoints);
 						for (const r of results) {
 							if (r && r > 0) return r;
+						}
+					} catch(e) {}
+
+					// 2. Fallback to repo quotes.json if live connection fails or is offline
+					try {
+						const qRes = await fetch('./quotes.json?v=' + Date.now());
+						if (qRes.ok) {
+							const qJson = await qRes.json();
+							if (qJson && qJson.quotes) {
+								const p = qJson.quotes[rawTicker.toUpperCase()] || qJson.quotes[ticker];
+								if (p && p > 0) return p;
+							}
 						}
 					} catch(e) {}
 

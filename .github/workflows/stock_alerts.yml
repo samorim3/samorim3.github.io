@@ -1,0 +1,42 @@
+﻿name: Stock Price Check & Telegram Alerts
+
+on:
+  schedule:
+    # Run every hour between 08:00 and 22:00 UTC, Monday through Friday (market trading hours)
+    - cron: '0 8-22 * * 1-5'
+  workflow_dispatch: # Allows manual trigger from GitHub Actions tab
+
+permissions:
+  contents: write
+
+jobs:
+  check-stocks:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.10'
+
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install requests beautifulsoup4 yfinance
+
+      - name: Run stock price check & alert system
+        env:
+          TELEGRAM_BOT_TOKEN: ${{ secrets.TELEGRAM_BOT_TOKEN }}
+          TELEGRAM_CHAT_ID: ${{ secrets.TELEGRAM_CHAT_ID }}
+        run: |
+          python check_alerts.py
+
+      - name: Commit and push updated quotes and watchlist
+        run: |
+          git config --global user.name "github-actions[bot]"
+          git config --global user.email "github-actions[bot]@users.noreply.github.com"
+          git add quotes.json watchlist.json
+          git commit -m "Auto-update live stock quotes and watchlist [skip ci]" || echo "No changes to commit"
+          git push origin main || echo "No changes to push"
