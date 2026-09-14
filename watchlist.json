@@ -11,7 +11,7 @@
     "name": "Nike, Inc.",
     "minBuy": 30,
     "maxSell": 95,
-    "lastPrice": 37.08
+    "lastPrice": 37.05
   },
   {
     "ticker": "GALP",
@@ -25,6 +25,6 @@
     "name": "NVIDIA Corporation",
     "minBuy": 150,
     "maxSell": 300,
-    "lastPrice": 211.79
+    "lastPrice": 210.96
   }
 ]
