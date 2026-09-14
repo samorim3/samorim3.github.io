@@ -4,27 +4,27 @@
     "name": "Adidas AG",
     "minBuy": 140,
     "maxSell": 200,
-    "lastPrice": 142.75
+    "lastPrice": 143.3
   },
   {
     "ticker": "NKE",
     "name": "Nike, Inc.",
     "minBuy": 30,
     "maxSell": 95,
-    "lastPrice": 36.8
+    "lastPrice": 37.12
   },
   {
     "ticker": "GALP",
     "name": "Galp Energia",
     "minBuy": 15,
     "maxSell": 22,
-    "lastPrice": 21.5
+    "lastPrice": 21.8
   },
   {
     "ticker": "NVDA",
     "name": "NVIDIA Corporation",
     "minBuy": 150,
     "maxSell": 300,
-    "lastPrice": 218.29
+    "lastPrice": 210.12
   }
 ]
