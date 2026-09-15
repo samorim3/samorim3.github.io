@@ -351,12 +351,13 @@
 										<table class="table-french">
 											<thead>
 												<tr>
-													<th style="width: 25%;">Company / Ticker</th>
-													<th style="width: 16%; text-align: center;">Min Buy (🟢)</th>
-													<th style="width: 16%; text-align: center;">Max Sell (🔴)</th>
-													<th style="width: 18%; text-align: center;">Last Live Price</th>
-													<th style="width: 15%; text-align: center;">Status / Signal</th>
-													<th style="width: 10%; text-align: center;">Actions</th>
+													<th style="width: 23%;">Company / Ticker</th>
+													<th style="width: 14%; text-align: center;">Min Buy (🟢)</th>
+													<th style="width: 14%; text-align: center;">Max Sell (🔴)</th>
+													<th style="width: 16%; text-align: center;">Last Live Price</th>
+													<th style="width: 15%; text-align: center;">Score DGI</th>
+													<th style="width: 10%; text-align: center;">Status</th>
+													<th style="width: 8%; text-align: center;">Actions</th>
 												</tr>
 											</thead>
 											<tbody id="watchlistTableBody">
@@ -540,7 +541,7 @@
 					tbody.innerHTML = '';
 
 					if (watchlist.length === 0) {
-						tbody.innerHTML = '<tr><td colspan="6" style="text-align:center; padding: 1.5rem; color: #718096;">No stocks in Watchlist. Add a stock above to begin monitoring.</td></tr>';
+						tbody.innerHTML = '<tr><td colspan="7" style="text-align:center; padding: 1.5rem; color: #718096;">No stocks in Watchlist. Add a stock above to begin monitoring.</td></tr>';
 						return;
 					}
 
@@ -557,6 +558,18 @@
 						const currSym = getTickerCurrencySymbol(item.ticker);
 						const lastPriceStr = formatPriceWithCurrency(item.lastPrice, currSym);
 
+						let dgiBadge = '<span style="color:#94a3b8; font-weight:600; font-size:0.8rem;">—</span>';
+						if (item.dgiScore !== undefined && item.dgiScore !== null) {
+							const s = parseFloat(item.dgiScore);
+							let bg = '#ecfdf5', col = '#047857', bdr = '#a7f3d0', ic = '⭐';
+							if (s >= 85) { bg = '#ecfdf5'; col = '#047857'; bdr = '#a7f3d0'; ic = '⭐'; }
+							else if (s >= 70) { bg = '#f0fdf4'; col = '#15803d'; bdr = '#bbf7d0'; ic = '🟢'; }
+							else if (s >= 50) { bg = '#fffbeb'; col = '#b45309'; bdr = '#fde68a'; ic = '🟡'; }
+							else if (s >= 35) { bg = '#fff7ed'; col = '#c2410c'; bdr = '#fed7aa'; ic = '🟠'; }
+							else { bg = '#fef2f2'; col = '#b91c1c'; bdr = '#fecaca'; ic = '🔴'; }
+							dgiBadge = '<span style="background:' + bg + '; color:' + col + '; border:1px solid ' + bdr + '; padding:0.25rem 0.6rem; border-radius:9999px; font-weight:800; font-size:0.75rem; white-space:nowrap;" title="' + (item.dgiVerdict || '') + '">' + ic + ' ' + s.toFixed(0) + '/100</span>';
+						}
+
 						tr.innerHTML = '<td style="padding: 0.85rem 1.25rem;">' +
 								'<strong style="font-weight:800; color:#0f172a; font-size:0.95rem;">' + item.ticker + '</strong> ' +
 								'<span style="font-size:0.7rem; background:#eff6ff; color:#1d4ed8; border:1px solid #bfdbfe; padding:0.15rem 0.5rem; border-radius:9999px; font-weight:700; display:inline-block; margin-left:0.25rem;">' + currSym + '</span><br />' +
@@ -565,17 +578,20 @@
 							'<td style="padding: 0.85rem; text-align: center; white-space:nowrap;">' +
 								'<div style="display:inline-flex; align-items:center; gap:0.25rem; justify-content:center;">' +
 									'<span style="font-size:0.8rem; color:#64748b; font-weight:700;">' + currSym + '</span>' +
-									'<input type="number" value="' + item.minBuy + '" step="0.1" style="width: 90px; padding: 0.4rem 0.5rem; font-size:0.88rem; border-radius:10px; border:1px solid #cbd5e1; text-align:center; font-weight:700;" onchange="updateWatchlistThreshold(' + index + ', \'minBuy\', this.value)" />' +
+									'<input type="number" value="' + item.minBuy + '" step="0.1" style="width: 80px; padding: 0.4rem 0.5rem; font-size:0.88rem; border-radius:10px; border:1px solid #cbd5e1; text-align:center; font-weight:700;" onchange="updateWatchlistThreshold(' + index + ', \'minBuy\', this.value)" />' +
 								'</div>' +
 							'</td>' +
 							'<td style="padding: 0.85rem; text-align: center; white-space:nowrap;">' +
 								'<div style="display:inline-flex; align-items:center; gap:0.25rem; justify-content:center;">' +
 									'<span style="font-size:0.8rem; color:#64748b; font-weight:700;">' + currSym + '</span>' +
-									'<input type="number" value="' + item.maxSell + '" step="0.1" style="width: 90px; padding: 0.4rem 0.5rem; font-size:0.88rem; border-radius:10px; border:1px solid #cbd5e1; text-align:center; font-weight:700;" onchange="updateWatchlistThreshold(' + index + ', \'maxSell\', this.value)" />' +
+									'<input type="number" value="' + item.maxSell + '" step="0.1" style="width: 80px; padding: 0.4rem 0.5rem; font-size:0.88rem; border-radius:10px; border:1px solid #cbd5e1; text-align:center; font-weight:700;" onchange="updateWatchlistThreshold(' + index + ', \'maxSell\', this.value)" />' +
 								'</div>' +
 							'</td>' +
-							'<td style="padding: 0.85rem; text-align: center; font-weight: 800; color:#0f172a; font-size:1.05rem; white-space:nowrap;">' +
+							'<td style="padding: 0.85rem; text-align: center; font-weight: 800; color:#0f172a; font-size:1.02rem; white-space:nowrap;">' +
 								lastPriceStr +
+							'</td>' +
+							'<td style="padding: 0.85rem; text-align: center;">' +
+								dgiBadge +
 							'</td>' +
 							'<td style="padding: 0.85rem; text-align: center;">' +
 								statusBadge +

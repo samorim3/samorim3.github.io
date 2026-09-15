@@ -4,27 +4,35 @@
     "name": "Adidas AG",
     "minBuy": 140,
     "maxSell": 200,
-    "lastPrice": 141.9
+    "lastPrice": 141.9,
+    "dgiScore": 43.0,
+    "dgiVerdict": "Fraco / Risco Elevado"
   },
   {
     "ticker": "NKE",
     "name": "Nike, Inc.",
     "minBuy": 30,
     "maxSell": 95,
-    "lastPrice": 36.22
+    "lastPrice": 36.22,
+    "dgiScore": 60.0,
+    "dgiVerdict": "Moderado / Neutro"
   },
   {
     "ticker": "GALP",
     "name": "Galp Energia",
     "minBuy": 15,
     "maxSell": 22,
-    "lastPrice": 21.97
+    "lastPrice": 21.97,
+    "dgiScore": 60.0,
+    "dgiVerdict": "Moderado / Neutro"
   },
   {
     "ticker": "NVDA",
     "name": "NVIDIA Corporation",
     "minBuy": 150,
     "maxSell": 300,
-    "lastPrice": 212.17
+    "lastPrice": 212.17,
+    "dgiScore": 80.0,
+    "dgiVerdict": "Forte (Boa Oportunidade DGI)"
   }
 ]

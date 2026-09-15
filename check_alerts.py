@@ -4,9 +4,13 @@ import socket
 import re
 import sys
 import io
+import argparse
 import requests
 from bs4 import BeautifulSoup
 import yfinance as yf
+import pandas as pd
+import numpy as np
+from datetime import datetime
 
 # Ensure UTF-8 output encoding for Windows terminals
 if hasattr(sys.stdout, 'buffer'):
@@ -27,7 +31,6 @@ HTTP_COOKIES = {
     'SOCS': 'CAESEwgDEgk0ODE3Nzk3MjAaAmVuIAEaBgiA_LyaBg'
 }
 
-# Mapping common tickers to Google Finance search format
 GF_TICKER_MAP = {
     "ADS.DE": "ADS:ETR",
     "ADS": "ADS:ETR",
@@ -43,13 +46,16 @@ GF_TICKER_MAP = {
 
 def send_telegram_alert(msg):
     """Sends alert message to configured Telegram chat."""
-    if not TELEGRAM_BOT_TOKEN or not TELEGRAM_CHAT_ID:
+    token = os.environ.get("TELEGRAM_BOT_TOKEN", TELEGRAM_BOT_TOKEN)
+    chat_id = os.environ.get("TELEGRAM_CHAT_ID", TELEGRAM_CHAT_ID)
+
+    if not token or not chat_id:
         print("[Warning] TELEGRAM_BOT_TOKEN or TELEGRAM_CHAT_ID environment variables not set.")
         return False
     
-    url = f"https://api.telegram.org/bot{TELEGRAM_BOT_TOKEN}/sendMessage"
+    url = f"https://api.telegram.org/bot{token}/sendMessage"
     payload = {
-        "chat_id": TELEGRAM_CHAT_ID,
+        "chat_id": chat_id,
         "text": msg,
         "parse_mode": "Markdown"
     }
@@ -58,7 +64,7 @@ def send_telegram_alert(msg):
         response = requests.post(url, json=payload, timeout=10)
         res_data = response.json()
         if res_data.get("ok"):
-            print(f"[Telegram] Alert sent: {msg[:50]}...")
+            print(f"[Telegram] Alert sent successfully: {msg[:40]}...")
             return True
         else:
             print(f"[Telegram API Error] {res_data.get('description')}")
@@ -67,11 +73,255 @@ def send_telegram_alert(msg):
         print(f"[Exception] Error sending Telegram alert: {e}")
         return False
 
+
+def calculate_cagr(start_val, end_val, periods):
+    """Calculates Compound Annual Growth Rate (CAGR)."""
+    if start_val is None or end_val is None:
+        return None
+    try:
+        start_val = float(start_val)
+        end_val = float(end_val)
+        periods = float(periods)
+        if start_val <= 0 or end_val <= 0 or periods <= 0:
+            return None
+        return ((end_val / start_val) ** (1.0 / periods)) - 1.0
+    except Exception:
+        return None
+
+
+def calculate_dgi_data(ticker_sym):
+    """
+    Calculates DGI Score (0 to 100) across 5 core pillars:
+    1. Dividend Yield (2% - 6%)
+    2. Payout Ratio on FCF (<70%)
+    3. Net Debt / EBITDA (<3.0x)
+    4. 5Y Revenue & Net Income CAGR
+    5. 5Y Dividend CAGR & Chowder Rule
+    """
+    aliases = {
+        "GALP": "GALP.LS",
+        "NOVO-B": "NOVO-B.CO",
+        "ADS": "ADS.DE"
+    }
+    symbol_to_try = aliases.get(ticker_sym.upper(), ticker_sym)
+
+    try:
+        stock = yf.Ticker(symbol_to_try)
+        info = stock.info or {}
+    except Exception as e:
+        print(f"Error fetching yfinance for {ticker_sym}: {e}")
+        return None
+
+    # Current price & details
+    current_price = info.get('currentPrice') or info.get('regularMarketPrice') or info.get('previousClose')
+    currency = info.get('currency', 'USD')
+    sym_char = "€" if currency == "EUR" else ("$" if currency == "USD" else f"{currency} ")
+
+    # 1. Yield
+    div_yield_raw = info.get('dividendYield') or info.get('trailingAnnualDividendYield') or 0.0
+    div_yield_pct = (div_yield_raw * 100.0) if (div_yield_raw and div_yield_raw < 1.0) else float(div_yield_raw or 0.0)
+
+    if 2.5 <= div_yield_pct <= 6.0:
+        p1_score = 20.0
+    elif (2.0 <= div_yield_pct < 2.5) or (6.0 < div_yield_pct <= 7.0):
+        p1_score = 16.0
+    elif (1.5 <= div_yield_pct < 2.0) or (7.0 < div_yield_pct <= 8.5):
+        p1_score = 10.0
+    elif (1.0 <= div_yield_pct < 1.5) or (8.5 < div_yield_pct <= 10.0):
+        p1_score = 5.0
+    else:
+        p1_score = 0.0
+
+    # 2. Payout on FCF
+    cash_flow = stock.cashflow
+    fcf_payout = None
+    eps_payout = (info.get('payoutRatio') or 0.0) * 100.0
+
+    if not cash_flow.empty:
+        try:
+            op_cf_key = next((k for k in ['Operating Cash Flow', 'Total Cash From Operating Activities', 'OperatingCashFlow'] if k in cash_flow.index), None)
+            capex_key = next((k for k in ['Capital Expenditure', 'Capital Expenditures', 'CapitalExpenditure'] if k in cash_flow.index), None)
+            div_paid_key = next((k for k in ['Common Stock Dividend Paid', 'Cash Dividends Paid', 'Payment Of Dividends & Other Cash Distributions'] if k in cash_flow.index), None)
+
+            if op_cf_key and capex_key and div_paid_key:
+                op_cf = cash_flow.loc[op_cf_key].iloc[0]
+                capex = abs(cash_flow.loc[capex_key].iloc[0])
+                fcf = op_cf - capex
+                div_paid = abs(cash_flow.loc[div_paid_key].iloc[0])
+                if fcf > 0:
+                    fcf_payout = (div_paid / fcf) * 100.0
+        except Exception:
+            pass
+
+    eval_payout = fcf_payout if fcf_payout is not None else (eps_payout if eps_payout > 0 else None)
+    payout_lbl = "FCF" if fcf_payout is not None else "EPS"
+
+    if eval_payout is not None:
+        if 0 < eval_payout <= 50.0:
+            p2_score = 20.0
+        elif 50.0 < eval_payout <= 70.0:
+            p2_score = 16.0
+        elif 70.0 < eval_payout <= 85.0:
+            p2_score = 10.0
+        elif 85.0 < eval_payout <= 100.0:
+            p2_score = 5.0
+        else:
+            p2_score = 0.0
+    else:
+        p2_score = 0.0
+
+    # 3. Leverage (Net Debt / EBITDA)
+    ebitda = info.get('ebitda')
+    total_debt = info.get('totalDebt')
+    total_cash = info.get('totalCash') or info.get('cashAndCashEquivalents')
+    net_debt = info.get('netDebt')
+    if net_debt is None and total_debt is not None and total_cash is not None:
+        net_debt = total_debt - total_cash
+
+    net_debt_ebitda = (net_debt / ebitda) if (net_debt is not None and ebitda and ebitda > 0) else None
+
+    if net_debt_ebitda is not None:
+        if net_debt <= 0 or net_debt_ebitda <= 1.5:
+            p3_score = 20.0
+        elif 1.5 < net_debt_ebitda <= 2.5:
+            p3_score = 16.0
+        elif 2.5 < net_debt_ebitda <= 3.2:
+            p3_score = 10.0
+        elif 3.2 < net_debt_ebitda <= 4.5:
+            p3_score = 5.0
+        else:
+            p3_score = 0.0
+    else:
+        p3_score = 10.0
+
+    # 4. Revenue & Net Income CAGR
+    income_stmt = stock.income_stmt
+    rev_cagr = None
+    ni_cagr = None
+    if not income_stmt.empty:
+        try:
+            rev_row = next((r for r in ['Total Revenue', 'Operating Revenue', 'Revenue'] if r in income_stmt.index), None)
+            ni_row = next((r for r in ['Net Income', 'Net Income Common Stockholders'] if r in income_stmt.index), None)
+            if rev_row:
+                rev_s = income_stmt.loc[rev_row].dropna()
+                if len(rev_s) >= 2:
+                    rev_cagr = calculate_cagr(rev_s.iloc[-1], rev_s.iloc[0], len(rev_s) - 1)
+            if ni_row:
+                ni_s = income_stmt.loc[ni_row].dropna()
+                if len(ni_s) >= 2:
+                    ni_cagr = calculate_cagr(ni_s.iloc[-1], ni_s.iloc[0], len(ni_s) - 1)
+        except Exception:
+            pass
+
+    rev_pts = 10.0 if (rev_cagr and rev_cagr >= 0.06) else (7.0 if (rev_cagr and rev_cagr >= 0.03) else (4.0 if (rev_cagr and rev_cagr >= 0) else 0.0))
+    ni_pts = 10.0 if (ni_cagr and ni_cagr >= 0.07) else (7.0 if (ni_cagr and ni_cagr >= 0.03) else (4.0 if (ni_cagr and ni_cagr >= 0) else 0.0))
+    p4_score = rev_pts + ni_pts
+
+    # 5. Dividend CAGR & Chowder Rule
+    div_history = stock.dividends
+    dps_cagr_5y = None
+    if not div_history.empty:
+        try:
+            ann_div = div_history.groupby(div_history.index.year).sum()
+            ann_div = ann_div[ann_div > 0]
+            curr_yr = datetime.now().year
+            ann_div_comp = ann_div[ann_div.index < curr_yr]
+            if len(ann_div_comp) >= 6:
+                dps_cagr_5y = calculate_cagr(ann_div_comp.iloc[-6], ann_div_comp.iloc[-1], 5)
+            elif len(ann_div_comp) >= 2:
+                dps_cagr_5y = calculate_cagr(ann_div_comp.iloc[0], ann_div_comp.iloc[-1], len(ann_div_comp) - 1)
+        except Exception:
+            pass
+
+    chowder = (div_yield_pct + (dps_cagr_5y * 100.0)) if (dps_cagr_5y is not None and div_yield_pct > 0) else (div_yield_pct if div_yield_pct > 0 else None)
+
+    dps_pts = 10.0 if (dps_cagr_5y and dps_cagr_5y >= 0.07) else (7.0 if (dps_cagr_5y and dps_cagr_5y >= 0.04) else (4.0 if (dps_cagr_5y and dps_cagr_5y >= 0.01) else 0.0))
+    chw_pts = 10.0 if (chowder and chowder >= 12.0) else (7.0 if (chowder and chowder >= 8.0) else (4.0 if (chowder and chowder >= 5.0) else 0.0))
+    p5_score = dps_pts + chw_pts
+
+    total_score = round(p1_score + p2_score + p3_score + p4_score + p5_score, 1)
+
+    if total_score >= 85.0:
+        verdict = "Excelente (Dividend Aristocrat / Alta Qualidade)"
+        icon = "⭐"
+        summary = "Alta qualidade DGI: balanço sólido, payout seguro e crescimento consistente."
+    elif total_score >= 70.0:
+        verdict = "Forte (Boa Oportunidade DGI)"
+        icon = "🟢"
+        summary = "Fundamentos sólidos com dividendos sustentáveis."
+    elif total_score >= 50.0:
+        verdict = "Moderado / Neutro"
+        icon = "🟡"
+        summary = "Cumpre requisitos essenciais, mas exige atenção a certos pilares."
+    elif total_score >= 35.0:
+        verdict = "Fraco / Risco Elevado"
+        icon = "🟠"
+        summary = "Métricas fracas ou crescimento modesto."
+    else:
+        verdict = "Evitar / Yield Trap Potencial"
+        icon = "🔴"
+        summary = "Risco financeiro alto ou dividendo não coberto por caixa livre."
+
+    return {
+        'ticker': ticker_sym.upper(),
+        'name': info.get('shortName') or info.get('longName') or ticker_sym,
+        'currency_symbol': sym_char,
+        'price': current_price,
+        'dividend_yield_pct': div_yield_pct,
+        'eval_payout': eval_payout,
+        'payout_lbl': payout_lbl,
+        'net_debt_ebitda': net_debt_ebitda,
+        'revenue_cagr_5y': rev_cagr,
+        'net_income_cagr_5y': ni_cagr,
+        'dps_cagr_5y': dps_cagr_5y,
+        'chowder_number': chowder,
+        'p1_score': p1_score,
+        'p2_score': p2_score,
+        'p3_score': p3_score,
+        'p4_score': p4_score,
+        'p5_score': p5_score,
+        'total_score': total_score,
+        'verdict': verdict,
+        'verdict_icon': icon,
+        'verdict_summary': summary
+    }
+
+
+def format_telegram_dgi_card(dgi):
+    """Formats an executive DGI Scorecard for Telegram."""
+    if not dgi:
+        return "❌ Não foi possível apurar dados DGI."
+
+    sym = dgi.get('currency_symbol', '$')
+    price_str = f"{sym}{dgi['price']:.2f}" if dgi.get('price') else "N/D"
+
+    rev_s = f"{dgi['revenue_cagr_5y']*100:.1f}%" if dgi['revenue_cagr_5y'] is not None else "N/D"
+    ni_s = f"{dgi['net_income_cagr_5y']*100:.1f}%" if dgi['net_income_cagr_5y'] is not None else "N/D"
+    dps_s = f"{dgi['dps_cagr_5y']*100:.1f}%" if dgi['dps_cagr_5y'] is not None else "N/D"
+    chw_s = f"{dgi['chowder_number']:.1f}%" if dgi['chowder_number'] is not None else "N/D"
+    payout_s = f"{dgi['eval_payout']:.1f}%" if dgi['eval_payout'] is not None else "N/D"
+    debt_s = f"{dgi['net_debt_ebitda']:.2f}x" if dgi['net_debt_ebitda'] is not None else "Caixa Líq."
+
+    msg = (
+        f"📊 *ANÁLISE FUNDAMENTAL DGI: {dgi['ticker']}*\n"
+        f"🏢 *{dgi['name']}* | Preço: `{price_str}`\n"
+        f"━━━━━━━━━━━━━━━━━━━━━\n"
+        f"🏆 *SCORE DGI:* *{dgi['total_score']:.0f}/100* {dgi['verdict_icon']}\n"
+        f"📌 *Classificação:* {dgi['verdict']}\n\n"
+        f"🎯 *Os 5 Pilares DGI:*\n"
+        f"• 1. *Yield:* `{dgi['dividend_yield_pct']:.2f}%` ({dgi['p1_score']:.0f}/20 pts)\n"
+        f"• 2. *Payout ({dgi['payout_lbl']}):* `{payout_s}` ({dgi['p2_score']:.0f}/20 pts)\n"
+        f"• 3. *Dívida/EBITDA:* `{debt_s}` ({dgi['p3_score']:.0f}/20 pts)\n"
+        f"• 4. *Cresc. Operac. (5y):* Rev `{rev_s}` | Lucro `{ni_s}` ({dgi['p4_score']:.0f}/20 pts)\n"
+        f"• 5. *Cresc. Div. & Chowder:* Div `{dps_s}` | Chowder `{chw_s}` ({dgi['p5_score']:.0f}/20 pts)\n"
+        f"━━━━━━━━━━━━━━━━━━━━━\n"
+        f"💡 _{dgi['verdict_summary']}_"
+    )
+    return msg
+
+
 def get_google_finance_price(ticker_symbol):
-    """
-    Fetches real-time stock price directly from Google Finance.
-    Handles exchange prefixes/suffixes and parses live quote HTML.
-    """
+    """Fetches real-time stock price directly from Google Finance."""
     ticker_clean = ticker_symbol.strip().upper()
     gf_symbol = GF_TICKER_MAP.get(ticker_clean)
     
@@ -97,8 +347,6 @@ def get_google_finance_price(ticker_symbol):
                 continue
 
             soup = BeautifulSoup(res.text, 'html.parser')
-            
-            # Primary Google Finance quote container: <div class="N6SYTe">
             n6_div = soup.find('div', class_='N6SYTe')
             if n6_div:
                 text = n6_div.get_text(strip=True)
@@ -108,7 +356,6 @@ def get_google_finance_price(ticker_symbol):
                     print(f"  [Google Finance] {ticker_symbol} ({sym}) -> {val} ({text})")
                     return val
 
-            # Fallback class search: YMlKec or fxfa-c
             for el in soup.find_all(class_=re.compile(r'YMlKec|fxfa-c')):
                 text = el.get_text(strip=True)
                 if any(c in text for c in ['$', '€', '£']) or re.search(r'\d', text):
@@ -125,8 +372,9 @@ def get_google_finance_price(ticker_symbol):
 
     return None
 
+
 def get_yfinance_fallback(ticker_symbol):
-    """Fallback price lookup using yfinance if Google Finance is unavailable."""
+    """Fallback price lookup using yfinance."""
     aliases = {
         "GALP": "GALP.LS",
         "NOVO-B": "NOVO-B.CO",
@@ -153,8 +401,8 @@ def get_yfinance_fallback(ticker_symbol):
 
     return None
 
+
 def get_current_price(ticker_symbol):
-    """Gets stock price using Google Finance primary, yfinance secondary."""
     price = get_google_finance_price(ticker_symbol)
     if price is not None:
         return price
@@ -163,6 +411,25 @@ def get_current_price(ticker_symbol):
 
 
 def main():
+    parser = argparse.ArgumentParser(description="Stock Price Alerts & DGI Fundamental Analyzer for Telegram")
+    parser.add_argument("--dgi", type=str, help="Calculate and send DGI Scorecard for a specific ticker (ex: JNJ, PEP, GALP.LS)")
+    parser.add_argument("--dgi-all", action="store_true", help="Calculate and send DGI Scorecards for all watchlist tickers")
+    args = parser.parse_args()
+
+    # Mode 1: Send DGI report for a single ticker
+    if args.dgi:
+        sym = args.dgi.strip().upper()
+        print(f"Calculating DGI Score for {sym}...")
+        dgi_data = calculate_dgi_data(sym)
+        if dgi_data:
+            msg = format_telegram_dgi_card(dgi_data)
+            print(f"\n--- Telegram Message Preview ---\n{msg}\n------------------------------")
+            send_telegram_alert(msg)
+        else:
+            print(f"Could not calculate DGI for {sym}")
+        return
+
+    # Mode 2: Send DGI report for all watchlist items
     watchlist_path = os.path.join(os.path.dirname(__file__), "watchlist.json")
     if not os.path.exists(watchlist_path):
         print("[Error] watchlist.json file not found.")
@@ -171,8 +438,23 @@ def main():
     with open(watchlist_path, "r", encoding="utf-8") as f:
         watchlist = json.load(f)
 
-    print(f"Starting Google Finance stock price check for {len(watchlist)} favorite companies...")
+    if args.dgi_all:
+        print(f"Calculating DGI Scorecards for all {len(watchlist)} watchlist tickers...")
+        for item in watchlist:
+            t = item.get("ticker")
+            dgi_data = calculate_dgi_data(t)
+            if dgi_data:
+                msg = format_telegram_dgi_card(dgi_data)
+                send_telegram_alert(msg)
+                item["dgiScore"] = dgi_data["total_score"]
+                item["dgiVerdict"] = dgi_data["verdict"]
+        with open(watchlist_path, "w", encoding="utf-8") as f:
+            json.dump(watchlist, f, indent=2)
+        print("Completed sending DGI Scorecards.")
+        return
 
+    # Default Mode: Price monitoring with enriched DGI alerts
+    print(f"Starting stock price check & DGI monitoring for {len(watchlist)} favorite companies...")
     alerts_triggered = 0
 
     for item in watchlist:
@@ -189,16 +471,38 @@ def main():
 
         item["lastPrice"] = price
 
-        print(f"Stock: {ticker_symbol} ({name}) | Current = {price:.2f} | Target Buy = {min_buy:.2f} | Target Sell = {max_sell:.2f}")
+        # Calculate DGI score for watchlist enrichments
+        dgi_data = calculate_dgi_data(ticker_symbol)
+        dgi_info_str = ""
+        if dgi_data:
+            item["dgiScore"] = dgi_data["total_score"]
+            item["dgiVerdict"] = dgi_data["verdict"]
+            dgi_info_str = (
+                f"\n🏆 *Score DGI:* `{dgi_data['total_score']:.0f}/100` {dgi_data['verdict_icon']}\n"
+                f"• Yield: `{dgi_data['dividend_yield_pct']:.2f}%` | Chowder: `{dgi_data['chowder_number'] or 0:.1f}%`\n"
+                f"• Payout ({dgi_data['payout_lbl']}): `{dgi_data['eval_payout'] or 0:.1f}%`"
+            )
+
+        print(f"Stock: {ticker_symbol} ({name}) | Current = {price:.2f} | Buy Target = {min_buy:.2f} | Sell Target = {max_sell:.2f} | DGI Score = {item.get('dgiScore', 'N/D')}")
 
         if min_buy > 0 and price <= min_buy:
-            send_telegram_alert(f"🟢 *STOCK BUY ALERT:* {ticker_symbol} ({name})\nCurrent Price: *{price:.2f}*\nTarget Buy Threshold: {min_buy:.2f}")
+            alert_msg = (
+                f"🟢 *STOCK BUY ALERT:* {ticker_symbol} ({name})\n"
+                f"Current Price: *{price:.2f}* (Target Buy: {min_buy:.2f})"
+                f"{dgi_info_str}"
+            )
+            send_telegram_alert(alert_msg)
             alerts_triggered += 1
         elif max_sell > 0 and price >= max_sell:
-            send_telegram_alert(f"🔴 *STOCK SELL ALERT:* {ticker_symbol} ({name})\nCurrent Price: *{price:.2f}*\nTarget Sell Threshold: {max_sell:.2f}")
+            alert_msg = (
+                f"🔴 *STOCK SELL ALERT:* {ticker_symbol} ({name})\n"
+                f"Current Price: *{price:.2f}* (Target Sell: {max_sell:.2f})"
+                f"{dgi_info_str}"
+            )
+            send_telegram_alert(alert_msg)
             alerts_triggered += 1
 
-    # Save updated watchlist with last fetched live prices
+    # Save updated watchlist with last fetched live prices and DGI scores
     with open(watchlist_path, "w", encoding="utf-8") as f:
         json.dump(watchlist, f, indent=2)
 
@@ -213,7 +517,6 @@ def main():
         except Exception:
             existing_quotes = {}
 
-    import datetime
     for item in watchlist:
         t = item.get("ticker")
         lp = item.get("lastPrice")
@@ -224,7 +527,7 @@ def main():
             if t == "PETR4.SA": existing_quotes["PETR4"] = round(float(lp), 2)
 
     quotes_payload = {
-        "updated_at": datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S"),
+        "updated_at": datetime.now().strftime("%Y-%m-%d %H:%M:%S"),
         "quotes": existing_quotes
     }
     with open(quotes_path, "w", encoding="utf-8") as f:
