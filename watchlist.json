@@ -6,7 +6,7 @@
     "maxSell": 200,
     "lastPrice": 143.55,
     "dgiScore": 43.0,
-    "dgiVerdict": "Fraco / Risco Elevado"
+    "dgiVerdict": "Weak / Turnaround"
   },
   {
     "ticker": "NKE",
@@ -15,7 +15,7 @@
     "maxSell": 95,
     "lastPrice": 36.22,
     "dgiScore": 60.0,
-    "dgiVerdict": "Moderado / Neutro"
+    "dgiVerdict": "Moderate / Neutral"
   },
   {
     "ticker": "GALP",
@@ -24,7 +24,7 @@
     "maxSell": 22,
     "lastPrice": 22.08,
     "dgiScore": 60.0,
-    "dgiVerdict": "Moderado / Neutro"
+    "dgiVerdict": "Moderate / Cyclical"
   },
   {
     "ticker": "NVDA",
@@ -33,6 +33,6 @@
     "maxSell": 300,
     "lastPrice": 212.17,
     "dgiScore": 80.0,
-    "dgiVerdict": "Forte (Boa Oportunidade DGI)"
+    "dgiVerdict": "Solid (Growth Dominant)"
   }
 ]

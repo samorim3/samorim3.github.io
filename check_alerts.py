@@ -242,25 +242,25 @@ def calculate_dgi_data(ticker_sym):
     total_score = round(p1_score + p2_score + p3_score + p4_score + p5_score, 1)
 
     if total_score >= 85.0:
-        verdict = "Excelente (Dividend Aristocrat / Alta Qualidade)"
+        verdict = "Top Tier DGI (Aristocrat)"
         icon = "⭐"
-        summary = "Alta qualidade DGI: balanço sólido, payout seguro e crescimento consistente."
+        summary = "High quality defensive profile: robust balance sheet, safe payout, and consistent dividend growth."
     elif total_score >= 70.0:
-        verdict = "Forte (Boa Oportunidade DGI)"
+        verdict = "Solid DGI Quality"
         icon = "🟢"
-        summary = "Fundamentos sólidos com dividendos sustentáveis."
+        summary = "Solid fundamentals with sustainable dividend distributions."
     elif total_score >= 50.0:
-        verdict = "Moderado / Neutro"
+        verdict = "Moderate / Neutral"
         icon = "🟡"
-        summary = "Cumpre requisitos essenciais, mas exige atenção a certos pilares."
+        summary = "Meets core requirements; monitor specific metrics."
     elif total_score >= 35.0:
-        verdict = "Fraco / Risco Elevado"
+        verdict = "Weak / High Risk"
         icon = "🟠"
-        summary = "Métricas fracas ou crescimento modesto."
+        summary = "Subdued dividend growth or weaker solvency metrics."
     else:
-        verdict = "Evitar / Yield Trap Potencial"
+        verdict = "Avoid / High Risk"
         icon = "🔴"
-        summary = "Risco financeiro alto ou dividendo não coberto por caixa livre."
+        summary = "High leverage or dividend uncovered by free cash flow."
 
     return {
         'ticker': ticker_sym.upper(),
@@ -290,30 +290,30 @@ def calculate_dgi_data(ticker_sym):
 def format_telegram_dgi_card(dgi):
     """Formats an executive DGI Scorecard for Telegram."""
     if not dgi:
-        return "❌ Não foi possível apurar dados DGI."
+        return "❌ Could not calculate DGI fundamental data."
 
     sym = dgi.get('currency_symbol', '$')
-    price_str = f"{sym}{dgi['price']:.2f}" if dgi.get('price') else "N/D"
+    price_str = f"{sym}{dgi['price']:.2f}" if dgi.get('price') else "N/A"
 
-    rev_s = f"{dgi['revenue_cagr_5y']*100:.1f}%" if dgi['revenue_cagr_5y'] is not None else "N/D"
-    ni_s = f"{dgi['net_income_cagr_5y']*100:.1f}%" if dgi['net_income_cagr_5y'] is not None else "N/D"
-    dps_s = f"{dgi['dps_cagr_5y']*100:.1f}%" if dgi['dps_cagr_5y'] is not None else "N/D"
-    chw_s = f"{dgi['chowder_number']:.1f}%" if dgi['chowder_number'] is not None else "N/D"
-    payout_s = f"{dgi['eval_payout']:.1f}%" if dgi['eval_payout'] is not None else "N/D"
-    debt_s = f"{dgi['net_debt_ebitda']:.2f}x" if dgi['net_debt_ebitda'] is not None else "Caixa Líq."
+    rev_s = f"{dgi['revenue_cagr_5y']*100:.1f}%" if dgi['revenue_cagr_5y'] is not None else "N/A"
+    ni_s = f"{dgi['net_income_cagr_5y']*100:.1f}%" if dgi['net_income_cagr_5y'] is not None else "N/A"
+    dps_s = f"{dgi['dps_cagr_5y']*100:.1f}%" if dgi['dps_cagr_5y'] is not None else "N/A"
+    chw_s = f"{dgi['chowder_number']:.1f}%" if dgi['chowder_number'] is not None else "N/A"
+    payout_s = f"{dgi['eval_payout']:.1f}%" if dgi['eval_payout'] is not None else "N/A"
+    debt_s = f"{dgi['net_debt_ebitda']:.2f}x" if dgi['net_debt_ebitda'] is not None else "Net Cash"
 
     msg = (
-        f"📊 *ANÁLISE FUNDAMENTAL DGI: {dgi['ticker']}*\n"
-        f"🏢 *{dgi['name']}* | Preço: `{price_str}`\n"
+        f"📊 *DGI FUNDAMENTAL ANALYSIS: {dgi['ticker']}*\n"
+        f"🏢 *{dgi['name']}* | Price: `{price_str}`\n"
         f"━━━━━━━━━━━━━━━━━━━━━\n"
-        f"🏆 *SCORE DGI:* *{dgi['total_score']:.0f}/100* {dgi['verdict_icon']}\n"
-        f"📌 *Classificação:* {dgi['verdict']}\n\n"
-        f"🎯 *Os 5 Pilares DGI:*\n"
+        f"🏆 *DGI SCORE:* *{dgi['total_score']:.0f}/100* {dgi['verdict_icon']}\n"
+        f"📌 *Rating:* {dgi['verdict']}\n\n"
+        f"🎯 *Core Pillars:*\n"
         f"• 1. *Yield:* `{dgi['dividend_yield_pct']:.2f}%` ({dgi['p1_score']:.0f}/20 pts)\n"
         f"• 2. *Payout ({dgi['payout_lbl']}):* `{payout_s}` ({dgi['p2_score']:.0f}/20 pts)\n"
-        f"• 3. *Dívida/EBITDA:* `{debt_s}` ({dgi['p3_score']:.0f}/20 pts)\n"
-        f"• 4. *Cresc. Operac. (5y):* Rev `{rev_s}` | Lucro `{ni_s}` ({dgi['p4_score']:.0f}/20 pts)\n"
-        f"• 5. *Cresc. Div. & Chowder:* Div `{dps_s}` | Chowder `{chw_s}` ({dgi['p5_score']:.0f}/20 pts)\n"
+        f"• 3. *Debt/EBITDA:* `{debt_s}` ({dgi['p3_score']:.0f}/20 pts)\n"
+        f"• 4. *5Y Growth:* Rev `{rev_s}` | Net Inc `{ni_s}` ({dgi['p4_score']:.0f}/20 pts)\n"
+        f"• 5. *Div Growth & Chowder:* Div `{dps_s}` | Chowder `{chw_s}` ({dgi['p5_score']:.0f}/20 pts)\n"
         f"━━━━━━━━━━━━━━━━━━━━━\n"
         f"💡 _{dgi['verdict_summary']}_"
     )
@@ -478,7 +478,7 @@ def main():
             item["dgiScore"] = dgi_data["total_score"]
             item["dgiVerdict"] = dgi_data["verdict"]
             dgi_info_str = (
-                f"\n🏆 *Score DGI:* `{dgi_data['total_score']:.0f}/100` {dgi_data['verdict_icon']}\n"
+                f"\n🏆 *DGI Score:* `{dgi_data['total_score']:.0f}/100` {dgi_data['verdict_icon']}\n"
                 f"• Yield: `{dgi_data['dividend_yield_pct']:.2f}%` | Chowder: `{dgi_data['chowder_number'] or 0:.1f}%`\n"
                 f"• Payout ({dgi_data['payout_lbl']}): `{dgi_data['eval_payout'] or 0:.1f}%`"
             )

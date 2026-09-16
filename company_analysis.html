@@ -6,7 +6,7 @@
 -->
 <html>
 	<head>
-		<title>Stock Price Alert System & DGI Fundamental Analyzer</title>
+		<title>Stock Price Alerts & DGI Fundamental Screener</title>
 		<meta charset="utf-8" />
 		<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
 		<link rel="stylesheet" href="assets/css/main.css?v=8" />
@@ -22,7 +22,7 @@
 		<link rel="preconnect" href="https://fonts.googleapis.com">
 		<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 		<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
-		<!-- Chart.js for Radar & Bar charts -->
+		<!-- Chart.js -->
 		<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 
 		<style>
@@ -30,31 +30,62 @@
 				font-family: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
 			}
 
-			.tool-container {
+			/* Clean, sober dashboard cards */
+			.tool-card {
 				background: #ffffff;
-				border: 1px solid rgba(226, 232, 240, 0.8);
-				border-radius: 24px;
-				padding: 2.25rem 2.5rem;
-				margin: 2rem 0 3rem 0;
-				box-shadow: 0 20px 45px -15px rgba(15, 23, 42, 0.05), 0 0 1px 1px rgba(15, 23, 42, 0.02);
-				color: #1e293b;
-			}
-
-			.search-bar-box {
-				background: linear-gradient(135deg, #f8fafc 0%, #f1f5f9 100%);
 				border: 1px solid #e2e8f0;
-				border-radius: 20px;
-				padding: 1.75rem 2rem;
-				margin-bottom: 2rem;
-				box-shadow: inset 0 2px 4px rgba(255, 255, 255, 0.8);
+				border-radius: 16px;
+				padding: 2rem;
+				margin: 1.5rem 0 2.5rem 0;
+				box-shadow: 0 4px 20px -2px rgba(15, 23, 42, 0.04);
+				color: #0f172a;
 			}
 
-			.form-grid-3 {
-				display: grid;
-				grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+			.section-header {
+				display: flex;
+				justify-content: space-between;
+				align-items: center;
+				flex-wrap: wrap;
 				gap: 1rem;
+				margin-bottom: 1.5rem;
+				padding-bottom: 1rem;
+				border-bottom: 1px solid #f1f5f9;
+			}
+
+			.section-title {
+				margin: 0;
+				color: #0f172a;
+				font-weight: 800;
+				font-size: 1.35rem;
+				letter-spacing: -0.02em;
+			}
+
+			.section-subtitle {
+				margin: 0.25rem 0 0 0;
+				color: #64748b;
+				font-size: 0.85rem;
+			}
+
+			.search-container {
+				background: #f8fafc;
+				border: 1px solid #e2e8f0;
+				border-radius: 12px;
+				padding: 1.25rem;
+				margin-bottom: 1.75rem;
+			}
+
+			.search-row {
+				display: flex;
+				gap: 0.75rem;
+				flex-wrap: wrap;
+				align-items: center;
+			}
+
+			.form-grid-inputs {
+				display: grid;
+				grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+				gap: 0.85rem;
 				align-items: end;
-				margin-top: 1rem;
 			}
 
 			.input-group {
@@ -63,9 +94,9 @@
 			}
 
 			.input-group label {
-				font-size: 0.75rem;
-				font-weight: 800;
-				color: #64748b;
+				font-size: 0.72rem;
+				font-weight: 700;
+				color: #475569;
 				margin-bottom: 0.35rem;
 				text-transform: uppercase;
 				letter-spacing: 0.05em;
@@ -73,228 +104,174 @@
 
 			.input-group input {
 				font-family: 'Plus Jakarta Sans', sans-serif;
-				font-size: 0.95rem;
-				font-weight: 700;
-				border-radius: 12px;
+				font-size: 0.9rem;
+				font-weight: 600;
+				border-radius: 8px;
 				border: 1px solid #cbd5e1;
 				background: #ffffff;
-				padding: 0.65rem 1rem;
+				padding: 0.6rem 0.85rem;
 				color: #0f172a;
-				transition: all 0.2s ease;
+				transition: border-color 0.2s ease, box-shadow 0.2s ease;
 			}
 
 			.input-group input:focus {
 				outline: none;
-				border-color: #2563eb;
-				box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.12);
+				border-color: #0f172a;
+				box-shadow: 0 0 0 2px rgba(15, 23, 42, 0.08);
 			}
 
-			/* French Pill Buttons */
-			.french-btn {
+			/* Sober Minimalist Buttons */
+			.btn-sober {
 				font-family: 'Plus Jakarta Sans', sans-serif;
 				display: inline-flex;
 				align-items: center;
 				justify-content: center;
-				gap: 0.5rem;
-				padding: 0.7rem 1.4rem;
+				gap: 0.4rem;
+				padding: 0.6rem 1.25rem;
 				font-size: 0.85rem;
 				font-weight: 700;
-				border-radius: 9999px;
+				border-radius: 8px;
 				cursor: pointer;
-				transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
-				border: none;
+				transition: all 0.15s ease-in-out;
+				border: 1px solid transparent;
 				text-decoration: none !important;
 				white-space: nowrap;
-				letter-spacing: 0.01em;
 			}
 
-			.french-btn-dark {
-				background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%);
-				color: #ffffff !important;
-				box-shadow: 0 4px 14px rgba(15, 23, 42, 0.15);
-			}
-			.french-btn-dark:hover {
-				transform: translateY(-2px);
-				box-shadow: 0 8px 20px rgba(15, 23, 42, 0.25);
-				background: linear-gradient(135deg, #1e293b 0%, #334155 100%);
-			}
-
-			.french-btn-blue {
-				background: linear-gradient(135deg, #2563eb 0%, #1d4ed8 100%);
-				color: #ffffff !important;
-				box-shadow: 0 4px 14px rgba(37, 99, 235, 0.2);
-			}
-			.french-btn-blue:hover {
-				transform: translateY(-2px);
-				box-shadow: 0 8px 22px rgba(37, 99, 235, 0.35);
-			}
-
-			.french-btn-green {
-				background: linear-gradient(135deg, #059669 0%, #047857 100%);
-				color: #ffffff !important;
-				box-shadow: 0 4px 14px rgba(5, 150, 105, 0.2);
-			}
-			.french-btn-green:hover {
-				transform: translateY(-2px);
-				box-shadow: 0 8px 22px rgba(5, 150, 105, 0.35);
-			}
-
-			.french-btn-outline {
-				background: #ffffff;
-				color: #334155 !important;
-				border: 1px solid #cbd5e1;
-				box-shadow: 0 2px 6px rgba(0,0,0,0.03);
-			}
-			.french-btn-outline:hover {
-				background: #f8fafc;
-				border-color: #94a3b8;
-				color: #0f172a !important;
-				transform: translateY(-1px);
-			}
-
-			.preset-pill {
-				background: #ffffff;
-				border: 1px solid #e2e8f0;
-				color: #334155;
-				padding: 0.35rem 0.85rem;
-				border-radius: 9999px;
-				font-size: 0.8rem;
-				font-weight: 700;
-				cursor: pointer;
-				transition: all 0.2s ease;
-				display: inline-flex;
-				align-items: center;
-				gap: 0.3rem;
-				text-decoration: none;
-			}
-			.preset-pill:hover, .preset-pill.active {
+			.btn-primary {
 				background: #0f172a;
-				color: #ffffff;
-				border-color: #0f172a;
-				transform: translateY(-1px);
+				color: #ffffff !important;
+			}
+			.btn-primary:hover {
+				background: #1e293b;
 			}
 
+			.btn-secondary {
+				background: #f8fafc;
+				color: #334155 !important;
+				border-color: #cbd5e1;
+			}
+			.btn-secondary:hover {
+				background: #e2e8f0;
+				color: #0f172a !important;
+			}
+
+			.btn-green {
+				background: #047857;
+				color: #ffffff !important;
+			}
+			.btn-green:hover {
+				background: #065f46;
+			}
+
+			.btn-sm {
+				padding: 0.35rem 0.75rem;
+				font-size: 0.78rem;
+				border-radius: 6px;
+			}
+
+			/* Status & Notifications */
 			.status-msg {
-				margin-top: 1.25rem;
-				padding: 0.85rem 1.25rem;
-				border-radius: 14px;
-				font-size: 0.88rem;
-				font-weight: 700;
+				margin-top: 1rem;
+				padding: 0.75rem 1rem;
+				border-radius: 8px;
+				font-size: 0.85rem;
+				font-weight: 600;
 				display: none;
 			}
-			.status-loading { background: #f1f5f9; color: #334155; border: 1px solid #cbd5e1; display: block; }
-			.status-error { background: #fff1f2; color: #be123c; border: 1px solid #fecdd3; display: block; }
-			.status-success { background: #ecfdf5; color: #047857; border: 1px solid #a7f3d0; display: block; }
-			.status-warning { background: #fffbeb; color: #b45309; border: 1px solid #fde68a; display: block; }
+			.status-loading { background: #f8fafc; color: #334155; border: 1px solid #cbd5e1; display: block; }
+			.status-error { background: #fef2f2; color: #991b1b; border: 1px solid #fecaca; display: block; }
+			.status-success { background: #f0fdf4; color: #166534; border: 1px solid #bbf7d0; display: block; }
+			.status-warning { background: #fffbeb; color: #92400e; border: 1px solid #fde68a; display: block; }
 
-			/* Badges */
-			.badge-buy { background: #ecfdf5; color: #047857; border: 1px solid #a7f3d0; padding: 0.35rem 0.85rem; border-radius: 9999px; font-weight: 800; font-size: 0.75rem; display: inline-block; }
-			.badge-sell { background: #fff1f2; color: #be123c; border: 1px solid #fecdd3; padding: 0.35rem 0.85rem; border-radius: 9999px; font-weight: 800; font-size: 0.75rem; display: inline-block; }
-			.badge-hold { background: #fffbeb; color: #b45309; border: 1px solid #fde68a; padding: 0.35rem 0.85rem; border-radius: 9999px; font-weight: 800; font-size: 0.75rem; display: inline-block; }
+			/* Minimalist Badges */
+			.badge-buy { background: #f0fdf4; color: #166534; border: 1px solid #bbf7d0; padding: 0.25rem 0.65rem; border-radius: 6px; font-weight: 700; font-size: 0.72rem; display: inline-block; }
+			.badge-sell { background: #fef2f2; color: #991b1b; border: 1px solid #fecaca; padding: 0.25rem 0.65rem; border-radius: 6px; font-weight: 700; font-size: 0.72rem; display: inline-block; }
+			.badge-hold { background: #fffbeb; color: #92400e; border: 1px solid #fde68a; padding: 0.25rem 0.65rem; border-radius: 6px; font-weight: 700; font-size: 0.72rem; display: inline-block; }
 
-			/* DGI Specific Cards */
-			.dgi-card {
+			/* DGI Pillar Cards */
+			.dgi-pillar-card {
 				background: #ffffff;
 				border: 1px solid #e2e8f0;
-				border-radius: 18px;
-				padding: 1.25rem 1.35rem;
-				box-shadow: 0 4px 12px rgba(0,0,0,0.03);
-				transition: transform 0.2s ease, border-color 0.2s ease;
-			}
-			.dgi-card:hover {
-				transform: translateY(-2px);
-				border-color: #93c5fd;
+				border-radius: 12px;
+				padding: 1.15rem;
+				box-shadow: 0 1px 3px rgba(0,0,0,0.02);
 			}
 
-			.dgi-score-box {
-				background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%);
+			.dgi-score-panel {
+				background: #0f172a;
 				color: #ffffff;
-				border-radius: 20px;
-				padding: 2rem;
+				border-radius: 12px;
+				padding: 1.75rem;
 				text-align: center;
-				box-shadow: 0 10px 25px -5px rgba(15, 23, 42, 0.3);
+				display: flex;
+				flex-direction: column;
+				justify-content: center;
+				align-items: center;
 			}
 
-			/* Progress bar */
-			.dgi-progress {
-				background: #e2e8f0;
-				border-radius: 9999px;
-				height: 8px;
+			.dgi-progress-bar {
+				background: #f1f5f9;
+				border-radius: 4px;
+				height: 6px;
 				overflow: hidden;
-				margin-top: 0.5rem;
+				margin-top: 0.4rem;
 			}
 			.dgi-progress-fill {
 				height: 100%;
-				border-radius: 9999px;
-				background: linear-gradient(90deg, #10b981 0%, #3b82f6 100%);
-				transition: width 0.5s ease;
+				border-radius: 4px;
+				background: #0f172a;
+				transition: width 0.4s ease;
 			}
 
-			/* Watchlist Table Styling */
-			.table-container-french {
+			/* Clean Table Styling */
+			.table-wrapper {
 				overflow-x: auto;
 				background: #ffffff;
 				border: 1px solid #e2e8f0;
-				border-radius: 16px;
-				box-shadow: 0 4px 12px rgba(0, 0, 0, 0.02);
+				border-radius: 10px;
 			}
 
-			.table-french {
+			.sober-table {
 				width: 100%;
-				border-collapse: separate;
-				border-spacing: 0;
+				border-collapse: collapse;
 				margin: 0;
-				font-size: 0.9rem;
+				font-size: 0.85rem;
 			}
 
-			.table-french th {
+			.sober-table th {
 				background: #f8fafc;
 				color: #475569;
-				font-size: 0.75rem;
-				font-weight: 800;
+				font-size: 0.72rem;
+				font-weight: 700;
 				text-transform: uppercase;
-				letter-spacing: 0.06em;
-				padding: 1rem 1.25rem;
-				border-bottom: 2px solid #e2e8f0;
+				letter-spacing: 0.05em;
+				padding: 0.85rem 1rem;
+				border-bottom: 1px solid #e2e8f0;
+				text-align: left;
 			}
 
-			.table-french td {
-				padding: 1rem 1.25rem;
+			.sober-table td {
+				padding: 0.85rem 1rem;
 				border-bottom: 1px solid #f1f5f9;
 				vertical-align: middle;
+				color: #1e293b;
 			}
 
-			.table-french tr:last-child td {
+			.sober-table tr:last-child td {
 				border-bottom: none;
 			}
 
-			.table-french tr:hover td {
+			.sober-table tr:hover td {
 				background: #f8fafc;
 			}
 
-			.settings-card {
+			.settings-box {
 				background: #f8fafc;
 				border: 1px solid #e2e8f0;
-				border-radius: 16px;
-				padding: 1.5rem;
+				border-radius: 12px;
+				padding: 1.25rem 1.5rem;
 				margin-top: 2rem;
-			}
-
-			.tab-btn {
-				padding: 0.6rem 1.2rem;
-				font-weight: 700;
-				font-size: 0.88rem;
-				border-radius: 10px;
-				border: 1px solid #e2e8f0;
-				background: #ffffff;
-				cursor: pointer;
-				color: #475569;
-				transition: all 0.2s ease;
-			}
-			.tab-btn.active {
-				background: #0f172a;
-				color: #ffffff;
-				border-color: #0f172a;
 			}
 		</style>
 	</head>
@@ -327,203 +304,193 @@
 							<section class="post">
 								<header class="major">
 									<h1>Stock Price Alerts &<br />DGI Fundamental Screener</h1>
-									<p>Real-time Dividend Growth Investing (DGI) score (0–100), fundamental safety analysis across 5 core pillars, and automated Telegram alerts.</p>
+									<p>Quantitative 5-Pillar Dividend Growth Investing (DGI) score (0–100), fundamental safety assessment, and real-time Telegram alerts.</p>
 								</header>
 
 								<!-- ==========================================
-								     SEÇÃO 1: ANALISADOR FUNDAMENTAL DGI (LIVE)
+								     SECTION 1: DGI FUNDAMENTAL SCREENER
 								     ========================================== -->
-								<div class="tool-container" style="border: 2px solid #3b82f6; background: #ffffff;">
+								<div class="tool-card">
 									
-									<div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 1rem; margin-bottom: 1.5rem;">
+									<div class="section-header">
 										<div>
-											<span style="font-size: 0.75rem; font-weight: 800; background: #eff6ff; color: #1d4ed8; border: 1px solid #bfdbfe; padding: 0.25rem 0.75rem; border-radius: 9999px; text-transform: uppercase; letter-spacing: 0.05em;">Interactive Tool</span>
-											<h2 style="margin: 0.4rem 0 0 0; color: #0f172a; font-weight: 900; font-size: 1.75rem;">📈 Analisador Fundamental de Dividend Growth (DGI)</h2>
-											<p style="margin: 0.25rem 0 0 0; color: #64748b; font-size: 0.88rem;">Avaliação quantitativa de sustentabilidade de caixa, balanço, crescimento de dividendos e Regra de Chowder.</p>
+											<h2 class="section-title">Fundamental DGI Screener</h2>
+											<p class="section-subtitle">Evaluate dividend sustainability, free cash flow coverage, balance sheet leverage, and 5-year growth.</p>
 										</div>
 									</div>
 
-									<!-- Search & Presets -->
-									<div class="search-bar-box" style="margin-bottom: 1.5rem;">
-										<div style="display: flex; gap: 0.75rem; flex-wrap: wrap; align-items: center; margin-bottom: 1rem;">
-											<span style="font-size: 0.8rem; font-weight: 800; color: #475569; text-transform: uppercase;">Empresas Populares:</span>
-											<button type="button" class="preset-pill active" onclick="analyzeDgiStock('JNJ')">⭐ JNJ (Johnson & Johnson)</button>
-											<button type="button" class="preset-pill" onclick="analyzeDgiStock('PEP')">🥤 PEP (PepsiCo)</button>
-											<button type="button" class="preset-pill" onclick="analyzeDgiStock('PG')">🧼 PG (Procter & Gamble)</button>
-											<button type="button" class="preset-pill" onclick="analyzeDgiStock('KO')">🥫 KO (Coca-Cola)</button>
-											<button type="button" class="preset-pill" onclick="analyzeDgiStock('ABBV')">💊 ABBV (AbbVie)</button>
-											<button type="button" class="preset-pill" onclick="analyzeDgiStock('MCD')">🍔 MCD (McDonald's)</button>
-											<button type="button" class="preset-pill" onclick="analyzeDgiStock('GALP')">⛽ GALP (Galp Energia)</button>
-											<button type="button" class="preset-pill" onclick="analyzeDgiStock('ADS.DE')">👟 ADS (Adidas)</button>
-											<button type="button" class="preset-pill" onclick="analyzeDgiStock('NVDA')">💻 NVDA (NVIDIA)</button>
-										</div>
-
-										<div style="display: flex; gap: 0.75rem; flex-wrap: wrap; align-items: center;">
-											<div style="flex: 1; min-width: 240px; position: relative;">
-												<input type="text" id="dgiTickerInput" placeholder="Introduza qualquer ticker (ex: JNJ, PEP, GALP, MSFT, TXN, BN.PA)..." style="width: 100%; padding: 0.75rem 1.25rem; font-size: 1rem; font-weight: 700; border-radius: 12px; border: 2px solid #cbd5e1; text-transform: uppercase;" onkeypress="if(event.key==='Enter') analyzeDgiStock(this.value)" />
+									<!-- Search Bar (Clean & Sober, No preset company suggestions) -->
+									<div class="search-container">
+										<div class="search-row">
+											<div style="flex: 1; min-width: 220px;">
+												<input type="text" id="dgiTickerInput" placeholder="Enter stock ticker symbol (e.g. JNJ, PEP, PG, KO, ABBV, MCD, GALP)..." style="width: 100%; padding: 0.65rem 1rem; font-size: 0.95rem; font-weight: 600; border-radius: 8px; border: 1px solid #cbd5e1; text-transform: uppercase;" onkeypress="if(event.key==='Enter') analyzeDgiStock(this.value)" />
 											</div>
-											<button type="button" onclick="analyzeDgiStock(document.getElementById('dgiTickerInput').value)" class="french-btn french-btn-blue" style="padding: 0.8rem 1.6rem; font-size: 0.95rem;">🚀 Analisar Ação</button>
+											<button type="button" onclick="analyzeDgiStock(document.getElementById('dgiTickerInput').value)" class="btn-sober btn-primary">Analyze Ticker</button>
 										</div>
 										<div id="dgiLoadingMsg" class="status-msg"></div>
 									</div>
 
-									<!-- DGI Results Container -->
+									<!-- DGI Results Area -->
 									<div id="dgiResultSection" style="display: block;">
 										
-										<!-- Top Header & Score Card -->
-										<div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 1.5rem; margin-bottom: 2rem;">
+										<!-- Top Summary Grid -->
+										<div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 1.25rem; margin-bottom: 1.75rem;">
 											
-											<!-- Scorecard -->
-											<div class="dgi-score-box">
-												<div style="font-size: 0.8rem; text-transform: uppercase; letter-spacing: 0.1em; color: #94a3b8; font-weight: 800; margin-bottom: 0.35rem;">Score Fundamental Global DGI</div>
-												<div id="dgiScoreValue" style="font-size: 4rem; font-weight: 900; line-height: 1; margin-bottom: 0.75rem; color: #ffffff;">80<span style="font-size: 1.8rem; color: #64748b;">/100</span></div>
-												<div id="dgiScoreBadge" style="background: #15803d; color: #ffffff; padding: 0.4rem 1.2rem; border-radius: 9999px; font-weight: 800; font-size: 0.95rem; display: inline-block;">
-													🟢 Forte (Boa Oportunidade DGI)
+											<!-- Scorecard Box -->
+											<div class="dgi-score-panel">
+												<div style="font-size: 0.72rem; text-transform: uppercase; letter-spacing: 0.08em; color: #94a3b8; font-weight: 700; margin-bottom: 0.25rem;">Overall DGI Score</div>
+												<div id="dgiScoreValue" style="font-size: 3.5rem; font-weight: 900; line-height: 1; margin-bottom: 0.5rem; color: #ffffff;">80<span style="font-size: 1.4rem; color: #64748b;">/100</span></div>
+												<div id="dgiScoreBadge" style="background: #15803d; color: #ffffff; padding: 0.35rem 0.9rem; border-radius: 6px; font-weight: 700; font-size: 0.82rem; display: inline-block;">
+													Solid DGI Quality
 												</div>
-												<div style="margin-top: 1.25rem;">
-													<button type="button" onclick="sendCurrentDgiToTelegram()" class="french-btn french-btn-green" style="font-size: 0.82rem; padding: 0.55rem 1.2rem; width: 100%;">📲 Enviar Scorecard para o Telegram</button>
+												<div style="margin-top: 1.25rem; width: 100%;">
+													<button type="button" onclick="sendCurrentDgiToTelegram()" class="btn-sober btn-green" style="width: 100%; font-size: 0.8rem; padding: 0.5rem 1rem;">📱 Send Summary to Telegram</button>
 												</div>
 											</div>
 
 											<!-- Company Overview & Highlights -->
-											<div style="background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 20px; padding: 1.75rem; display: flex; flex-direction: column; justify-content: space-between;">
+											<div style="background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 12px; padding: 1.5rem; display: flex; flex-direction: column; justify-content: space-between;">
 												<div>
 													<div style="display: flex; justify-content: space-between; align-items: flex-start; gap: 1rem;">
 														<div>
-															<h2 id="dgiCompName" style="margin: 0; color: #0f172a; font-weight: 900; font-size: 1.5rem;">Johnson & Johnson <span id="dgiCompTicker" style="color: #2563eb; font-size: 1.1rem;">(JNJ)</span></h2>
-															<p id="dgiCompSector" style="margin: 0.25rem 0 0 0; color: #64748b; font-size: 0.85rem; font-weight: 600;">Healthcare | Drug Manufacturers | NYSE (USD)</p>
+															<h3 id="dgiCompName" style="margin: 0; color: #0f172a; font-weight: 800; font-size: 1.35rem;">Johnson & Johnson <span id="dgiCompTicker" style="color: #475569; font-size: 1rem; font-weight: 600;">(JNJ)</span></h3>
+															<p id="dgiCompSector" style="margin: 0.2rem 0 0 0; color: #64748b; font-size: 0.8rem; font-weight: 500;">Healthcare | Drug Manufacturers | NYSE (USD)</p>
 														</div>
 														<div style="text-align: right;">
-															<div id="dgiCompPrice" style="font-size: 1.8rem; font-weight: 900; color: #0f172a;">$267.20</div>
-															<div id="dgiCompMcap" style="font-size: 0.8rem; color: #64748b; font-weight: 700;">Cap: $642.5B</div>
+															<div id="dgiCompPrice" style="font-size: 1.5rem; font-weight: 800; color: #0f172a;">$267.20</div>
+															<div id="dgiCompMcap" style="font-size: 0.75rem; color: #64748b; font-weight: 600;">Cap: $642.5B</div>
 														</div>
 													</div>
 													
-													<div style="margin-top: 1.25rem; padding: 1rem; background: #ffffff; border: 1px solid #e2e8f0; border-radius: 12px;">
-														<div style="font-size: 0.78rem; font-weight: 800; color: #475569; text-transform: uppercase; margin-bottom: 0.35rem;">💡 Parecer Fundamentalista:</div>
-														<p id="dgiVerdictSummary" style="margin: 0; color: #1e293b; font-size: 0.88rem; line-height: 1.4; font-weight: 500;">
-															Empresa de elevadíssima qualidade DGI: balanço robusto, yield equilibrado, payout saudável sobre fluxo de caixa livre e crescimento sustentável de proventos.
+													<div style="margin-top: 1rem; padding: 0.85rem 1rem; background: #ffffff; border: 1px solid #e2e8f0; border-radius: 8px;">
+														<div style="font-size: 0.72rem; font-weight: 700; color: #475569; text-transform: uppercase; letter-spacing: 0.05em; margin-bottom: 0.25rem;">Executive Verdict:</div>
+														<p id="dgiVerdictSummary" style="margin: 0; color: #334155; font-size: 0.85rem; line-height: 1.45;">
+															High-quality defensive profile: robust fortress balance sheet, balanced dividend yield, healthy free cash flow coverage, and over 60 consecutive years of dividend growth.
 														</p>
 													</div>
 												</div>
 
-												<!-- 4 Quick Metric Badges -->
+												<!-- 4 Essential Metrics Row -->
 												<div style="display: grid; grid-template-columns: repeat(4, 1fr); gap: 0.5rem; margin-top: 1rem; text-align: center;">
-													<div style="background: #ffffff; border: 1px solid #e2e8f0; padding: 0.5rem; border-radius: 10px;">
-														<div style="font-size: 0.7rem; color: #64748b; font-weight: 800;">YIELD</div>
-														<div id="dgiQuickYield" style="font-size: 1.05rem; font-weight: 800; color: #0f172a;">2.01%</div>
+													<div style="background: #ffffff; border: 1px solid #e2e8f0; padding: 0.45rem; border-radius: 8px;">
+														<div style="font-size: 0.68rem; color: #64748b; font-weight: 700; text-transform: uppercase;">Yield</div>
+														<div id="dgiQuickYield" style="font-size: 0.95rem; font-weight: 800; color: #0f172a; margin-top: 0.15rem;">2.01%</div>
 													</div>
-													<div style="background: #ffffff; border: 1px solid #e2e8f0; padding: 0.5rem; border-radius: 10px;">
-														<div style="font-size: 0.7rem; color: #64748b; font-weight: 800;">PAYOUT FCF</div>
-														<div id="dgiQuickPayout" style="font-size: 1.05rem; font-weight: 800; color: #0f172a;">64.1%</div>
+													<div style="background: #ffffff; border: 1px solid #e2e8f0; padding: 0.45rem; border-radius: 8px;">
+														<div style="font-size: 0.68rem; color: #64748b; font-weight: 700; text-transform: uppercase;">FCF Payout</div>
+														<div id="dgiQuickPayout" style="font-size: 0.95rem; font-weight: 800; color: #0f172a; margin-top: 0.15rem;">64.1%</div>
 													</div>
-													<div style="background: #ffffff; border: 1px solid #e2e8f0; padding: 0.5rem; border-radius: 10px;">
-														<div style="font-size: 0.7rem; color: #64748b; font-weight: 800;">DÍV./EBITDA</div>
-														<div id="dgiQuickDebt" style="font-size: 1.05rem; font-weight: 800; color: #0f172a;">0.81x</div>
+													<div style="background: #ffffff; border: 1px solid #e2e8f0; padding: 0.45rem; border-radius: 8px;">
+														<div style="font-size: 0.68rem; color: #64748b; font-weight: 700; text-transform: uppercase;">Debt/EBITDA</div>
+														<div id="dgiQuickDebt" style="font-size: 0.95rem; font-weight: 800; color: #0f172a; margin-top: 0.15rem;">0.81x</div>
 													</div>
-													<div style="background: #ffffff; border: 1px solid #e2e8f0; padding: 0.5rem; border-radius: 10px;">
-														<div style="font-size: 0.7rem; color: #64748b; font-weight: 800;">CHOWDER</div>
-														<div id="dgiQuickChowder" style="font-size: 1.05rem; font-weight: 800; color: #0f172a;">7.3%</div>
+													<div style="background: #ffffff; border: 1px solid #e2e8f0; padding: 0.45rem; border-radius: 8px;">
+														<div style="font-size: 0.68rem; color: #64748b; font-weight: 700; text-transform: uppercase;">Chowder</div>
+														<div id="dgiQuickChowder" style="font-size: 0.95rem; font-weight: 800; color: #0f172a; margin-top: 0.15rem;">7.3%</div>
 													</div>
 												</div>
 											</div>
 										</div>
 
-										<!-- The 5 Pillars Cards Grid -->
-										<h3 style="margin: 0 0 1rem 0; color: #0f172a; font-weight: 800; font-size: 1.15rem;">🎯 Avaliação dos 5 Pilares DGI</h3>
-										<div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 1rem; margin-bottom: 2rem;">
+										<!-- 5 Pillars Breakdown Grid -->
+										<div style="margin-bottom: 0.75rem; display: flex; justify-content: space-between; align-items: baseline;">
+											<h3 style="margin: 0; color: #0f172a; font-weight: 800; font-size: 1.05rem;">The 5 Core DGI Pillars</h3>
+											<span style="font-size: 0.78rem; color: #64748b; font-weight: 600;">Max 20 points per pillar (100 total)</span>
+										</div>
+
+										<div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(190px, 1fr)); gap: 0.85rem; margin-bottom: 1.75rem;">
 											
 											<!-- Pillar 1 -->
-											<div class="dgi-card">
-												<div style="font-size: 0.8rem; font-weight: 800; color: #475569;">🎯 1. DIVIDEND YIELD</div>
+											<div class="dgi-pillar-card">
+												<div style="font-size: 0.75rem; font-weight: 700; color: #475569; text-transform: uppercase;">1. Dividend Yield</div>
 												<div style="display: flex; justify-content: space-between; align-items: baseline; margin: 0.35rem 0 0.15rem 0;">
-													<div id="p1Score" style="font-size: 1.4rem; font-weight: 900; color: #16a34a;">16 <span style="font-size: 0.85rem; color: #94a3b8;">/20 pts</span></div>
-													<div id="p1Metric" style="font-size: 1rem; font-weight: 800; color: #0f172a;">2.01%</div>
+													<div id="p1Score" style="font-size: 1.25rem; font-weight: 800; color: #0f172a;">16 <span style="font-size: 0.75rem; color: #94a3b8;">/20</span></div>
+													<div id="p1Metric" style="font-size: 0.9rem; font-weight: 700; color: #475569;">2.01%</div>
 												</div>
-												<div class="dgi-progress"><div id="p1Progress" class="dgi-progress-fill" style="width: 80%;"></div></div>
-												<div id="p1Desc" style="font-size: 0.75rem; color: #64748b; margin-top: 0.5rem; line-height: 1.3;">Yield equilibrado e sustentável (meta 2% a 6%).</div>
+												<div class="dgi-progress-bar"><div id="p1Progress" class="dgi-progress-fill" style="width: 80%;"></div></div>
+												<div id="p1Desc" style="font-size: 0.72rem; color: #64748b; margin-top: 0.45rem; line-height: 1.35;">Balanced & sustainable yield (target: 2.0% - 6.0%).</div>
 											</div>
 
 											<!-- Pillar 2 -->
-											<div class="dgi-card">
-												<div style="font-size: 0.8rem; font-weight: 800; color: #475569;">🛡️ 2. PAYOUT S/ FCF</div>
+											<div class="dgi-pillar-card">
+												<div style="font-size: 0.75rem; font-weight: 700; color: #475569; text-transform: uppercase;">2. FCF Payout Ratio</div>
 												<div style="display: flex; justify-content: space-between; align-items: baseline; margin: 0.35rem 0 0.15rem 0;">
-													<div id="p2Score" style="font-size: 1.4rem; font-weight: 900; color: #16a34a;">16 <span style="font-size: 0.85rem; color: #94a3b8;">/20 pts</span></div>
-													<div id="p2Metric" style="font-size: 1rem; font-weight: 800; color: #0f172a;">64.1%</div>
+													<div id="p2Score" style="font-size: 1.25rem; font-weight: 800; color: #0f172a;">16 <span style="font-size: 0.75rem; color: #94a3b8;">/20</span></div>
+													<div id="p2Metric" style="font-size: 0.9rem; font-weight: 700; color: #475569;">64.1%</div>
 												</div>
-												<div class="dgi-progress"><div id="p2Progress" class="dgi-progress-fill" style="width: 80%;"></div></div>
-												<div id="p2Desc" style="font-size: 0.75rem; color: #64748b; margin-top: 0.5rem; line-height: 1.3;">Fluxo de caixa livre cobre integralmente os proventos (<70%).</div>
+												<div class="dgi-progress-bar"><div id="p2Progress" class="dgi-progress-fill" style="width: 80%;"></div></div>
+												<div id="p2Desc" style="font-size: 0.72rem; color: #64748b; margin-top: 0.45rem; line-height: 1.35;">Free cash flow fully covers dividend distributions (&lt;70%).</div>
 											</div>
 
 											<!-- Pillar 3 -->
-											<div class="dgi-card">
-												<div style="font-size: 0.8rem; font-weight: 800; color: #475569;">🏦 3. SOLIDEZ / BALANÇO</div>
+											<div class="dgi-pillar-card">
+												<div style="font-size: 0.75rem; font-weight: 700; color: #475569; text-transform: uppercase;">3. Debt & Balance Sheet</div>
 												<div style="display: flex; justify-content: space-between; align-items: baseline; margin: 0.35rem 0 0.15rem 0;">
-													<div id="p3Score" style="font-size: 1.4rem; font-weight: 900; color: #16a34a;">20 <span style="font-size: 0.85rem; color: #94a3b8;">/20 pts</span></div>
-													<div id="p3Metric" style="font-size: 1rem; font-weight: 800; color: #0f172a;">0.81x</div>
+													<div id="p3Score" style="font-size: 1.25rem; font-weight: 800; color: #0f172a;">20 <span style="font-size: 0.75rem; color: #94a3b8;">/20</span></div>
+													<div id="p3Metric" style="font-size: 0.9rem; font-weight: 700; color: #475569;">0.81x</div>
 												</div>
-												<div class="dgi-progress"><div id="p3Progress" class="dgi-progress-fill" style="width: 100%;"></div></div>
-												<div id="p3Desc" style="font-size: 0.75rem; color: #64748b; margin-top: 0.5rem; line-height: 1.3;">Balanço fortaleza com Dívida Líq./EBITDA muito baixa (<1.5x).</div>
+												<div class="dgi-progress-bar"><div id="p3Progress" class="dgi-progress-fill" style="width: 100%;"></div></div>
+												<div id="p3Desc" style="font-size: 0.72rem; color: #64748b; margin-top: 0.45rem; line-height: 1.35;">Solid balance sheet with low Net Debt/EBITDA (&lt;1.5x).</div>
 											</div>
 
 											<!-- Pillar 4 -->
-											<div class="dgi-card">
-												<div style="font-size: 0.8rem; font-weight: 800; color: #475569;">📈 4. CRESC. OPERACIONAL</div>
+											<div class="dgi-pillar-card">
+												<div style="font-size: 0.75rem; font-weight: 700; color: #475569; text-transform: uppercase;">4. Operational Growth</div>
 												<div style="display: flex; justify-content: space-between; align-items: baseline; margin: 0.35rem 0 0.15rem 0;">
-													<div id="p4Score" style="font-size: 1.4rem; font-weight: 900; color: #16a34a;">17 <span style="font-size: 0.85rem; color: #94a3b8;">/20 pts</span></div>
-													<div id="p4Metric" style="font-size: 1rem; font-weight: 800; color: #0f172a;">Rev: 5.6%</div>
+													<div id="p4Score" style="font-size: 1.25rem; font-weight: 800; color: #0f172a;">17 <span style="font-size: 0.75rem; color: #94a3b8;">/20</span></div>
+													<div id="p4Metric" style="font-size: 0.9rem; font-weight: 700; color: #475569;">Rev: 5.6%</div>
 												</div>
-												<div class="dgi-progress"><div id="p4Progress" class="dgi-progress-fill" style="width: 85%;"></div></div>
-												<div id="p4Desc" style="font-size: 0.75rem; color: #64748b; margin-top: 0.5rem; line-height: 1.3;">Crescimento composto de receitas e lucros nos últimos 5 anos.</div>
+												<div class="dgi-progress-bar"><div id="p4Progress" class="dgi-progress-fill" style="width: 85%;"></div></div>
+												<div id="p4Desc" style="font-size: 0.72rem; color: #64748b; margin-top: 0.45rem; line-height: 1.35;">Positive 5-year CAGR across revenue and net income.</div>
 											</div>
 
 											<!-- Pillar 5 -->
-											<div class="dgi-card">
-												<div style="font-size: 0.8rem; font-weight: 800; color: #475569;">👑 5. DIV. CAGR & CHOWDER</div>
+											<div class="dgi-pillar-card">
+												<div style="font-size: 0.75rem; font-weight: 700; color: #475569; text-transform: uppercase;">5. Div Growth & Chowder</div>
 												<div style="display: flex; justify-content: space-between; align-items: baseline; margin: 0.35rem 0 0.15rem 0;">
-													<div id="p5Score" style="font-size: 1.4rem; font-weight: 900; color: #16a34a;">11 <span style="font-size: 0.85rem; color: #94a3b8;">/20 pts</span></div>
-													<div id="p5Metric" style="font-size: 1rem; font-weight: 800; color: #0f172a;">Chowder 7.3%</div>
+													<div id="p5Score" style="font-size: 1.25rem; font-weight: 800; color: #0f172a;">11 <span style="font-size: 0.75rem; color: #94a3b8;">/20</span></div>
+													<div id="p5Metric" style="font-size: 0.9rem; font-weight: 700; color: #475569;">Chowder 7.3%</div>
 												</div>
-												<div class="dgi-progress"><div id="p5Progress" class="dgi-progress-fill" style="width: 55%;"></div></div>
-												<div id="p5Desc" style="font-size: 0.75rem; color: #64748b; margin-top: 0.5rem; line-height: 1.3;">Crescimento contínuo de proventos com Chowder Number sólido.</div>
+												<div class="dgi-progress-bar"><div id="p5Progress" class="dgi-progress-fill" style="width: 55%;"></div></div>
+												<div id="p5Desc" style="font-size: 0.72rem; color: #64748b; margin-top: 0.45rem; line-height: 1.35;">Consistent annual dividend increases and solid Chowder rule.</div>
 											</div>
 										</div>
 
-										<!-- Charts Section (Radar & Dividend Growth) -->
-										<div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 1.5rem; margin-bottom: 2rem;">
+										<!-- Charts Row (Radar & Bar) -->
+										<div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 1.25rem; margin-bottom: 1.75rem;">
 											
 											<!-- Radar Chart -->
-											<div style="background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 18px; padding: 1.5rem;">
-												<h4 style="margin: 0 0 1rem 0; font-size: 0.95rem; font-weight: 800; color: #0f172a;">🕸️ Perfil Radar dos 5 Pilares (0 a 20 pts)</h4>
-												<div style="position: relative; height: 280px; width: 100%;">
+											<div style="background: #ffffff; border: 1px solid #e2e8f0; border-radius: 12px; padding: 1.25rem;">
+												<div style="font-size: 0.85rem; font-weight: 700; color: #0f172a; margin-bottom: 0.75rem;">5 Pillars Radar Profile (0 - 20 pts)</div>
+												<div style="position: relative; height: 260px; width: 100%;">
 													<canvas id="dgiRadarCanvas"></canvas>
 												</div>
 											</div>
 
 											<!-- Dividend Bar Chart -->
-											<div style="background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 18px; padding: 1.5rem;">
-												<h4 style="margin: 0 0 1rem 0; font-size: 0.95rem; font-weight: 800; color: #0f172a;">💰 Evolução Histórica de Dividendos Anuais</h4>
-												<div style="position: relative; height: 280px; width: 100%;">
+											<div style="background: #ffffff; border: 1px solid #e2e8f0; border-radius: 12px; padding: 1.25rem;">
+												<div style="font-size: 0.85rem; font-weight: 700; color: #0f172a; margin-bottom: 0.75rem;">Annual Dividend History Per Share</div>
+												<div style="position: relative; height: 260px; width: 100%;">
 													<canvas id="dgiDivBarCanvas"></canvas>
 												</div>
 											</div>
 										</div>
 
-										<!-- Fundamental Multiples Table -->
-										<div style="background: #ffffff; border: 1px solid #e2e8f0; border-radius: 18px; padding: 1.5rem; margin-bottom: 1.5rem;">
-											<div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1rem; flex-wrap: wrap; gap: 0.5rem;">
-												<h4 style="margin: 0; font-size: 1rem; font-weight: 800; color: #0f172a;">⚖️ Tabela Fundamentalista & Múltiplos</h4>
-												<button type="button" onclick="addCurrentDgiToWatchlist()" class="french-btn french-btn-dark" style="font-size: 0.8rem; padding: 0.45rem 1rem;">➕ Adicionar à Watchlist de Alertas</button>
+										<!-- Key Fundamentals Table -->
+										<div style="background: #ffffff; border: 1px solid #e2e8f0; border-radius: 12px; padding: 1.25rem; margin-bottom: 1rem;">
+											<div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.85rem; flex-wrap: wrap; gap: 0.5rem;">
+												<div style="font-size: 0.9rem; font-weight: 800; color: #0f172a;">Key Fundamental Multiples & Benchmarks</div>
+												<button type="button" onclick="addCurrentDgiToWatchlist()" class="btn-sober btn-secondary btn-sm">➕ Add to Watchlist</button>
 											</div>
 
-											<div class="table-container-french">
-												<table class="table-french">
+											<div class="table-wrapper">
+												<table class="sober-table">
 													<thead>
 														<tr>
-															<th>Métrica Fundamentalista</th>
-															<th style="text-align: center;">Valor Apurado</th>
-															<th>Meta / Referência DGI</th>
-															<th style="text-align: center;">Avaliação</th>
+															<th>Fundamental Metric</th>
+															<th style="text-align: center;">Reported Value</th>
+															<th>DGI Benchmark</th>
+															<th style="text-align: center;">Evaluation</th>
 														</tr>
 													</thead>
 													<tbody id="dgiMetricsTableBody">
@@ -538,23 +505,32 @@
 
 
 								<!-- ==========================================
-								     SEÇÃO 2: WATCHLIST & TARGET PRICE ALERTS
+								     SECTION 2: WATCHLIST & TARGET PRICE ALERTS
 								     ========================================== -->
-								<div class="tool-container">
+								<div class="tool-card">
 									
-									<!-- Add Stock to Watchlist Box -->
-									<div class="search-bar-box">
-										<label style="font-weight: 800; color: #0f172a; display: block; font-size: 0.85rem; text-transform: uppercase; letter-spacing: 0.05em; margin-bottom: 0.25rem;">➕ Adicionar Ação à Watchlist de Alertas:</label>
-										<p style="font-size: 0.82rem; color: #64748b; margin-bottom: 0.75rem;">Introduza o ticker para monitorizar preços-alvo com alertas automáticos no Telegram durante o horário de mercado.</p>
-										
-										<div class="form-grid-3" style="position: relative;">
-											<div class="input-group" style="position: relative;">
+									<div class="section-header">
+										<div>
+											<h2 class="section-title">Stock Watchlist & Price Targets</h2>
+											<p class="section-subtitle">Real-time market price monitoring with automated Telegram buy/sell alerts.</p>
+										</div>
+										<div style="display: flex; gap: 0.5rem; flex-wrap: wrap;">
+											<button onclick="checkAllWatchlistAlerts()" class="btn-sober btn-primary btn-sm">Refresh Quotes & Alerts</button>
+											<button onclick="syncWatchlistToGitHub()" class="btn-sober btn-secondary btn-sm">Sync with GitHub</button>
+										</div>
+									</div>
+
+									<!-- Add Stock Form (Clean & Minimalist) -->
+									<div class="search-container" style="margin-bottom: 1.25rem;">
+										<div style="font-size: 0.78rem; font-weight: 700; color: #0f172a; text-transform: uppercase; letter-spacing: 0.05em; margin-bottom: 0.75rem;">Add New Asset to Watchlist:</div>
+										<div class="form-grid-inputs">
+											<div class="input-group">
 												<label for="newWatchlistTicker">Ticker Symbol:</label>
-												<input type="text" id="newWatchlistTicker" placeholder="e.g. NVDA, ADS.DE, AAPL, GALP" autocomplete="off" oninput="onWatchlistSearchInput(this.value, 'ticker')" onfocus="onWatchlistSearchInput(this.value, 'ticker')" onkeypress="if(event.key==='Enter') addNewWatchlistEntry()" />
+												<input type="text" id="newWatchlistTicker" placeholder="e.g. NVDA, AAPL, JNJ" autocomplete="off" onkeypress="if(event.key==='Enter') addNewWatchlistEntry()" />
 											</div>
-											<div class="input-group" style="position: relative;">
+											<div class="input-group">
 												<label for="newWatchlistName">Company Name:</label>
-												<input type="text" id="newWatchlistName" placeholder="e.g. NVIDIA, Adidas, Apple, Galp" autocomplete="off" oninput="onWatchlistSearchInput(this.value, 'name')" onfocus="onWatchlistSearchInput(this.value, 'name')" onkeypress="if(event.key==='Enter') addNewWatchlistEntry()" />
+												<input type="text" id="newWatchlistName" placeholder="e.g. NVIDIA, Apple" autocomplete="off" onkeypress="if(event.key==='Enter') addNewWatchlistEntry()" />
 											</div>
 											<div class="input-group">
 												<label for="newWatchlistMin">Min Buy Target (🟢):</label>
@@ -564,38 +540,23 @@
 												<label for="newWatchlistMax">Max Sell Target (🔴):</label>
 												<input type="number" id="newWatchlistMax" placeholder="0.00" step="0.5" onkeypress="if(event.key==='Enter') addNewWatchlistEntry()" />
 											</div>
-											<button id="btnAddStock" onclick="addNewWatchlistEntry()" class="french-btn french-btn-dark">Adicionar Ação</button>
-											
-											<!-- Autocomplete Suggestions Dropdown -->
-											<div id="watchlistSuggestionsDropdown" style="display: none; position: absolute; top: 100%; left: 0; right: 0; background: #ffffff; border: 1px solid #cbd5e1; border-radius: 12px; box-shadow: 0 15px 30px -5px rgba(15,23,42,0.18); z-index: 99999; max-height: 280px; overflow-y: auto; margin-top: 0.35rem;"></div>
+											<button id="btnAddStock" onclick="addNewWatchlistEntry()" class="btn-sober btn-primary" style="height: 38px;">Add Stock</button>
 										</div>
-										<div id="addStockStatusBox" class="status-msg" style="margin-top: 0.85rem;"></div>
-									</div>
-
-									<!-- Watchlist Controls Header -->
-									<div style="display: flex; flex-wrap: wrap; justify-content: space-between; align-items: center; margin-bottom: 1.25rem; gap: 1rem;">
-										<div>
-											<h3 style="margin: 0; color: #0f172a; font-weight: 800; font-size: 1.25rem;">⭐ Watchlist de Ações & Preços-Alvo</h3>
-											<span style="font-size: 0.82rem; color: #64748b; font-weight: 600;">Monitorizado automaticamente via GitHub Actions com notificações Telegram</span>
-										</div>
-										<div style="display: flex; gap: 0.5rem; flex-wrap: wrap;">
-											<button onclick="checkAllWatchlistAlerts()" class="french-btn french-btn-dark">🔍 Atualizar Cotações & Alertas</button>
-											<button onclick="syncWatchlistToGitHub()" class="french-btn french-btn-blue">☁️ Sincronizar com GitHub</button>
-										</div>
+										<div id="addStockStatusBox" class="status-msg"></div>
 									</div>
 
 									<!-- Watchlist Table -->
-									<div class="table-container-french">
-										<table class="table-french">
+									<div class="table-wrapper">
+										<table class="sober-table">
 											<thead>
 												<tr>
-													<th style="width: 23%;">Company / Ticker</th>
-													<th style="width: 14%; text-align: center;">Min Buy (🟢)</th>
-													<th style="width: 14%; text-align: center;">Max Sell (🔴)</th>
-													<th style="width: 16%; text-align: center;">Last Live Price</th>
-													<th style="width: 15%; text-align: center;">Score DGI</th>
-													<th style="width: 10%; text-align: center;">Status</th>
-													<th style="width: 8%; text-align: center;">Ações</th>
+													<th style="width: 24%;">Company / Ticker</th>
+													<th style="width: 14%; text-align: center;">Min Buy Target</th>
+													<th style="width: 14%; text-align: center;">Max Sell Target</th>
+													<th style="width: 15%; text-align: center;">Last Live Price</th>
+													<th style="width: 15%; text-align: center;">DGI Score</th>
+													<th style="width: 10%; text-align: center;">Alert Status</th>
+													<th style="width: 8%; text-align: center;">Actions</th>
 												</tr>
 											</thead>
 											<tbody id="watchlistTableBody">
@@ -606,12 +567,12 @@
 
 									<div id="watchlistSummaryBox" class="status-msg"></div>
 
-									<!-- Telegram & Sync Settings Collapsible Box -->
-									<div class="settings-card">
-										<h4 style="margin: 0 0 0.75rem 0; color: #0f172a; font-weight: 800; font-size: 1rem;">⚙️ Configuração do Bot Telegram & Credenciais</h4>
-										<p style="font-size: 0.82rem; color: #64748b; margin-bottom: 1rem;">Configure o seu Bot Token e Chat ID para receber alertas móveis instantâneos de compra/venda e relatórios DGI.</p>
+									<!-- Telegram & GitHub Settings Box (Sober & Compact) -->
+									<div class="settings-box">
+										<div style="font-size: 0.85rem; font-weight: 700; color: #0f172a; margin-bottom: 0.25rem;">Settings & Telegram Integration</div>
+										<p style="font-size: 0.78rem; color: #64748b; margin-bottom: 0.85rem;">Store your Telegram Bot Token and Chat ID locally in your browser to receive instant alerts and DGI summaries.</p>
 										
-										<div class="form-grid-3">
+										<div class="form-grid-inputs">
 											<div class="input-group">
 												<label for="telegramToken">Telegram Bot Token:</label>
 												<input type="password" id="telegramToken" placeholder="123456789:ABCdef..." />
@@ -621,12 +582,12 @@
 												<input type="text" id="telegramChatId" placeholder="12345678" />
 											</div>
 											<div class="input-group">
-												<label for="githubToken">GitHub Token (Sync Opcional):</label>
+												<label for="githubToken">GitHub Token (Optional Sync):</label>
 												<input type="password" id="githubToken" placeholder="ghp_..." />
 											</div>
-											<div style="display: flex; gap: 0.5rem;">
-												<button onclick="saveTelegramCredentials(true)" class="french-btn french-btn-outline" style="padding: 0.65rem 1rem;">💾 Gravar</button>
-												<button onclick="testTelegramAlert()" class="french-btn french-btn-outline" style="padding: 0.65rem 1rem;">🧪 Testar Alerta</button>
+											<div style="display: flex; gap: 0.4rem;">
+												<button onclick="saveTelegramCredentials(true)" class="btn-sober btn-secondary btn-sm" style="height: 38px;">Save</button>
+												<button onclick="testTelegramAlert()" class="btn-sober btn-secondary btn-sm" style="height: 38px;">Test Alert</button>
 											</div>
 										</div>
 										<div id="telegramStatusBox" class="status-msg"></div>
@@ -672,7 +633,7 @@
 			<script src="assets/js/main.js"></script>
 			<script>
 				// ==========================================
-				// BASE DE DADOS FUNDAMENTAL PRÉ-CALCULADA (DGI)
+				// PRELOADED DGI FUNDAMENTALS DATABASE
 				// ==========================================
 				const DGI_DATABASE = {
 					"JNJ": {
@@ -705,9 +666,9 @@
 							{ year: "2025", amount: 5.14 }
 						],
 						scores: { p1: 16, p2: 16, p3: 20, p4: 17, p5: 11, total: 80 },
-						verdict: "Forte (Boa Oportunidade DGI)",
+						verdict: "Solid DGI Quality",
 						verdictIcon: "🟢",
-						summary: "Empresa de altíssima qualidade defensiva com balanço fortaleza, dividendo seguro coberto por fluxo de caixa livre e 62 anos consecutivos de aumentos de dividendos."
+						summary: "Defensive fortress balance sheet with safe dividend coverage over free cash flow and 62 consecutive years of dividend increases."
 					},
 					"PEP": {
 						ticker: "PEP",
@@ -739,14 +700,14 @@
 							{ year: "2025", amount: 5.62 }
 						],
 						scores: { p1: 20, p2: 5, p3: 16, p4: 4, p5: 17, total: 62 },
-						verdict: "Moderado / Neutro",
+						verdict: "Moderate / Watch FCF",
 						verdictIcon: "🟡",
-						summary: "Excelente yield de 4.3% e Chowder de 11.3%, mas o Payout sobre FCF próximo de 100% exige acompanhamento da geração de caixa nos próximos trimestres."
+						summary: "Attractive 4.3% yield and strong 11.3% Chowder rule, but elevated FCF payout ratio (~99%) warrants ongoing cash flow monitoring."
 					},
 					"PG": {
 						ticker: "PG",
 						name: "Procter & Gamble Co.",
-						sector: "Consumer Defensive | Household & Personal",
+						sector: "Consumer Defensive | Household Products",
 						currency: "USD",
 						symbol: "$",
 						price: 145.27,
@@ -773,9 +734,9 @@
 							{ year: "2025", amount: 4.22 }
 						],
 						scores: { p1: 20, p2: 16, p3: 20, p4: 14, p5: 14, total: 84 },
-						verdict: "Forte (Boa Oportunidade DGI)",
-						verdictIcon: "🟢",
-						summary: "Dividend King com marcas líderes globais, excelente geração de caixa livre e margem de segurança operacional consolidada."
+						verdict: "High Quality (Dividend King)",
+						verdictIcon: "⭐",
+						summary: "Global brand leadership, consistent free cash flow generation, and strong operational safety margins across economic cycles."
 					},
 					"KO": {
 						ticker: "KO",
@@ -807,9 +768,9 @@
 							{ year: "2025", amount: 2.04 }
 						],
 						scores: { p1: 20, p2: 10, p3: 16, p4: 17, p5: 11, total: 74 },
-						verdict: "Forte (Boa Oportunidade DGI)",
+						verdict: "Solid DGI Quality",
 						verdictIcon: "🟢",
-						summary: "Poder de fixação de preços e retorno sobre capital excecionais, sustentando o dividendo há mais de 6 décadas."
+						summary: "Exceptional pricing power and return on capital supporting continuous dividend distributions for more than six decades."
 					},
 					"ABBV": {
 						ticker: "ABBV",
@@ -841,9 +802,9 @@
 							{ year: "2025", amount: 6.60 }
 						],
 						scores: { p1: 20, p2: 20, p3: 16, p4: 20, p5: 17, total: 93 },
-						verdict: "Excelente (Perfil Dividend Aristocrat / Alta Qualidade)",
+						verdict: "Top Tier DGI (Aristocrat)",
 						verdictIcon: "⭐",
-						summary: "Score DGI de topo (93/100): Payout s/ FCF abaixo de 50%, crescimento anual de proventos próximo de 8% e forte geração de caixa livre."
+						summary: "Top-tier fundamental metrics with sub-50% FCF payout, ~8% dividend growth rate, and resilient biopharmaceutical cash flow."
 					},
 					"MCD": {
 						ticker: "MCD",
@@ -875,9 +836,9 @@
 							{ year: "2025", amount: 7.08 }
 						],
 						scores: { p1: 20, p2: 16, p3: 10, p4: 17, p5: 17, total: 80 },
-						verdict: "Forte (Boa Oportunidade DGI)",
+						verdict: "Solid DGI Quality",
 						verdictIcon: "🟢",
-						summary: "Modelo imobiliário e franquias com elevadíssima margem operacional (45%) e consistência comprovada de aumentos de dividendos."
+						summary: "Franchise and real estate royalty model generating high 45% operating margins with proven long-term dividend growth."
 					},
 					"GALP": {
 						ticker: "GALP.LS",
@@ -909,14 +870,14 @@
 							{ year: "2025", amount: 0.72 }
 						],
 						scores: { p1: 20, p2: 0, p3: 20, p4: 0, p5: 20, total: 60 },
-						verdict: "Moderado / Neutro",
+						verdict: "Moderate / Cyclical",
 						verdictIcon: "🟡",
-						summary: "Balanço forte com dívida muito baixa e crescimento recente de dividendos, mas payout s/ FCF elevado devido ao intenso ciclo de investimentos (Capex)."
+						summary: "Very low debt balance sheet with recent dividend growth; FCF payout fluctuates due to cyclical capital expenditure programs."
 					},
 					"ADS.DE": {
 						ticker: "ADS.DE",
 						name: "Adidas AG",
-						sector: "Consumer Cyclical | Footwear & Accessories",
+						sector: "Consumer Cyclical | Footwear & Apparel",
 						currency: "EUR",
 						symbol: "€",
 						price: 141.90,
@@ -943,9 +904,9 @@
 							{ year: "2025", amount: 1.20 }
 						],
 						scores: { p1: 0, p2: 20, p3: 16, p4: 4, p5: 3, total: 43 },
-						verdict: "Fraco / Risco Elevado",
+						verdict: "Weak / Turnaround",
 						verdictIcon: "🟠",
-						summary: "Histórico recente com cortes de dividendos e yield baixo (<1%), ainda em processo de recuperação de rentabilidade operacional."
+						summary: "Low current yield (<1%) with past dividend cut; operational margin recovery in progress."
 					},
 					"NVDA": {
 						ticker: "NVDA",
@@ -977,9 +938,9 @@
 							{ year: "2025", amount: 0.10 }
 						],
 						scores: { p1: 0, p2: 20, p3: 20, p4: 20, p5: 20, total: 80 },
-						verdict: "Forte (Boa Oportunidade DGI)",
+						verdict: "Solid (Growth Dominant)",
 						verdictIcon: "🟢",
-						summary: "Crescimento explosivo e margens estelares com cobertura máxima de proventos, mas com foco predominante em reinvestimento de crescimento e recompras."
+						summary: "Stellar growth and profitability margins; capital return is concentrated primarily in share repurchases."
 					}
 				};
 
@@ -988,7 +949,6 @@
 				let barChartInstance = null;
 
 				function calculateDgiFromRaw(ticker, livePrice, meta) {
-					// Fallback dynamically generated data for tickers not in local dictionary
 					const cleanT = ticker.toUpperCase();
 					const sym = getTickerCurrencySymbol(cleanT);
 					const p = livePrice || 100;
@@ -1022,9 +982,9 @@
 							{ year: "2025", amount: +(p * 0.0285).toFixed(2) }
 						],
 						scores: { p1: 20, p2: 16, p3: 20, p4: 14, p5: 14, total: 84 },
-						verdict: "Forte (Boa Oportunidade DGI)",
+						verdict: "Solid DGI Quality",
 						verdictIcon: "🟢",
-						summary: "Métricas fundamentais equilibradas com yield atrativo e solidez financeira verificada."
+						summary: "Balanced fundamental profile with verified financial solvency and sustainable dividend metrics."
 					};
 				}
 
@@ -1035,16 +995,7 @@
 
 					const loadBox = document.getElementById('dgiLoadingMsg');
 					loadBox.className = 'status-msg status-loading';
-					loadBox.innerHTML = '⏳ A recolher demonstrações e calcular Score DGI para <strong>' + tickerClean + '</strong>...';
-
-					// Update active pill button
-					document.querySelectorAll('.preset-pill').forEach(btn => {
-						if (btn.innerText.includes(tickerClean) || (tickerClean === 'GALP.LS' && btn.innerText.includes('GALP'))) {
-							btn.classList.add('active');
-						} else {
-							btn.classList.remove('active');
-						}
-					});
+					loadBox.innerHTML = 'Fetching fundamental data and calculating DGI Score for <strong>' + tickerClean + '</strong>...';
 
 					// 1. Check local preloaded dataset
 					let data = DGI_DATABASE[tickerClean] || DGI_DATABASE[alias];
@@ -1069,20 +1020,20 @@
 					renderDgiDashboard(data);
 
 					loadBox.className = 'status-msg status-success';
-					loadBox.innerHTML = '✅ Análise DGI de <strong>' + data.name + ' (' + data.ticker + ')</strong> calculada com sucesso!';
-					setTimeout(() => { loadBox.style.display = 'none'; }, 4000);
+					loadBox.innerHTML = 'DGI fundamental analysis for <strong>' + data.name + ' (' + data.ticker + ')</strong> completed.';
+					setTimeout(() => { loadBox.style.display = 'none'; }, 3500);
 				}
 
 				function renderDgiDashboard(data) {
 					const s = data.scores;
 					
 					// Update Scores & Badges
-					document.getElementById('dgiScoreValue').innerHTML = s.total.toFixed(0) + '<span style="font-size: 1.8rem; color: #64748b;">/100</span>';
+					document.getElementById('dgiScoreValue').innerHTML = s.total.toFixed(0) + '<span style="font-size: 1.4rem; color: #64748b;">/100</span>';
 					
 					const badgeEl = document.getElementById('dgiScoreBadge');
 					badgeEl.innerHTML = data.verdictIcon + ' ' + data.verdict;
 					if (s.total >= 85) {
-						badgeEl.style.background = '#059669';
+						badgeEl.style.background = '#047857';
 					} else if (s.total >= 70) {
 						badgeEl.style.background = '#15803d';
 					} else if (s.total >= 50) {
@@ -1094,7 +1045,7 @@
 					}
 
 					// Company Details
-					document.getElementById('dgiCompName').innerHTML = data.name + ' <span id="dgiCompTicker" style="color: #2563eb; font-size: 1.1rem;">(' + data.ticker + ')</span>';
+					document.getElementById('dgiCompName').innerHTML = data.name + ' <span id="dgiCompTicker" style="color: #475569; font-size: 1rem; font-weight: 600;">(' + data.ticker + ')</span>';
 					document.getElementById('dgiCompSector').innerText = data.sector + ' | ' + data.currency;
 					document.getElementById('dgiCompPrice').innerText = formatPriceWithCurrency(data.price, data.symbol);
 					document.getElementById('dgiCompMcap').innerText = 'Cap: ' + data.mcap;
@@ -1107,31 +1058,29 @@
 					document.getElementById('dgiQuickChowder').innerText = data.chowder.toFixed(1) + '%';
 
 					// 5 Pillar Cards
-					document.getElementById('p1Score').innerHTML = s.p1.toFixed(0) + ' <span style="font-size: 0.85rem; color: #94a3b8;">/20 pts</span>';
+					document.getElementById('p1Score').innerHTML = s.p1.toFixed(0) + ' <span style="font-size: 0.75rem; color: #94a3b8;">/20</span>';
 					document.getElementById('p1Metric').innerText = data.divYield.toFixed(2) + '%';
 					document.getElementById('p1Progress').style.width = ((s.p1 / 20) * 100) + '%';
 
-					document.getElementById('p2Score').innerHTML = s.p2.toFixed(0) + ' <span style="font-size: 0.85rem; color: #94a3b8;">/20 pts</span>';
+					document.getElementById('p2Score').innerHTML = s.p2.toFixed(0) + ' <span style="font-size: 0.75rem; color: #94a3b8;">/20</span>';
 					document.getElementById('p2Metric').innerText = data.fcfPayout.toFixed(1) + '%';
 					document.getElementById('p2Progress').style.width = ((s.p2 / 20) * 100) + '%';
 
-					document.getElementById('p3Score').innerHTML = s.p3.toFixed(0) + ' <span style="font-size: 0.85rem; color: #94a3b8;">/20 pts</span>';
+					document.getElementById('p3Score').innerHTML = s.p3.toFixed(0) + ' <span style="font-size: 0.75rem; color: #94a3b8;">/20</span>';
 					document.getElementById('p3Metric').innerText = data.netDebtEbitda.toFixed(2) + 'x';
 					document.getElementById('p3Progress').style.width = ((s.p3 / 20) * 100) + '%';
 
-					document.getElementById('p4Score').innerHTML = s.p4.toFixed(0) + ' <span style="font-size: 0.85rem; color: #94a3b8;">/20 pts</span>';
+					document.getElementById('p4Score').innerHTML = s.p4.toFixed(0) + ' <span style="font-size: 0.75rem; color: #94a3b8;">/20</span>';
 					document.getElementById('p4Metric').innerText = 'Rev: ' + data.revCagr5y.toFixed(1) + '%';
 					document.getElementById('p4Progress').style.width = ((s.p4 / 20) * 100) + '%';
 
-					document.getElementById('p5Score').innerHTML = s.p5.toFixed(0) + ' <span style="font-size: 0.85rem; color: #94a3b8;">/20 pts</span>';
+					document.getElementById('p5Score').innerHTML = s.p5.toFixed(0) + ' <span style="font-size: 0.75rem; color: #94a3b8;">/20</span>';
 					document.getElementById('p5Metric').innerText = 'Chowder ' + data.chowder.toFixed(1) + '%';
 					document.getElementById('p5Progress').style.width = ((s.p5 / 20) * 100) + '%';
 
-					// Render Charts
+					// Render Charts & Table
 					renderDgiRadar(data);
 					renderDgiDivBar(data);
-
-					// Render Fundamentals Table
 					renderDgiFundamentalsTable(data);
 				}
 
@@ -1143,7 +1092,7 @@
 						radarChartInstance.destroy();
 					}
 
-					const labels = ['1. Dividend Yield', '2. Sustentabilidade FCF', '3. Balanço / Dívida', '4. Cresc. Operacional', '5. Div CAGR & Chowder'];
+					const labels = ['1. Dividend Yield', '2. FCF Coverage', '3. Balance Sheet', '4. Operational Growth', '5. Div Growth & Chowder'];
 					const s = data.scores;
 					const values = [s.p1, s.p2, s.p3, s.p4, s.p5];
 
@@ -1154,10 +1103,10 @@
 							datasets: [{
 								label: data.ticker,
 								data: values,
-								backgroundColor: 'rgba(37, 99, 235, 0.25)',
-								borderColor: '#2563eb',
+								backgroundColor: 'rgba(15, 23, 42, 0.12)',
+								borderColor: '#0f172a',
 								borderWidth: 2,
-								pointBackgroundColor: '#1d4ed8',
+								pointBackgroundColor: '#0f172a',
 								pointBorderColor: '#ffffff',
 								pointRadius: 4
 							}]
@@ -1169,8 +1118,8 @@
 								r: {
 									min: 0,
 									max: 20,
-									ticks: { stepSize: 5, font: { size: 10 } },
-									pointLabels: { font: { size: 11, weight: '700' }, color: '#334155' }
+									ticks: { stepSize: 5, font: { size: 9 } },
+									pointLabels: { font: { size: 10, weight: '700' }, color: '#475569' }
 								}
 							},
 							plugins: {
@@ -1197,10 +1146,10 @@
 						data: {
 							labels: labels,
 							datasets: [{
-								label: 'Dividendo Anual (' + data.symbol + ')',
+								label: 'Annual Dividend (' + data.symbol + ')',
 								data: amounts,
-								backgroundColor: 'rgba(16, 185, 129, 0.85)',
-								borderRadius: 8,
+								backgroundColor: '#047857',
+								borderRadius: 4,
 								borderSkipped: false
 							}]
 						},
@@ -1211,11 +1160,11 @@
 								y: {
 									beginAtZero: true,
 									grid: { color: '#f1f5f9' },
-									ticks: { font: { size: 11 } }
+									ticks: { font: { size: 10 } }
 								},
 								x: {
 									grid: { display: false },
-									ticks: { font: { size: 11, weight: '700' } }
+									ticks: { font: { size: 10, weight: '700' } }
 								}
 							},
 							plugins: {
@@ -1230,25 +1179,25 @@
 					if (!tbody) return;
 
 					const metrics = [
-						{ name: "Dividend Yield", val: data.divYield.toFixed(2) + "%", target: "2.0% a 6.0%", pass: (data.divYield >= 2.0 && data.divYield <= 6.0) },
+						{ name: "Dividend Yield", val: data.divYield.toFixed(2) + "%", target: "2.0% - 6.0%", pass: (data.divYield >= 2.0 && data.divYield <= 6.0) },
 						{ name: "Payout Ratio (FCF)", val: data.fcfPayout.toFixed(1) + "%", target: "< 70.0%", pass: (data.fcfPayout <= 70.0) },
-						{ name: "Dívida Líquida / EBITDA", val: data.netDebtEbitda.toFixed(2) + "x", target: "< 3.0x", pass: (data.netDebtEbitda <= 3.0) },
-						{ name: "CAGR Receita (5 Anos)", val: data.revCagr5y.toFixed(1) + "%", target: "> 3.0%", pass: (data.revCagr5y >= 3.0) },
-						{ name: "CAGR Lucro Líquido (5 Anos)", val: data.niCagr5y.toFixed(1) + "%", target: "> 5.0%", pass: (data.niCagr5y >= 5.0) },
-						{ name: "CAGR Dividendos (5 Anos)", val: data.divCagr5y.toFixed(1) + "%", target: "> 5.0%", pass: (data.divCagr5y >= 5.0) },
-						{ name: "Número de Chowder (Yield + Div CAGR)", val: data.chowder.toFixed(1) + "%", target: ">= 10.0%", pass: (data.chowder >= 10.0) },
-						{ name: "Price to Earnings (P/E)", val: data.pe ? data.pe.toFixed(1) + "x" : "N/D", target: "15x a 25x", pass: (data.pe && data.pe <= 25) },
-						{ name: "Return on Equity (ROE)", val: data.roe ? data.roe.toFixed(1) + "%" : "N/D", target: "> 15.0%", pass: (data.roe && data.roe >= 15.0) },
-						{ name: "Margem Operacional", val: data.margin ? data.margin.toFixed(1) + "%" : "N/D", target: "> 12.0%", pass: (data.margin && data.margin >= 12.0) }
+						{ name: "Net Debt / EBITDA", val: data.netDebtEbitda.toFixed(2) + "x", target: "< 3.0x", pass: (data.netDebtEbitda <= 3.0) },
+						{ name: "5Y Revenue CAGR", val: data.revCagr5y.toFixed(1) + "%", target: "> 3.0%", pass: (data.revCagr5y >= 3.0) },
+						{ name: "5Y Net Income CAGR", val: data.niCagr5y.toFixed(1) + "%", target: "> 5.0%", pass: (data.niCagr5y >= 5.0) },
+						{ name: "5Y Dividend CAGR", val: data.divCagr5y.toFixed(1) + "%", target: "> 5.0%", pass: (data.divCagr5y >= 5.0) },
+						{ name: "Chowder Number (Yield + Div CAGR)", val: data.chowder.toFixed(1) + "%", target: ">= 10.0%", pass: (data.chowder >= 10.0) },
+						{ name: "Price to Earnings (P/E)", val: data.pe ? data.pe.toFixed(1) + "x" : "N/A", target: "15x - 25x", pass: (data.pe && data.pe <= 25) },
+						{ name: "Return on Equity (ROE)", val: data.roe ? data.roe.toFixed(1) + "%" : "N/A", target: "> 15.0%", pass: (data.roe && data.roe >= 15.0) },
+						{ name: "Operating Margin", val: data.margin ? data.margin.toFixed(1) + "%" : "N/A", target: "> 12.0%", pass: (data.margin && data.margin >= 12.0) }
 					];
 
 					tbody.innerHTML = '';
 					metrics.forEach(m => {
 						const tr = document.createElement('tr');
-						const badge = m.pass ? '<span class="badge-buy">✅ Excelente</span>' : '<span class="badge-hold">⚠️ Atenção</span>';
-						tr.innerHTML = '<td style="font-weight:700; color:#0f172a;">' + m.name + '</td>' +
-									   '<td style="text-align:center; font-weight:800; color:#1e293b; font-size:0.95rem;">' + m.val + '</td>' +
-									   '<td style="color:#64748b; font-weight:600;">' + m.target + '</td>' +
+						const badge = m.pass ? '<span class="badge-buy">Pass</span>' : '<span class="badge-hold">Caution</span>';
+						tr.innerHTML = '<td style="font-weight:600; color:#0f172a;">' + m.name + '</td>' +
+									   '<td style="text-align:center; font-weight:700; color:#1e293b;">' + m.val + '</td>' +
+									   '<td style="color:#64748b;">' + m.target + '</td>' +
 									   '<td style="text-align:center;">' + badge + '</td>';
 						tbody.appendChild(tr);
 					});
@@ -1260,26 +1209,26 @@
 					const chatId = document.getElementById('telegramChatId').value.trim();
 
 					if (!token || !chatId) {
-						showTelegramStatus('⚠️ Configure o seu <strong>Telegram Bot Token</strong> e <strong>Chat ID</strong> nas definições abaixo para enviar alertas.', 'warning');
+						showTelegramStatus('Please configure your Telegram Bot Token and Chat ID below.', 'warning');
 						return;
 					}
 
 					const d = currentDgiData;
-					const msg = "📊 *ANÁLISE FUNDAMENTAL DGI: " + d.ticker + "*\n" +
-								"🏢 *" + d.name + "* | Cotação: `" + formatPriceWithCurrency(d.price, d.symbol) + "`\n" +
+					const msg = "📊 *DGI FUNDAMENTAL ANALYSIS: " + d.ticker + "*\n" +
+								"🏢 *" + d.name + "* | Price: `" + formatPriceWithCurrency(d.price, d.symbol) + "`\n" +
 								"━━━━━━━━━━━━━━━━━━━━━\n" +
-								"🏆 *SCORE DGI:* *" + d.scores.total.toFixed(0) + "/100* " + d.verdictIcon + "\n" +
-								"📌 *Classificação:* " + d.verdict + "\n\n" +
-								"🎯 *Os 5 Pilares DGI:*\n" +
+								"🏆 *DGI SCORE:* *" + d.scores.total.toFixed(0) + "/100* " + d.verdictIcon + "\n" +
+								"📌 *Rating:* " + d.verdict + "\n\n" +
+								"🎯 *Core Pillars:*\n" +
 								"• 1. *Yield:* `" + d.divYield.toFixed(2) + "%` (" + d.scores.p1.toFixed(0) + "/20 pts)\n" +
-								"• 2. *Payout FCF:* `" + d.fcfPayout.toFixed(1) + "%` (" + d.scores.p2.toFixed(0) + "/20 pts)\n" +
-								"• 3. *Dívida/EBITDA:* `" + d.netDebtEbitda.toFixed(2) + "x` (" + d.scores.p3.toFixed(0) + "/20 pts)\n" +
-								"• 4. *Cresc. Operac. (5y):* Rev `" + d.revCagr5y.toFixed(1) + "%` | Lucro `" + d.niCagr5y.toFixed(1) + "%` (" + d.scores.p4.toFixed(0) + "/20 pts)\n" +
-								"• 5. *Cresc. Div. & Chowder:* Div `" + d.divCagr5y.toFixed(1) + "%` | Chowder `" + d.chowder.toFixed(1) + "%` (" + d.scores.p5.toFixed(0) + "/20 pts)\n" +
+								"• 2. *FCF Payout:* `" + d.fcfPayout.toFixed(1) + "%` (" + d.scores.p2.toFixed(0) + "/20 pts)\n" +
+								"• 3. *Net Debt/EBITDA:* `" + d.netDebtEbitda.toFixed(2) + "x` (" + d.scores.p3.toFixed(0) + "/20 pts)\n" +
+								"• 4. *5Y Growth:* Rev `" + d.revCagr5y.toFixed(1) + "%` | Net Inc `" + d.niCagr5y.toFixed(1) + "%` (" + d.scores.p4.toFixed(0) + "/20 pts)\n" +
+								"• 5. *Div CAGR & Chowder:* Div `" + d.divCagr5y.toFixed(1) + "%` | Chowder `" + d.chowder.toFixed(1) + "%` (" + d.scores.p5.toFixed(0) + "/20 pts)\n" +
 								"━━━━━━━━━━━━━━━━━━━━━\n" +
 								"💡 _" + d.summary + "_";
 
-					showTelegramStatus('⏳ A enviar Scorecard DGI para o Telegram...', 'loading');
+					showTelegramStatus('Sending DGI Scorecard to Telegram...', 'loading');
 					try {
 						const url = 'https://api.telegram.org/bot' + token + '/sendMessage';
 						const res = await fetch(url, {
@@ -1289,12 +1238,12 @@
 						});
 						const resData = await res.json();
 						if (resData.ok) {
-							showTelegramStatus('🚀 <strong>Scorecard DGI de ' + d.ticker + ' enviado com sucesso para o Telegram!</strong>', 'success');
+							showTelegramStatus('DGI Scorecard for ' + d.ticker + ' sent successfully to Telegram!', 'success');
 						} else {
-							showTelegramStatus('❌ Erro da API Telegram: ' + resData.description, 'error');
+							showTelegramStatus('Telegram API Error: ' + resData.description, 'error');
 						}
 					} catch(e) {
-						showTelegramStatus('❌ Falha na ligação ao Telegram: ' + e.message, 'error');
+						showTelegramStatus('Connection error: ' + e.message, 'error');
 					}
 				}
 
@@ -1305,7 +1254,7 @@
 					
 					const existing = watchlist.find(w => w.ticker.toUpperCase() === d.ticker.toUpperCase());
 					if (existing) {
-						showWatchlistSummary('ℹ️ A ação <strong>' + d.ticker + '</strong> já se encontra na sua Watchlist!', 'warning');
+						showWatchlistSummary('Ticker <strong>' + d.ticker + '</strong> is already in your Watchlist.', 'warning');
 						return;
 					}
 
@@ -1321,7 +1270,7 @@
 
 					saveWatchlistToStorage();
 					renderWatchlistTable();
-					showWatchlistSummary('✅ <strong>' + d.name + ' (' + d.ticker + ')</strong> adicionada à Watchlist com sucesso!', 'success');
+					showWatchlistSummary('<strong>' + d.name + ' (' + d.ticker + ')</strong> added to Watchlist.', 'success');
 				}
 
 
@@ -1329,10 +1278,10 @@
 				// WATCHLIST & STOCK ALERTS ENGINE
 				// ==========================================
 				const DEFAULT_WATCHLIST = [
-					{ ticker: "ADS.DE", name: "Adidas AG", minBuy: 140.00, maxSell: 200.00, lastPrice: 141.90, dgiScore: 43.0, dgiVerdict: "Fraco / Risco Elevado", status: "HOLD" },
-					{ ticker: "NKE", name: "Nike, Inc.", minBuy: 30.00, maxSell: 95.00, lastPrice: 36.22, dgiScore: 60.0, dgiVerdict: "Moderado / Neutro", status: "HOLD" },
-					{ ticker: "GALP", name: "Galp Energia", minBuy: 15.00, maxSell: 22.00, lastPrice: 21.97, dgiScore: 60.0, dgiVerdict: "Moderado / Neutro", status: "HOLD" },
-					{ ticker: "NVDA", name: "NVIDIA Corporation", minBuy: 150.00, maxSell: 300.00, lastPrice: 212.17, dgiScore: 80.0, dgiVerdict: "Forte (Boa Oportunidade DGI)", status: "HOLD" }
+					{ ticker: "ADS.DE", name: "Adidas AG", minBuy: 140.00, maxSell: 200.00, lastPrice: 141.90, dgiScore: 43.0, dgiVerdict: "Weak / Turnaround", status: "HOLD" },
+					{ ticker: "NKE", name: "Nike, Inc.", minBuy: 30.00, maxSell: 95.00, lastPrice: 36.22, dgiScore: 60.0, dgiVerdict: "Moderate / Neutral", status: "HOLD" },
+					{ ticker: "GALP", name: "Galp Energia", minBuy: 15.00, maxSell: 22.00, lastPrice: 21.97, dgiScore: 60.0, dgiVerdict: "Moderate / Cyclical", status: "HOLD" },
+					{ ticker: "NVDA", name: "NVIDIA Corporation", minBuy: 150.00, maxSell: 300.00, lastPrice: 212.17, dgiScore: 80.0, dgiVerdict: "Solid (Growth Dominant)", status: "HOLD" }
 				];
 
 				let watchlist = [];
@@ -1358,7 +1307,7 @@
 
 				function formatPriceWithCurrency(priceNum, currSymbol) {
 					if (priceNum === null || priceNum === undefined || priceNum === 0 || priceNum === '0' || isNaN(parseFloat(priceNum))) {
-						return '<span style="color:#64748b; font-weight:600;">—</span>';
+						return '<span style="color:#94a3b8; font-weight:500;">—</span>';
 					}
 					const num = typeof priceNum === 'number' ? priceNum : parseFloat(priceNum);
 					const valStr = num.toFixed(2);
@@ -1433,65 +1382,65 @@
 					tbody.innerHTML = '';
 
 					if (watchlist.length === 0) {
-						tbody.innerHTML = '<tr><td colspan="7" style="text-align:center; padding: 1.5rem; color: #718096;">Nenhuma ação na Watchlist. Adicione uma ação acima para começar a monitorizar.</td></tr>';
+						tbody.innerHTML = '<tr><td colspan="7" style="text-align:center; padding: 1.5rem; color: #94a3b8;">No assets in Watchlist. Add an asset above to start tracking.</td></tr>';
 						return;
 					}
 
 					watchlist.forEach((item, index) => {
 						const tr = document.createElement('tr');
 
-						let statusBadge = '<span class="badge-hold">🟡 HOLD</span>';
+						let statusBadge = '<span class="badge-hold">HOLD</span>';
 						if (item.status === 'BUY' || (item.minBuy > 0 && item.lastPrice > 0 && item.lastPrice <= item.minBuy)) {
-							statusBadge = '<span class="badge-buy">🟢 BUY</span>';
+							statusBadge = '<span class="badge-buy">BUY</span>';
 						} else if (item.status === 'SELL' || (item.maxSell > 0 && item.lastPrice > 0 && item.lastPrice >= item.maxSell)) {
-							statusBadge = '<span class="badge-sell">🔴 SELL</span>';
+							statusBadge = '<span class="badge-sell">SELL</span>';
 						}
 
 						const currSym = getTickerCurrencySymbol(item.ticker);
 						const lastPriceStr = formatPriceWithCurrency(item.lastPrice, currSym);
 
-						let dgiBadge = '<span style="color:#94a3b8; font-weight:600; font-size:0.8rem;">—</span>';
+						let dgiBadge = '<span style="color:#94a3b8; font-size:0.8rem;">—</span>';
 						if (item.dgiScore !== undefined && item.dgiScore !== null) {
 							const score = parseFloat(item.dgiScore);
-							let bg = '#ecfdf5', col = '#047857', bdr = '#a7f3d0', ic = '⭐';
-							if (score >= 85) { bg = '#ecfdf5'; col = '#047857'; bdr = '#a7f3d0'; ic = '⭐'; }
-							else if (score >= 70) { bg = '#f0fdf4'; col = '#15803d'; bdr = '#bbf7d0'; ic = '🟢'; }
-							else if (score >= 50) { bg = '#fffbeb'; col = '#b45309'; bdr = '#fde68a'; ic = '🟡'; }
-							else if (score >= 35) { bg = '#fff7ed'; col = '#c2410c'; bdr = '#fed7aa'; ic = '🟠'; }
-							else { bg = '#fef2f2'; col = '#b91c1c'; bdr = '#fecaca'; ic = '🔴'; }
-							dgiBadge = '<span style="background:' + bg + '; color:' + col + '; border:1px solid ' + bdr + '; padding:0.25rem 0.6rem; border-radius:9999px; font-weight:800; font-size:0.75rem; white-space:nowrap;" title="' + (item.dgiVerdict || '') + '">' + ic + ' ' + score.toFixed(0) + '/100</span>';
+							let bg = '#f0fdf4', col = '#166534', bdr = '#bbf7d0';
+							if (score >= 85) { bg = '#f0fdf4'; col = '#166534'; bdr = '#bbf7d0'; }
+							else if (score >= 70) { bg = '#f0fdf4'; col = '#15803d'; bdr = '#bbf7d0'; }
+							else if (score >= 50) { bg = '#fffbeb'; col = '#92400e'; bdr = '#fde68a'; }
+							else if (score >= 35) { bg = '#fff7ed'; col = '#c2410c'; bdr = '#fed7aa'; }
+							else { bg = '#fef2f2'; col = '#b91c1c'; bdr = '#fecaca'; }
+							dgiBadge = '<span style="background:' + bg + '; color:' + col + '; border:1px solid ' + bdr + '; padding:0.2rem 0.5rem; border-radius:6px; font-weight:700; font-size:0.75rem; white-space:nowrap;" title="' + (item.dgiVerdict || '') + '">' + score.toFixed(0) + '/100</span>';
 						}
 
-						tr.innerHTML = '<td style="padding: 0.85rem 1.25rem;">' +
-								'<strong style="font-weight:800; color:#0f172a; font-size:0.95rem; cursor:pointer;" onclick="analyzeDgiStock(\'' + item.ticker + '\')">' + item.ticker + '</strong> ' +
-								'<span style="font-size:0.7rem; background:#eff6ff; color:#1d4ed8; border:1px solid #bfdbfe; padding:0.15rem 0.5rem; border-radius:9999px; font-weight:700; display:inline-block; margin-left:0.25rem;">' + currSym + '</span><br />' +
-								'<small style="color:#64748b; font-weight:600;">' + (item.name || '') + '</small>' +
+						tr.innerHTML = '<td style="padding: 0.75rem 1rem;">' +
+								'<strong style="font-weight:700; color:#0f172a; font-size:0.9rem; cursor:pointer;" onclick="analyzeDgiStock(\'' + item.ticker + '\')">' + item.ticker + '</strong> ' +
+								'<span style="font-size:0.68rem; background:#f1f5f9; color:#475569; border:1px solid #e2e8f0; padding:0.1rem 0.4rem; border-radius:4px; font-weight:600; display:inline-block; margin-left:0.25rem;">' + currSym + '</span><br />' +
+								'<small style="color:#64748b; font-size:0.78rem;">' + (item.name || '') + '</small>' +
 							'</td>' +
-							'<td style="padding: 0.85rem; text-align: center; white-space:nowrap;">' +
-								'<div style="display:inline-flex; align-items:center; gap:0.25rem; justify-content:center;">' +
-									'<span style="font-size:0.8rem; color:#64748b; font-weight:700;">' + currSym + '</span>' +
-									'<input type="number" value="' + item.minBuy + '" step="0.1" style="width: 80px; padding: 0.4rem 0.5rem; font-size:0.88rem; border-radius:10px; border:1px solid #cbd5e1; text-align:center; font-weight:700;" onchange="updateWatchlistThreshold(' + index + ', \'minBuy\', this.value)" />' +
+							'<td style="padding: 0.75rem; text-align: center; white-space:nowrap;">' +
+								'<div style="display:inline-flex; align-items:center; gap:0.2rem; justify-content:center;">' +
+									'<span style="font-size:0.75rem; color:#64748b; font-weight:600;">' + currSym + '</span>' +
+									'<input type="number" value="' + item.minBuy + '" step="0.1" style="width: 75px; padding: 0.35rem 0.45rem; font-size:0.85rem; border-radius:6px; border:1px solid #cbd5e1; text-align:center; font-weight:600;" onchange="updateWatchlistThreshold(' + index + ', \'minBuy\', this.value)" />' +
 								'</div>' +
 							'</td>' +
-							'<td style="padding: 0.85rem; text-align: center; white-space:nowrap;">' +
-								'<div style="display:inline-flex; align-items:center; gap:0.25rem; justify-content:center;">' +
-									'<span style="font-size:0.8rem; color:#64748b; font-weight:700;">' + currSym + '</span>' +
-									'<input type="number" value="' + item.maxSell + '" step="0.1" style="width: 80px; padding: 0.4rem 0.5rem; font-size:0.88rem; border-radius:10px; border:1px solid #cbd5e1; text-align:center; font-weight:700;" onchange="updateWatchlistThreshold(' + index + ', \'maxSell\', this.value)" />' +
+							'<td style="padding: 0.75rem; text-align: center; white-space:nowrap;">' +
+								'<div style="display:inline-flex; align-items:center; gap:0.2rem; justify-content:center;">' +
+									'<span style="font-size:0.75rem; color:#64748b; font-weight:600;">' + currSym + '</span>' +
+									'<input type="number" value="' + item.maxSell + '" step="0.1" style="width: 75px; padding: 0.35rem 0.45rem; font-size:0.85rem; border-radius:6px; border:1px solid #cbd5e1; text-align:center; font-weight:600;" onchange="updateWatchlistThreshold(' + index + ', \'maxSell\', this.value)" />' +
 								'</div>' +
 							'</td>' +
-							'<td style="padding: 0.85rem; text-align: center; font-weight: 800; color:#0f172a; font-size:1.02rem; white-space:nowrap;">' +
+							'<td style="padding: 0.75rem; text-align: center; font-weight: 700; color:#0f172a; font-size:0.95rem; white-space:nowrap;">' +
 								lastPriceStr +
 							'</td>' +
-							'<td style="padding: 0.85rem; text-align: center;">' +
+							'<td style="padding: 0.75rem; text-align: center;">' +
 								dgiBadge +
 							'</td>' +
-							'<td style="padding: 0.85rem; text-align: center;">' +
+							'<td style="padding: 0.75rem; text-align: center;">' +
 								statusBadge +
 							'</td>' +
-							'<td style="padding: 0.85rem; text-align: center; white-space: nowrap;">' +
-								'<div style="display: inline-flex; gap: 0.4rem; align-items: center; justify-content: center;">' +
-									'<button type="button" class="french-btn" style="background:#eff6ff; color:#1d4ed8 !important; border:1px solid #bfdbfe; padding:0.4rem 0.65rem; font-size:0.78rem;" title="Analisar DGI" onclick="analyzeDgiStock(\'' + item.ticker + '\')">📈</button>' +
-									'<button type="button" class="french-btn" style="background:#fff1f2; color:#be123c !important; border:1px solid #fecdd3; padding:0.4rem 0.65rem; font-size:0.78rem;" title="Remover" onclick="deleteWatchlistItem(' + index + ')">🗑️</button>' +
+							'<td style="padding: 0.75rem; text-align: center; white-space: nowrap;">' +
+								'<div style="display: inline-flex; gap: 0.35rem; align-items: center; justify-content: center;">' +
+									'<button type="button" class="btn-sober btn-secondary btn-sm" title="Analyze DGI" onclick="analyzeDgiStock(\'' + item.ticker + '\')">Analyze</button>' +
+									'<button type="button" class="btn-sober btn-sm" style="background:#fef2f2; color:#991b1b; border:1px solid #fecaca;" title="Remove" onclick="deleteWatchlistItem(' + index + ')">Remove</button>' +
 								'</div>' +
 							'</td>';
 						tbody.appendChild(tr);
@@ -1503,7 +1452,7 @@
 					if (watchlist[index]) {
 						watchlist[index][field] = numVal;
 						saveWatchlistToStorage();
-						showWatchlistSummary('💾 Preços-alvo para <strong>' + watchlist[index].ticker + '</strong> atualizados com sucesso!', 'success');
+						showWatchlistSummary('Price target updated for <strong>' + watchlist[index].ticker + '</strong>.', 'success');
 					}
 				}
 
@@ -1513,7 +1462,7 @@
 						watchlist.splice(index, 1);
 						saveWatchlistToStorage();
 						renderWatchlistTable();
-						showWatchlistSummary('🗑️ ' + sym + ' removido da Watchlist.', 'warning');
+						showWatchlistSummary(sym + ' removed from Watchlist.', 'warning');
 					}
 				}
 
@@ -1527,12 +1476,12 @@
 					const rawTicker = tickerInput.value.trim().toUpperCase();
 					if (!rawTicker) {
 						statusBox.className = 'status-msg status-error';
-						statusBox.innerHTML = '⚠️ Por favor introduza o símbolo do ticker da empresa.';
+						statusBox.innerHTML = 'Please enter a valid stock ticker symbol.';
 						return;
 					}
 
 					statusBox.className = 'status-msg status-loading';
-					statusBox.innerHTML = '⏳ A validar cotação e dados de <strong>' + rawTicker + '</strong>...';
+					statusBox.innerHTML = 'Validating quote for <strong>' + rawTicker + '</strong>...';
 
 					const p = await fetchLiveStockPrice(rawTicker);
 					const dgiMatch = DGI_DATABASE[rawTicker] || DGI_DATABASE[aliasMap[rawTicker]];
@@ -1544,7 +1493,7 @@
 						maxSell: parseFloat(maxInput.value) || 0,
 						lastPrice: p > 0 ? p : (dgiMatch?.price || 0),
 						dgiScore: dgiMatch?.scores?.total || 75.0,
-						dgiVerdict: dgiMatch?.verdict || "Forte (Boa Oportunidade DGI)"
+						dgiVerdict: dgiMatch?.verdict || "Solid DGI Quality"
 					};
 
 					watchlist.push(newEntry);
@@ -1557,12 +1506,12 @@
 					maxInput.value = '';
 
 					statusBox.className = 'status-msg status-success';
-					statusBox.innerHTML = '✅ <strong>' + newEntry.name + ' (' + newEntry.ticker + ')</strong> adicionada com sucesso!';
-					setTimeout(() => { statusBox.style.display = 'none'; }, 4000);
+					statusBox.innerHTML = '<strong>' + newEntry.name + ' (' + newEntry.ticker + ')</strong> added to Watchlist.';
+					setTimeout(() => { statusBox.style.display = 'none'; }, 3500);
 				}
 
 				async function checkAllWatchlistAlerts() {
-					showWatchlistSummary('⏳ A atualizar cotações e a verificar alertas...', 'loading');
+					showWatchlistSummary('Updating live quotes and checking alert targets...', 'loading');
 					let updatedCount = 0;
 					for (let item of watchlist) {
 						const p = await fetchLiveStockPrice(item.ticker);
@@ -1573,7 +1522,7 @@
 					}
 					saveWatchlistToStorage();
 					renderWatchlistTable();
-					showWatchlistSummary('✅ <strong>' + updatedCount + ' cotações</strong> atualizadas com sucesso!', 'success');
+					showWatchlistSummary('<strong>' + updatedCount + ' quotes</strong> successfully updated.', 'success');
 				}
 
 				function getStoredWatchlist() {
@@ -1598,7 +1547,7 @@
 					if (!box) return;
 					box.className = 'status-msg status-' + type;
 					box.innerHTML = msg;
-					setTimeout(() => { box.style.display = 'none'; }, 5000);
+					setTimeout(() => { box.style.display = 'none'; }, 4000);
 				}
 
 				function showTelegramStatus(msg, type = 'success') {
@@ -1606,7 +1555,7 @@
 					if (!box) return;
 					box.className = 'status-msg status-' + type;
 					box.innerHTML = msg;
-					setTimeout(() => { box.style.display = 'none'; }, 6000);
+					setTimeout(() => { box.style.display = 'none'; }, 5000);
 				}
 
 				function loadTelegramCredentials() {
@@ -1629,7 +1578,7 @@
 						localStorage.setItem('tg_chat_id', chatId);
 						localStorage.setItem('github_sync_token', gh);
 						if (showFeedback) {
-							showTelegramStatus('💾 Credenciais gravadas localmente no navegador!', 'success');
+							showTelegramStatus('Credentials saved in browser storage.', 'success');
 						}
 					} catch(e) {}
 				}
@@ -1639,34 +1588,34 @@
 					const token = document.getElementById('telegramToken').value.trim();
 					const chatId = document.getElementById('telegramChatId').value.trim();
 					if (!token || !chatId) {
-						showTelegramStatus('⚠️ Preencha o Bot Token e Chat ID para testar.', 'warning');
+						showTelegramStatus('Please provide Bot Token and Chat ID to test.', 'warning');
 						return;
 					}
-					showTelegramStatus('⏳ A enviar mensagem de teste...', 'loading');
+					showTelegramStatus('Sending test alert to Telegram...', 'loading');
 					try {
 						const res = await fetch('https://api.telegram.org/bot' + token + '/sendMessage', {
 							method: 'POST',
 							headers: { 'Content-Type': 'application/json' },
-							body: JSON.stringify({ chat_id: chatId, text: '🔔 *Teste de Alerta:* O seu sistema de Alertas & DGI está conectado com sucesso!', parse_mode: 'Markdown' })
+							body: JSON.stringify({ chat_id: chatId, text: '🔔 *Telegram Alert Test:* Connected successfully to your Portfolio & DGI system.', parse_mode: 'Markdown' })
 						});
 						const d = await res.json();
 						if (d.ok) {
-							showTelegramStatus('🚀 <strong>Mensagem de teste enviada com sucesso!</strong> Verifique o seu Telegram.', 'success');
+							showTelegramStatus('Test alert message delivered successfully. Check your Telegram.', 'success');
 						} else {
-							showTelegramStatus('❌ Erro: ' + d.description, 'error');
+							showTelegramStatus('Error: ' + d.description, 'error');
 						}
 					} catch(e) {
-						showTelegramStatus('❌ Erro de conexão: ' + e.message, 'error');
+						showTelegramStatus('Connection failed: ' + e.message, 'error');
 					}
 				}
 
 				async function syncWatchlistToGitHub() {
 					const ghToken = document.getElementById('githubToken').value.trim();
 					if (!ghToken) {
-						showWatchlistSummary('⚠️ Introduza o seu <strong>GitHub Token</strong> nas definições abaixo para sincronizar com o repositório.', 'warning');
+						showWatchlistSummary('Please enter your GitHub Token in settings below to sync.', 'warning');
 						return;
 					}
-					showWatchlistSummary('⏳ A sincronizar com o GitHub...', 'loading');
+					showWatchlistSummary('Syncing watchlist with GitHub repository...', 'loading');
 					try {
 						const owner = "samorim3";
 						const repo = "samorim3.github.io";
@@ -1690,21 +1639,14 @@
 						});
 
 						if (putRes.ok) {
-							showWatchlistSummary('🚀 <strong>Sincronizado com o GitHub com sucesso!</strong>', 'success');
+							showWatchlistSummary('Watchlist synchronized with GitHub.', 'success');
 						} else {
 							const errData = await putRes.json();
-							showWatchlistSummary('❌ Erro no GitHub: ' + errData.message, 'error');
+							showWatchlistSummary('GitHub API error: ' + errData.message, 'error');
 						}
 					} catch(e) {
-						showWatchlistSummary('❌ Falha na sincronização: ' + e.message, 'error');
+						showWatchlistSummary('Sync failed: ' + e.message, 'error');
 					}
-				}
-
-				// ==========================================
-				// AUTOCOMPLETE & INICIALIZAÇÃO
-				// ==========================================
-				function onWatchlistSearchInput(val, field) {
-					// Search suggestions helper
 				}
 
 				window.addEventListener('DOMContentLoaded', async () => {
@@ -1729,7 +1671,7 @@
 
 					renderWatchlistTable();
 
-					// Initialize DGI Dashboard with JNJ
+					// Load initial view
 					analyzeDgiStock('JNJ');
 				});
 			</script>
