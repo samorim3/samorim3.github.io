@@ -323,7 +323,7 @@
 									<div class="search-container">
 										<div class="search-row">
 											<div style="flex: 1; min-width: 220px;">
-												<input type="text" id="dgiTickerInput" placeholder="Enter stock ticker symbol (e.g. JNJ, PEP, PG, KO, ABBV, MCD, GALP)..." style="width: 100%; padding: 0.65rem 1rem; font-size: 0.95rem; font-weight: 600; border-radius: 8px; border: 1px solid #cbd5e1; text-transform: uppercase;" onkeypress="if(event.key==='Enter') analyzeDgiStock(this.value)" />
+												<input type="text" id="dgiTickerInput" placeholder="Enter stock ticker symbol (e.g. AAPL, MSFT, KO, PEP, GALP)..." style="width: 100%; padding: 0.65rem 1rem; font-size: 0.95rem; font-weight: 600; border-radius: 8px; border: 1px solid #cbd5e1; text-transform: uppercase;" onkeypress="if(event.key==='Enter') analyzeDgiStock(this.value)" />
 											</div>
 											<button type="button" onclick="analyzeDgiStock(document.getElementById('dgiTickerInput').value)" class="btn-sober btn-primary">Analyze Ticker</button>
 										</div>
@@ -331,7 +331,13 @@
 									</div>
 
 									<!-- DGI Results Area -->
-									<div id="dgiResultSection" style="display: block;">
+									<div id="dgiEmptyPrompt" style="padding: 3rem 1.5rem; text-align: center; color: #64748b; background: #f8fafc; border: 1px dashed #cbd5e1; border-radius: 12px; margin-top: 1rem;">
+										<div style="font-size: 2rem; margin-bottom: 0.5rem;">🔍</div>
+										<p style="margin: 0; font-size: 1rem; font-weight: 600; color: #334155;">Nenhuma empresa selecionada</p>
+										<p style="margin: 0.35rem 0 0 0; font-size: 0.85rem; color: #64748b;">Insira o símbolo de uma ação no campo de pesquisa acima (ex.: AAPL, MSFT, KO, GALP, PEP) e clique em <strong>Analyze Ticker</strong> para ver a análise fundamental.</p>
+									</div>
+
+									<div id="dgiResultSection" style="display: none;">
 										
 										<!-- Top Summary Grid -->
 										<div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 1.25rem; margin-bottom: 1.75rem;">
@@ -339,9 +345,9 @@
 											<!-- Scorecard Box -->
 											<div class="dgi-score-panel">
 												<div style="font-size: 0.72rem; text-transform: uppercase; letter-spacing: 0.08em; color: #94a3b8; font-weight: 700; margin-bottom: 0.25rem;">Overall DGI Score</div>
-												<div id="dgiScoreValue" style="font-size: 3.5rem; font-weight: 900; line-height: 1; margin-bottom: 0.5rem; color: #ffffff;">80<span style="font-size: 1.4rem; color: #64748b;">/100</span></div>
-												<div id="dgiScoreBadge" style="background: #15803d; color: #ffffff; padding: 0.35rem 0.9rem; border-radius: 6px; font-weight: 700; font-size: 0.82rem; display: inline-block;">
-													Solid DGI Quality
+												<div id="dgiScoreValue" style="font-size: 3.5rem; font-weight: 900; line-height: 1; margin-bottom: 0.5rem; color: #ffffff;">--<span style="font-size: 1.4rem; color: #64748b;">/100</span></div>
+												<div id="dgiScoreBadge" style="background: #64748b; color: #ffffff; padding: 0.35rem 0.9rem; border-radius: 6px; font-weight: 700; font-size: 0.82rem; display: inline-block;">
+													--
 												</div>
 												<div style="margin-top: 1.25rem; width: 100%;">
 													<button type="button" onclick="sendCurrentDgiToTelegram()" class="btn-sober btn-green" style="width: 100%; font-size: 0.8rem; padding: 0.5rem 1rem;">📱 Send Summary to Telegram</button>
@@ -353,19 +359,19 @@
 												<div>
 													<div style="display: flex; justify-content: space-between; align-items: flex-start; gap: 1rem;">
 														<div>
-															<h3 id="dgiCompName" style="margin: 0; color: #0f172a; font-weight: 800; font-size: 1.35rem;">Johnson & Johnson <span id="dgiCompTicker" style="color: #475569; font-size: 1rem; font-weight: 600;">(JNJ)</span></h3>
-															<p id="dgiCompSector" style="margin: 0.2rem 0 0 0; color: #64748b; font-size: 0.8rem; font-weight: 500;">Healthcare | Drug Manufacturers | NYSE (USD)</p>
+															<h3 id="dgiCompName" style="margin: 0; color: #0f172a; font-weight: 800; font-size: 1.35rem;">-- <span id="dgiCompTicker" style="color: #475569; font-size: 1rem; font-weight: 600;">(--)</span></h3>
+															<p id="dgiCompSector" style="margin: 0.2rem 0 0 0; color: #64748b; font-size: 0.8rem; font-weight: 500;">--</p>
 														</div>
 														<div style="text-align: right;">
-															<div id="dgiCompPrice" style="font-size: 1.5rem; font-weight: 800; color: #0f172a;">$267.20</div>
-															<div id="dgiCompMcap" style="font-size: 0.75rem; color: #64748b; font-weight: 600;">Cap: $642.5B</div>
+															<div id="dgiCompPrice" style="font-size: 1.5rem; font-weight: 800; color: #0f172a;">--</div>
+															<div id="dgiCompMcap" style="font-size: 0.75rem; color: #64748b; font-weight: 600;">Cap: --</div>
 														</div>
 													</div>
 													
 													<div style="margin-top: 1rem; padding: 0.85rem 1rem; background: #ffffff; border: 1px solid #e2e8f0; border-radius: 8px;">
 														<div style="font-size: 0.72rem; font-weight: 700; color: #475569; text-transform: uppercase; letter-spacing: 0.05em; margin-bottom: 0.25rem;">Executive Verdict:</div>
 														<p id="dgiVerdictSummary" style="margin: 0; color: #334155; font-size: 0.85rem; line-height: 1.45;">
-															High-quality defensive profile: robust fortress balance sheet, balanced dividend yield, healthy free cash flow coverage, and over 60 consecutive years of dividend growth.
+															--
 														</p>
 													</div>
 												</div>
@@ -374,19 +380,19 @@
 												<div style="display: grid; grid-template-columns: repeat(4, 1fr); gap: 0.5rem; margin-top: 1rem; text-align: center;">
 													<div style="background: #ffffff; border: 1px solid #e2e8f0; padding: 0.45rem; border-radius: 8px;">
 														<div style="font-size: 0.68rem; color: #64748b; font-weight: 700; text-transform: uppercase;">Yield</div>
-														<div id="dgiQuickYield" style="font-size: 0.95rem; font-weight: 800; color: #0f172a; margin-top: 0.15rem;">2.01%</div>
+														<div id="dgiQuickYield" style="font-size: 0.95rem; font-weight: 800; color: #0f172a; margin-top: 0.15rem;">--</div>
 													</div>
 													<div style="background: #ffffff; border: 1px solid #e2e8f0; padding: 0.45rem; border-radius: 8px;">
 														<div style="font-size: 0.68rem; color: #64748b; font-weight: 700; text-transform: uppercase;">FCF Payout</div>
-														<div id="dgiQuickPayout" style="font-size: 0.95rem; font-weight: 800; color: #0f172a; margin-top: 0.15rem;">64.1%</div>
+														<div id="dgiQuickPayout" style="font-size: 0.95rem; font-weight: 800; color: #0f172a; margin-top: 0.15rem;">--</div>
 													</div>
 													<div style="background: #ffffff; border: 1px solid #e2e8f0; padding: 0.45rem; border-radius: 8px;">
 														<div style="font-size: 0.68rem; color: #64748b; font-weight: 700; text-transform: uppercase;">Debt/EBITDA</div>
-														<div id="dgiQuickDebt" style="font-size: 0.95rem; font-weight: 800; color: #0f172a; margin-top: 0.15rem;">0.81x</div>
+														<div id="dgiQuickDebt" style="font-size: 0.95rem; font-weight: 800; color: #0f172a; margin-top: 0.15rem;">--</div>
 													</div>
 													<div style="background: #ffffff; border: 1px solid #e2e8f0; padding: 0.45rem; border-radius: 8px;">
 														<div style="font-size: 0.68rem; color: #64748b; font-weight: 700; text-transform: uppercase;">Chowder</div>
-														<div id="dgiQuickChowder" style="font-size: 0.95rem; font-weight: 800; color: #0f172a; margin-top: 0.15rem;">7.3%</div>
+														<div id="dgiQuickChowder" style="font-size: 0.95rem; font-weight: 800; color: #0f172a; margin-top: 0.15rem;">--</div>
 													</div>
 												</div>
 											</div>
@@ -404,10 +410,10 @@
 											<div class="dgi-pillar-card">
 												<div style="font-size: 0.75rem; font-weight: 700; color: #475569; text-transform: uppercase;">1. Dividend Yield</div>
 												<div style="display: flex; justify-content: space-between; align-items: baseline; margin: 0.35rem 0 0.15rem 0;">
-													<div id="p1Score" style="font-size: 1.25rem; font-weight: 800; color: #0f172a;">16 <span style="font-size: 0.75rem; color: #94a3b8;">/20</span></div>
-													<div id="p1Metric" style="font-size: 0.9rem; font-weight: 700; color: #475569;">2.01%</div>
+													<div id="p1Score" style="font-size: 1.25rem; font-weight: 800; color: #0f172a;">-- <span style="font-size: 0.75rem; color: #94a3b8;">/20</span></div>
+													<div id="p1Metric" style="font-size: 0.9rem; font-weight: 700; color: #475569;">--</div>
 												</div>
-												<div class="dgi-progress-bar"><div id="p1Progress" class="dgi-progress-fill" style="width: 80%;"></div></div>
+												<div class="dgi-progress-bar"><div id="p1Progress" class="dgi-progress-fill" style="width: 0%;"></div></div>
 												<div id="p1Desc" style="font-size: 0.72rem; color: #64748b; margin-top: 0.45rem; line-height: 1.35;">Balanced & sustainable yield (target: 2.0% - 6.0%).</div>
 											</div>
 
@@ -415,10 +421,10 @@
 											<div class="dgi-pillar-card">
 												<div style="font-size: 0.75rem; font-weight: 700; color: #475569; text-transform: uppercase;">2. FCF Payout Ratio</div>
 												<div style="display: flex; justify-content: space-between; align-items: baseline; margin: 0.35rem 0 0.15rem 0;">
-													<div id="p2Score" style="font-size: 1.25rem; font-weight: 800; color: #0f172a;">16 <span style="font-size: 0.75rem; color: #94a3b8;">/20</span></div>
-													<div id="p2Metric" style="font-size: 0.9rem; font-weight: 700; color: #475569;">64.1%</div>
+													<div id="p2Score" style="font-size: 1.25rem; font-weight: 800; color: #0f172a;">-- <span style="font-size: 0.75rem; color: #94a3b8;">/20</span></div>
+													<div id="p2Metric" style="font-size: 0.9rem; font-weight: 700; color: #475569;">--</div>
 												</div>
-												<div class="dgi-progress-bar"><div id="p2Progress" class="dgi-progress-fill" style="width: 80%;"></div></div>
+												<div class="dgi-progress-bar"><div id="p2Progress" class="dgi-progress-fill" style="width: 0%;"></div></div>
 												<div id="p2Desc" style="font-size: 0.72rem; color: #64748b; margin-top: 0.45rem; line-height: 1.35;">Free cash flow fully covers dividend distributions (&lt;70%).</div>
 											</div>
 
@@ -426,10 +432,10 @@
 											<div class="dgi-pillar-card">
 												<div style="font-size: 0.75rem; font-weight: 700; color: #475569; text-transform: uppercase;">3. Debt & Balance Sheet</div>
 												<div style="display: flex; justify-content: space-between; align-items: baseline; margin: 0.35rem 0 0.15rem 0;">
-													<div id="p3Score" style="font-size: 1.25rem; font-weight: 800; color: #0f172a;">20 <span style="font-size: 0.75rem; color: #94a3b8;">/20</span></div>
-													<div id="p3Metric" style="font-size: 0.9rem; font-weight: 700; color: #475569;">0.81x</div>
+													<div id="p3Score" style="font-size: 1.25rem; font-weight: 800; color: #0f172a;">-- <span style="font-size: 0.75rem; color: #94a3b8;">/20</span></div>
+													<div id="p3Metric" style="font-size: 0.9rem; font-weight: 700; color: #475569;">--</div>
 												</div>
-												<div class="dgi-progress-bar"><div id="p3Progress" class="dgi-progress-fill" style="width: 100%;"></div></div>
+												<div class="dgi-progress-bar"><div id="p3Progress" class="dgi-progress-fill" style="width: 0%;"></div></div>
 												<div id="p3Desc" style="font-size: 0.72rem; color: #64748b; margin-top: 0.45rem; line-height: 1.35;">Solid balance sheet with low Net Debt/EBITDA (&lt;1.5x).</div>
 											</div>
 
@@ -437,10 +443,10 @@
 											<div class="dgi-pillar-card">
 												<div style="font-size: 0.75rem; font-weight: 700; color: #475569; text-transform: uppercase;">4. Operational Growth</div>
 												<div style="display: flex; justify-content: space-between; align-items: baseline; margin: 0.35rem 0 0.15rem 0;">
-													<div id="p4Score" style="font-size: 1.25rem; font-weight: 800; color: #0f172a;">17 <span style="font-size: 0.75rem; color: #94a3b8;">/20</span></div>
-													<div id="p4Metric" style="font-size: 0.9rem; font-weight: 700; color: #475569;">Rev: 5.6%</div>
+													<div id="p4Score" style="font-size: 1.25rem; font-weight: 800; color: #0f172a;">-- <span style="font-size: 0.75rem; color: #94a3b8;">/20</span></div>
+													<div id="p4Metric" style="font-size: 0.9rem; font-weight: 700; color: #475569;">--</div>
 												</div>
-												<div class="dgi-progress-bar"><div id="p4Progress" class="dgi-progress-fill" style="width: 85%;"></div></div>
+												<div class="dgi-progress-bar"><div id="p4Progress" class="dgi-progress-fill" style="width: 0%;"></div></div>
 												<div id="p4Desc" style="font-size: 0.72rem; color: #64748b; margin-top: 0.45rem; line-height: 1.35;">Positive 5-year CAGR across revenue and net income.</div>
 											</div>
 
@@ -448,10 +454,10 @@
 											<div class="dgi-pillar-card">
 												<div style="font-size: 0.75rem; font-weight: 700; color: #475569; text-transform: uppercase;">5. Div Growth & Chowder</div>
 												<div style="display: flex; justify-content: space-between; align-items: baseline; margin: 0.35rem 0 0.15rem 0;">
-													<div id="p5Score" style="font-size: 1.25rem; font-weight: 800; color: #0f172a;">11 <span style="font-size: 0.75rem; color: #94a3b8;">/20</span></div>
-													<div id="p5Metric" style="font-size: 0.9rem; font-weight: 700; color: #475569;">Chowder 7.3%</div>
+													<div id="p5Score" style="font-size: 1.25rem; font-weight: 800; color: #0f172a;">-- <span style="font-size: 0.75rem; color: #94a3b8;">/20</span></div>
+													<div id="p5Metric" style="font-size: 0.9rem; font-weight: 700; color: #475569;">--</div>
 												</div>
-												<div class="dgi-progress-bar"><div id="p5Progress" class="dgi-progress-fill" style="width: 55%;"></div></div>
+												<div class="dgi-progress-bar"><div id="p5Progress" class="dgi-progress-fill" style="width: 0%;"></div></div>
 												<div id="p5Desc" style="font-size: 0.72rem; color: #64748b; margin-top: 0.45rem; line-height: 1.35;">Consistent annual dividend increases and solid Chowder rule.</div>
 											</div>
 										</div>
@@ -526,7 +532,7 @@
 										<div class="form-grid-inputs">
 											<div class="input-group">
 												<label for="newWatchlistTicker">Ticker Symbol:</label>
-												<input type="text" id="newWatchlistTicker" placeholder="e.g. NVDA, AAPL, JNJ" autocomplete="off" onkeypress="if(event.key==='Enter') addNewWatchlistEntry()" />
+												<input type="text" id="newWatchlistTicker" placeholder="e.g. NVDA, AAPL, MSFT" autocomplete="off" onkeypress="if(event.key==='Enter') addNewWatchlistEntry()" />
 											</div>
 											<div class="input-group">
 												<label for="newWatchlistName">Company Name:</label>
@@ -944,7 +950,7 @@
 					}
 				};
 
-				let currentDgiData = DGI_DATABASE["JNJ"];
+				let currentDgiData = null;
 				let radarChartInstance = null;
 				let barChartInstance = null;
 
@@ -992,6 +998,12 @@
 					if (!tickerInput) return;
 					const tickerClean = tickerInput.trim().toUpperCase();
 					const alias = aliasMap[tickerClean] || tickerClean;
+
+					const emptyBox = document.getElementById('dgiEmptyPrompt');
+					if (emptyBox) emptyBox.style.display = 'none';
+
+					const resultSec = document.getElementById('dgiResultSection');
+					if (resultSec) resultSec.style.display = 'block';
 
 					const loadBox = document.getElementById('dgiLoadingMsg');
 					loadBox.className = 'status-msg status-loading';
@@ -1670,9 +1682,6 @@
 					}
 
 					renderWatchlistTable();
-
-					// Load initial view
-					analyzeDgiStock('JNJ');
 				});
 			</script>
 
