@@ -4,7 +4,7 @@
     "name": "Adidas AG",
     "minBuy": 140,
     "maxSell": 200,
-    "lastPrice": 144.5,
+    "lastPrice": 142.4,
     "dgiScore": 43.0,
     "dgiVerdict": "Weak / High Risk"
   },
@@ -13,7 +13,7 @@
     "name": "Nike, Inc.",
     "minBuy": 30,
     "maxSell": 95,
-    "lastPrice": 35.78,
+    "lastPrice": 35.84579849243164,
     "dgiScore": 60.0,
     "dgiVerdict": "Moderate / Neutral"
   },
@@ -22,7 +22,7 @@
     "name": "Galp Energia",
     "minBuy": 15,
     "maxSell": 22,
-    "lastPrice": 21.73,
+    "lastPrice": 22.05,
     "dgiScore": 60.0,
     "dgiVerdict": "Moderate / Neutral"
   },
@@ -31,7 +31,7 @@
     "name": "NVIDIA Corporation",
     "minBuy": 150,
     "maxSell": 300,
-    "lastPrice": 213.9,
+    "lastPrice": 218.88,
     "dgiScore": 80.0,
     "dgiVerdict": "Solid DGI Quality"
   }
