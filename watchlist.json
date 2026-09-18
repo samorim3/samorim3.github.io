@@ -13,7 +13,7 @@
     "name": "Nike, Inc.",
     "minBuy": 30,
     "maxSell": 95,
-    "lastPrice": 36.0,
+    "lastPrice": 35.55,
     "dgiScore": 60.0,
     "dgiVerdict": "Moderate / Neutral"
   },
@@ -31,7 +31,7 @@
     "name": "NVIDIA Corporation",
     "minBuy": 150,
     "maxSell": 300,
-    "lastPrice": 219.51,
+    "lastPrice": 219.48,
     "dgiScore": 80.0,
     "dgiVerdict": "Solid DGI Quality"
   }
