@@ -330,8 +330,15 @@
 										<div id="dgiLoadingMsg" class="status-msg"></div>
 									</div>
 
+									<!-- Empty State Prompt -->
+									<div id="dgiEmptyPrompt" style="text-align: center; padding: 2.5rem 1rem; color: #64748b; background: #f8fafc; border: 1px dashed #cbd5e1; border-radius: 12px; margin-bottom: 1.5rem;">
+										<div style="font-size: 1.8rem; margin-bottom: 0.5rem;">📈</div>
+										<strong style="color: #0f172a; font-size: 1rem;">Pesquisa de Ações e Dividendos em Tempo Real</strong>
+										<p style="margin: 0.25rem 0 0 0; font-size: 0.85rem;">Introduza um símbolo de ação acima (ex: <code>VICI</code>, <code>AAPL</code>, <code>KO</code>, <code>PEP</code>, <code>GALP</code>, <code>NVDA</code>) para carregar os dados em direto.</p>
+									</div>
+
 									<!-- DGI Results Area -->
-									<div id="dgiResultSection">
+									<div id="dgiResultSection" style="display: none;">
 										
 										<!-- Top Summary Grid -->
 										<div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 1.25rem; margin-bottom: 1.75rem;">
@@ -632,489 +639,7 @@
 			<script src="assets/js/util.js"></script>
 			<script src="assets/js/main.js"></script>
 			<script>
-				// ==========================================
-				// PRELOADED DGI FUNDAMENTALS DATABASE
-				// ==========================================
-				const DGI_DATABASE = {
-					"JNJ": {
-						ticker: "JNJ",
-						name: "Johnson & Johnson",
-						sector: "Healthcare | Drug Manufacturers",
-						currency: "USD",
-						symbol: "$",
-						price: 267.20,
-						mcap: "$642.5B",
-						pe: 18.4,
-						forwardPe: 16.2,
-						pb: 5.1,
-						roe: 28.5,
-						margin: 27.2,
-						divYield: 2.01,
-						fcfPayout: 64.1,
-						epsPayout: 68.2,
-						netDebtEbitda: 0.81,
-						revCagr5y: 5.6,
-						niCagr5y: 14.3,
-						divCagr5y: 5.25,
-						chowder: 7.26,
-						divHistory: [
-							{ year: "2020", amount: 3.98 },
-							{ year: "2021", amount: 4.19 },
-							{ year: "2022", amount: 4.45 },
-							{ year: "2023", amount: 4.70 },
-							{ year: "2024", amount: 4.91 },
-							{ year: "2025", amount: 5.14 }
-						],
-						scores: { p1: 16, p2: 16, p3: 20, p4: 17, p5: 11, total: 80 },
-						verdict: "Solid DGI Quality",
-						verdictIcon: "🟢",
-						summary: "Defensive fortress balance sheet with safe dividend coverage over free cash flow and 62 consecutive years of dividend increases."
-					},
-					"PEP": {
-						ticker: "PEP",
-						name: "PepsiCo, Inc.",
-						sector: "Consumer Defensive | Beverages",
-						currency: "USD",
-						symbol: "$",
-						price: 136.32,
-						mcap: "$187.4B",
-						pe: 20.1,
-						forwardPe: 18.5,
-						pb: 9.8,
-						roe: 48.2,
-						margin: 14.1,
-						divYield: 4.34,
-						fcfPayout: 99.5,
-						epsPayout: 86.4,
-						netDebtEbitda: 2.25,
-						revCagr5y: 2.8,
-						niCagr5y: -2.5,
-						divCagr5y: 6.92,
-						chowder: 11.26,
-						divHistory: [
-							{ year: "2020", amount: 4.02 },
-							{ year: "2021", amount: 4.25 },
-							{ year: "2022", amount: 4.52 },
-							{ year: "2023", amount: 4.95 },
-							{ year: "2024", amount: 5.33 },
-							{ year: "2025", amount: 5.62 }
-						],
-						scores: { p1: 20, p2: 5, p3: 16, p4: 4, p5: 17, total: 62 },
-						verdict: "Moderate / Watch FCF",
-						verdictIcon: "🟡",
-						summary: "Attractive 4.3% yield and strong 11.3% Chowder rule, but elevated FCF payout ratio (~99%) warrants ongoing cash flow monitoring."
-					},
-					"PG": {
-						ticker: "PG",
-						name: "Procter & Gamble Co.",
-						sector: "Consumer Defensive | Household Products",
-						currency: "USD",
-						symbol: "$",
-						price: 145.27,
-						mcap: "$342.1B",
-						pe: 23.4,
-						forwardPe: 21.0,
-						pb: 7.2,
-						roe: 32.1,
-						margin: 22.8,
-						divYield: 2.78,
-						fcfPayout: 62.4,
-						epsPayout: 64.8,
-						netDebtEbitda: 1.12,
-						revCagr5y: 4.8,
-						niCagr5y: 6.2,
-						divCagr5y: 5.80,
-						chowder: 8.58,
-						divHistory: [
-							{ year: "2020", amount: 3.16 },
-							{ year: "2021", amount: 3.38 },
-							{ year: "2022", amount: 3.65 },
-							{ year: "2023", amount: 3.79 },
-							{ year: "2024", amount: 4.03 },
-							{ year: "2025", amount: 4.22 }
-						],
-						scores: { p1: 20, p2: 16, p3: 20, p4: 14, p5: 14, total: 84 },
-						verdict: "High Quality (Dividend King)",
-						verdictIcon: "⭐",
-						summary: "Global brand leadership, consistent free cash flow generation, and strong operational safety margins across economic cycles."
-					},
-					"KO": {
-						ticker: "KO",
-						name: "The Coca-Cola Company",
-						sector: "Consumer Defensive | Beverages",
-						currency: "USD",
-						symbol: "$",
-						price: 88.29,
-						mcap: "$379.8B",
-						pe: 24.1,
-						forwardPe: 22.3,
-						pb: 12.5,
-						roe: 42.0,
-						margin: 28.5,
-						divYield: 2.95,
-						fcfPayout: 74.2,
-						epsPayout: 71.0,
-						netDebtEbitda: 1.85,
-						revCagr5y: 5.2,
-						niCagr5y: 7.8,
-						divCagr5y: 4.60,
-						chowder: 7.55,
-						divHistory: [
-							{ year: "2020", amount: 1.64 },
-							{ year: "2021", amount: 1.68 },
-							{ year: "2022", amount: 1.76 },
-							{ year: "2023", amount: 1.84 },
-							{ year: "2024", amount: 1.94 },
-							{ year: "2025", amount: 2.04 }
-						],
-						scores: { p1: 20, p2: 10, p3: 16, p4: 17, p5: 11, total: 74 },
-						verdict: "Solid DGI Quality",
-						verdictIcon: "🟢",
-						summary: "Exceptional pricing power and return on capital supporting continuous dividend distributions for more than six decades."
-					},
-					"ABBV": {
-						ticker: "ABBV",
-						name: "AbbVie Inc.",
-						sector: "Healthcare | Biotechnology",
-						currency: "USD",
-						symbol: "$",
-						price: 188.50,
-						mcap: "$332.8B",
-						pe: 17.5,
-						forwardPe: 14.8,
-						pb: 18.2,
-						roe: 55.4,
-						margin: 31.2,
-						divYield: 3.42,
-						fcfPayout: 48.5,
-						epsPayout: 62.0,
-						netDebtEbitda: 2.10,
-						revCagr5y: 6.8,
-						niCagr5y: 8.4,
-						divCagr5y: 7.85,
-						chowder: 11.27,
-						divHistory: [
-							{ year: "2020", amount: 4.72 },
-							{ year: "2021", amount: 5.20 },
-							{ year: "2022", amount: 5.64 },
-							{ year: "2023", amount: 5.92 },
-							{ year: "2024", amount: 6.20 },
-							{ year: "2025", amount: 6.60 }
-						],
-						scores: { p1: 20, p2: 20, p3: 16, p4: 20, p5: 17, total: 93 },
-						verdict: "Top Tier DGI (Aristocrat)",
-						verdictIcon: "⭐",
-						summary: "Top-tier fundamental metrics with sub-50% FCF payout, ~8% dividend growth rate, and resilient biopharmaceutical cash flow."
-					},
-					"MCD": {
-						ticker: "MCD",
-						name: "McDonald's Corporation",
-						sector: "Consumer Cyclical | Restaurants",
-						currency: "USD",
-						symbol: "$",
-						price: 252.53,
-						mcap: "$181.2B",
-						pe: 22.8,
-						forwardPe: 19.5,
-						pb: -38.0,
-						roe: 90.0,
-						margin: 45.2,
-						divYield: 2.80,
-						fcfPayout: 68.5,
-						epsPayout: 61.2,
-						netDebtEbitda: 2.85,
-						revCagr5y: 5.4,
-						niCagr5y: 8.2,
-						divCagr5y: 7.15,
-						chowder: 9.95,
-						divHistory: [
-							{ year: "2020", amount: 5.04 },
-							{ year: "2021", amount: 5.25 },
-							{ year: "2022", amount: 5.66 },
-							{ year: "2023", amount: 6.08 },
-							{ year: "2024", amount: 6.68 },
-							{ year: "2025", amount: 7.08 }
-						],
-						scores: { p1: 20, p2: 16, p3: 10, p4: 17, p5: 17, total: 80 },
-						verdict: "Solid DGI Quality",
-						verdictIcon: "🟢",
-						summary: "Franchise and real estate royalty model generating high 45% operating margins with proven long-term dividend growth."
-					},
-					"GALP": {
-						ticker: "GALP.LS",
-						name: "Galp Energia, SGPS",
-						sector: "Energy | Integrated Oil & Gas",
-						currency: "EUR",
-						symbol: "€",
-						price: 21.97,
-						mcap: "€16.8B",
-						pe: 12.4,
-						forwardPe: 10.8,
-						pb: 3.1,
-						roe: 24.5,
-						margin: 18.2,
-						divYield: 3.16,
-						fcfPayout: 136.0,
-						epsPayout: 42.0,
-						netDebtEbitda: 0.68,
-						revCagr5y: -10.1,
-						niCagr5y: -8.8,
-						divCagr5y: 10.50,
-						chowder: 13.66,
-						divHistory: [
-							{ year: "2020", amount: 0.35 },
-							{ year: "2021", amount: 0.50 },
-							{ year: "2022", amount: 0.52 },
-							{ year: "2023", amount: 0.54 },
-							{ year: "2024", amount: 0.64 },
-							{ year: "2025", amount: 0.72 }
-						],
-						scores: { p1: 20, p2: 0, p3: 20, p4: 0, p5: 20, total: 60 },
-						verdict: "Moderate / Cyclical",
-						verdictIcon: "🟡",
-						summary: "Very low debt balance sheet with recent dividend growth; FCF payout fluctuates due to cyclical capital expenditure programs."
-					},
-					"ADS.DE": {
-						ticker: "ADS.DE",
-						name: "Adidas AG",
-						sector: "Consumer Cyclical | Footwear & Apparel",
-						currency: "EUR",
-						symbol: "€",
-						price: 141.90,
-						mcap: "€25.3B",
-						pe: 28.5,
-						forwardPe: 21.2,
-						pb: 4.8,
-						roe: 16.2,
-						margin: 6.8,
-						divYield: 0.85,
-						fcfPayout: 24.5,
-						epsPayout: 35.0,
-						netDebtEbitda: 2.15,
-						revCagr5y: 1.2,
-						niCagr5y: -14.5,
-						divCagr5y: -12.0,
-						chowder: 0.85,
-						divHistory: [
-							{ year: "2020", amount: 3.00 },
-							{ year: "2021", amount: 3.30 },
-							{ year: "2022", amount: 0.70 },
-							{ year: "2023", amount: 0.70 },
-							{ year: "2024", amount: 1.00 },
-							{ year: "2025", amount: 1.20 }
-						],
-						scores: { p1: 0, p2: 20, p3: 16, p4: 4, p5: 3, total: 43 },
-						verdict: "Weak / Turnaround",
-						verdictIcon: "🟠",
-						summary: "Low current yield (<1%) with past dividend cut; operational margin recovery in progress."
-					},
-					"NVDA": {
-						ticker: "NVDA",
-						name: "NVIDIA Corporation",
-						sector: "Technology | Semiconductors",
-						currency: "USD",
-						symbol: "$",
-						price: 212.17,
-						mcap: "$3.2T",
-						pe: 42.5,
-						forwardPe: 32.0,
-						pb: 32.0,
-						roe: 88.0,
-						margin: 62.5,
-						divYield: 0.08,
-						fcfPayout: 2.1,
-						epsPayout: 3.2,
-						netDebtEbitda: 0.10,
-						revCagr5y: 58.5,
-						niCagr5y: 72.4,
-						divCagr5y: 14.2,
-						chowder: 14.28,
-						divHistory: [
-							{ year: "2020", amount: 0.04 },
-							{ year: "2021", amount: 0.04 },
-							{ year: "2022", amount: 0.04 },
-							{ year: "2023", amount: 0.04 },
-							{ year: "2024", amount: 0.08 },
-							{ year: "2025", amount: 0.10 }
-						],
-						scores: { p1: 0, p2: 20, p3: 20, p4: 20, p5: 20, total: 80 },
-						verdict: "Solid (Growth Dominant)",
-						verdictIcon: "🟢",
-						summary: "Stellar growth and profitability margins; capital return is concentrated primarily in share repurchases."
-					},
-					"VICI": {
-						ticker: "VICI",
-						name: "VICI Properties Inc.",
-						sector: "Real Estate | REIT - Diversified",
-						currency: "USD",
-						symbol: "$",
-						price: 23.72,
-						mcap: "$24.8B",
-						pe: 10.5,
-						forwardPe: 9.8,
-						pb: 0.9,
-						roe: 9.5,
-						margin: 89.2,
-						divYield: 7.63,
-						fcfPayout: 76.5,
-						epsPayout: 78.0,
-						netDebtEbitda: 5.60,
-						revCagr5y: 24.5,
-						niCagr5y: 21.0,
-						divCagr5y: 6.80,
-						chowder: 14.43,
-						divHistory: [
-							{ year: "2021", amount: 1.44 },
-							{ year: "2022", amount: 1.54 },
-							{ year: "2023", amount: 1.64 },
-							{ year: "2024", amount: 1.70 },
-							{ year: "2025", amount: 1.81 },
-							{ year: "2026", amount: 1.83 }
-						],
-						scores: { p1: 10, p2: 10, p3: 0, p4: 20, p5: 20, total: 60 },
-						verdict: "Moderate / High Yield REIT",
-						verdictIcon: "🟡",
-						summary: "Triple-net lease experiential REIT with attractive ~7.6% dividend yield and CPI-linked rent escalators with standard REIT leverage."
-					},
-					"NKE": {
-						ticker: "NKE",
-						name: "Nike, Inc.",
-						sector: "Consumer Cyclical | Footwear & Apparel",
-						currency: "USD",
-						symbol: "$",
-						price: 35.51,
-						mcap: "$53.2B",
-						pe: 18.2,
-						forwardPe: 15.5,
-						pb: 3.8,
-						roe: 22.0,
-						margin: 9.5,
-						divYield: 4.51,
-						fcfPayout: 62.0,
-						epsPayout: 58.0,
-						netDebtEbitda: 0.85,
-						revCagr5y: 2.1,
-						niCagr5y: -3.5,
-						divCagr5y: 9.15,
-						chowder: 13.66,
-						divHistory: [
-							{ year: "2020", amount: 1.00 },
-							{ year: "2021", amount: 1.14 },
-							{ year: "2022", amount: 1.28 },
-							{ year: "2023", amount: 1.42 },
-							{ year: "2024", amount: 1.52 },
-							{ year: "2025", amount: 1.60 }
-						],
-						scores: { p1: 20, p2: 16, p3: 20, p4: 4, p5: 20, total: 80 },
-						verdict: "Solid DGI Quality",
-						verdictIcon: "🟢",
-						summary: "Global athletic brand with fortress balance sheet, safe payout ratio, and consistent long-term dividend growth."
-					},
-					"O": {
-						ticker: "O",
-						name: "Realty Income Corporation",
-						sector: "Real Estate | REIT - Retail",
-						currency: "USD",
-						symbol: "$",
-						price: 56.66,
-						mcap: "$49.5B",
-						pe: 45.2,
-						forwardPe: 36.0,
-						pb: 1.3,
-						roe: 3.2,
-						margin: 54.0,
-						divYield: 5.68,
-						fcfPayout: 75.0,
-						epsPayout: 82.0,
-						netDebtEbitda: 5.40,
-						revCagr5y: 22.0,
-						niCagr5y: 14.5,
-						divCagr5y: 3.80,
-						chowder: 9.48,
-						divHistory: [
-							{ year: "2020", amount: 2.80 },
-							{ year: "2021", amount: 2.84 },
-							{ year: "2022", amount: 2.98 },
-							{ year: "2023", amount: 3.07 },
-							{ year: "2024", amount: 3.16 },
-							{ year: "2025", amount: 3.22 }
-						],
-						scores: { p1: 20, p2: 10, p3: 0, p4: 20, p5: 14, total: 64 },
-						verdict: "Moderate (Monthly Dividend Aristocrat)",
-						verdictIcon: "🟡",
-						summary: "The Monthly Dividend Company: 30+ consecutive years of monthly dividend increases across essential retail real estate."
-					},
-					"MSFT": {
-						ticker: "MSFT",
-						name: "Microsoft Corporation",
-						sector: "Technology | Software - Infrastructure",
-						currency: "USD",
-						symbol: "$",
-						price: 493.78,
-						mcap: "$3.67T",
-						pe: 35.8,
-						forwardPe: 29.5,
-						pb: 12.4,
-						roe: 38.5,
-						margin: 44.5,
-						divYield: 0.67,
-						fcfPayout: 28.5,
-						epsPayout: 25.0,
-						netDebtEbitda: 0.35,
-						revCagr5y: 14.2,
-						niCagr5y: 15.8,
-						divCagr5y: 10.45,
-						chowder: 11.12,
-						divHistory: [
-							{ year: "2020", amount: 2.09 },
-							{ year: "2021", amount: 2.30 },
-							{ year: "2022", amount: 2.54 },
-							{ year: "2023", amount: 2.79 },
-							{ year: "2024", amount: 3.08 },
-							{ year: "2025", amount: 3.32 }
-						],
-						scores: { p1: 0, p2: 20, p3: 20, p4: 20, p5: 17, total: 77 },
-						verdict: "Solid (Dividend Growth Titan)",
-						verdictIcon: "🟢",
-						summary: "AAA balance sheet rating, high-margin software & cloud free cash flows with sustainable double-digit dividend growth."
-					},
-					"AAPL": {
-						ticker: "AAPL",
-						name: "Apple Inc.",
-						sector: "Technology | Consumer Electronics",
-						currency: "USD",
-						symbol: "$",
-						price: 336.13,
-						mcap: "$5.08T",
-						pe: 33.2,
-						forwardPe: 28.0,
-						pb: 48.0,
-						roe: 145.0,
-						margin: 31.0,
-						divYield: 0.31,
-						fcfPayout: 14.5,
-						epsPayout: 15.0,
-						netDebtEbitda: 0.45,
-						revCagr5y: 8.5,
-						niCagr5y: 11.2,
-						divCagr5y: 5.80,
-						chowder: 6.11,
-						divHistory: [
-							{ year: "2020", amount: 0.79 },
-							{ year: "2021", amount: 0.85 },
-							{ year: "2022", amount: 0.91 },
-							{ year: "2023", amount: 0.95 },
-							{ year: "2024", amount: 1.00 },
-							{ year: "2025", amount: 1.04 }
-						],
-						scores: { p1: 0, p2: 20, p3: 20, p4: 17, p5: 11, total: 68 },
-						verdict: "Moderate (Cash Return Titan)",
-						verdictIcon: "🟡",
-						summary: "Unrivaled consumer ecosystem and cash generation with capital allocation concentrated on aggressive share buybacks."
-					}
-				};
-
-				let currentDgiData = DGI_DATABASE["JNJ"];
+				let currentDgiData = null;
 				let radarChartInstance = null;
 				let barChartInstance = null;
 
@@ -1209,40 +734,26 @@
 					const alias = aliasMap[tickerClean] || tickerClean;
 
 					const loadBox = document.getElementById('dgiLoadingMsg');
+					const emptyPrompt = document.getElementById('dgiEmptyPrompt');
+					const resultSection = document.getElementById('dgiResultSection');
+
 					loadBox.style.display = 'block';
 					loadBox.className = 'status-msg status-loading';
-					loadBox.innerHTML = 'A procurar dados em tempo real para <strong>' + tickerClean + '</strong>...';
+					loadBox.innerHTML = 'A procurar cotações e dividendos em tempo real para <strong>' + tickerClean + '</strong>...';
 
-					// 1. Check local verified dataset first
-					let data = DGI_DATABASE[tickerClean] || DGI_DATABASE[alias];
-					
-					if (data) {
-						// Fetch live price update
-						try {
-							const liveP = await fetchLiveStockPrice(tickerClean);
-							if (liveP && liveP > 0) {
-								data.price = liveP;
-							}
-						} catch(e) {}
-
-						currentDgiData = data;
-						renderDgiDashboard(data);
-
-						loadBox.className = 'status-msg status-success';
-						loadBox.innerHTML = 'Análise fundamental DGI completa para <strong>' + data.name + ' (' + data.ticker + ')</strong> carregada.';
-						setTimeout(() => { loadBox.style.display = 'none'; }, 4000);
-						return;
-					}
-
-					// 2. Fetch live market & dividend events dynamically via Yahoo Finance API
+					// Fetch live market & dividend events dynamically via Yahoo Finance API
 					const liveResult = await fetchLiveTickerData(tickerClean);
 					if (!liveResult) {
 						currentDgiData = null;
-						clearDgiDashboard(tickerClean);
+						if (emptyPrompt) emptyPrompt.style.display = 'block';
+						if (resultSection) resultSection.style.display = 'none';
 						loadBox.className = 'status-msg status-error';
 						loadBox.innerHTML = '❌ <strong>Ticker não encontrado:</strong> Não foi possível localizar cotações ou dados financeiros para <strong>' + tickerClean + '</strong> nos mercados globais.';
 						return;
 					}
+
+					if (emptyPrompt) emptyPrompt.style.display = 'none';
+					if (resultSection) resultSection.style.display = 'block';
 
 					const meta = liveResult.meta;
 					const price = meta.regularMarketPrice;
@@ -1593,10 +1104,10 @@
 				// WATCHLIST & STOCK ALERTS ENGINE
 				// ==========================================
 				const DEFAULT_WATCHLIST = [
-					{ ticker: "ADS.DE", name: "Adidas AG", minBuy: 140.00, maxSell: 200.00, lastPrice: 141.90, dgiScore: 43.0, dgiVerdict: "Weak / Turnaround", status: "HOLD" },
-					{ ticker: "NKE", name: "Nike, Inc.", minBuy: 30.00, maxSell: 95.00, lastPrice: 36.22, dgiScore: 60.0, dgiVerdict: "Moderate / Neutral", status: "HOLD" },
-					{ ticker: "GALP", name: "Galp Energia", minBuy: 15.00, maxSell: 22.00, lastPrice: 21.97, dgiScore: 60.0, dgiVerdict: "Moderate / Cyclical", status: "HOLD" },
-					{ ticker: "NVDA", name: "NVIDIA Corporation", minBuy: 150.00, maxSell: 300.00, lastPrice: 212.17, dgiScore: 80.0, dgiVerdict: "Solid (Growth Dominant)", status: "HOLD" }
+					{ ticker: "ADS.DE", name: "Adidas AG", minBuy: 140.00, maxSell: 200.00, lastPrice: 0, dgiScore: null, dgiVerdict: null, status: "HOLD" },
+					{ ticker: "NKE", name: "Nike, Inc.", minBuy: 30.00, maxSell: 95.00, lastPrice: 0, dgiScore: null, dgiVerdict: null, status: "HOLD" },
+					{ ticker: "GALP", name: "Galp Energia", minBuy: 15.00, maxSell: 22.00, lastPrice: 0, dgiScore: null, dgiVerdict: null, status: "HOLD" },
+					{ ticker: "NVDA", name: "NVIDIA Corporation", minBuy: 150.00, maxSell: 300.00, lastPrice: 0, dgiScore: null, dgiVerdict: null, status: "HOLD" }
 				];
 
 				let watchlist = [];
@@ -1799,16 +1310,21 @@
 					statusBox.innerHTML = 'Validating quote for <strong>' + rawTicker + '</strong>...';
 
 					const p = await fetchLiveStockPrice(rawTicker);
-					const dgiMatch = DGI_DATABASE[rawTicker] || DGI_DATABASE[aliasMap[rawTicker]];
+					let dgiScore = null;
+					let dgiVerdict = null;
+					if (currentDgiData && currentDgiData.ticker.toUpperCase() === rawTicker) {
+						dgiScore = currentDgiData.scores.total;
+						dgiVerdict = currentDgiData.verdict;
+					}
 
 					const newEntry = {
 						ticker: rawTicker,
-						name: nameInput.value.trim() || dgiMatch?.name || rawTicker,
+						name: nameInput.value.trim() || (currentDgiData && currentDgiData.ticker.toUpperCase() === rawTicker ? currentDgiData.name : rawTicker),
 						minBuy: parseFloat(minInput.value) || 0,
 						maxSell: parseFloat(maxInput.value) || 0,
-						lastPrice: p > 0 ? p : (dgiMatch?.price || 0),
-						dgiScore: (dgiMatch && dgiMatch.scores) ? dgiMatch.scores.total : null,
-						dgiVerdict: (dgiMatch && dgiMatch.verdict) ? dgiMatch.verdict : null
+						lastPrice: p > 0 ? p : (currentDgiData && currentDgiData.ticker.toUpperCase() === rawTicker ? currentDgiData.price : 0),
+						dgiScore: dgiScore,
+						dgiVerdict: dgiVerdict
 					};
 
 					watchlist.push(newEntry);
@@ -1985,9 +1501,6 @@
 					}
 
 					renderWatchlistTable();
-
-					// Load initial view
-					analyzeDgiStock('JNJ');
 				});
 			</script>
 
