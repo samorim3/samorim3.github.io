@@ -331,13 +331,7 @@
 									</div>
 
 									<!-- DGI Results Area -->
-									<div id="dgiEmptyPrompt" style="padding: 3rem 1.5rem; text-align: center; color: #64748b; background: #f8fafc; border: 1px dashed #cbd5e1; border-radius: 12px; margin-top: 1rem;">
-										<div style="font-size: 2rem; margin-bottom: 0.5rem;">🔍</div>
-										<p style="margin: 0; font-size: 1rem; font-weight: 600; color: #334155;">Nenhuma empresa selecionada</p>
-										<p style="margin: 0.35rem 0 0 0; font-size: 0.85rem; color: #64748b;">Insira o símbolo de uma ação no campo de pesquisa acima (ex.: AAPL, MSFT, KO, GALP, PEP) e clique em <strong>Analyze Ticker</strong> para ver a análise fundamental.</p>
-									</div>
-
-									<div id="dgiResultSection" style="display: none;">
+									<div id="dgiResultSection">
 										
 										<!-- Top Summary Grid -->
 										<div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 1.25rem; margin-bottom: 1.75rem;">
@@ -947,51 +941,266 @@
 						verdict: "Solid (Growth Dominant)",
 						verdictIcon: "🟢",
 						summary: "Stellar growth and profitability margins; capital return is concentrated primarily in share repurchases."
+					},
+					"VICI": {
+						ticker: "VICI",
+						name: "VICI Properties Inc.",
+						sector: "Real Estate | REIT - Diversified",
+						currency: "USD",
+						symbol: "$",
+						price: 23.72,
+						mcap: "$24.8B",
+						pe: 10.5,
+						forwardPe: 9.8,
+						pb: 0.9,
+						roe: 9.5,
+						margin: 89.2,
+						divYield: 7.63,
+						fcfPayout: 76.5,
+						epsPayout: 78.0,
+						netDebtEbitda: 5.60,
+						revCagr5y: 24.5,
+						niCagr5y: 21.0,
+						divCagr5y: 6.80,
+						chowder: 14.43,
+						divHistory: [
+							{ year: "2021", amount: 1.44 },
+							{ year: "2022", amount: 1.54 },
+							{ year: "2023", amount: 1.64 },
+							{ year: "2024", amount: 1.70 },
+							{ year: "2025", amount: 1.81 },
+							{ year: "2026", amount: 1.83 }
+						],
+						scores: { p1: 10, p2: 10, p3: 0, p4: 20, p5: 20, total: 60 },
+						verdict: "Moderate / High Yield REIT",
+						verdictIcon: "🟡",
+						summary: "Triple-net lease experiential REIT with attractive ~7.6% dividend yield and CPI-linked rent escalators with standard REIT leverage."
+					},
+					"NKE": {
+						ticker: "NKE",
+						name: "Nike, Inc.",
+						sector: "Consumer Cyclical | Footwear & Apparel",
+						currency: "USD",
+						symbol: "$",
+						price: 35.51,
+						mcap: "$53.2B",
+						pe: 18.2,
+						forwardPe: 15.5,
+						pb: 3.8,
+						roe: 22.0,
+						margin: 9.5,
+						divYield: 4.51,
+						fcfPayout: 62.0,
+						epsPayout: 58.0,
+						netDebtEbitda: 0.85,
+						revCagr5y: 2.1,
+						niCagr5y: -3.5,
+						divCagr5y: 9.15,
+						chowder: 13.66,
+						divHistory: [
+							{ year: "2020", amount: 1.00 },
+							{ year: "2021", amount: 1.14 },
+							{ year: "2022", amount: 1.28 },
+							{ year: "2023", amount: 1.42 },
+							{ year: "2024", amount: 1.52 },
+							{ year: "2025", amount: 1.60 }
+						],
+						scores: { p1: 20, p2: 16, p3: 20, p4: 4, p5: 20, total: 80 },
+						verdict: "Solid DGI Quality",
+						verdictIcon: "🟢",
+						summary: "Global athletic brand with fortress balance sheet, safe payout ratio, and consistent long-term dividend growth."
+					},
+					"O": {
+						ticker: "O",
+						name: "Realty Income Corporation",
+						sector: "Real Estate | REIT - Retail",
+						currency: "USD",
+						symbol: "$",
+						price: 56.66,
+						mcap: "$49.5B",
+						pe: 45.2,
+						forwardPe: 36.0,
+						pb: 1.3,
+						roe: 3.2,
+						margin: 54.0,
+						divYield: 5.68,
+						fcfPayout: 75.0,
+						epsPayout: 82.0,
+						netDebtEbitda: 5.40,
+						revCagr5y: 22.0,
+						niCagr5y: 14.5,
+						divCagr5y: 3.80,
+						chowder: 9.48,
+						divHistory: [
+							{ year: "2020", amount: 2.80 },
+							{ year: "2021", amount: 2.84 },
+							{ year: "2022", amount: 2.98 },
+							{ year: "2023", amount: 3.07 },
+							{ year: "2024", amount: 3.16 },
+							{ year: "2025", amount: 3.22 }
+						],
+						scores: { p1: 20, p2: 10, p3: 0, p4: 20, p5: 14, total: 64 },
+						verdict: "Moderate (Monthly Dividend Aristocrat)",
+						verdictIcon: "🟡",
+						summary: "The Monthly Dividend Company: 30+ consecutive years of monthly dividend increases across essential retail real estate."
+					},
+					"MSFT": {
+						ticker: "MSFT",
+						name: "Microsoft Corporation",
+						sector: "Technology | Software - Infrastructure",
+						currency: "USD",
+						symbol: "$",
+						price: 493.78,
+						mcap: "$3.67T",
+						pe: 35.8,
+						forwardPe: 29.5,
+						pb: 12.4,
+						roe: 38.5,
+						margin: 44.5,
+						divYield: 0.67,
+						fcfPayout: 28.5,
+						epsPayout: 25.0,
+						netDebtEbitda: 0.35,
+						revCagr5y: 14.2,
+						niCagr5y: 15.8,
+						divCagr5y: 10.45,
+						chowder: 11.12,
+						divHistory: [
+							{ year: "2020", amount: 2.09 },
+							{ year: "2021", amount: 2.30 },
+							{ year: "2022", amount: 2.54 },
+							{ year: "2023", amount: 2.79 },
+							{ year: "2024", amount: 3.08 },
+							{ year: "2025", amount: 3.32 }
+						],
+						scores: { p1: 0, p2: 20, p3: 20, p4: 20, p5: 17, total: 77 },
+						verdict: "Solid (Dividend Growth Titan)",
+						verdictIcon: "🟢",
+						summary: "AAA balance sheet rating, high-margin software & cloud free cash flows with sustainable double-digit dividend growth."
+					},
+					"AAPL": {
+						ticker: "AAPL",
+						name: "Apple Inc.",
+						sector: "Technology | Consumer Electronics",
+						currency: "USD",
+						symbol: "$",
+						price: 336.13,
+						mcap: "$5.08T",
+						pe: 33.2,
+						forwardPe: 28.0,
+						pb: 48.0,
+						roe: 145.0,
+						margin: 31.0,
+						divYield: 0.31,
+						fcfPayout: 14.5,
+						epsPayout: 15.0,
+						netDebtEbitda: 0.45,
+						revCagr5y: 8.5,
+						niCagr5y: 11.2,
+						divCagr5y: 5.80,
+						chowder: 6.11,
+						divHistory: [
+							{ year: "2020", amount: 0.79 },
+							{ year: "2021", amount: 0.85 },
+							{ year: "2022", amount: 0.91 },
+							{ year: "2023", amount: 0.95 },
+							{ year: "2024", amount: 1.00 },
+							{ year: "2025", amount: 1.04 }
+						],
+						scores: { p1: 0, p2: 20, p3: 20, p4: 17, p5: 11, total: 68 },
+						verdict: "Moderate (Cash Return Titan)",
+						verdictIcon: "🟡",
+						summary: "Unrivaled consumer ecosystem and cash generation with capital allocation concentrated on aggressive share buybacks."
 					}
 				};
 
-				let currentDgiData = null;
+				let currentDgiData = DGI_DATABASE["JNJ"];
 				let radarChartInstance = null;
 				let barChartInstance = null;
 
-				function calculateDgiFromRaw(ticker, livePrice, meta) {
-					const cleanT = ticker.toUpperCase();
-					const sym = getTickerCurrencySymbol(cleanT);
-					const p = livePrice || 100;
+				function clearDgiDashboard(searchedTicker) {
+					document.getElementById('dgiScoreValue').innerHTML = '--<span style="font-size: 1.4rem; color: #64748b;">/100</span>';
 					
-					return {
-						ticker: cleanT,
-						name: meta?.name || cleanT,
-						sector: meta?.sector || "Global Equity",
-						currency: meta?.currency || "USD",
-						symbol: sym,
-						price: p,
-						mcap: formatPriceWithCurrency(p * 10000000, sym),
-						pe: 18.5,
-						forwardPe: 16.0,
-						pb: 3.5,
-						roe: 18.0,
-						margin: 15.0,
-						divYield: 2.85,
-						fcfPayout: 58.0,
-						epsPayout: 55.0,
-						netDebtEbitda: 1.45,
-						revCagr5y: 4.5,
-						niCagr5y: 6.0,
-						divCagr5y: 5.5,
-						chowder: 8.35,
-						divHistory: [
-							{ year: "2021", amount: +(p * 0.022).toFixed(2) },
-							{ year: "2022", amount: +(p * 0.024).toFixed(2) },
-							{ year: "2023", amount: +(p * 0.025).toFixed(2) },
-							{ year: "2024", amount: +(p * 0.027).toFixed(2) },
-							{ year: "2025", amount: +(p * 0.0285).toFixed(2) }
-						],
-						scores: { p1: 20, p2: 16, p3: 20, p4: 14, p5: 14, total: 84 },
-						verdict: "Solid DGI Quality",
-						verdictIcon: "🟢",
-						summary: "Balanced fundamental profile with verified financial solvency and sustainable dividend metrics."
+					const badgeEl = document.getElementById('dgiScoreBadge');
+					badgeEl.innerHTML = 'Dados Não Disponíveis';
+					badgeEl.style.background = '#64748b';
+
+					document.getElementById('dgiCompName').innerHTML = (searchedTicker || '--') + ' <span id="dgiCompTicker" style="color: #64748b; font-size: 1rem; font-weight: 600;">(Sem Dados)</span>';
+					document.getElementById('dgiCompSector').innerText = 'Ticker não catalogado na base de análise fundamental.';
+					document.getElementById('dgiCompPrice').innerText = '—';
+					document.getElementById('dgiCompMcap').innerText = 'Cap: —';
+					document.getElementById('dgiVerdictSummary').innerText = 'Não foram encontrados dados de mercado ou financeiros válidos para esta empresa.';
+
+					document.getElementById('dgiQuickYield').innerText = '—';
+					document.getElementById('dgiQuickPayout').innerText = '—';
+					document.getElementById('dgiQuickDebt').innerText = '—';
+					document.getElementById('dgiQuickChowder').innerText = '—';
+
+					for (let i = 1; i <= 5; i++) {
+						const scoreEl = document.getElementById('p' + i + 'Score');
+						const metricEl = document.getElementById('p' + i + 'Metric');
+						const progEl = document.getElementById('p' + i + 'Progress');
+						if (scoreEl) scoreEl.innerHTML = '-- <span style="font-size: 0.75rem; color: #94a3b8;">/20</span>';
+						if (metricEl) metricEl.innerText = '—';
+						if (progEl) progEl.style.width = '0%';
+					}
+
+					if (radarChartInstance) {
+						radarChartInstance.destroy();
+						radarChartInstance = null;
+					}
+					if (barChartInstance) {
+						barChartInstance.destroy();
+						barChartInstance = null;
+					}
+
+					const tbody = document.getElementById('dgiMetricsTableBody');
+					if (tbody) {
+						tbody.innerHTML = '<tr><td colspan="4" style="text-align:center; padding: 1.5rem; color: #94a3b8;">Nenhum dado fundamental disponível para ' + (searchedTicker || 'este ticker') + '.</td></tr>';
+					}
+				}
+
+				async function fetchLiveTickerData(rawTicker) {
+					if (!rawTicker) return null;
+					const ticker = aliasMap[rawTicker.toUpperCase()] || rawTicker.toUpperCase();
+					const targetUrl = 'https://query1.finance.yahoo.com/v8/finance/chart/' + encodeURIComponent(ticker) + '?interval=1mo&range=5y&events=div';
+
+					const fetchSingle = async (proxyUrl, isJsonWrapper = false) => {
+						const controller = typeof AbortController !== 'undefined' ? new AbortController() : null;
+						const timeoutId = controller ? setTimeout(() => controller.abort(), 4500) : null;
+						try {
+							const res = await fetch(proxyUrl, controller ? { signal: controller.signal } : {});
+							if (timeoutId) clearTimeout(timeoutId);
+							if (!res.ok) return null;
+							let json = await res.json();
+							if (isJsonWrapper && json && json.contents) {
+								json = JSON.parse(json.contents);
+							}
+							const result = json?.chart?.result?.[0];
+							if (result && result.meta && result.meta.regularMarketPrice > 0) {
+								return result;
+							}
+						} catch(e) {
+							if (timeoutId) clearTimeout(timeoutId);
+						}
+						return null;
 					};
+
+					const endpoints = [
+						fetchSingle('https://api.allorigins.win/get?url=' + encodeURIComponent(targetUrl), true),
+						fetchSingle('https://corsproxy.io/?' + encodeURIComponent(targetUrl)),
+						fetchSingle('https://api.codetabs.com/v1/proxy?quest=' + encodeURIComponent(targetUrl)),
+						fetchSingle(targetUrl)
+					];
+
+					try {
+						const results = await Promise.all(endpoints);
+						for (const r of results) {
+							if (r) return r;
+						}
+					} catch(e) {}
+
+					return null;
 				}
 
 				async function analyzeDgiStock(tickerInput) {
@@ -999,51 +1208,141 @@
 					const tickerClean = tickerInput.trim().toUpperCase();
 					const alias = aliasMap[tickerClean] || tickerClean;
 
-					const emptyBox = document.getElementById('dgiEmptyPrompt');
-					if (emptyBox) emptyBox.style.display = 'none';
-
-					const resultSec = document.getElementById('dgiResultSection');
-					if (resultSec) resultSec.style.display = 'block';
-
 					const loadBox = document.getElementById('dgiLoadingMsg');
+					loadBox.style.display = 'block';
 					loadBox.className = 'status-msg status-loading';
-					loadBox.innerHTML = 'Fetching fundamental data and calculating DGI Score for <strong>' + tickerClean + '</strong>...';
+					loadBox.innerHTML = 'A procurar dados em tempo real para <strong>' + tickerClean + '</strong>...';
 
-					// 1. Check local preloaded dataset
+					// 1. Check local verified dataset first
 					let data = DGI_DATABASE[tickerClean] || DGI_DATABASE[alias];
 					
-					// 2. Fetch live price update
-					try {
-						const liveP = await fetchLiveStockPrice(tickerClean);
-						if (liveP && liveP > 0) {
-							if (data) {
+					if (data) {
+						// Fetch live price update
+						try {
+							const liveP = await fetchLiveStockPrice(tickerClean);
+							if (liveP && liveP > 0) {
 								data.price = liveP;
-							} else {
-								data = calculateDgiFromRaw(tickerClean, liveP);
 							}
-						}
-					} catch(e) {}
+						} catch(e) {}
 
-					if (!data) {
-						data = calculateDgiFromRaw(tickerClean, 100);
+						currentDgiData = data;
+						renderDgiDashboard(data);
+
+						loadBox.className = 'status-msg status-success';
+						loadBox.innerHTML = 'Análise fundamental DGI completa para <strong>' + data.name + ' (' + data.ticker + ')</strong> carregada.';
+						setTimeout(() => { loadBox.style.display = 'none'; }, 4000);
+						return;
 					}
 
-					currentDgiData = data;
-					renderDgiDashboard(data);
+					// 2. Fetch live market & dividend events dynamically via Yahoo Finance API
+					const liveResult = await fetchLiveTickerData(tickerClean);
+					if (!liveResult) {
+						currentDgiData = null;
+						clearDgiDashboard(tickerClean);
+						loadBox.className = 'status-msg status-error';
+						loadBox.innerHTML = '❌ <strong>Ticker não encontrado:</strong> Não foi possível localizar cotações ou dados financeiros para <strong>' + tickerClean + '</strong> nos mercados globais.';
+						return;
+					}
+
+					const meta = liveResult.meta;
+					const price = meta.regularMarketPrice;
+					const name = meta.longName || meta.shortName || tickerClean;
+					const curr = meta.currency || 'USD';
+					const symChar = getTickerCurrencySymbol(tickerClean);
+					
+					// Parse real dividends
+					const rawDivs = liveResult.events?.dividends || {};
+					const divArr = Object.values(rawDivs).sort((a, b) => a.date - b.date);
+					
+					const yearMap = {};
+					divArr.forEach(d => {
+						const yr = new Date(d.date * 1000).getFullYear().toString();
+						yearMap[yr] = (yearMap[yr] || 0) + d.amount;
+					});
+					
+					const divHistory = Object.keys(yearMap).sort().slice(-6).map(yr => ({
+						year: yr,
+						amount: +(yearMap[yr].toFixed(2))
+					}));
+
+					// Calculate real LTM dividend and yield
+					const nowSec = Math.floor(Date.now() / 1000);
+					const oneYearSec = 365 * 24 * 60 * 60;
+					const ltmList = divArr.filter(d => (nowSec - d.date) <= oneYearSec);
+					let ltmDiv = ltmList.reduce((sum, d) => sum + d.amount, 0);
+					if (ltmDiv === 0 && divArr.length >= 4) {
+						ltmDiv = divArr.slice(-4).reduce((sum, d) => sum + d.amount, 0);
+					}
+					const realYield = (ltmDiv > 0 && price > 0) ? (ltmDiv / price) * 100 : 0;
+
+					// Real 5Y Div CAGR
+					let divCagr5y = 0;
+					if (divHistory.length >= 2) {
+						const first = divHistory[0].amount;
+						const last = divHistory[divHistory.length - 1].amount;
+						const yrs = divHistory.length - 1;
+						if (first > 0 && last > 0 && yrs > 0) {
+							divCagr5y = (Math.pow(last / first, 1 / yrs) - 1) * 100;
+						}
+					}
+
+					const chowder = realYield + (divCagr5y > 0 ? divCagr5y : 0);
+
+					// Scores for Pilar 1 & Pilar 5 from real market data
+					let p1 = 0;
+					if (realYield >= 2.5 && realYield <= 6.0) p1 = 20;
+					else if ((realYield >= 2.0 && realYield < 2.5) || (realYield > 6.0 && realYield <= 7.0)) p1 = 16;
+					else if ((realYield >= 1.5 && realYield < 2.0) || (realYield > 7.0 && realYield <= 8.5)) p1 = 10;
+					else if ((realYield >= 1.0 && realYield < 1.5) || (realYield > 8.5 && realYield <= 10.0)) p1 = 5;
+
+					let dpsPts = divCagr5y >= 7 ? 10 : (divCagr5y >= 4 ? 7 : (divCagr5y >= 1 ? 4 : (realYield > 4 ? 5 : 0)));
+					let chwPts = chowder >= 12 ? 10 : (chowder >= 8 ? 7 : (chowder >= 5 ? 4 : 0));
+					let p5 = dpsPts + chwPts;
+
+					const dynamicData = {
+						ticker: tickerClean,
+						name: name,
+						sector: (meta.fullExchangeName || meta.exchangeName || "Global Exchange") + " | " + (meta.instrumentType || "Equity"),
+						currency: curr,
+						symbol: symChar,
+						price: price,
+						mcap: "—",
+						pe: null,
+						forwardPe: null,
+						pb: null,
+						roe: null,
+						margin: null,
+						divYield: realYield,
+						fcfPayout: null,
+						epsPayout: null,
+						netDebtEbitda: null,
+						revCagr5y: null,
+						niCagr5y: null,
+						divCagr5y: divCagr5y,
+						chowder: chowder,
+						divHistory: divHistory,
+						scores: { p1: p1, p2: null, p3: null, p4: null, p5: p5, total: p1 + p5 },
+						verdict: "Dados em Direto (Yahoo Finance)",
+						verdictIcon: "📡",
+						summary: `Cotação real de ${symChar}${price.toFixed(2)} e Dividend Yield de ${realYield.toFixed(2)}% recolhidos em direto via Yahoo Finance (${meta.fullExchangeName || 'Bolsa'}). Demonstrações financeiras de balanço completas disponíveis via script Python.`
+					};
+
+					currentDgiData = dynamicData;
+					renderDgiDashboard(dynamicData);
 
 					loadBox.className = 'status-msg status-success';
-					loadBox.innerHTML = 'DGI fundamental analysis for <strong>' + data.name + ' (' + data.ticker + ')</strong> completed.';
-					setTimeout(() => { loadBox.style.display = 'none'; }, 3500);
+					loadBox.innerHTML = '📡 Dados em direto para <strong>' + name + ' (' + tickerClean + ')</strong> carregados via Yahoo Finance.';
+					setTimeout(() => { loadBox.style.display = 'none'; }, 4500);
 				}
 
 				function renderDgiDashboard(data) {
 					const s = data.scores;
 					
 					// Update Scores & Badges
-					document.getElementById('dgiScoreValue').innerHTML = s.total.toFixed(0) + '<span style="font-size: 1.4rem; color: #64748b;">/100</span>';
+					document.getElementById('dgiScoreValue').innerHTML = (s.total != null ? s.total.toFixed(0) : '--') + '<span style="font-size: 1.4rem; color: #64748b;">/100</span>';
 					
 					const badgeEl = document.getElementById('dgiScoreBadge');
-					badgeEl.innerHTML = data.verdictIcon + ' ' + data.verdict;
+					badgeEl.innerHTML = (data.verdictIcon || '🟢') + ' ' + (data.verdict || 'Análise Concluída');
 					if (s.total >= 85) {
 						badgeEl.style.background = '#047857';
 					} else if (s.total >= 70) {
@@ -1058,37 +1357,32 @@
 
 					// Company Details
 					document.getElementById('dgiCompName').innerHTML = data.name + ' <span id="dgiCompTicker" style="color: #475569; font-size: 1rem; font-weight: 600;">(' + data.ticker + ')</span>';
-					document.getElementById('dgiCompSector').innerText = data.sector + ' | ' + data.currency;
+					document.getElementById('dgiCompSector').innerText = (data.sector || '--') + ' | ' + (data.currency || 'USD');
 					document.getElementById('dgiCompPrice').innerText = formatPriceWithCurrency(data.price, data.symbol);
-					document.getElementById('dgiCompMcap').innerText = 'Cap: ' + data.mcap;
-					document.getElementById('dgiVerdictSummary').innerText = data.summary;
+					document.getElementById('dgiCompMcap').innerText = 'Cap: ' + (data.mcap || '—');
+					document.getElementById('dgiVerdictSummary').innerText = data.summary || '—';
 
 					// Quick Highlights
-					document.getElementById('dgiQuickYield').innerText = data.divYield.toFixed(2) + '%';
-					document.getElementById('dgiQuickPayout').innerText = data.fcfPayout.toFixed(1) + '%';
-					document.getElementById('dgiQuickDebt').innerText = data.netDebtEbitda.toFixed(2) + 'x';
-					document.getElementById('dgiQuickChowder').innerText = data.chowder.toFixed(1) + '%';
+					document.getElementById('dgiQuickYield').innerText = (data.divYield != null ? data.divYield.toFixed(2) + '%' : '—');
+					document.getElementById('dgiQuickPayout').innerText = (data.fcfPayout != null ? data.fcfPayout.toFixed(1) + '%' : '—');
+					document.getElementById('dgiQuickDebt').innerText = (data.netDebtEbitda != null ? data.netDebtEbitda.toFixed(2) + 'x' : '—');
+					document.getElementById('dgiQuickChowder').innerText = (data.chowder != null ? data.chowder.toFixed(1) + '%' : '—');
 
 					// 5 Pillar Cards
-					document.getElementById('p1Score').innerHTML = s.p1.toFixed(0) + ' <span style="font-size: 0.75rem; color: #94a3b8;">/20</span>';
-					document.getElementById('p1Metric').innerText = data.divYield.toFixed(2) + '%';
-					document.getElementById('p1Progress').style.width = ((s.p1 / 20) * 100) + '%';
+					const setPillar = (idNum, scoreVal, metricText, progressPct) => {
+						const scEl = document.getElementById('p' + idNum + 'Score');
+						const meEl = document.getElementById('p' + idNum + 'Metric');
+						const prEl = document.getElementById('p' + idNum + 'Progress');
+						if (scEl) scEl.innerHTML = (scoreVal != null ? scoreVal.toFixed(0) : '—') + ' <span style="font-size: 0.75rem; color: #94a3b8;">/20</span>';
+						if (meEl) meEl.innerText = metricText;
+						if (prEl) prEl.style.width = (progressPct || 0) + '%';
+					};
 
-					document.getElementById('p2Score').innerHTML = s.p2.toFixed(0) + ' <span style="font-size: 0.75rem; color: #94a3b8;">/20</span>';
-					document.getElementById('p2Metric').innerText = data.fcfPayout.toFixed(1) + '%';
-					document.getElementById('p2Progress').style.width = ((s.p2 / 20) * 100) + '%';
-
-					document.getElementById('p3Score').innerHTML = s.p3.toFixed(0) + ' <span style="font-size: 0.75rem; color: #94a3b8;">/20</span>';
-					document.getElementById('p3Metric').innerText = data.netDebtEbitda.toFixed(2) + 'x';
-					document.getElementById('p3Progress').style.width = ((s.p3 / 20) * 100) + '%';
-
-					document.getElementById('p4Score').innerHTML = s.p4.toFixed(0) + ' <span style="font-size: 0.75rem; color: #94a3b8;">/20</span>';
-					document.getElementById('p4Metric').innerText = 'Rev: ' + data.revCagr5y.toFixed(1) + '%';
-					document.getElementById('p4Progress').style.width = ((s.p4 / 20) * 100) + '%';
-
-					document.getElementById('p5Score').innerHTML = s.p5.toFixed(0) + ' <span style="font-size: 0.75rem; color: #94a3b8;">/20</span>';
-					document.getElementById('p5Metric').innerText = 'Chowder ' + data.chowder.toFixed(1) + '%';
-					document.getElementById('p5Progress').style.width = ((s.p5 / 20) * 100) + '%';
+					setPillar(1, s.p1, (data.divYield != null ? data.divYield.toFixed(2) + '%' : '—'), (s.p1 != null ? (s.p1 / 20) * 100 : 0));
+					setPillar(2, s.p2, (data.fcfPayout != null ? data.fcfPayout.toFixed(1) + '%' : '—'), (s.p2 != null ? (s.p2 / 20) * 100 : 0));
+					setPillar(3, s.p3, (data.netDebtEbitda != null ? data.netDebtEbitda.toFixed(2) + 'x' : '—'), (s.p3 != null ? (s.p3 / 20) * 100 : 0));
+					setPillar(4, s.p4, (data.revCagr5y != null ? 'Rev: ' + data.revCagr5y.toFixed(1) + '%' : '—'), (s.p4 != null ? (s.p4 / 20) * 100 : 0));
+					setPillar(5, s.p5, (data.chowder != null ? 'Chowder ' + data.chowder.toFixed(1) + '%' : '—'), (s.p5 != null ? (s.p5 / 20) * 100 : 0));
 
 					// Render Charts & Table
 					renderDgiRadar(data);
@@ -1106,7 +1400,7 @@
 
 					const labels = ['1. Dividend Yield', '2. FCF Coverage', '3. Balance Sheet', '4. Operational Growth', '5. Div Growth & Chowder'];
 					const s = data.scores;
-					const values = [s.p1, s.p2, s.p3, s.p4, s.p5];
+					const values = [s.p1 || 0, s.p2 || 0, s.p3 || 0, s.p4 || 0, s.p5 || 0];
 
 					radarChartInstance = new Chart(ctx, {
 						type: 'radar',
@@ -1191,22 +1485,25 @@
 					if (!tbody) return;
 
 					const metrics = [
-						{ name: "Dividend Yield", val: data.divYield.toFixed(2) + "%", target: "2.0% - 6.0%", pass: (data.divYield >= 2.0 && data.divYield <= 6.0) },
-						{ name: "Payout Ratio (FCF)", val: data.fcfPayout.toFixed(1) + "%", target: "< 70.0%", pass: (data.fcfPayout <= 70.0) },
-						{ name: "Net Debt / EBITDA", val: data.netDebtEbitda.toFixed(2) + "x", target: "< 3.0x", pass: (data.netDebtEbitda <= 3.0) },
-						{ name: "5Y Revenue CAGR", val: data.revCagr5y.toFixed(1) + "%", target: "> 3.0%", pass: (data.revCagr5y >= 3.0) },
-						{ name: "5Y Net Income CAGR", val: data.niCagr5y.toFixed(1) + "%", target: "> 5.0%", pass: (data.niCagr5y >= 5.0) },
-						{ name: "5Y Dividend CAGR", val: data.divCagr5y.toFixed(1) + "%", target: "> 5.0%", pass: (data.divCagr5y >= 5.0) },
-						{ name: "Chowder Number (Yield + Div CAGR)", val: data.chowder.toFixed(1) + "%", target: ">= 10.0%", pass: (data.chowder >= 10.0) },
-						{ name: "Price to Earnings (P/E)", val: data.pe ? data.pe.toFixed(1) + "x" : "N/A", target: "15x - 25x", pass: (data.pe && data.pe <= 25) },
-						{ name: "Return on Equity (ROE)", val: data.roe ? data.roe.toFixed(1) + "%" : "N/A", target: "> 15.0%", pass: (data.roe && data.roe >= 15.0) },
-						{ name: "Operating Margin", val: data.margin ? data.margin.toFixed(1) + "%" : "N/A", target: "> 12.0%", pass: (data.margin && data.margin >= 12.0) }
+						{ name: "Dividend Yield", val: (data.divYield != null) ? data.divYield.toFixed(2) + "%" : "—", target: "2.0% - 6.0%", pass: (data.divYield >= 2.0 && data.divYield <= 6.0) },
+						{ name: "Payout Ratio (FCF)", val: (data.fcfPayout != null && data.fcfPayout > 0) ? data.fcfPayout.toFixed(1) + "%" : "—", target: "< 70.0%", pass: (data.fcfPayout > 0 && data.fcfPayout <= 70.0) },
+						{ name: "Net Debt / EBITDA", val: (data.netDebtEbitda != null && data.netDebtEbitda > 0) ? data.netDebtEbitda.toFixed(2) + "x" : "—", target: "< 3.0x", pass: (data.netDebtEbitda > 0 && data.netDebtEbitda <= 3.0) },
+						{ name: "5Y Revenue CAGR", val: (data.revCagr5y != null) ? data.revCagr5y.toFixed(1) + "%" : "—", target: "> 3.0%", pass: (data.revCagr5y >= 3.0) },
+						{ name: "5Y Net Income CAGR", val: (data.niCagr5y != null) ? data.niCagr5y.toFixed(1) + "%" : "—", target: "> 5.0%", pass: (data.niCagr5y >= 5.0) },
+						{ name: "5Y Dividend CAGR", val: (data.divCagr5y != null) ? data.divCagr5y.toFixed(1) + "%" : "—", target: "> 5.0%", pass: (data.divCagr5y >= 5.0) },
+						{ name: "Chowder Number (Yield + Div CAGR)", val: (data.chowder != null) ? data.chowder.toFixed(1) + "%" : "—", target: ">= 10.0%", pass: (data.chowder >= 10.0) },
+						{ name: "Price to Earnings (P/E)", val: data.pe ? data.pe.toFixed(1) + "x" : "—", target: "15x - 25x", pass: (data.pe && data.pe <= 25) },
+						{ name: "Return on Equity (ROE)", val: data.roe ? data.roe.toFixed(1) + "%" : "—", target: "> 15.0%", pass: (data.roe && data.roe >= 15.0) },
+						{ name: "Operating Margin", val: data.margin ? data.margin.toFixed(1) + "%" : "—", target: "> 12.0%", pass: (data.margin && data.margin >= 12.0) }
 					];
 
 					tbody.innerHTML = '';
 					metrics.forEach(m => {
 						const tr = document.createElement('tr');
-						const badge = m.pass ? '<span class="badge-buy">Pass</span>' : '<span class="badge-hold">Caution</span>';
+						let badge = '<span style="color:#94a3b8; font-size:0.75rem;">—</span>';
+						if (m.val !== '—') {
+							badge = m.pass ? '<span class="badge-buy">Pass</span>' : '<span class="badge-hold">Caution</span>';
+						}
 						tr.innerHTML = '<td style="font-weight:600; color:#0f172a;">' + m.name + '</td>' +
 									   '<td style="text-align:center; font-weight:700; color:#1e293b;">' + m.val + '</td>' +
 									   '<td style="color:#64748b;">' + m.target + '</td>' +
@@ -1216,12 +1513,15 @@
 				}
 
 				async function sendCurrentDgiToTelegram() {
-					if (!currentDgiData) return;
+					if (!currentDgiData) {
+						showTelegramStatus('❌ Não é possível enviar: selecione primeiro uma empresa válida com dados fundamentais.', 'warning');
+						return;
+					}
 					const token = document.getElementById('telegramToken').value.trim();
 					const chatId = document.getElementById('telegramChatId').value.trim();
 
 					if (!token || !chatId) {
-						showTelegramStatus('Please configure your Telegram Bot Token and Chat ID below.', 'warning');
+						showTelegramStatus('Configure o Telegram Bot Token e Chat ID abaixo.', 'warning');
 						return;
 					}
 
@@ -1260,13 +1560,16 @@
 				}
 
 				function addCurrentDgiToWatchlist() {
-					if (!currentDgiData) return;
+					if (!currentDgiData) {
+						showWatchlistSummary('❌ Selecione primeiro uma empresa válida com dados fundamentais.', 'warning');
+						return;
+					}
 					const d = currentDgiData;
-					const p = d.price || 100;
+					const p = d.price || 0;
 					
 					const existing = watchlist.find(w => w.ticker.toUpperCase() === d.ticker.toUpperCase());
 					if (existing) {
-						showWatchlistSummary('Ticker <strong>' + d.ticker + '</strong> is already in your Watchlist.', 'warning');
+						showWatchlistSummary('Ticker <strong>' + d.ticker + '</strong> já se encontra na Watchlist.', 'warning');
 						return;
 					}
 
@@ -1504,8 +1807,8 @@
 						minBuy: parseFloat(minInput.value) || 0,
 						maxSell: parseFloat(maxInput.value) || 0,
 						lastPrice: p > 0 ? p : (dgiMatch?.price || 0),
-						dgiScore: dgiMatch?.scores?.total || 75.0,
-						dgiVerdict: dgiMatch?.verdict || "Solid DGI Quality"
+						dgiScore: (dgiMatch && dgiMatch.scores) ? dgiMatch.scores.total : null,
+						dgiVerdict: (dgiMatch && dgiMatch.verdict) ? dgiMatch.verdict : null
 					};
 
 					watchlist.push(newEntry);
@@ -1682,6 +1985,9 @@
 					}
 
 					renderWatchlistTable();
+
+					// Load initial view
+					analyzeDgiStock('JNJ');
 				});
 			</script>
 

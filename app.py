@@ -471,8 +471,8 @@ st.sidebar.markdown("### 🔍 Configuração do Screener")
 popular_presets = ["JNJ", "PEP", "PG", "KO", "ABBV", "MCD", "MSFT", "TXN", "GALP.LS", "BN.PA", "NESN.SW"]
 selected_preset = st.sidebar.selectbox("Empresas Populares (Presets):", ["-- Selecionar Ticker --"] + popular_presets)
 
-default_ticker = "" if selected_preset == "-- Selecionar Ticker --" else selected_preset
-ticker_input = st.sidebar.text_input("Ticker da Empresa:", value=default_ticker, placeholder="Ex: AAPL, KO, GALP.LS").strip().upper()
+default_ticker = "JNJ" if selected_preset == "-- Selecionar Ticker --" else selected_preset
+ticker_input = st.sidebar.text_input("Ticker da Empresa:", value=default_ticker).strip().upper()
 
 run_analysis = st.sidebar.button("🚀 Analisar Empresa", use_container_width=True, type="primary")
 
