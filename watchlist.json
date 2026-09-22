@@ -4,7 +4,7 @@
     "name": "Adidas AG",
     "minBuy": 140,
     "maxSell": 200,
-    "lastPrice": 143.15,
+    "lastPrice": 148.2,
     "dgiScore": 43.0,
     "dgiVerdict": "Weak / High Risk"
   },
@@ -22,7 +22,7 @@
     "name": "Galp Energia",
     "minBuy": 15,
     "maxSell": 22,
-    "lastPrice": 21.79,
+    "lastPrice": 21.48,
     "dgiScore": 60.0,
     "dgiVerdict": "Moderate / Neutral"
   },
