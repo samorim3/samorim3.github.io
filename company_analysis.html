@@ -679,43 +679,35 @@
 					}
 				}
 
+				const CLOUDFLARE_WORKER_URL = 'https://stock-finance-api.samorim3.workers.dev';
+
 				async function fetchLiveTickerData(rawTicker) {
 					if (!rawTicker) return null;
 					const ticker = aliasMap[rawTicker.toUpperCase()] || rawTicker.toUpperCase();
 					const targetUrl = 'https://query1.finance.yahoo.com/v8/finance/chart/' + encodeURIComponent(ticker) + '?interval=1mo&range=5y&events=div';
 
-					const fetchSingle = async (proxyUrl, isJsonWrapper = false) => {
-						const controller = typeof AbortController !== 'undefined' ? new AbortController() : null;
-						const timeoutId = controller ? setTimeout(() => controller.abort(), 4500) : null;
-						try {
-							const res = await fetch(proxyUrl, controller ? { signal: controller.signal } : {});
-							if (timeoutId) clearTimeout(timeoutId);
-							if (!res.ok) return null;
-							let json = await res.json();
-							if (isJsonWrapper && json && json.contents) {
-								json = JSON.parse(json.contents);
-							}
-							const result = json?.chart?.result?.[0];
-							if (result && result.meta && result.meta.regularMarketPrice > 0) {
-								return result;
-							}
-						} catch(e) {
-							if (timeoutId) clearTimeout(timeoutId);
-						}
-						return null;
-					};
-
-					const endpoints = [
-						fetchSingle('https://api.allorigins.win/get?url=' + encodeURIComponent(targetUrl), true),
-						fetchSingle('https://corsproxy.io/?' + encodeURIComponent(targetUrl)),
-						fetchSingle('https://api.codetabs.com/v1/proxy?quest=' + encodeURIComponent(targetUrl)),
-						fetchSingle(targetUrl)
-					];
-
+					// 1. Primary High-Speed Gateway: Cloudflare Worker
 					try {
-						const results = await Promise.all(endpoints);
-						for (const r of results) {
-							if (r) return r;
+						const cfRes = await fetch(CLOUDFLARE_WORKER_URL + '/?ticker=' + encodeURIComponent(ticker), { signal: AbortSignal.timeout(5000) });
+						if (cfRes.ok) {
+							const json = await cfRes.json();
+							const res = json?.chart?.result?.[0];
+							if (res && res.meta && res.meta.regularMarketPrice > 0) {
+								return res;
+							}
+						}
+					} catch(e) {}
+
+					// 2. Secondary Fallback: corsproxy.org
+					try {
+						const proxyUrl = 'https://corsproxy.org/?url=' + encodeURIComponent(targetUrl);
+						const pRes = await fetch(proxyUrl, { signal: AbortSignal.timeout(5000) });
+						if (pRes.ok) {
+							const json = await pRes.json();
+							const res = json?.chart?.result?.[0];
+							if (res && res.meta && res.meta.regularMarketPrice > 0) {
+								return res;
+							}
 						}
 					} catch(e) {}
 
@@ -1138,43 +1130,13 @@
 					if (!rawTicker) return 0;
 					const ticker = aliasMap[rawTicker.toUpperCase()] || rawTicker.toUpperCase();
 
-					const targetUrl1 = 'https://query1.finance.yahoo.com/v8/finance/chart/' + encodeURIComponent(ticker) + '?interval=1d&range=1d';
-					const targetUrl2 = 'https://query2.finance.yahoo.com/v8/finance/chart/' + encodeURIComponent(ticker) + '?interval=1d&range=1d';
-
-					const fetchSingle = async (url, isJsonWrapper = false) => {
-						const controller = typeof AbortController !== 'undefined' ? new AbortController() : null;
-						const timeoutId = controller ? setTimeout(() => controller.abort(), 3500) : null;
-						try {
-							const fetchOptions = controller ? { signal: controller.signal } : {};
-							const res = await fetch(url, fetchOptions);
-							if (timeoutId) clearTimeout(timeoutId);
-							if (!res.ok) return null;
-							let data = await res.json();
-							if (isJsonWrapper && data && data.contents) {
-								data = JSON.parse(data.contents);
-							}
-							const meta = data?.chart?.result?.[0]?.meta;
-							if (meta && meta.regularMarketPrice > 0) {
-								return meta.regularMarketPrice;
-							}
-						} catch(e) {
-							if (timeoutId) clearTimeout(timeoutId);
-						}
-						return null;
-					};
-
-					const endpoints = [
-						fetchSingle('https://corsproxy.io/?' + encodeURIComponent(targetUrl1)),
-						fetchSingle('https://api.allorigins.win/get?url=' + encodeURIComponent(targetUrl1), true),
-						fetchSingle('https://api.codetabs.com/v1/proxy?quest=' + encodeURIComponent(targetUrl1)),
-						fetchSingle(targetUrl1),
-						fetchSingle(targetUrl2)
-					];
-
+					// 1. Primary: Cloudflare Worker
 					try {
-						const results = await Promise.all(endpoints);
-						for (const r of results) {
-							if (r && r > 0) return r;
+						const cfRes = await fetch(CLOUDFLARE_WORKER_URL + '/?ticker=' + encodeURIComponent(ticker), { signal: AbortSignal.timeout(4000) });
+						if (cfRes.ok) {
+							const json = await cfRes.json();
+							const p = json?.chart?.result?.[0]?.meta?.regularMarketPrice;
+							if (p && p > 0) return p;
 						}
 					} catch(e) {}
 
