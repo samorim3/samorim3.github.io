@@ -899,173 +899,214 @@
 				}
 
 				async function analyzeDgiStock(tickerInput) {
-					if (!tickerInput) return;
-					const tickerClean = tickerInput.trim().toUpperCase();
-					const alias = aliasMap[tickerClean] || tickerClean;
+					try {
+						const inputEl = document.getElementById('dgiTickerInput');
+						const rawInput = (tickerInput || (inputEl ? inputEl.value : '') || '').trim();
+						if (!rawInput) return;
 
-					const loadBox = document.getElementById('dgiLoadingMsg');
-					const resultSection = document.getElementById('dgiResultSection');
+						const tickerClean = rawInput.toUpperCase();
+						const alias = aliasMap[tickerClean] || tickerClean;
 
-					loadBox.style.display = 'block';
-					loadBox.className = 'status-msg status-loading';
-					loadBox.innerHTML = 'A procurar cotações e dividendos em tempo real para <strong>' + tickerClean + '</strong>...';
+						const loadBox = document.getElementById('dgiLoadingMsg');
+						const resultSection = document.getElementById('dgiResultSection');
 
-					// Fetch live market & dividend events dynamically via Yahoo Finance API
-					const liveResult = await fetchLiveTickerData(tickerClean);
-					if (!liveResult) {
-						currentDgiData = null;
-						if (resultSection) resultSection.style.display = 'none';
-						loadBox.className = 'status-msg status-error';
-						loadBox.innerHTML = '❌ <strong>Ticker não encontrado:</strong> Não foi possível localizar cotações ou dados financeiros para <strong>' + tickerClean + '</strong> nos mercados globais.';
-						return;
-					}
+						if (loadBox) {
+							loadBox.style.display = 'block';
+							loadBox.className = 'status-msg status-loading';
+							loadBox.innerHTML = 'A procurar cotações e dividendos em tempo real para <strong>' + tickerClean + '</strong>...';
+						}
 
-					if (resultSection) resultSection.style.display = 'block';
+						// Fetch live market & dividend events dynamically via Cloudflare / Yahoo Finance API
+						const liveResult = await fetchLiveTickerData(tickerClean);
+						if (!liveResult) {
+							currentDgiData = null;
+							if (resultSection) resultSection.style.display = 'none';
+							if (loadBox) {
+								loadBox.className = 'status-msg status-error';
+								loadBox.innerHTML = '❌ <strong>Ticker não encontrado:</strong> Não foi possível localizar cotações ou dados financeiros para <strong>' + tickerClean + '</strong> nos mercados globais.';
+							}
+							return;
+						}
 
-					const meta = liveResult.meta;
-					const price = meta.regularMarketPrice;
-					const name = meta.longName || meta.shortName || tickerClean;
-					const curr = meta.currency || 'USD';
-					const symChar = getTickerCurrencySymbol(tickerClean);
-					
-					// Parse real dividends
-					const rawDivs = liveResult.events?.dividends || {};
-					const divArr = Object.values(rawDivs).sort((a, b) => a.date - b.date);
-					
-					const yearMap = {};
-					divArr.forEach(d => {
-						const yr = new Date(d.date * 1000).getFullYear().toString();
-						yearMap[yr] = (yearMap[yr] || 0) + d.amount;
-					});
-					
-					const divHistory = Object.keys(yearMap).sort().slice(-6).map(yr => ({
-						year: yr,
-						amount: +(yearMap[yr].toFixed(2))
-					}));
+						if (resultSection) resultSection.style.display = 'block';
 
-					// Calculate real LTM dividend and yield
-					const nowSec = Math.floor(Date.now() / 1000);
-					const oneYearSec = 365 * 24 * 60 * 60;
-					const ltmList = divArr.filter(d => (nowSec - d.date) <= oneYearSec);
-					let ltmDiv = ltmList.reduce((sum, d) => sum + d.amount, 0);
-					if (ltmDiv === 0 && divArr.length >= 4) {
-						ltmDiv = divArr.slice(-4).reduce((sum, d) => sum + d.amount, 0);
-					}
-					const realYield = (ltmDiv > 0 && price > 0) ? (ltmDiv / price) * 100 : 0;
+						const meta = liveResult.meta || {};
+						const price = meta.regularMarketPrice || 0;
+						const name = meta.longName || meta.shortName || tickerClean;
+						const curr = meta.currency || 'USD';
+						const symChar = getTickerCurrencySymbol(alias || tickerClean);
+						
+						// Parse real dividends
+						const rawDivs = liveResult.events?.dividends || {};
+						const divArr = Object.values(rawDivs).sort((a, b) => a.date - b.date);
+						
+						const yearMap = {};
+						divArr.forEach(d => {
+							const yr = new Date(d.date * 1000).getFullYear().toString();
+							yearMap[yr] = (yearMap[yr] || 0) + d.amount;
+						});
+						
+						const divHistory = Object.keys(yearMap).sort().slice(-6).map(yr => ({
+							year: yr,
+							amount: +(yearMap[yr].toFixed(2))
+						}));
 
-					// Real 5Y Div CAGR
-					let divCagr5y = 0;
-					if (divHistory.length >= 2) {
-						const first = divHistory[0].amount;
-						const last = divHistory[divHistory.length - 1].amount;
-						const yrs = divHistory.length - 1;
-						if (first > 0 && last > 0 && yrs > 0) {
-							divCagr5y = (Math.pow(last / first, 1 / yrs) - 1) * 100;
+						// Calculate real LTM dividend and yield
+						const nowSec = Math.floor(Date.now() / 1000);
+						const oneYearSec = 365 * 24 * 60 * 60;
+						const ltmList = divArr.filter(d => (nowSec - d.date) <= oneYearSec);
+						let ltmDiv = ltmList.reduce((sum, d) => sum + d.amount, 0);
+						if (ltmDiv === 0 && divArr.length >= 4) {
+							ltmDiv = divArr.slice(-4).reduce((sum, d) => sum + d.amount, 0);
+						}
+						const realYield = (ltmDiv > 0 && price > 0) ? (ltmDiv / price) * 100 : 0;
+
+						// Real 5Y Div CAGR
+						let divCagr5y = 0;
+						if (divHistory.length >= 2) {
+							const first = divHistory[0].amount;
+							const last = divHistory[divHistory.length - 1].amount;
+							const yrs = divHistory.length - 1;
+							if (first > 0 && last > 0 && yrs > 0) {
+								divCagr5y = (Math.pow(last / first, 1 / yrs) - 1) * 100;
+							}
+						}
+
+						const chowder = realYield + (divCagr5y > 0 ? divCagr5y : 0);
+
+						// Scores for Pilar 1 & Pilar 5 from real market data
+						let p1 = 0;
+						if (realYield >= 2.5 && realYield <= 6.0) p1 = 20;
+						else if ((realYield >= 2.0 && realYield < 2.5) || (realYield > 6.0 && realYield <= 7.0)) p1 = 16;
+						else if ((realYield >= 1.5 && realYield < 2.0) || (realYield > 7.0 && realYield <= 8.5)) p1 = 10;
+						else if ((realYield >= 1.0 && realYield < 1.5) || (realYield > 8.5 && realYield <= 10.0)) p1 = 5;
+
+						let dpsPts = divCagr5y >= 7 ? 10 : (divCagr5y >= 4 ? 7 : (divCagr5y >= 1 ? 4 : (realYield > 4 ? 5 : 0)));
+						let chwPts = chowder >= 12 ? 10 : (chowder >= 8 ? 7 : (chowder >= 5 ? 4 : 0));
+						let p5 = dpsPts + chwPts;
+
+						const dynamicData = {
+							ticker: (alias && alias !== tickerClean) ? `${tickerClean} (${alias})` : tickerClean,
+							name: name,
+							sector: (meta.fullExchangeName || meta.exchangeName || "Global Exchange") + " | " + (meta.instrumentType || "Equity"),
+							currency: curr,
+							symbol: symChar,
+							price: price,
+							mcap: "—",
+							pe: null,
+							forwardPe: null,
+							pb: null,
+							roe: null,
+							margin: null,
+							divYield: realYield,
+							fcfPayout: null,
+							epsPayout: null,
+							netDebtEbitda: null,
+							revCagr5y: null,
+							niCagr5y: null,
+							divCagr5y: divCagr5y,
+							chowder: chowder,
+							divHistory: divHistory,
+							scores: { p1: p1, p2: null, p3: null, p4: null, p5: p5, total: p1 + p5 },
+							verdict: "Dados em Direto (Yahoo Finance)",
+							verdictIcon: "📡",
+							summary: `Cotação real de ${symChar}${price.toFixed(2)} e Dividend Yield de ${realYield.toFixed(2)}% recolhidos em direto via Yahoo Finance (${meta.fullExchangeName || 'Bolsa'}).`
+						};
+
+						currentDgiData = dynamicData;
+						renderDgiDashboard(dynamicData);
+
+						if (loadBox) {
+							loadBox.className = 'status-msg status-success';
+							loadBox.innerHTML = '📡 Dados em direto para <strong>' + name + ' (' + tickerClean + ')</strong> carregados com sucesso!';
+							setTimeout(() => { if (loadBox) loadBox.style.display = 'none'; }, 4500);
+						}
+					} catch (err) {
+						console.error("DGI Analysis Error:", err);
+						const loadBox = document.getElementById('dgiLoadingMsg');
+						if (loadBox) {
+							loadBox.className = 'status-msg status-error';
+							loadBox.innerHTML = 'Erro ao processar dados: ' + (err.message || 'Ocorreu um erro');
 						}
 					}
-
-					const chowder = realYield + (divCagr5y > 0 ? divCagr5y : 0);
-
-					// Scores for Pilar 1 & Pilar 5 from real market data
-					let p1 = 0;
-					if (realYield >= 2.5 && realYield <= 6.0) p1 = 20;
-					else if ((realYield >= 2.0 && realYield < 2.5) || (realYield > 6.0 && realYield <= 7.0)) p1 = 16;
-					else if ((realYield >= 1.5 && realYield < 2.0) || (realYield > 7.0 && realYield <= 8.5)) p1 = 10;
-					else if ((realYield >= 1.0 && realYield < 1.5) || (realYield > 8.5 && realYield <= 10.0)) p1 = 5;
-
-					let dpsPts = divCagr5y >= 7 ? 10 : (divCagr5y >= 4 ? 7 : (divCagr5y >= 1 ? 4 : (realYield > 4 ? 5 : 0)));
-					let chwPts = chowder >= 12 ? 10 : (chowder >= 8 ? 7 : (chowder >= 5 ? 4 : 0));
-					let p5 = dpsPts + chwPts;
-
-					const dynamicData = {
-						ticker: tickerClean,
-						name: name,
-						sector: (meta.fullExchangeName || meta.exchangeName || "Global Exchange") + " | " + (meta.instrumentType || "Equity"),
-						currency: curr,
-						symbol: symChar,
-						price: price,
-						mcap: "—",
-						pe: null,
-						forwardPe: null,
-						pb: null,
-						roe: null,
-						margin: null,
-						divYield: realYield,
-						fcfPayout: null,
-						epsPayout: null,
-						netDebtEbitda: null,
-						revCagr5y: null,
-						niCagr5y: null,
-						divCagr5y: divCagr5y,
-						chowder: chowder,
-						divHistory: divHistory,
-						scores: { p1: p1, p2: null, p3: null, p4: null, p5: p5, total: p1 + p5 },
-						verdict: "Dados em Direto (Yahoo Finance)",
-						verdictIcon: "📡",
-						summary: `Cotação real de ${symChar}${price.toFixed(2)} e Dividend Yield de ${realYield.toFixed(2)}% recolhidos em direto via Yahoo Finance (${meta.fullExchangeName || 'Bolsa'}). Demonstrações financeiras de balanço completas disponíveis via script Python.`
-					};
-
-					currentDgiData = dynamicData;
-					renderDgiDashboard(dynamicData);
-
-					loadBox.className = 'status-msg status-success';
-					loadBox.innerHTML = '📡 Dados em direto para <strong>' + name + ' (' + tickerClean + ')</strong> carregados via Yahoo Finance.';
-					setTimeout(() => { loadBox.style.display = 'none'; }, 4500);
 				}
 
 				function renderDgiDashboard(data) {
-					const s = data.scores;
-					
-					// Update Scores & Badges
-					document.getElementById('dgiScoreValue').innerHTML = (s.total != null ? s.total.toFixed(0) : '--') + '<span style="font-size: 1.4rem; color: #64748b;">/100</span>';
-					
-					const badgeEl = document.getElementById('dgiScoreBadge');
-					badgeEl.innerHTML = (data.verdictIcon || '🟢') + ' ' + (data.verdict || 'Análise Concluída');
-					if (s.total >= 85) {
-						badgeEl.style.background = '#047857';
-					} else if (s.total >= 70) {
-						badgeEl.style.background = '#15803d';
-					} else if (s.total >= 50) {
-						badgeEl.style.background = '#d97706';
-					} else if (s.total >= 35) {
-						badgeEl.style.background = '#ea580c';
-					} else {
-						badgeEl.style.background = '#dc2626';
+					try {
+						const s = data.scores || {};
+						
+						// Update Scores & Badges
+						const scVal = document.getElementById('dgiScoreValue');
+						if (scVal) scVal.innerHTML = (s.total != null ? s.total.toFixed(0) : '--') + '<span style="font-size: 1.4rem; color: #64748b;">/100</span>';
+						
+						const badgeEl = document.getElementById('dgiScoreBadge');
+						if (badgeEl) {
+							badgeEl.innerHTML = (data.verdictIcon || '🟢') + ' ' + (data.verdict || 'Análise Concluída');
+							if (s.total >= 85) {
+								badgeEl.style.background = '#047857';
+							} else if (s.total >= 70) {
+								badgeEl.style.background = '#15803d';
+							} else if (s.total >= 50) {
+								badgeEl.style.background = '#d97706';
+							} else if (s.total >= 35) {
+								badgeEl.style.background = '#ea580c';
+							} else {
+								badgeEl.style.background = '#dc2626';
+							}
+						}
+
+						// Company Details
+						const nameEl = document.getElementById('dgiCompName');
+						if (nameEl) nameEl.innerHTML = data.name + ' <span id="dgiCompTicker" style="color: #475569; font-size: 1rem; font-weight: 600;">(' + data.ticker + ')</span>';
+						
+						const secEl = document.getElementById('dgiCompSector');
+						if (secEl) secEl.innerText = (data.sector || '--') + ' | ' + (data.currency || 'USD');
+						
+						const priceEl = document.getElementById('dgiCompPrice');
+						if (priceEl) priceEl.innerText = formatPriceWithCurrency(data.price, data.symbol);
+						
+						const mcapEl = document.getElementById('dgiCompMcap');
+						if (mcapEl) mcapEl.innerText = 'Cap: ' + (data.mcap || '—');
+						
+						const verdEl = document.getElementById('dgiVerdictSummary');
+						if (verdEl) verdEl.innerText = data.summary || '—';
+
+						// Quick Highlights
+						const qy = document.getElementById('dgiQuickYield');
+						if (qy) qy.innerText = (data.divYield != null ? data.divYield.toFixed(2) + '%' : '—');
+						
+						const qp = document.getElementById('dgiQuickPayout');
+						if (qp) qp.innerText = (data.fcfPayout != null ? data.fcfPayout.toFixed(1) + '%' : '—');
+						
+						const qd = document.getElementById('dgiQuickDebt');
+						if (qd) qd.innerText = (data.netDebtEbitda != null ? data.netDebtEbitda.toFixed(2) + 'x' : '—');
+						
+						const qc = document.getElementById('dgiQuickChowder');
+						if (qc) qc.innerText = (data.chowder != null ? data.chowder.toFixed(1) + '%' : '—');
+
+						// 5 Pillar Cards
+						const setPillar = (idNum, scoreVal, metricText, progressPct) => {
+							const scEl = document.getElementById('p' + idNum + 'Score');
+							const meEl = document.getElementById('p' + idNum + 'Metric');
+							const prEl = document.getElementById('p' + idNum + 'Progress');
+							if (scEl) scEl.innerHTML = (scoreVal != null ? scoreVal.toFixed(0) : '—') + ' <span style="font-size: 0.75rem; color: #94a3b8;">/20</span>';
+							if (meEl) meEl.innerText = metricText;
+							if (prEl) prEl.style.width = (progressPct || 0) + '%';
+						};
+
+						setPillar(1, s.p1, (data.divYield != null ? data.divYield.toFixed(2) + '%' : '—'), (s.p1 != null ? (s.p1 / 20) * 100 : 0));
+						setPillar(2, s.p2, (data.fcfPayout != null ? data.fcfPayout.toFixed(1) + '%' : '—'), (s.p2 != null ? (s.p2 / 20) * 100 : 0));
+						setPillar(3, s.p3, (data.netDebtEbitda != null ? data.netDebtEbitda.toFixed(2) + 'x' : '—'), (s.p3 != null ? (s.p3 / 20) * 100 : 0));
+						setPillar(4, s.p4, (data.revCagr5y != null ? 'Rev: ' + data.revCagr5y.toFixed(1) + '%' : '—'), (s.p4 != null ? (s.p4 / 20) * 100 : 0));
+						setPillar(5, s.p5, (data.chowder != null ? 'Chowder ' + data.chowder.toFixed(1) + '%' : '—'), (s.p5 != null ? (s.p5 / 20) * 100 : 0));
+
+						// Render Charts & Table safely
+						try { renderDgiRadar(data); } catch(e) { console.warn("Radar Chart Error:", e); }
+						try { renderDgiDivBar(data); } catch(e) { console.warn("Div Bar Error:", e); }
+						try { renderDgiFundamentalsTable(data); } catch(e) { console.warn("Table Error:", e); }
+					} catch(err) {
+						console.error("renderDgiDashboard Error:", err);
 					}
-
-					// Company Details
-					document.getElementById('dgiCompName').innerHTML = data.name + ' <span id="dgiCompTicker" style="color: #475569; font-size: 1rem; font-weight: 600;">(' + data.ticker + ')</span>';
-					document.getElementById('dgiCompSector').innerText = (data.sector || '--') + ' | ' + (data.currency || 'USD');
-					document.getElementById('dgiCompPrice').innerText = formatPriceWithCurrency(data.price, data.symbol);
-					document.getElementById('dgiCompMcap').innerText = 'Cap: ' + (data.mcap || '—');
-					document.getElementById('dgiVerdictSummary').innerText = data.summary || '—';
-
-					// Quick Highlights
-					document.getElementById('dgiQuickYield').innerText = (data.divYield != null ? data.divYield.toFixed(2) + '%' : '—');
-					document.getElementById('dgiQuickPayout').innerText = (data.fcfPayout != null ? data.fcfPayout.toFixed(1) + '%' : '—');
-					document.getElementById('dgiQuickDebt').innerText = (data.netDebtEbitda != null ? data.netDebtEbitda.toFixed(2) + 'x' : '—');
-					document.getElementById('dgiQuickChowder').innerText = (data.chowder != null ? data.chowder.toFixed(1) + '%' : '—');
-
-					// 5 Pillar Cards
-					const setPillar = (idNum, scoreVal, metricText, progressPct) => {
-						const scEl = document.getElementById('p' + idNum + 'Score');
-						const meEl = document.getElementById('p' + idNum + 'Metric');
-						const prEl = document.getElementById('p' + idNum + 'Progress');
-						if (scEl) scEl.innerHTML = (scoreVal != null ? scoreVal.toFixed(0) : '—') + ' <span style="font-size: 0.75rem; color: #94a3b8;">/20</span>';
-						if (meEl) meEl.innerText = metricText;
-						if (prEl) prEl.style.width = (progressPct || 0) + '%';
-					};
-
-					setPillar(1, s.p1, (data.divYield != null ? data.divYield.toFixed(2) + '%' : '—'), (s.p1 != null ? (s.p1 / 20) * 100 : 0));
-					setPillar(2, s.p2, (data.fcfPayout != null ? data.fcfPayout.toFixed(1) + '%' : '—'), (s.p2 != null ? (s.p2 / 20) * 100 : 0));
-					setPillar(3, s.p3, (data.netDebtEbitda != null ? data.netDebtEbitda.toFixed(2) + 'x' : '—'), (s.p3 != null ? (s.p3 / 20) * 100 : 0));
-					setPillar(4, s.p4, (data.revCagr5y != null ? 'Rev: ' + data.revCagr5y.toFixed(1) + '%' : '—'), (s.p4 != null ? (s.p4 / 20) * 100 : 0));
-					setPillar(5, s.p5, (data.chowder != null ? 'Chowder ' + data.chowder.toFixed(1) + '%' : '—'), (s.p5 != null ? (s.p5 / 20) * 100 : 0));
-
-					// Render Charts & Table
-					renderDgiRadar(data);
-					renderDgiDivBar(data);
-					renderDgiFundamentalsTable(data);
 				}
 
 				function renderDgiRadar(data) {
