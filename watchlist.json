@@ -21,7 +21,7 @@
     "ticker": "GALP",
     "name": "Galp Energia",
     "minBuy": 15,
-    "maxSell": 22,
+    "maxSell": 25,
     "lastPrice": 22.45,
     "dgiScore": 60.0,
     "dgiVerdict": "Moderate / Neutral"

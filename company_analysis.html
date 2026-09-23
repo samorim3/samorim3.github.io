@@ -1097,7 +1097,7 @@
 				const DEFAULT_WATCHLIST = [
 					{ ticker: "ADS.DE", name: "Adidas AG", minBuy: 140.00, maxSell: 200.00, lastPrice: 0, dgiScore: null, dgiVerdict: null, status: "HOLD" },
 					{ ticker: "NKE", name: "Nike, Inc.", minBuy: 30.00, maxSell: 95.00, lastPrice: 0, dgiScore: null, dgiVerdict: null, status: "HOLD" },
-					{ ticker: "GALP", name: "Galp Energia", minBuy: 15.00, maxSell: 22.00, lastPrice: 0, dgiScore: null, dgiVerdict: null, status: "HOLD" },
+					{ ticker: "GALP", name: "Galp Energia", minBuy: 15.00, maxSell: 25.00, lastPrice: 0, dgiScore: null, dgiVerdict: null, status: "HOLD" },
 					{ ticker: "NVDA", name: "NVIDIA Corporation", minBuy: 150.00, maxSell: 300.00, lastPrice: 0, dgiScore: null, dgiVerdict: null, status: "HOLD" }
 				];
 
@@ -1269,6 +1269,7 @@
 					if (watchlist[index]) {
 						watchlist[index][field] = numVal;
 						saveWatchlistToStorage();
+						renderWatchlistTable();
 						showWatchlistSummary('Price target updated for <strong>' + watchlist[index].ticker + '</strong>.', 'success');
 					}
 				}
