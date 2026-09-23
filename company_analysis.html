@@ -330,12 +330,6 @@
 										<div id="dgiLoadingMsg" class="status-msg"></div>
 									</div>
 
-									<!-- Empty State Prompt -->
-									<div id="dgiEmptyPrompt" style="text-align: center; padding: 2.5rem 1rem; color: #64748b; background: #f8fafc; border: 1px dashed #cbd5e1; border-radius: 12px; margin-bottom: 1.5rem;">
-										<div style="font-size: 1.8rem; margin-bottom: 0.5rem;">📈</div>
-										<strong style="color: #0f172a; font-size: 1rem;">Pesquisa de Ações e Dividendos em Tempo Real</strong>
-										<p style="margin: 0.25rem 0 0 0; font-size: 0.85rem;">Introduza um símbolo de ação acima (ex: <code>VICI</code>, <code>AAPL</code>, <code>KO</code>, <code>PEP</code>, <code>GALP</code>, <code>NVDA</code>) para carregar os dados em direto.</p>
-									</div>
 
 									<!-- DGI Results Area -->
 									<div id="dgiResultSection" style="display: none;">
@@ -734,7 +728,6 @@
 					const alias = aliasMap[tickerClean] || tickerClean;
 
 					const loadBox = document.getElementById('dgiLoadingMsg');
-					const emptyPrompt = document.getElementById('dgiEmptyPrompt');
 					const resultSection = document.getElementById('dgiResultSection');
 
 					loadBox.style.display = 'block';
@@ -745,14 +738,12 @@
 					const liveResult = await fetchLiveTickerData(tickerClean);
 					if (!liveResult) {
 						currentDgiData = null;
-						if (emptyPrompt) emptyPrompt.style.display = 'block';
 						if (resultSection) resultSection.style.display = 'none';
 						loadBox.className = 'status-msg status-error';
 						loadBox.innerHTML = '❌ <strong>Ticker não encontrado:</strong> Não foi possível localizar cotações ou dados financeiros para <strong>' + tickerClean + '</strong> nos mercados globais.';
 						return;
 					}
 
-					if (emptyPrompt) emptyPrompt.style.display = 'none';
 					if (resultSection) resultSection.style.display = 'block';
 
 					const meta = liveResult.meta;
