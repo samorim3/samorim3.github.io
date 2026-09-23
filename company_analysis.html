@@ -1264,13 +1264,64 @@
 					});
 				}
 
+				let autoSyncTimeout = null;
+
+				function triggerAutoSyncWatchlist(itemTicker = "") {
+					const ghInput = document.getElementById('githubToken');
+					const ghToken = ((ghInput ? ghInput.value : '') || localStorage.getItem('github_sync_token') || '').trim();
+					
+					if (!ghToken) {
+						if (itemTicker) {
+							showWatchlistSummary('Preço de <strong>' + itemTicker + '</strong> guardado localmente. 💡 <small>Para sincronizar com o robô do Telegram na nuvem, introduza o seu GitHub Token no fundo da página.</small>', 'warning');
+						}
+						return;
+					}
+
+					if (autoSyncTimeout) clearTimeout(autoSyncTimeout);
+					showWatchlistSummary('☁️ A sincronizar automaticamente com o GitHub...', 'loading');
+
+					autoSyncTimeout = setTimeout(async () => {
+						try {
+							const owner = "samorim3";
+							const repo = "samorim3.github.io";
+							const path = "watchlist.json";
+							const getUrl = `https://api.github.com/repos/${owner}/${repo}/contents/${path}`;
+							
+							const getRes = await fetch(getUrl, { headers: { 'Authorization': `token ${ghToken}` } });
+							let sha = "";
+							if (getRes.ok) {
+								const fileData = await getRes.json();
+								sha = fileData.sha;
+							}
+
+							const contentStr = JSON.stringify(watchlist, null, 2);
+							const contentB64 = btoa(unescape(encodeURIComponent(contentStr)));
+
+							const putRes = await fetch(getUrl, {
+								method: 'PUT',
+								headers: { 'Authorization': `token ${ghToken}`, 'Content-Type': 'application/json' },
+								body: JSON.stringify({ message: "Auto-sync watchlist.json from Web UI", content: contentB64, sha: sha })
+							});
+
+							if (putRes.ok) {
+								showWatchlistSummary('✅ <strong>Sincronizado:</strong> As alterações foram gravadas no GitHub e o robô do Telegram foi atualizado!', 'success');
+							} else {
+								const errData = await putRes.json();
+								showWatchlistSummary('Erro ao sincronizar com GitHub: ' + (errData.message || 'Token inválido'), 'error');
+							}
+						} catch(e) {
+							showWatchlistSummary('Falha ao sincronizar: ' + e.message, 'error');
+						}
+					}, 600);
+				}
+
 				function updateWatchlistThreshold(index, field, value) {
 					const numVal = parseFloat(value) || 0;
 					if (watchlist[index]) {
 						watchlist[index][field] = numVal;
 						saveWatchlistToStorage();
 						renderWatchlistTable();
-						showWatchlistSummary('Price target updated for <strong>' + watchlist[index].ticker + '</strong>.', 'success');
+						triggerAutoSyncWatchlist(watchlist[index].ticker);
 					}
 				}
 
@@ -1281,6 +1332,7 @@
 						saveWatchlistToStorage();
 						renderWatchlistTable();
 						showWatchlistSummary(sym + ' removed from Watchlist.', 'warning');
+						triggerAutoSyncWatchlist();
 					}
 				}
 
@@ -1322,6 +1374,7 @@
 					watchlist.push(newEntry);
 					saveWatchlistToStorage();
 					renderWatchlistTable();
+					triggerAutoSyncWatchlist(newEntry.ticker);
 
 					tickerInput.value = '';
 					nameInput.value = '';
@@ -1403,6 +1456,9 @@
 						if (showFeedback) {
 							showTelegramStatus('Credentials saved in browser storage.', 'success');
 						}
+						if (gh) {
+							triggerAutoSyncWatchlist();
+						}
 					} catch(e) {}
 				}
 
@@ -1462,7 +1518,7 @@
 						});
 
 						if (putRes.ok) {
-							showWatchlistSummary('Watchlist synchronized with GitHub.', 'success');
+							showWatchlistSummary('✅ Watchlist synchronized with GitHub repository.', 'success');
 						} else {
 							const errData = await putRes.json();
 							showWatchlistSummary('GitHub API error: ' + errData.message, 'error');
