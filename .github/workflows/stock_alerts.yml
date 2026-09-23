@@ -1,9 +1,9 @@
-﻿name: Stock Price Check & Telegram Alerts
+name: Stock Price Check & Telegram Alerts
 
 on:
   schedule:
-    # Run every hour between 08:00 and 22:00 UTC, Monday through Friday (market trading hours)
-    - cron: '0 8-22 * * 1-5'
+    # Run at minute 17 of every hour between 08:00 and 22:00 UTC, Monday through Friday (avoids :00 peak queue delays)
+    - cron: '17 8-22 * * 1-5'
   workflow_dispatch: # Allows manual trigger from GitHub Actions tab
 
 permissions:
