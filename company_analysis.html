@@ -688,7 +688,10 @@
 
 					// 1. Primary High-Speed Gateway: Cloudflare Worker
 					try {
-						const cfRes = await fetch(CLOUDFLARE_WORKER_URL + '/?ticker=' + encodeURIComponent(ticker), { signal: AbortSignal.timeout(5000) });
+						const controller = typeof AbortController !== 'undefined' ? new AbortController() : null;
+						const tid = controller ? setTimeout(() => controller.abort(), 6000) : null;
+						const cfRes = await fetch(CLOUDFLARE_WORKER_URL + '/?ticker=' + encodeURIComponent(ticker), controller ? { signal: controller.signal } : {});
+						if (tid) clearTimeout(tid);
 						if (cfRes.ok) {
 							const json = await cfRes.json();
 							const res = json?.chart?.result?.[0];
@@ -696,12 +699,17 @@
 								return res;
 							}
 						}
-					} catch(e) {}
+					} catch(e) {
+						console.warn('Worker Gateway Error:', e);
+					}
 
 					// 2. Secondary Fallback: corsproxy.org
 					try {
+						const controller2 = typeof AbortController !== 'undefined' ? new AbortController() : null;
+						const tid2 = controller2 ? setTimeout(() => controller2.abort(), 6000) : null;
 						const proxyUrl = 'https://corsproxy.org/?url=' + encodeURIComponent(targetUrl);
-						const pRes = await fetch(proxyUrl, { signal: AbortSignal.timeout(5000) });
+						const pRes = await fetch(proxyUrl, controller2 ? { signal: controller2.signal } : {});
+						if (tid2) clearTimeout(tid2);
 						if (pRes.ok) {
 							const json = await pRes.json();
 							const res = json?.chart?.result?.[0];
@@ -709,7 +717,9 @@
 								return res;
 							}
 						}
-					} catch(e) {}
+					} catch(e) {
+						console.warn('Fallback Error:', e);
+					}
 
 					return null;
 				}
@@ -1132,7 +1142,10 @@
 
 					// 1. Primary: Cloudflare Worker
 					try {
-						const cfRes = await fetch(CLOUDFLARE_WORKER_URL + '/?ticker=' + encodeURIComponent(ticker), { signal: AbortSignal.timeout(4000) });
+						const controller = typeof AbortController !== 'undefined' ? new AbortController() : null;
+						const tid = controller ? setTimeout(() => controller.abort(), 5000) : null;
+						const cfRes = await fetch(CLOUDFLARE_WORKER_URL + '/?ticker=' + encodeURIComponent(ticker), controller ? { signal: controller.signal } : {});
+						if (tid) clearTimeout(tid);
 						if (cfRes.ok) {
 							const json = await cfRes.json();
 							const p = json?.chart?.result?.[0]?.meta?.regularMarketPrice;
