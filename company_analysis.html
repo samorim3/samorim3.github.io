@@ -677,7 +677,180 @@
 					if (tbody) {
 						tbody.innerHTML = '<tr><td colspan="4" style="text-align:center; padding: 1.5rem; color: #94a3b8;">Nenhum dado fundamental disponível para ' + (searchedTicker || 'este ticker') + '.</td></tr>';
 					}
-				}
+				const aliasMap = {
+					// Portugal (Euronext Lisboa)
+					"GALP": "GALP.LS",
+					"GALP.LS": "GALP.LS",
+					"EDP": "EDP.LS",
+					"EDPR": "EDPR.LS",
+					"JMT": "JMT.LS",
+					"JERONIMO": "JMT.LS",
+					"JERONIMO MARTINS": "JMT.LS",
+					"NOS": "NOS.LS",
+					"SONAE": "SON.LS",
+					"SON": "SON.LS",
+					"BCP": "BCP.LS",
+					"MILLENNIUM": "BCP.LS",
+					"NAVIGATOR": "NVG.LS",
+					"NVG": "NVG.LS",
+					"REN": "RENE.LS",
+					"RENE": "RENE.LS",
+					"SEMAPA": "SEM.LS",
+					"SEM": "SEM.LS",
+					"CORTICEIRA": "COR.LS",
+					"AMORIM": "COR.LS",
+					"COR": "COR.LS",
+					"CTT": "CTT.LS",
+					"MOTA": "EGL.LS",
+					"MOTA ENGIL": "EGL.LS",
+					"EGL": "EGL.LS",
+					"GREENVOLT": "GVOLT.LS",
+
+					// França (Euronext Paris)
+					"LVMH": "MC.PA",
+					"LOUIS VUITTON": "MC.PA",
+					"MC": "MC.PA",
+					"MC.PA": "MC.PA",
+					"OR": "OR.PA",
+					"LOREAL": "OR.PA",
+					"L'OREAL": "OR.PA",
+					"KERING": "KER.PA",
+					"KER": "KER.PA",
+					"GUCCI": "KER.PA",
+					"HERMES": "RMS.PA",
+					"RMS": "RMS.PA",
+					"AIRBUS": "AIR.PA",
+					"AIR": "AIR.PA",
+					"TOTAL": "TTE.PA",
+					"TOTALENERGIES": "TTE.PA",
+					"TTE": "TTE.PA",
+					"SAN": "SAN.PA",
+					"SANOFI": "SAN.PA",
+					"BNP": "BNP.PA",
+					"BNP PARIBAS": "BNP.PA",
+					"SCHNEIDER": "SU.PA",
+					"DANONE": "BN.PA",
+					"AIR LIQUIDE": "AI.PA",
+					"PERNOD": "RI.PA",
+					"PERNOD RICARD": "RI.PA",
+					"STELLANTIS": "STLAM.PA",
+
+					// Alemanha (XETRA Frankfurt)
+					"ADS": "ADS.DE",
+					"ADS.DE": "ADS.DE",
+					"ADIDAS": "ADS.DE",
+					"BMW": "BMW.DE",
+					"MERCEDES": "MBG.DE",
+					"MBG": "MBG.DE",
+					"DAIMLER": "MBG.DE",
+					"VOLKSWAGEN": "VOW3.DE",
+					"VOW": "VOW3.DE",
+					"VOW3": "VOW3.DE",
+					"PORSCHE": "P911.DE",
+					"PAH3": "PAH3.DE",
+					"SAP": "SAP.DE",
+					"SIEMENS": "SIE.DE",
+					"SIE": "SIE.DE",
+					"ALLIANZ": "ALV.DE",
+					"ALV": "ALV.DE",
+					"BAYER": "BAYN.DE",
+					"BASF": "BAS.DE",
+					"DHL": "DHL.DE",
+					"DEUTSCHE POST": "DHL.DE",
+					"DEUTSCHE TELEKOM": "DTE.DE",
+					"DTE": "DTE.DE",
+					"EON": "EOAN.DE",
+					"MUNICH RE": "MUV2.DE",
+
+					// Espanha (BME Madrid)
+					"INDITEX": "ITX.MC",
+					"ZARA": "ITX.MC",
+					"ITX": "ITX.MC",
+					"SANTANDER": "SAN.MC",
+					"BBVA": "BBVA.MC",
+					"IBERDROLA": "IBE.MC",
+					"IBE": "IBE.MC",
+					"REPSOL": "REP.MC",
+					"REP": "REP.MC",
+					"TELEFONICA": "TEF.MC",
+					"TEF": "TEF.MC",
+					"AMADEUS": "AMS.MC",
+					"CELLNEX": "CLNX.MC",
+
+					// Países Baixos & Itália
+					"ASML": "ASML.AS",
+					"UNILEVER": "UNA.AS",
+					"UNA": "UNA.AS",
+					"HEINEKEN": "HEIA.AS",
+					"HEIA": "HEIA.AS",
+					"PHILIPS": "PHIA.AS",
+					"ING": "INGA.AS",
+					"FERRARI": "RACE.MI",
+					"RACE": "RACE.MI",
+					"ENEL": "ENEL.MI",
+					"ENI": "ENI.MI",
+					"INTESA": "ISP.MI",
+
+					// Suíça & Nórdicos & UK
+					"NESTLE": "NESN.SW",
+					"NESN": "NESN.SW",
+					"ROCHE": "ROG.SW",
+					"ROG": "ROG.SW",
+					"NOVARTIS": "NOVN.SW",
+					"NOVN": "NOVN.SW",
+					"NOVO": "NOVO-B.CO",
+					"NOVO-B": "NOVO-B.CO",
+					"NOVO NORDISK": "NOVO-B.CO",
+					"VOLVO": "VOLV-B.ST",
+					"SHELL": "SHEL.L",
+					"SHEL": "SHEL.L",
+					"BP": "BP.L",
+					"ASTRAZENECA": "AZN.L",
+					"AZN": "AZN.L",
+					"GSK": "GSK.L",
+					"RIO": "RIO.L",
+					"RIO TINTO": "RIO.L",
+					"DIAGEO": "DGE.L",
+					"DGE": "DGE.L",
+					"BAT": "BATS.L",
+					"BATS": "BATS.L",
+
+					// Brasil
+					"PETR4": "PETR4.SA",
+					"PETROBRAS": "PETR4.SA",
+					"VALE": "VALE3.SA",
+					"VALE3": "VALE3.SA",
+					"ITAU": "ITUB4.SA",
+					"ITUB4": "ITUB4.SA",
+					"BRADESCO": "BBDC4.SA",
+					"AMBEV": "ABEV3.SA",
+
+					// EUA (Nomes Populares)
+					"MCDONALDS": "MCD",
+					"MCDONALD'S": "MCD",
+					"APPLE": "AAPL",
+					"MICROSOFT": "MSFT",
+					"GOOGLE": "GOOGL",
+					"ALPHABET": "GOOGL",
+					"AMAZON": "AMZN",
+					"TESLA": "TSLA",
+					"NVIDIA": "NVDA",
+					"META": "META",
+					"FACEBOOK": "META",
+					"COCA COLA": "KO",
+					"COCA-COLA": "KO",
+					"PEPSI": "PEP",
+					"PEPSICO": "PEP",
+					"JOHNSON": "JNJ",
+					"PROCTER": "PG",
+					"DISNEY": "DIS",
+					"NIKE": "NKE",
+					"STARBUCKS": "SBUX",
+					"PFIZER": "PFE",
+					"NETFLIX": "NFLX",
+					"EXXON": "XOM",
+					"CHEVRON": "CVX"
+				};
 
 				const CLOUDFLARE_WORKER_URL = 'https://stock-finance-api.samorim3.workers.dev';
 
@@ -1105,21 +1278,14 @@
 
 				let watchlist = [];
 
-				const aliasMap = {
-					"GALP": "GALP.LS",
-					"ADS": "ADS.DE",
-					"NOVO-B": "NOVO-B.CO",
-					"PETR4": "PETR4.SA"
-				};
-
 				function getTickerCurrencySymbol(tickerStr) {
 					if (!tickerStr) return '€';
 					const t = tickerStr.toUpperCase();
 					if (t.endsWith('.SW') || t.endsWith('.VX')) return 'CHF';
 					if (t.endsWith('.ST')) return 'SEK';
 					if (t.includes('NOVO') || t.endsWith('.CO') || t === 'NOVO-B') return 'DKK';
-					if (t.endsWith('.LS') || t.endsWith('.DE') || t.endsWith('.PA') || t.endsWith('.AS') || t.endsWith('.MI') || t.endsWith('.MC') || t === 'GALP' || t === 'ADS.DE' || t === 'ADS') return '€';
-					if (t.endsWith('.SA') || t === 'PETR4' || t.includes('PETROBRAS')) return 'R$';
+					if (t.endsWith('.LS') || t.endsWith('.DE') || t.endsWith('.PA') || t.endsWith('.AS') || t.endsWith('.MI') || t.endsWith('.MC') || t === 'GALP' || t === 'ADS.DE' || t === 'ADS' || t === 'MC.PA' || t === 'LVMH') return '€';
+					if (t.endsWith('.SA') || t === 'PETR4' || t.includes('PETROBRAS') || t.includes('VALE') || t.includes('ITUB')) return 'R$';
 					if (t.endsWith('.L')) return '£';
 					return '$';
 				}
