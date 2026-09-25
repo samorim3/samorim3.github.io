@@ -230,81 +230,116 @@
 				border: 1px solid #e2e8f0;
 				border-radius: 12px;
 				box-shadow: 0 4px 20px -2px rgba(15, 23, 42, 0.06), 0 2px 6px -1px rgba(15, 23, 42, 0.03);
-				overflow: hidden;
+				overflow: hidden !important;
 				margin-top: 1rem;
 				margin-bottom: 1.5rem;
+				width: 100% !important;
 			}
 
 			.table-wrapper {
-				overflow-x: auto;
+				overflow-x: hidden !important;
+				overflow-y: hidden !important;
+				width: 100% !important;
 				background: #ffffff;
-				margin: 0;
+				margin: 0 !important;
+				padding: 0 !important;
 			}
 
 			.sober-table {
-				width: 100%;
-				table-layout: fixed;
-				border-collapse: collapse;
-				margin: 0;
-				font-size: 0.82rem;
+				width: 100% !important;
+				table-layout: fixed !important;
+				border-collapse: collapse !important;
+				margin: 0 !important;
+				font-size: 0.78rem !important;
 			}
 
 			.sober-table thead th {
-				background: #f8fafc;
-				color: #475569;
-				font-size: 0.7rem;
-				font-weight: 700;
-				text-transform: uppercase;
-				letter-spacing: 0.05em;
-				padding: 0.75rem 0.5rem;
-				border-bottom: 1px solid #e2e8f0;
+				background: #f8fafc !important;
+				color: #475569 !important;
+				font-size: 0.65rem !important;
+				font-weight: 700 !important;
+				text-transform: uppercase !important;
+				letter-spacing: 0.03em !important;
+				padding: 0.6rem 0.35rem !important;
+				border-bottom: 1px solid #e2e8f0 !important;
 				text-align: left;
-				white-space: nowrap;
+				white-space: nowrap !important;
+				line-height: 1.2 !important;
 			}
 
 			.sober-table tbody td {
-				padding: 0.75rem 0.5rem;
-				border-bottom: 1px solid #f1f5f9;
-				vertical-align: middle;
-				color: #1e293b;
+				padding: 0.55rem 0.35rem !important;
+				border-bottom: 1px solid #f1f5f9 !important;
+				vertical-align: middle !important;
+				color: #1e293b !important;
+				font-size: 0.78rem !important;
+				line-height: 1.2 !important;
 			}
 
 			.sober-table tbody tr:last-child td {
-				border-bottom: none;
+				border-bottom: none !important;
 			}
 
 			.sober-table tbody tr:hover td {
-				background: #f8fafc;
+				background: #f8fafc !important;
 			}
 
 			.input-target-box {
-				display: inline-flex;
-				align-items: center;
-				gap: 0.2rem;
-				justify-content: center;
-				background: #ffffff;
-				border: 1px solid #cbd5e1;
-				border-radius: 6px;
-				padding: 0.2rem 0.35rem;
-				box-shadow: 0 1px 2px rgba(0, 0, 0, 0.04);
-				transition: border-color 0.2s, box-shadow 0.2s;
+				display: inline-flex !important;
+				align-items: center !important;
+				gap: 0.15rem !important;
+				justify-content: center !important;
+				background: #ffffff !important;
+				border: 1px solid #cbd5e1 !important;
+				border-radius: 5px !important;
+				padding: 0.1rem 0.25rem !important;
+				box-shadow: 0 1px 2px rgba(0, 0, 0, 0.04) !important;
+				max-width: 75px !important;
+				height: 26px !important;
+				box-sizing: border-box !important;
 			}
 			.input-target-box:focus-within {
-				border-color: #0f172a;
-				box-shadow: 0 0 0 2px rgba(15, 23, 42, 0.08);
+				border-color: #0f172a !important;
+				box-shadow: 0 0 0 2px rgba(15, 23, 42, 0.08) !important;
 			}
 			.input-target-box input {
-				width: 62px;
+				width: 42px !important;
+				height: 22px !important;
+				line-height: 22px !important;
 				border: none !important;
 				outline: none !important;
 				background: transparent !important;
-				font-size: 0.82rem !important;
+				font-size: 0.78rem !important;
 				text-align: center !important;
 				font-weight: 600 !important;
 				color: #0f172a !important;
 				padding: 0 !important;
 				margin: 0 !important;
 				box-shadow: none !important;
+			}
+
+			.sober-table button,
+			.btn-tbl-action,
+			.btn-tbl-del {
+				-webkit-appearance: none !important;
+				-moz-appearance: none !important;
+				appearance: none !important;
+				height: auto !important;
+				min-height: 0 !important;
+				line-height: 1 !important;
+				letter-spacing: normal !important;
+				font-family: inherit !important;
+				box-shadow: none !important;
+				cursor: pointer !important;
+				transition: background 0.15s ease !important;
+			}
+			.btn-tbl-action:hover {
+				background: #e2e8f0 !important;
+				color: #0f172a !important;
+			}
+			.btn-tbl-del:hover {
+				background: #fee2e2 !important;
+				color: #7f1d1d !important;
 			}
 
 			.settings-box {
@@ -566,12 +601,12 @@
 											<table class="sober-table">
 												<thead>
 													<tr>
-														<th style="width: 28%;">Company / Ticker</th>
-														<th style="width: 14%; text-align: center;">Min Buy Target</th>
-														<th style="width: 14%; text-align: center;">Max Sell Target</th>
-														<th style="width: 14%; text-align: center;">Last Live Price</th>
+														<th style="width: 25%;">Company / Ticker</th>
+														<th style="width: 14%; text-align: center;">Min Buy</th>
+														<th style="width: 14%; text-align: center;">Max Sell</th>
+														<th style="width: 14%; text-align: center;">Last Price</th>
 														<th style="width: 20%; text-align: center;">Dividendo & Ex-Div</th>
-														<th style="width: 10%; text-align: center;">Actions</th>
+														<th style="width: 13%; text-align: center;">Actions</th>
 													</tr>
 												</thead>
 												<tbody id="watchlistTableBody">
@@ -1488,13 +1523,13 @@
 						}
 
 						// Dividend Info Display
-						let divDisplay = '<span style="color:#94a3b8; font-size:0.78rem;">—</span>';
+						let divDisplay = '<span style="color:#94a3b8; font-size:0.75rem;">—</span>';
 						const divRate = item.dividendRate != null ? parseFloat(item.dividendRate) : null;
 						const divYield = item.dividendYield != null ? parseFloat(item.dividendYield) : null;
 						const exDate = item.exDividendDate || null;
 
 						if (divRate !== null || divYield !== null || exDate) {
-							let rateStr = (divRate !== null && divRate > 0) ? formatPriceWithCurrency(divRate, currSym) + ' / ano' : '';
+							let rateStr = (divRate !== null && divRate > 0) ? formatPriceWithCurrency(divRate, currSym) + ' / a' : '';
 							let yieldStr = (divYield !== null && divYield > 0) ? ' <span style="color:#059669; font-weight:700;">(' + divYield.toFixed(2) + '%)</span>' : '';
 							let dateStr = '';
 							if (exDate) {
@@ -1503,40 +1538,40 @@
 									const parts = exDate.split('-');
 									prettyDate = parts[2] + '/' + parts[1] + '/' + parts[0];
 								}
-								dateStr = '<div style="font-size:0.68rem; color:#64748b; margin-top:2px; white-space:nowrap;">📅 Ex-Div: <strong style="color:#475569;">' + prettyDate + '</strong></div>';
+								dateStr = '<div style="font-size:0.65rem; color:#64748b; margin-top:1px; white-space:nowrap;">📅 ' + prettyDate + '</div>';
 							}
-							divDisplay = '<div style="font-weight:600; color:#0f172a; font-size:0.8rem; white-space:nowrap;">' + (rateStr || '—') + yieldStr + '</div>' + dateStr;
+							divDisplay = '<div style="font-weight:600; color:#0f172a; font-size:0.76rem; white-space:nowrap;">' + (rateStr || '—') + yieldStr + '</div>' + dateStr;
 						}
 
-						tr.innerHTML = '<td style="padding: 0.75rem 0.6rem;">' +
-								'<div style="display:flex; align-items:center; gap:0.35rem;">' +
-									'<strong style="font-weight:700; color:#0f172a; font-size:0.88rem; cursor:pointer;" onclick="analyzeDgiStock(\'' + displayTicker + '\')" title="Analyze ' + displayTicker + '">' + displayTicker + '</strong>' +
-									'<span style="font-size:0.65rem; background:#f1f5f9; color:#475569; border:1px solid #e2e8f0; padding:0.05rem 0.35rem; border-radius:4px; font-weight:600;">' + currSym + '</span>' +
+						tr.innerHTML = '<td style="padding: 0.5rem 0.35rem;">' +
+								'<div style="display:flex; align-items:center; gap:0.25rem;">' +
+									'<strong style="font-weight:700; color:#0f172a; font-size:0.82rem; cursor:pointer;" onclick="analyzeDgiStock(\'' + displayTicker + '\')" title="Analyze ' + displayTicker + '">' + displayTicker + '</strong>' +
+									'<span style="font-size:0.6rem; background:#f1f5f9; color:#475569; border:1px solid #e2e8f0; padding:0.02rem 0.25rem; border-radius:3px; font-weight:600;">' + currSym + '</span>' +
 								'</div>' +
-								'<div style="color:#64748b; font-size:0.72rem; line-height:1.2; margin-top:2px; max-width:100%; overflow:hidden; text-overflow:ellipsis; white-space:nowrap;" title="' + displayName + '">' + displayName + '</div>' +
+								'<div style="color:#64748b; font-size:0.68rem; line-height:1.1; margin-top:2px; max-width:100%; overflow:hidden; text-overflow:ellipsis; white-space:nowrap;" title="' + displayName + '">' + displayName + '</div>' +
 							'</td>' +
-							'<td style="padding: 0.75rem 0.4rem; text-align: center; white-space:nowrap;">' +
+							'<td style="padding: 0.5rem 0.2rem; text-align: center; white-space:nowrap;">' +
 								'<div class="input-target-box">' +
-									'<span style="font-size:0.7rem; color:#64748b; font-weight:600;">' + currSym + '</span>' +
+									'<span style="font-size:0.68rem; color:#64748b; font-weight:600;">' + currSym + '</span>' +
 									'<input type="number" value="' + item.minBuy + '" step="0.1" onchange="updateWatchlistThreshold(' + index + ', \'minBuy\', this.value)" />' +
 								'</div>' +
 							'</td>' +
-							'<td style="padding: 0.75rem 0.4rem; text-align: center; white-space:nowrap;">' +
+							'<td style="padding: 0.5rem 0.2rem; text-align: center; white-space:nowrap;">' +
 								'<div class="input-target-box">' +
-									'<span style="font-size:0.7rem; color:#64748b; font-weight:600;">' + currSym + '</span>' +
+									'<span style="font-size:0.68rem; color:#64748b; font-weight:600;">' + currSym + '</span>' +
 									'<input type="number" value="' + item.maxSell + '" step="0.1" onchange="updateWatchlistThreshold(' + index + ', \'maxSell\', this.value)" />' +
 								'</div>' +
 							'</td>' +
-							'<td style="padding: 0.75rem 0.4rem; text-align: center; font-weight: 700; color:#0f172a; font-size:0.88rem; white-space:nowrap;">' +
+							'<td style="padding: 0.5rem 0.2rem; text-align: center; font-weight: 700; color:#0f172a; font-size:0.82rem; white-space:nowrap;">' +
 								lastPriceStr +
 							'</td>' +
-							'<td style="padding: 0.75rem 0.4rem; text-align: center;">' +
+							'<td style="padding: 0.5rem 0.2rem; text-align: center;">' +
 								divDisplay +
 							'</td>' +
-							'<td style="padding: 0.75rem 0.4rem; text-align: center; white-space: nowrap;">' +
-								'<div style="display: inline-flex; gap: 0.25rem; align-items: center; justify-content: center;">' +
-									'<button type="button" class="btn-sober btn-secondary btn-sm" style="padding:0.25rem 0.45rem; font-size:0.7rem;" title="Analyze DGI" onclick="analyzeDgiStock(\'' + displayTicker + '\')">Analyze</button>' +
-									'<button type="button" class="btn-sober btn-sm" style="background:#fef2f2; color:#991b1b; border:1px solid #fecaca; padding:0.25rem 0.4rem; font-size:0.7rem;" title="Remove" onclick="deleteWatchlistItem(' + index + ')">✕</button>' +
+							'<td style="padding: 0.5rem 0.2rem; text-align: center; white-space: nowrap;">' +
+								'<div style="display: inline-flex; gap: 0.2rem; align-items: center; justify-content: center;">' +
+									'<button type="button" class="btn-tbl-action" style="background:#f1f5f9; color:#334155; border:1px solid #cbd5e1; padding:0.2rem 0.35rem; font-size:0.65rem; font-weight:600; border-radius:4px;" title="Analyze DGI" onclick="analyzeDgiStock(\'' + displayTicker + '\')">Analyze</button>' +
+									'<button type="button" class="btn-tbl-del" style="background:#fef2f2; color:#991b1b; border:1px solid #fecaca; padding:0.2rem 0.3rem; font-size:0.65rem; font-weight:700; border-radius:4px;" title="Remove" onclick="deleteWatchlistItem(' + index + ')">✕</button>' +
 								'</div>' +
 							'</td>';
 						tbody.appendChild(tr);
