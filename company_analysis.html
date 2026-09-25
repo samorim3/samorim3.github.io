@@ -243,6 +243,7 @@
 
 			.sober-table {
 				width: 100%;
+				table-layout: fixed;
 				border-collapse: collapse;
 				margin: 0;
 				font-size: 0.82rem;
@@ -254,15 +255,15 @@
 				font-size: 0.7rem;
 				font-weight: 700;
 				text-transform: uppercase;
-				letter-spacing: 0.06em;
-				padding: 0.85rem 0.75rem;
+				letter-spacing: 0.05em;
+				padding: 0.75rem 0.5rem;
 				border-bottom: 1px solid #e2e8f0;
 				text-align: left;
 				white-space: nowrap;
 			}
 
 			.sober-table tbody td {
-				padding: 0.75rem 0.75rem;
+				padding: 0.75rem 0.5rem;
 				border-bottom: 1px solid #f1f5f9;
 				vertical-align: middle;
 				color: #1e293b;
@@ -568,14 +569,13 @@
 											<table class="sober-table">
 												<thead>
 													<tr>
-														<th style="width: 22%;">Company / Ticker</th>
-														<th style="width: 12%; text-align: center;">Min Buy Target</th>
-														<th style="width: 12%; text-align: center;">Max Sell Target</th>
-														<th style="width: 12%; text-align: center;">Last Live Price</th>
-														<th style="width: 18%; text-align: center;">Dividendo & Ex-Div</th>
-														<th style="width: 9%; text-align: center;">DGI Score</th>
+														<th style="width: 25%;">Company / Ticker</th>
+														<th style="width: 13%; text-align: center;">Min Buy Target</th>
+														<th style="width: 13%; text-align: center;">Max Sell Target</th>
+														<th style="width: 13%; text-align: center;">Last Live Price</th>
+														<th style="width: 20%; text-align: center;">Dividendo & Ex-Div</th>
 														<th style="width: 8%; text-align: center;">Alert</th>
-														<th style="width: 7%; text-align: center;">Actions</th>
+														<th style="width: 8%; text-align: center;">Actions</th>
 													</tr>
 												</thead>
 												<tbody id="watchlistTableBody">
@@ -1470,7 +1470,7 @@
 					tbody.innerHTML = '';
 
 					if (watchlist.length === 0) {
-						tbody.innerHTML = '<tr><td colspan="8" style="text-align:center; padding: 1.5rem; color: #94a3b8;">No assets in Watchlist. Add an asset above to start tracking.</td></tr>';
+						tbody.innerHTML = '<tr><td colspan="7" style="text-align:center; padding: 1.5rem; color: #94a3b8;">No assets in Watchlist. Search and analyze a company to add it to your tracking list.</td></tr>';
 						return;
 					}
 
@@ -1516,56 +1516,41 @@
 								}
 								dateStr = '<div style="font-size:0.68rem; color:#64748b; margin-top:2px; white-space:nowrap;">📅 Ex-Div: <strong style="color:#475569;">' + prettyDate + '</strong></div>';
 							}
-							divDisplay = '<div style="font-weight:600; color:#0f172a; font-size:0.82rem; white-space:nowrap;">' + (rateStr || '—') + yieldStr + '</div>' + dateStr;
+							divDisplay = '<div style="font-weight:600; color:#0f172a; font-size:0.8rem; white-space:nowrap;">' + (rateStr || '—') + yieldStr + '</div>' + dateStr;
 						}
 
-						let dgiBadge = '<span style="color:#94a3b8; font-size:0.78rem;">—</span>';
-						if (item.dgiScore !== undefined && item.dgiScore !== null) {
-							const score = parseFloat(item.dgiScore);
-							let bg = '#f0fdf4', col = '#166534', bdr = '#bbf7d0';
-							if (score >= 85) { bg = '#f0fdf4'; col = '#166534'; bdr = '#bbf7d0'; }
-							else if (score >= 70) { bg = '#f0fdf4'; col = '#15803d'; bdr = '#bbf7d0'; }
-							else if (score >= 50) { bg = '#fffbeb'; col = '#92400e'; bdr = '#fde68a'; }
-							else if (score >= 35) { bg = '#fff7ed'; col = '#c2410c'; bdr = '#fed7aa'; }
-							else { bg = '#fef2f2'; col = '#b91c1c'; bdr = '#fecaca'; }
-							dgiBadge = '<span style="background:' + bg + '; color:' + col + '; border:1px solid ' + bdr + '; padding:0.2rem 0.45rem; border-radius:6px; font-weight:700; font-size:0.72rem; white-space:nowrap;" title="' + (item.dgiVerdict || '') + '">' + score.toFixed(0) + '/100</span>';
-						}
-
-						tr.innerHTML = '<td style="padding: 0.75rem 0.85rem;">' +
+						tr.innerHTML = '<td style="padding: 0.75rem 0.6rem;">' +
 								'<div style="display:flex; align-items:center; gap:0.35rem;">' +
 									'<strong style="font-weight:700; color:#0f172a; font-size:0.88rem; cursor:pointer;" onclick="analyzeDgiStock(\'' + displayTicker + '\')" title="Analyze ' + displayTicker + '">' + displayTicker + '</strong>' +
 									'<span style="font-size:0.65rem; background:#f1f5f9; color:#475569; border:1px solid #e2e8f0; padding:0.05rem 0.35rem; border-radius:4px; font-weight:600;">' + currSym + '</span>' +
 								'</div>' +
-								'<div style="color:#64748b; font-size:0.72rem; line-height:1.2; margin-top:2px; max-width:170px; overflow:hidden; text-overflow:ellipsis; white-space:nowrap;" title="' + displayName + '">' + displayName + '</div>' +
+								'<div style="color:#64748b; font-size:0.72rem; line-height:1.2; margin-top:2px; max-width:100%; overflow:hidden; text-overflow:ellipsis; white-space:nowrap;" title="' + displayName + '">' + displayName + '</div>' +
 							'</td>' +
-							'<td style="padding: 0.75rem 0.5rem; text-align: center; white-space:nowrap;">' +
+							'<td style="padding: 0.75rem 0.4rem; text-align: center; white-space:nowrap;">' +
 								'<div class="input-target-box">' +
-									'<span style="font-size:0.72rem; color:#64748b; font-weight:600;">' + currSym + '</span>' +
+									'<span style="font-size:0.7rem; color:#64748b; font-weight:600;">' + currSym + '</span>' +
 									'<input type="number" value="' + item.minBuy + '" step="0.1" onchange="updateWatchlistThreshold(' + index + ', \'minBuy\', this.value)" />' +
 								'</div>' +
 							'</td>' +
-							'<td style="padding: 0.75rem 0.5rem; text-align: center; white-space:nowrap;">' +
+							'<td style="padding: 0.75rem 0.4rem; text-align: center; white-space:nowrap;">' +
 								'<div class="input-target-box">' +
-									'<span style="font-size:0.72rem; color:#64748b; font-weight:600;">' + currSym + '</span>' +
+									'<span style="font-size:0.7rem; color:#64748b; font-weight:600;">' + currSym + '</span>' +
 									'<input type="number" value="' + item.maxSell + '" step="0.1" onchange="updateWatchlistThreshold(' + index + ', \'maxSell\', this.value)" />' +
 								'</div>' +
 							'</td>' +
-							'<td style="padding: 0.75rem 0.5rem; text-align: center; font-weight: 700; color:#0f172a; font-size:0.88rem; white-space:nowrap;">' +
+							'<td style="padding: 0.75rem 0.4rem; text-align: center; font-weight: 700; color:#0f172a; font-size:0.88rem; white-space:nowrap;">' +
 								lastPriceStr +
 							'</td>' +
-							'<td style="padding: 0.75rem 0.5rem; text-align: center;">' +
+							'<td style="padding: 0.75rem 0.4rem; text-align: center;">' +
 								divDisplay +
 							'</td>' +
-							'<td style="padding: 0.75rem 0.5rem; text-align: center;">' +
-								dgiBadge +
-							'</td>' +
-							'<td style="padding: 0.75rem 0.5rem; text-align: center;">' +
+							'<td style="padding: 0.75rem 0.4rem; text-align: center;">' +
 								statusBadge +
 							'</td>' +
-							'<td style="padding: 0.75rem 0.5rem; text-align: center; white-space: nowrap;">' +
-								'<div style="display: inline-flex; gap: 0.3rem; align-items: center; justify-content: center;">' +
-									'<button type="button" class="btn-sober btn-secondary btn-sm" style="padding:0.25rem 0.5rem; font-size:0.72rem;" title="Analyze DGI" onclick="analyzeDgiStock(\'' + displayTicker + '\')">Analyze</button>' +
-									'<button type="button" class="btn-sober btn-sm" style="background:#fef2f2; color:#991b1b; border:1px solid #fecaca; padding:0.25rem 0.45rem; font-size:0.72rem;" title="Remove" onclick="deleteWatchlistItem(' + index + ')">✕</button>' +
+							'<td style="padding: 0.75rem 0.4rem; text-align: center; white-space: nowrap;">' +
+								'<div style="display: inline-flex; gap: 0.25rem; align-items: center; justify-content: center;">' +
+									'<button type="button" class="btn-sober btn-secondary btn-sm" style="padding:0.25rem 0.45rem; font-size:0.7rem;" title="Analyze DGI" onclick="analyzeDgiStock(\'' + displayTicker + '\')">Analyze</button>' +
+									'<button type="button" class="btn-sober btn-sm" style="background:#fef2f2; color:#991b1b; border:1px solid #fecaca; padding:0.25rem 0.4rem; font-size:0.7rem;" title="Remove" onclick="deleteWatchlistItem(' + index + ')">✕</button>' +
 								'</div>' +
 							'</td>';
 						tbody.appendChild(tr);
