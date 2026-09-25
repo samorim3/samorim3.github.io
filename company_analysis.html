@@ -550,13 +550,14 @@
 										<table class="sober-table">
 											<thead>
 												<tr>
-													<th style="width: 24%;">Company / Ticker</th>
-													<th style="width: 14%; text-align: center;">Min Buy Target</th>
-													<th style="width: 14%; text-align: center;">Max Sell Target</th>
-													<th style="width: 15%; text-align: center;">Last Live Price</th>
-													<th style="width: 15%; text-align: center;">DGI Score</th>
-													<th style="width: 10%; text-align: center;">Alert Status</th>
-													<th style="width: 8%; text-align: center;">Actions</th>
+													<th style="width: 20%;">Company / Ticker</th>
+													<th style="width: 12%; text-align: center;">Min Buy Target</th>
+													<th style="width: 12%; text-align: center;">Max Sell Target</th>
+													<th style="width: 13%; text-align: center;">Last Live Price</th>
+													<th style="width: 17%; text-align: center;">Dividendo & Ex-Div</th>
+													<th style="width: 11%; text-align: center;">DGI Score</th>
+													<th style="width: 8%; text-align: center;">Alert Status</th>
+													<th style="width: 7%; text-align: center;">Actions</th>
 												</tr>
 											</thead>
 											<tbody id="watchlistTableBody">
@@ -985,6 +986,10 @@
 						let chwPts = chowder >= 12 ? 10 : (chowder >= 8 ? 7 : (chowder >= 5 ? 4 : 0));
 						let p5 = dpsPts + chwPts;
 
+						const latestDiv = divArr.length > 0 ? divArr[divArr.length - 1] : null;
+						const latestDivDate = latestDiv ? new Date(latestDiv.date * 1000).toISOString().split('T')[0] : null;
+						const calculatedDivRate = ltmDiv > 0 ? +(ltmDiv.toFixed(2)) : (latestDiv ? +(latestDiv.amount.toFixed(2)) : null);
+
 						const dynamicData = {
 							ticker: (alias && alias !== tickerClean) ? `${tickerClean} (${alias})` : tickerClean,
 							name: name,
@@ -999,6 +1004,9 @@
 							roe: null,
 							margin: null,
 							divYield: realYield,
+							dividendRate: calculatedDivRate,
+							dividendYield: +(realYield.toFixed(2)),
+							exDividendDate: latestDivDate,
 							fcfPayout: null,
 							epsPayout: null,
 							netDebtEbitda: null,
@@ -1015,6 +1023,19 @@
 
 						currentDgiData = dynamicData;
 						renderDgiDashboard(dynamicData);
+
+						// Auto-enrich existing watchlist item if present
+						const wIdx = watchlist.findIndex(item => item.ticker.toUpperCase() === tickerClean || (alias && item.ticker.toUpperCase() === alias.toUpperCase()));
+						if (wIdx !== -1) {
+							watchlist[wIdx].lastPrice = price;
+							watchlist[wIdx].dgiScore = p1 + p5;
+							watchlist[wIdx].dgiVerdict = dynamicData.verdict;
+							if (calculatedDivRate != null) watchlist[wIdx].dividendRate = calculatedDivRate;
+							if (realYield > 0) watchlist[wIdx].dividendYield = +(realYield.toFixed(2));
+							if (latestDivDate) watchlist[wIdx].exDividendDate = latestDivDate;
+							saveWatchlistToStorage();
+							renderWatchlistTable();
+						}
 
 						if (loadBox) {
 							loadBox.className = 'status-msg status-success';
@@ -1298,12 +1319,16 @@
 						minBuy: +(p * 0.95).toFixed(2),
 						maxSell: +(p * 1.15).toFixed(2),
 						lastPrice: p,
-						dgiScore: d.scores.total,
-						dgiVerdict: d.verdict
+						dgiScore: d.scores ? d.scores.total : null,
+						dgiVerdict: d.verdict,
+						dividendRate: d.dividendRate || null,
+						dividendYield: d.dividendYield || null,
+						exDividendDate: d.exDividendDate || null
 					});
 
 					saveWatchlistToStorage();
 					renderWatchlistTable();
+					triggerAutoSyncWatchlist(d.ticker);
 					showWatchlistSummary('<strong>' + d.name + ' (' + d.ticker + ')</strong> added to Watchlist.', 'success');
 				}
 
@@ -1312,10 +1337,10 @@
 				// WATCHLIST & STOCK ALERTS ENGINE
 				// ==========================================
 				const DEFAULT_WATCHLIST = [
-					{ ticker: "ADS.DE", name: "Adidas AG", minBuy: 140.00, maxSell: 200.00, lastPrice: 0, dgiScore: null, dgiVerdict: null, status: "HOLD" },
-					{ ticker: "NKE", name: "Nike, Inc.", minBuy: 30.00, maxSell: 95.00, lastPrice: 0, dgiScore: null, dgiVerdict: null, status: "HOLD" },
-					{ ticker: "GALP", name: "Galp Energia", minBuy: 15.00, maxSell: 25.00, lastPrice: 0, dgiScore: null, dgiVerdict: null, status: "HOLD" },
-					{ ticker: "NVDA", name: "NVIDIA Corporation", minBuy: 150.00, maxSell: 300.00, lastPrice: 0, dgiScore: null, dgiVerdict: null, status: "HOLD" }
+					{ ticker: "ADS.DE", name: "Adidas AG", minBuy: 140.00, maxSell: 200.00, lastPrice: 146.50, dgiScore: 43.0, dgiVerdict: "Weak / High Risk", dividendRate: 2.80, dividendYield: 1.91, exDividendDate: "2026-05-08", status: "HOLD" },
+					{ ticker: "NKE", name: "Nike, Inc.", minBuy: 30.00, maxSell: 95.00, lastPrice: 35.75, dgiScore: 60.0, dgiVerdict: "Moderate / Neutral", dividendRate: 1.64, dividendYield: 4.59, exDividendDate: "2026-09-01", status: "HOLD" },
+					{ ticker: "GALP", name: "Galp Energia", minBuy: 15.00, maxSell: 25.00, lastPrice: 22.50, dgiScore: 60.0, dgiVerdict: "Moderate / Neutral", dividendRate: 0.68, dividendYield: 3.02, exDividendDate: "2026-08-19", status: "HOLD" },
+					{ ticker: "NVDA", name: "NVIDIA Corporation", minBuy: 150.00, maxSell: 300.00, lastPrice: 225.07, dgiScore: 80.0, dgiVerdict: "Solid DGI Quality", dividendRate: 1.00, dividendYield: 0.44, exDividendDate: "2026-09-10", status: "HOLD" }
 				];
 
 				let watchlist = [];
@@ -1344,20 +1369,41 @@
 					return valStr + ' ' + currSymbol;
 				}
 
-				async function fetchLiveStockPrice(rawTicker) {
-					if (!rawTicker) return 0;
+				async function fetchLiveStockDetails(rawTicker) {
+					if (!rawTicker) return null;
 					const ticker = aliasMap[rawTicker.toUpperCase()] || rawTicker.toUpperCase();
 
 					// 1. Primary: Cloudflare Worker
 					try {
 						const controller = typeof AbortController !== 'undefined' ? new AbortController() : null;
-						const tid = controller ? setTimeout(() => controller.abort(), 5000) : null;
+						const tid = controller ? setTimeout(() => controller.abort(), 6000) : null;
 						const cfRes = await fetch(CLOUDFLARE_WORKER_URL + '/?ticker=' + encodeURIComponent(ticker), controller ? { signal: controller.signal } : {});
 						if (tid) clearTimeout(tid);
 						if (cfRes.ok) {
 							const json = await cfRes.json();
-							const p = json?.chart?.result?.[0]?.meta?.regularMarketPrice;
-							if (p && p > 0) return p;
+							const result = json?.chart?.result?.[0];
+							if (result) {
+								const price = result.meta?.regularMarketPrice || 0;
+								const rawDivs = result.events?.dividends || {};
+								const divArr = Object.values(rawDivs).sort((a, b) => a.date - b.date);
+								const nowSec = Math.floor(Date.now() / 1000);
+								const oneYearSec = 365 * 24 * 60 * 60;
+								const ltmList = divArr.filter(d => (nowSec - d.date) <= oneYearSec);
+								let ltmDiv = ltmList.reduce((sum, d) => sum + d.amount, 0);
+								if (ltmDiv === 0 && divArr.length >= 4) {
+									ltmDiv = divArr.slice(-4).reduce((sum, d) => sum + d.amount, 0);
+								}
+								const latestDiv = divArr.length > 0 ? divArr[divArr.length - 1] : null;
+								const exDate = latestDiv ? new Date(latestDiv.date * 1000).toISOString().split('T')[0] : null;
+								const realYield = (ltmDiv > 0 && price > 0) ? (ltmDiv / price) * 100 : 0;
+								
+								return {
+									price: price,
+									dividendRate: ltmDiv > 0 ? +(ltmDiv.toFixed(2)) : (latestDiv ? +(latestDiv.amount.toFixed(2)) : null),
+									dividendYield: realYield > 0 ? +(realYield.toFixed(2)) : null,
+									exDividendDate: exDate
+								};
+							}
 						}
 					} catch(e) {}
 
@@ -1368,12 +1414,17 @@
 							const qJson = await qRes.json();
 							if (qJson && qJson.quotes) {
 								const p = qJson.quotes[rawTicker.toUpperCase()] || qJson.quotes[ticker];
-								if (p && p > 0) return p;
+								if (p && p > 0) return { price: p, dividendRate: null, dividendYield: null, exDividendDate: null };
 							}
 						}
 					} catch(e) {}
 
-					return 0;
+					return null;
+				}
+
+				async function fetchLiveStockPrice(rawTicker) {
+					const details = await fetchLiveStockDetails(rawTicker);
+					return details && details.price ? details.price : 0;
 				}
 
 				function renderWatchlistTable() {
@@ -1382,7 +1433,7 @@
 					tbody.innerHTML = '';
 
 					if (watchlist.length === 0) {
-						tbody.innerHTML = '<tr><td colspan="7" style="text-align:center; padding: 1.5rem; color: #94a3b8;">No assets in Watchlist. Add an asset above to start tracking.</td></tr>';
+						tbody.innerHTML = '<tr><td colspan="8" style="text-align:center; padding: 1.5rem; color: #94a3b8;">No assets in Watchlist. Add an asset above to start tracking.</td></tr>';
 						return;
 					}
 
@@ -1398,6 +1449,27 @@
 
 						const currSym = getTickerCurrencySymbol(item.ticker);
 						const lastPriceStr = formatPriceWithCurrency(item.lastPrice, currSym);
+
+						// Dividend Info Display
+						let divDisplay = '<span style="color:#94a3b8; font-size:0.8rem;">—</span>';
+						const divRate = item.dividendRate != null ? parseFloat(item.dividendRate) : null;
+						const divYield = item.dividendYield != null ? parseFloat(item.dividendYield) : null;
+						const exDate = item.exDividendDate || null;
+
+						if (divRate !== null || divYield !== null || exDate) {
+							let rateStr = (divRate !== null && divRate > 0) ? formatPriceWithCurrency(divRate, currSym) + ' / ano' : '';
+							let yieldStr = (divYield !== null && divYield > 0) ? ' (' + divYield.toFixed(2) + '%)' : '';
+							let dateStr = '';
+							if (exDate) {
+								let prettyDate = exDate;
+								if (/^\d{4}-\d{2}-\d{2}$/.test(exDate)) {
+									const parts = exDate.split('-');
+									prettyDate = parts[2] + '/' + parts[1] + '/' + parts[0];
+								}
+								dateStr = '<div style="font-size:0.72rem; color:#64748b; margin-top:2px;">📅 Ex-Div: <strong style="color:#334155;">' + prettyDate + '</strong></div>';
+							}
+							divDisplay = '<div style="font-weight:600; color:#0f172a; font-size:0.85rem; white-space:nowrap;">' + (rateStr || '—') + '<span style="color:#059669; font-weight:700;">' + yieldStr + '</span></div>' + dateStr;
+						}
 
 						let dgiBadge = '<span style="color:#94a3b8; font-size:0.8rem;">—</span>';
 						if (item.dgiScore !== undefined && item.dgiScore !== null) {
@@ -1430,6 +1502,9 @@
 							'</td>' +
 							'<td style="padding: 0.75rem; text-align: center; font-weight: 700; color:#0f172a; font-size:0.95rem; white-space:nowrap;">' +
 								lastPriceStr +
+							'</td>' +
+							'<td style="padding: 0.75rem; text-align: center;">' +
+								divDisplay +
 							'</td>' +
 							'<td style="padding: 0.75rem; text-align: center;">' +
 								dgiBadge +
@@ -1536,22 +1611,32 @@
 					statusBox.className = 'status-msg status-loading';
 					statusBox.innerHTML = 'Validating quote for <strong>' + rawTicker + '</strong>...';
 
-					const p = await fetchLiveStockPrice(rawTicker);
+					const details = await fetchLiveStockDetails(rawTicker);
 					let dgiScore = null;
 					let dgiVerdict = null;
-					if (currentDgiData && currentDgiData.ticker.toUpperCase() === rawTicker) {
-						dgiScore = currentDgiData.scores.total;
+					let divRate = details?.dividendRate || null;
+					let divYield = details?.dividendYield || null;
+					let exDate = details?.exDividendDate || null;
+
+					if (currentDgiData && (currentDgiData.ticker.toUpperCase() === rawTicker || currentDgiData.ticker.toUpperCase().startsWith(rawTicker))) {
+						dgiScore = currentDgiData.scores?.total || null;
 						dgiVerdict = currentDgiData.verdict;
+						if (currentDgiData.dividendRate != null) divRate = currentDgiData.dividendRate;
+						if (currentDgiData.dividendYield != null) divYield = currentDgiData.dividendYield;
+						if (currentDgiData.exDividendDate) exDate = currentDgiData.exDividendDate;
 					}
 
 					const newEntry = {
 						ticker: rawTicker,
-						name: nameInput.value.trim() || (currentDgiData && currentDgiData.ticker.toUpperCase() === rawTicker ? currentDgiData.name : rawTicker),
+						name: nameInput.value.trim() || (currentDgiData && currentDgiData.ticker.toUpperCase().startsWith(rawTicker) ? currentDgiData.name : rawTicker),
 						minBuy: parseFloat(minInput.value) || 0,
 						maxSell: parseFloat(maxInput.value) || 0,
-						lastPrice: p > 0 ? p : (currentDgiData && currentDgiData.ticker.toUpperCase() === rawTicker ? currentDgiData.price : 0),
+						lastPrice: (details && details.price > 0) ? details.price : (currentDgiData && currentDgiData.ticker.toUpperCase().startsWith(rawTicker) ? currentDgiData.price : 0),
 						dgiScore: dgiScore,
-						dgiVerdict: dgiVerdict
+						dgiVerdict: dgiVerdict,
+						dividendRate: divRate,
+						dividendYield: divYield,
+						exDividendDate: exDate
 					};
 
 					watchlist.push(newEntry);
@@ -1570,18 +1655,21 @@
 				}
 
 				async function checkAllWatchlistAlerts() {
-					showWatchlistSummary('Updating live quotes and checking alert targets...', 'loading');
+					showWatchlistSummary('Updating live quotes, dividend rates, and alert targets...', 'loading');
 					let updatedCount = 0;
 					for (let item of watchlist) {
-						const p = await fetchLiveStockPrice(item.ticker);
-						if (p && p > 0) {
-							item.lastPrice = p;
+						const details = await fetchLiveStockDetails(item.ticker);
+						if (details && details.price > 0) {
+							item.lastPrice = details.price;
+							if (details.dividendRate != null) item.dividendRate = details.dividendRate;
+							if (details.dividendYield != null) item.dividendYield = details.dividendYield;
+							if (details.exDividendDate) item.exDividendDate = details.exDividendDate;
 							updatedCount++;
 						}
 					}
 					saveWatchlistToStorage();
 					renderWatchlistTable();
-					showWatchlistSummary('<strong>' + updatedCount + ' quotes</strong> successfully updated.', 'success');
+					showWatchlistSummary('<strong>' + updatedCount + ' quotes and dividend metrics</strong> successfully updated.', 'success');
 				}
 
 				function getStoredWatchlist() {

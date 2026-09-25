@@ -6,7 +6,10 @@
     "maxSell": 200,
     "lastPrice": 146.5,
     "dgiScore": 43.0,
-    "dgiVerdict": "Weak / High Risk"
+    "dgiVerdict": "Weak / High Risk",
+    "dividendRate": 2.8,
+    "dividendYield": 1.91,
+    "exDividendDate": "2026-05-08"
   },
   {
     "ticker": "NKE",
@@ -15,7 +18,10 @@
     "maxSell": 95,
     "lastPrice": 35.8,
     "dgiScore": 60.0,
-    "dgiVerdict": "Moderate / Neutral"
+    "dgiVerdict": "Moderate / Neutral",
+    "dividendRate": 1.64,
+    "dividendYield": 4.59,
+    "exDividendDate": "2026-09-01"
   },
   {
     "ticker": "GALP",
@@ -24,15 +30,21 @@
     "maxSell": 25,
     "lastPrice": 22.5,
     "dgiScore": 60.0,
-    "dgiVerdict": "Moderate / Neutral"
+    "dgiVerdict": "Moderate / Neutral",
+    "dividendRate": 0.68,
+    "dividendYield": 3.02,
+    "exDividendDate": "2026-08-19"
   },
   {
     "ticker": "NVDA",
     "name": "NVIDIA Corporation",
     "minBuy": 150,
     "maxSell": 300,
-    "lastPrice": 224.46,
+    "lastPrice": 225.07,
     "dgiScore": 80.0,
-    "dgiVerdict": "Solid DGI Quality"
+    "dgiVerdict": "Solid DGI Quality",
+    "dividendRate": 1.0,
+    "dividendYield": 0.44,
+    "exDividendDate": "2026-09-10"
   }
 ]

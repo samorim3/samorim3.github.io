@@ -117,9 +117,19 @@ def calculate_dgi_data(ticker_sym):
     currency = info.get('currency', 'USD')
     sym_char = "€" if currency == "EUR" else ("$" if currency == "USD" else f"{currency} ")
 
-    # 1. Yield
+    # 1. Dividend Rate & Yield
+    div_rate = info.get('dividendRate') or info.get('trailingAnnualDividendRate')
     div_yield_raw = info.get('dividendYield') or info.get('trailingAnnualDividendYield') or 0.0
-    div_yield_pct = (div_yield_raw * 100.0) if (div_yield_raw and div_yield_raw < 1.0) else float(div_yield_raw or 0.0)
+
+    if div_rate and current_price and current_price > 0:
+        div_yield_pct = (float(div_rate) / float(current_price)) * 100.0
+    elif div_yield_raw:
+        div_yield_pct = (div_yield_raw * 100.0) if (div_yield_raw < 0.25) else float(div_yield_raw)
+    else:
+        div_yield_pct = 0.0
+
+    if (div_rate is None or div_rate <= 0) and div_yield_pct > 0 and current_price and current_price > 0:
+        div_rate = round((div_yield_pct / 100.0) * current_price, 2)
 
     if 2.5 <= div_yield_pct <= 6.0:
         p1_score = 20.0
@@ -239,6 +249,30 @@ def calculate_dgi_data(ticker_sym):
     chw_pts = 10.0 if (chowder and chowder >= 12.0) else (7.0 if (chowder and chowder >= 8.0) else (4.0 if (chowder and chowder >= 5.0) else 0.0))
     p5_score = dps_pts + chw_pts
 
+    # Ex-Dividend Date
+    ex_div_timestamp = info.get('exDividendDate')
+    ex_div_date_str = None
+
+    try:
+        cal = getattr(stock, 'calendar', None)
+        if isinstance(cal, dict) and 'Ex-Dividend Date' in cal:
+            ex_val = cal['Ex-Dividend Date']
+            if ex_val:
+                ex_div_date_str = str(ex_val)
+        elif isinstance(cal, pd.DataFrame) and 'Ex-Dividend Date' in cal.index:
+            ex_div_date_str = str(cal.loc['Ex-Dividend Date'].iloc[0])
+    except Exception:
+        pass
+
+    if not ex_div_date_str and ex_div_timestamp:
+        try:
+            if isinstance(ex_div_timestamp, (int, float)):
+                ex_div_date_str = datetime.fromtimestamp(ex_div_timestamp).strftime('%Y-%m-%d')
+            else:
+                ex_div_date_str = str(ex_div_timestamp)
+        except Exception:
+            pass
+
     total_score = round(p1_score + p2_score + p3_score + p4_score + p5_score, 1)
 
     if total_score >= 85.0:
@@ -267,7 +301,9 @@ def calculate_dgi_data(ticker_sym):
         'name': info.get('shortName') or info.get('longName') or ticker_sym,
         'currency_symbol': sym_char,
         'price': current_price,
+        'dividend_rate': round(float(div_rate), 2) if div_rate is not None else None,
         'dividend_yield_pct': div_yield_pct,
+        'ex_dividend_date': ex_div_date_str,
         'eval_payout': eval_payout,
         'payout_lbl': payout_lbl,
         'net_debt_ebitda': net_debt_ebitda,
@@ -294,6 +330,9 @@ def format_telegram_dgi_card(dgi):
 
     sym = dgi.get('currency_symbol', '$')
     price_str = f"{sym}{dgi['price']:.2f}" if dgi.get('price') else "N/A"
+    div_rate_val = dgi.get('dividend_rate')
+    div_rate_str = f"{sym}{div_rate_val:.2f}" if div_rate_val is not None else "N/A"
+    ex_date_str = dgi.get('ex_dividend_date') or "N/A"
 
     rev_s = f"{dgi['revenue_cagr_5y']*100:.1f}%" if dgi['revenue_cagr_5y'] is not None else "N/A"
     ni_s = f"{dgi['net_income_cagr_5y']*100:.1f}%" if dgi['net_income_cagr_5y'] is not None else "N/A"
@@ -308,8 +347,9 @@ def format_telegram_dgi_card(dgi):
         f"━━━━━━━━━━━━━━━━━━━━━\n"
         f"🏆 *DGI SCORE:* *{dgi['total_score']:.0f}/100* {dgi['verdict_icon']}\n"
         f"📌 *Rating:* {dgi['verdict']}\n\n"
-        f"🎯 *Core Pillars:*\n"
-        f"• 1. *Yield:* `{dgi['dividend_yield_pct']:.2f}%` ({dgi['p1_score']:.0f}/20 pts)\n"
+        f"🎯 *Core Pillars & Dividends:*\n"
+        f"• 1. *Yield & Dividendo:* `{dgi['dividend_yield_pct']:.2f}%` ({div_rate_str} / ação)\n"
+        f"   └ 📅 *Data Ex-Dividendo:* `{ex_date_str}` ({dgi['p1_score']:.0f}/20 pts)\n"
         f"• 2. *Payout ({dgi['payout_lbl']}):* `{payout_s}` ({dgi['p2_score']:.0f}/20 pts)\n"
         f"• 3. *Debt/EBITDA:* `{debt_s}` ({dgi['p3_score']:.0f}/20 pts)\n"
         f"• 4. *5Y Growth:* Rev `{rev_s}` | Net Inc `{ni_s}` ({dgi['p4_score']:.0f}/20 pts)\n"
@@ -448,6 +488,12 @@ def main():
                 send_telegram_alert(msg)
                 item["dgiScore"] = dgi_data["total_score"]
                 item["dgiVerdict"] = dgi_data["verdict"]
+                if dgi_data.get("dividend_rate") is not None:
+                    item["dividendRate"] = dgi_data["dividend_rate"]
+                if dgi_data.get("dividend_yield_pct") is not None:
+                    item["dividendYield"] = round(dgi_data["dividend_yield_pct"], 2)
+                if dgi_data.get("ex_dividend_date"):
+                    item["exDividendDate"] = dgi_data["ex_dividend_date"]
         with open(watchlist_path, "w", encoding="utf-8") as f:
             json.dump(watchlist, f, indent=2)
         print("Completed sending DGI Scorecards.")
@@ -471,19 +517,31 @@ def main():
 
         item["lastPrice"] = price
 
-        # Calculate DGI score for watchlist enrichments
+        # Calculate DGI score and dividend data for watchlist enrichments
         dgi_data = calculate_dgi_data(ticker_symbol)
         dgi_info_str = ""
         if dgi_data:
             item["dgiScore"] = dgi_data["total_score"]
             item["dgiVerdict"] = dgi_data["verdict"]
+            if dgi_data.get("dividend_rate") is not None:
+                item["dividendRate"] = dgi_data["dividend_rate"]
+            if dgi_data.get("dividend_yield_pct") is not None:
+                item["dividendYield"] = round(dgi_data["dividend_yield_pct"], 2)
+            if dgi_data.get("ex_dividend_date"):
+                item["exDividendDate"] = dgi_data["ex_dividend_date"]
+
+            div_sym = dgi_data.get('currency_symbol', '$')
+            div_val = dgi_data.get('dividend_rate')
+            div_str = f"{div_sym}{div_val:.2f}" if div_val is not None else "N/A"
+            ex_str = dgi_data.get('ex_dividend_date') or "N/D"
+
             dgi_info_str = (
                 f"\n🏆 *DGI Score:* `{dgi_data['total_score']:.0f}/100` {dgi_data['verdict_icon']}\n"
-                f"• Yield: `{dgi_data['dividend_yield_pct']:.2f}%` | Chowder: `{dgi_data['chowder_number'] or 0:.1f}%`\n"
-                f"• Payout ({dgi_data['payout_lbl']}): `{dgi_data['eval_payout'] or 0:.1f}%`"
+                f"• 💰 *Dividendo:* `{div_str} / ação` (`{dgi_data['dividend_yield_pct']:.2f}%`) | *Ex-Div:* `{ex_str}`\n"
+                f"• Payout ({dgi_data['payout_lbl']}): `{dgi_data['eval_payout'] or 0:.1f}%` | Chowder: `{dgi_data['chowder_number'] or 0:.1f}%`"
             )
 
-        print(f"Stock: {ticker_symbol} ({name}) | Current = {price:.2f} | Buy Target = {min_buy:.2f} | Sell Target = {max_sell:.2f} | DGI Score = {item.get('dgiScore', 'N/D')}")
+        print(f"Stock: {ticker_symbol} ({name}) | Current = {price:.2f} | Buy Target = {min_buy:.2f} | Sell Target = {max_sell:.2f} | DGI Score = {item.get('dgiScore', 'N/D')} | Div = {item.get('dividendRate', 'N/D')}")
 
         if min_buy > 0 and price <= min_buy:
             alert_msg = (
