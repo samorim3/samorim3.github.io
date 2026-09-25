@@ -37,6 +37,10 @@ GF_TICKER_MAP = {
     "NKE": "NKE:NYSE",
     "GALP": "GALP:ELI",
     "GALP.LS": "GALP:ELI",
+    "AD.AS": "AD:AMS",
+    "AD": "AD:AMS",
+    "AHOLD": "AD:AMS",
+    "AHOLD DELHAIZE": "AD:AMS",
     "NOVO-B": "NOVO-B:CO",
     "PETR4": "PETR4:BVMF",
     "AAPL": "AAPL:NASDAQ",
@@ -101,7 +105,10 @@ def calculate_dgi_data(ticker_sym):
     aliases = {
         "GALP": "GALP.LS",
         "NOVO-B": "NOVO-B.CO",
-        "ADS": "ADS.DE"
+        "ADS": "ADS.DE",
+        "AHOLD": "AD.AS",
+        "AHOLD DELHAIZE": "AD.AS",
+        "AD": "AD.AS"
     }
     symbol_to_try = aliases.get(ticker_sym.upper(), ticker_sym)
 
