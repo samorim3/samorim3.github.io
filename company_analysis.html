@@ -224,46 +224,86 @@
 				transition: width 0.4s ease;
 			}
 
-			/* Clean Table Styling */
+			/* Clean Table & Card Styling */
+			.watchlist-table-card {
+				background: #ffffff;
+				border: 1px solid #e2e8f0;
+				border-radius: 12px;
+				box-shadow: 0 4px 20px -2px rgba(15, 23, 42, 0.06), 0 2px 6px -1px rgba(15, 23, 42, 0.03);
+				overflow: hidden;
+				margin-top: 1rem;
+				margin-bottom: 1.5rem;
+			}
+
 			.table-wrapper {
 				overflow-x: auto;
 				background: #ffffff;
-				border: 1px solid #e2e8f0;
-				border-radius: 10px;
+				margin: 0;
 			}
 
 			.sober-table {
 				width: 100%;
 				border-collapse: collapse;
 				margin: 0;
-				font-size: 0.85rem;
+				font-size: 0.82rem;
 			}
 
-			.sober-table th {
+			.sober-table thead th {
 				background: #f8fafc;
 				color: #475569;
-				font-size: 0.72rem;
+				font-size: 0.7rem;
 				font-weight: 700;
 				text-transform: uppercase;
-				letter-spacing: 0.05em;
-				padding: 0.85rem 1rem;
+				letter-spacing: 0.06em;
+				padding: 0.85rem 0.75rem;
 				border-bottom: 1px solid #e2e8f0;
 				text-align: left;
+				white-space: nowrap;
 			}
 
-			.sober-table td {
-				padding: 0.85rem 1rem;
+			.sober-table tbody td {
+				padding: 0.75rem 0.75rem;
 				border-bottom: 1px solid #f1f5f9;
 				vertical-align: middle;
 				color: #1e293b;
 			}
 
-			.sober-table tr:last-child td {
+			.sober-table tbody tr:last-child td {
 				border-bottom: none;
 			}
 
-			.sober-table tr:hover td {
+			.sober-table tbody tr:hover td {
 				background: #f8fafc;
+			}
+
+			.input-target-box {
+				display: inline-flex;
+				align-items: center;
+				gap: 0.2rem;
+				justify-content: center;
+				background: #ffffff;
+				border: 1px solid #cbd5e1;
+				border-radius: 6px;
+				padding: 0.2rem 0.35rem;
+				box-shadow: 0 1px 2px rgba(0, 0, 0, 0.04);
+				transition: border-color 0.2s, box-shadow 0.2s;
+			}
+			.input-target-box:focus-within {
+				border-color: #0f172a;
+				box-shadow: 0 0 0 2px rgba(15, 23, 42, 0.08);
+			}
+			.input-target-box input {
+				width: 62px;
+				border: none !important;
+				outline: none !important;
+				background: transparent !important;
+				font-size: 0.82rem !important;
+				text-align: center !important;
+				font-weight: 600 !important;
+				color: #0f172a !important;
+				padding: 0 !important;
+				margin: 0 !important;
+				box-shadow: none !important;
 			}
 
 			.settings-box {
@@ -545,25 +585,27 @@
 										<div id="addStockStatusBox" class="status-msg"></div>
 									</div>
 
-									<!-- Watchlist Table -->
-									<div class="table-wrapper">
-										<table class="sober-table">
-											<thead>
-												<tr>
-													<th style="width: 20%;">Company / Ticker</th>
-													<th style="width: 12%; text-align: center;">Min Buy Target</th>
-													<th style="width: 12%; text-align: center;">Max Sell Target</th>
-													<th style="width: 13%; text-align: center;">Last Live Price</th>
-													<th style="width: 17%; text-align: center;">Dividendo & Ex-Div</th>
-													<th style="width: 11%; text-align: center;">DGI Score</th>
-													<th style="width: 8%; text-align: center;">Alert Status</th>
-													<th style="width: 7%; text-align: center;">Actions</th>
-												</tr>
-											</thead>
-											<tbody id="watchlistTableBody">
-												<!-- Dynamically populated -->
-											</tbody>
-										</table>
+									<!-- Watchlist Table Card (Sober & Shadowed) -->
+									<div class="watchlist-table-card">
+										<div class="table-wrapper">
+											<table class="sober-table">
+												<thead>
+													<tr>
+														<th style="width: 22%;">Company / Ticker</th>
+														<th style="width: 12%; text-align: center;">Min Buy Target</th>
+														<th style="width: 12%; text-align: center;">Max Sell Target</th>
+														<th style="width: 12%; text-align: center;">Last Live Price</th>
+														<th style="width: 18%; text-align: center;">Dividendo & Ex-Div</th>
+														<th style="width: 9%; text-align: center;">DGI Score</th>
+														<th style="width: 8%; text-align: center;">Alert</th>
+														<th style="width: 7%; text-align: center;">Actions</th>
+													</tr>
+												</thead>
+												<tbody id="watchlistTableBody">
+													<!-- Dynamically populated -->
+												</tbody>
+											</table>
+										</div>
 									</div>
 
 									<div id="watchlistSummaryBox" class="status-msg"></div>
@@ -1008,7 +1050,8 @@
 						const calculatedDivRate = ltmDiv > 0 ? +(ltmDiv.toFixed(2)) : (latestDiv ? +(latestDiv.amount.toFixed(2)) : null);
 
 						const dynamicData = {
-							ticker: (alias && alias !== tickerClean) ? `${tickerClean} (${alias})` : tickerClean,
+							ticker: alias || tickerClean,
+							displayName: name,
 							name: name,
 							sector: (meta.fullExchangeName || meta.exchangeName || "Global Exchange") + " | " + (meta.instrumentType || "Equity"),
 							currency: curr,
@@ -1365,12 +1408,12 @@
 				function getTickerCurrencySymbol(tickerStr) {
 					if (!tickerStr) return '€';
 					const t = tickerStr.toUpperCase();
-					if (t.endsWith('.SW') || t.endsWith('.VX')) return 'CHF';
-					if (t.endsWith('.ST')) return 'SEK';
-					if (t.includes('NOVO') || t.endsWith('.CO') || t === 'NOVO-B') return 'DKK';
-					if (t.endsWith('.LS') || t.endsWith('.DE') || t.endsWith('.PA') || t.endsWith('.AS') || t.endsWith('.MI') || t.endsWith('.MC') || t === 'GALP' || t === 'ADS.DE' || t === 'ADS' || t === 'MC.PA' || t === 'LVMH') return '€';
-					if (t.endsWith('.SA') || t === 'PETR4' || t.includes('PETROBRAS') || t.includes('VALE') || t.includes('ITUB')) return 'R$';
-					if (t.endsWith('.L')) return '£';
+					if (t.includes('.SW') || t.includes('.VX')) return 'CHF';
+					if (t.includes('.ST')) return 'SEK';
+					if (t.includes('.CO')) return 'DKK';
+					if (t.includes('.LS') || t.includes('.DE') || t.includes('.PA') || t.includes('.AS') || t.includes('.MI') || t.includes('.MC') || t.includes('.BR') || t.includes('GALP') || t.includes('ADS') || t.includes('LVMH') || t.includes('AHOLD') || t.includes('AD.AS')) return '€';
+					if (t.includes('.SA') || t.includes('PETR') || t.includes('VALE') || t.includes('ITUB')) return 'R$';
+					if (t.includes('.L')) return '£';
 					return '$';
 				}
 
@@ -1457,25 +1500,36 @@
 					watchlist.forEach((item, index) => {
 						const tr = document.createElement('tr');
 
-						let statusBadge = '<span class="badge-hold">HOLD</span>';
+						let statusBadge = '<span class="badge-hold" style="font-size:0.7rem; padding:0.2rem 0.5rem;">HOLD</span>';
 						if (item.status === 'BUY' || (item.minBuy > 0 && item.lastPrice > 0 && item.lastPrice <= item.minBuy)) {
-							statusBadge = '<span class="badge-buy">BUY</span>';
+							statusBadge = '<span class="badge-buy" style="font-size:0.7rem; padding:0.2rem 0.5rem;">BUY</span>';
 						} else if (item.status === 'SELL' || (item.maxSell > 0 && item.lastPrice > 0 && item.lastPrice >= item.maxSell)) {
-							statusBadge = '<span class="badge-sell">SELL</span>';
+							statusBadge = '<span class="badge-sell" style="font-size:0.7rem; padding:0.2rem 0.5rem;">SELL</span>';
 						}
 
 						const currSym = getTickerCurrencySymbol(item.ticker);
 						const lastPriceStr = formatPriceWithCurrency(item.lastPrice, currSym);
 
+						// Clean up display ticker and name
+						let displayTicker = item.ticker || '';
+						let displayName = item.name || '';
+						if (displayTicker.includes('(') && displayTicker.includes(')')) {
+							const match = displayTicker.match(/\(([^)]+)\)/);
+							if (match) {
+								displayName = displayName || displayTicker.split('(')[0].trim();
+								displayTicker = match[1];
+							}
+						}
+
 						// Dividend Info Display
-						let divDisplay = '<span style="color:#94a3b8; font-size:0.8rem;">—</span>';
+						let divDisplay = '<span style="color:#94a3b8; font-size:0.78rem;">—</span>';
 						const divRate = item.dividendRate != null ? parseFloat(item.dividendRate) : null;
 						const divYield = item.dividendYield != null ? parseFloat(item.dividendYield) : null;
 						const exDate = item.exDividendDate || null;
 
 						if (divRate !== null || divYield !== null || exDate) {
 							let rateStr = (divRate !== null && divRate > 0) ? formatPriceWithCurrency(divRate, currSym) + ' / ano' : '';
-							let yieldStr = (divYield !== null && divYield > 0) ? ' (' + divYield.toFixed(2) + '%)' : '';
+							let yieldStr = (divYield !== null && divYield > 0) ? ' <span style="color:#059669; font-weight:700;">(' + divYield.toFixed(2) + '%)</span>' : '';
 							let dateStr = '';
 							if (exDate) {
 								let prettyDate = exDate;
@@ -1483,12 +1537,12 @@
 									const parts = exDate.split('-');
 									prettyDate = parts[2] + '/' + parts[1] + '/' + parts[0];
 								}
-								dateStr = '<div style="font-size:0.72rem; color:#64748b; margin-top:2px;">📅 Ex-Div: <strong style="color:#334155;">' + prettyDate + '</strong></div>';
+								dateStr = '<div style="font-size:0.68rem; color:#64748b; margin-top:2px; white-space:nowrap;">📅 Ex-Div: <strong style="color:#475569;">' + prettyDate + '</strong></div>';
 							}
-							divDisplay = '<div style="font-weight:600; color:#0f172a; font-size:0.85rem; white-space:nowrap;">' + (rateStr || '—') + '<span style="color:#059669; font-weight:700;">' + yieldStr + '</span></div>' + dateStr;
+							divDisplay = '<div style="font-weight:600; color:#0f172a; font-size:0.82rem; white-space:nowrap;">' + (rateStr || '—') + yieldStr + '</div>' + dateStr;
 						}
 
-						let dgiBadge = '<span style="color:#94a3b8; font-size:0.8rem;">—</span>';
+						let dgiBadge = '<span style="color:#94a3b8; font-size:0.78rem;">—</span>';
 						if (item.dgiScore !== undefined && item.dgiScore !== null) {
 							const score = parseFloat(item.dgiScore);
 							let bg = '#f0fdf4', col = '#166534', bdr = '#bbf7d0';
@@ -1497,42 +1551,44 @@
 							else if (score >= 50) { bg = '#fffbeb'; col = '#92400e'; bdr = '#fde68a'; }
 							else if (score >= 35) { bg = '#fff7ed'; col = '#c2410c'; bdr = '#fed7aa'; }
 							else { bg = '#fef2f2'; col = '#b91c1c'; bdr = '#fecaca'; }
-							dgiBadge = '<span style="background:' + bg + '; color:' + col + '; border:1px solid ' + bdr + '; padding:0.2rem 0.5rem; border-radius:6px; font-weight:700; font-size:0.75rem; white-space:nowrap;" title="' + (item.dgiVerdict || '') + '">' + score.toFixed(0) + '/100</span>';
+							dgiBadge = '<span style="background:' + bg + '; color:' + col + '; border:1px solid ' + bdr + '; padding:0.2rem 0.45rem; border-radius:6px; font-weight:700; font-size:0.72rem; white-space:nowrap;" title="' + (item.dgiVerdict || '') + '">' + score.toFixed(0) + '/100</span>';
 						}
 
-						tr.innerHTML = '<td style="padding: 0.75rem 1rem;">' +
-								'<strong style="font-weight:700; color:#0f172a; font-size:0.9rem; cursor:pointer;" onclick="analyzeDgiStock(\'' + item.ticker + '\')">' + item.ticker + '</strong> ' +
-								'<span style="font-size:0.68rem; background:#f1f5f9; color:#475569; border:1px solid #e2e8f0; padding:0.1rem 0.4rem; border-radius:4px; font-weight:600; display:inline-block; margin-left:0.25rem;">' + currSym + '</span><br />' +
-								'<small style="color:#64748b; font-size:0.78rem;">' + (item.name || '') + '</small>' +
+						tr.innerHTML = '<td style="padding: 0.75rem 0.85rem;">' +
+								'<div style="display:flex; align-items:center; gap:0.35rem;">' +
+									'<strong style="font-weight:700; color:#0f172a; font-size:0.88rem; cursor:pointer;" onclick="analyzeDgiStock(\'' + displayTicker + '\')" title="Analyze ' + displayTicker + '">' + displayTicker + '</strong>' +
+									'<span style="font-size:0.65rem; background:#f1f5f9; color:#475569; border:1px solid #e2e8f0; padding:0.05rem 0.35rem; border-radius:4px; font-weight:600;">' + currSym + '</span>' +
+								'</div>' +
+								'<div style="color:#64748b; font-size:0.72rem; line-height:1.2; margin-top:2px; max-width:170px; overflow:hidden; text-overflow:ellipsis; white-space:nowrap;" title="' + displayName + '">' + displayName + '</div>' +
 							'</td>' +
-							'<td style="padding: 0.75rem; text-align: center; white-space:nowrap;">' +
-								'<div style="display:inline-flex; align-items:center; gap:0.2rem; justify-content:center;">' +
-									'<span style="font-size:0.75rem; color:#64748b; font-weight:600;">' + currSym + '</span>' +
-									'<input type="number" value="' + item.minBuy + '" step="0.1" style="width: 75px; padding: 0.35rem 0.45rem; font-size:0.85rem; border-radius:6px; border:1px solid #cbd5e1; text-align:center; font-weight:600;" onchange="updateWatchlistThreshold(' + index + ', \'minBuy\', this.value)" />' +
+							'<td style="padding: 0.75rem 0.5rem; text-align: center; white-space:nowrap;">' +
+								'<div class="input-target-box">' +
+									'<span style="font-size:0.72rem; color:#64748b; font-weight:600;">' + currSym + '</span>' +
+									'<input type="number" value="' + item.minBuy + '" step="0.1" onchange="updateWatchlistThreshold(' + index + ', \'minBuy\', this.value)" />' +
 								'</div>' +
 							'</td>' +
-							'<td style="padding: 0.75rem; text-align: center; white-space:nowrap;">' +
-								'<div style="display:inline-flex; align-items:center; gap:0.2rem; justify-content:center;">' +
-									'<span style="font-size:0.75rem; color:#64748b; font-weight:600;">' + currSym + '</span>' +
-									'<input type="number" value="' + item.maxSell + '" step="0.1" style="width: 75px; padding: 0.35rem 0.45rem; font-size:0.85rem; border-radius:6px; border:1px solid #cbd5e1; text-align:center; font-weight:600;" onchange="updateWatchlistThreshold(' + index + ', \'maxSell\', this.value)" />' +
+							'<td style="padding: 0.75rem 0.5rem; text-align: center; white-space:nowrap;">' +
+								'<div class="input-target-box">' +
+									'<span style="font-size:0.72rem; color:#64748b; font-weight:600;">' + currSym + '</span>' +
+									'<input type="number" value="' + item.maxSell + '" step="0.1" onchange="updateWatchlistThreshold(' + index + ', \'maxSell\', this.value)" />' +
 								'</div>' +
 							'</td>' +
-							'<td style="padding: 0.75rem; text-align: center; font-weight: 700; color:#0f172a; font-size:0.95rem; white-space:nowrap;">' +
+							'<td style="padding: 0.75rem 0.5rem; text-align: center; font-weight: 700; color:#0f172a; font-size:0.88rem; white-space:nowrap;">' +
 								lastPriceStr +
 							'</td>' +
-							'<td style="padding: 0.75rem; text-align: center;">' +
+							'<td style="padding: 0.75rem 0.5rem; text-align: center;">' +
 								divDisplay +
 							'</td>' +
-							'<td style="padding: 0.75rem; text-align: center;">' +
+							'<td style="padding: 0.75rem 0.5rem; text-align: center;">' +
 								dgiBadge +
 							'</td>' +
-							'<td style="padding: 0.75rem; text-align: center;">' +
+							'<td style="padding: 0.75rem 0.5rem; text-align: center;">' +
 								statusBadge +
 							'</td>' +
-							'<td style="padding: 0.75rem; text-align: center; white-space: nowrap;">' +
-								'<div style="display: inline-flex; gap: 0.35rem; align-items: center; justify-content: center;">' +
-									'<button type="button" class="btn-sober btn-secondary btn-sm" title="Analyze DGI" onclick="analyzeDgiStock(\'' + item.ticker + '\')">Analyze</button>' +
-									'<button type="button" class="btn-sober btn-sm" style="background:#fef2f2; color:#991b1b; border:1px solid #fecaca;" title="Remove" onclick="deleteWatchlistItem(' + index + ')">Remove</button>' +
+							'<td style="padding: 0.75rem 0.5rem; text-align: center; white-space: nowrap;">' +
+								'<div style="display: inline-flex; gap: 0.3rem; align-items: center; justify-content: center;">' +
+									'<button type="button" class="btn-sober btn-secondary btn-sm" style="padding:0.25rem 0.5rem; font-size:0.72rem;" title="Analyze DGI" onclick="analyzeDgiStock(\'' + displayTicker + '\')">Analyze</button>' +
+									'<button type="button" class="btn-sober btn-sm" style="background:#fef2f2; color:#991b1b; border:1px solid #fecaca; padding:0.25rem 0.45rem; font-size:0.72rem;" title="Remove" onclick="deleteWatchlistItem(' + index + ')">✕</button>' +
 								'</div>' +
 							'</td>';
 						tbody.appendChild(tr);
@@ -1625,17 +1681,19 @@
 						return;
 					}
 
-					statusBox.className = 'status-msg status-loading';
-					statusBox.innerHTML = 'Validating quote for <strong>' + rawTicker + '</strong>...';
+					const resolvedTicker = aliasMap[rawTicker] || rawTicker;
 
-					const details = await fetchLiveStockDetails(rawTicker);
+					statusBox.className = 'status-msg status-loading';
+					statusBox.innerHTML = 'Validating quote for <strong>' + resolvedTicker + '</strong>...';
+
+					const details = await fetchLiveStockDetails(resolvedTicker);
 					let dgiScore = null;
 					let dgiVerdict = null;
 					let divRate = details?.dividendRate || null;
 					let divYield = details?.dividendYield || null;
 					let exDate = details?.exDividendDate || null;
 
-					if (currentDgiData && (currentDgiData.ticker.toUpperCase() === rawTicker || currentDgiData.ticker.toUpperCase().startsWith(rawTicker))) {
+					if (currentDgiData && (currentDgiData.ticker.toUpperCase() === resolvedTicker || currentDgiData.ticker.toUpperCase() === rawTicker)) {
 						dgiScore = currentDgiData.scores?.total || null;
 						dgiVerdict = currentDgiData.verdict;
 						if (currentDgiData.dividendRate != null) divRate = currentDgiData.dividendRate;
@@ -1644,11 +1702,11 @@
 					}
 
 					const newEntry = {
-						ticker: rawTicker,
-						name: nameInput.value.trim() || (currentDgiData && currentDgiData.ticker.toUpperCase().startsWith(rawTicker) ? currentDgiData.name : rawTicker),
+						ticker: resolvedTicker,
+						name: nameInput.value.trim() || (currentDgiData && currentDgiData.name ? currentDgiData.name : resolvedTicker),
 						minBuy: parseFloat(minInput.value) || 0,
 						maxSell: parseFloat(maxInput.value) || 0,
-						lastPrice: (details && details.price > 0) ? details.price : (currentDgiData && currentDgiData.ticker.toUpperCase().startsWith(rawTicker) ? currentDgiData.price : 0),
+						lastPrice: (details && details.price > 0) ? details.price : (currentDgiData && currentDgiData.price ? currentDgiData.price : 0),
 						dgiScore: dgiScore,
 						dgiVerdict: dgiVerdict,
 						dividendRate: divRate,
@@ -1835,6 +1893,25 @@
 					} catch(e) {
 						watchlist = getStoredWatchlist();
 					}
+
+					// Sanitize legacy or compound entries
+					watchlist = watchlist.map(item => {
+						let t = item.ticker || '';
+						let n = item.name || '';
+						if (t.includes('(') && t.includes(')')) {
+							const m = t.match(/\(([^)]+)\)/);
+							if (m) {
+								n = n && !n.includes('(') ? n : t.split('(')[0].trim();
+								t = m[1];
+							}
+						}
+						if (t === "AHOLD" || t === "AHOLD DELHAIZE") {
+							t = "AD.AS";
+							n = "Koninklijke Ahold Delhaize N.V.";
+						}
+						return { ...item, ticker: t, name: n };
+					});
+					saveWatchlistToStorage();
 
 					renderWatchlistTable();
 				});
