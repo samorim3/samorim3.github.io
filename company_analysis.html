@@ -566,13 +566,12 @@
 											<table class="sober-table">
 												<thead>
 													<tr>
-														<th style="width: 25%;">Company / Ticker</th>
-														<th style="width: 13%; text-align: center;">Min Buy Target</th>
-														<th style="width: 13%; text-align: center;">Max Sell Target</th>
-														<th style="width: 13%; text-align: center;">Last Live Price</th>
+														<th style="width: 28%;">Company / Ticker</th>
+														<th style="width: 14%; text-align: center;">Min Buy Target</th>
+														<th style="width: 14%; text-align: center;">Max Sell Target</th>
+														<th style="width: 14%; text-align: center;">Last Live Price</th>
 														<th style="width: 20%; text-align: center;">Dividendo & Ex-Div</th>
-														<th style="width: 8%; text-align: center;">Alert</th>
-														<th style="width: 8%; text-align: center;">Actions</th>
+														<th style="width: 10%; text-align: center;">Actions</th>
 													</tr>
 												</thead>
 												<tbody id="watchlistTableBody">
@@ -1467,19 +1466,12 @@
 					tbody.innerHTML = '';
 
 					if (watchlist.length === 0) {
-						tbody.innerHTML = '<tr><td colspan="7" style="text-align:center; padding: 1.5rem; color: #94a3b8;">No assets in Watchlist. Search and analyze a company to add it to your tracking list.</td></tr>';
+						tbody.innerHTML = '<tr><td colspan="6" style="text-align:center; padding: 1.5rem; color: #94a3b8;">No assets in Watchlist. Search and analyze a company to add it to your tracking list.</td></tr>';
 						return;
 					}
 
 					watchlist.forEach((item, index) => {
 						const tr = document.createElement('tr');
-
-						let statusBadge = '<span class="badge-hold" style="font-size:0.7rem; padding:0.2rem 0.5rem;">HOLD</span>';
-						if (item.status === 'BUY' || (item.minBuy > 0 && item.lastPrice > 0 && item.lastPrice <= item.minBuy)) {
-							statusBadge = '<span class="badge-buy" style="font-size:0.7rem; padding:0.2rem 0.5rem;">BUY</span>';
-						} else if (item.status === 'SELL' || (item.maxSell > 0 && item.lastPrice > 0 && item.lastPrice >= item.maxSell)) {
-							statusBadge = '<span class="badge-sell" style="font-size:0.7rem; padding:0.2rem 0.5rem;">SELL</span>';
-						}
 
 						const currSym = getTickerCurrencySymbol(item.ticker);
 						const lastPriceStr = formatPriceWithCurrency(item.lastPrice, currSym);
@@ -1540,9 +1532,6 @@
 							'</td>' +
 							'<td style="padding: 0.75rem 0.4rem; text-align: center;">' +
 								divDisplay +
-							'</td>' +
-							'<td style="padding: 0.75rem 0.4rem; text-align: center;">' +
-								statusBadge +
 							'</td>' +
 							'<td style="padding: 0.75rem 0.4rem; text-align: center; white-space: nowrap;">' +
 								'<div style="display: inline-flex; gap: 0.25rem; align-items: center; justify-content: center;">' +
