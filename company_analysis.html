@@ -30,14 +30,69 @@
 				font-family: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
 			}
 
+			/* =========================================================
+			   PAGE COHERENCE & COMPACT SPACING OVERRIDES
+			   ========================================================= */
+			#header {
+				height: 7rem !important;
+				padding-bottom: 2rem !important;
+			}
+
+			#main > .post {
+				padding: 3rem 2.5rem 2.5rem 2.5rem !important;
+			}
+
+			@media screen and (max-width: 980px) {
+				#main > .post {
+					padding: 2rem 1.5rem !important;
+				}
+			}
+
+			@media screen and (max-width: 736px) {
+				#main > .post {
+					padding: 1.5rem 1rem !important;
+				}
+			}
+
+			/* Clean Header Title */
+			.post > header.major {
+				margin: 0 0 1.75rem 0 !important;
+				text-align: center !important;
+			}
+
+			.post > header.major h1 {
+				font-size: 2.25rem !important;
+				line-height: 1.2 !important;
+				margin: 0 0 0.5rem 0 !important;
+				letter-spacing: -0.02em !important;
+				text-transform: none !important;
+				color: #0f172a !important;
+			}
+
+			.post > header.major p {
+				font-size: 0.92rem !important;
+				line-height: 1.5 !important;
+				margin: 0 auto !important;
+				max-width: 38rem !important;
+				color: #64748b !important;
+				text-align: center !important;
+			}
+
+			/* Text blocks line-height and text spacing */
+			p {
+				line-height: 1.55 !important;
+				margin-bottom: 0.75rem !important;
+				text-align: left !important;
+			}
+
 			/* Clean, sober dashboard cards */
 			.tool-card {
 				background: #ffffff;
 				border: 1px solid #e2e8f0;
-				border-radius: 16px;
-				padding: 2rem;
-				margin: 1.5rem 0 2.5rem 0;
-				box-shadow: 0 4px 20px -2px rgba(15, 23, 42, 0.04);
+				border-radius: 14px;
+				padding: 1.5rem;
+				margin: 1.25rem 0;
+				box-shadow: 0 4px 18px -2px rgba(15, 23, 42, 0.04);
 				color: #0f172a;
 			}
 
@@ -46,9 +101,9 @@
 				justify-content: space-between;
 				align-items: center;
 				flex-wrap: wrap;
-				gap: 1rem;
-				margin-bottom: 1.5rem;
-				padding-bottom: 1rem;
+				gap: 0.75rem;
+				margin-bottom: 1.15rem;
+				padding-bottom: 0.75rem;
 				border-bottom: 1px solid #f1f5f9;
 			}
 
@@ -56,22 +111,22 @@
 				margin: 0;
 				color: #0f172a;
 				font-weight: 800;
-				font-size: 1.35rem;
+				font-size: 1.25rem;
 				letter-spacing: -0.02em;
 			}
 
 			.section-subtitle {
-				margin: 0.25rem 0 0 0;
+				margin: 0.2rem 0 0 0;
 				color: #64748b;
-				font-size: 0.85rem;
+				font-size: 0.82rem;
 			}
 
 			.search-container {
 				background: #f8fafc;
 				border: 1px solid #e2e8f0;
-				border-radius: 12px;
-				padding: 1.25rem;
-				margin-bottom: 1.75rem;
+				border-radius: 10px;
+				padding: 1rem 1.15rem;
+				margin-bottom: 1.25rem;
 			}
 
 			.search-row {
@@ -411,152 +466,152 @@
 									<div id="dgiResultSection" style="display: none;">
 										
 										<!-- Top Summary Grid -->
-										<div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 1.25rem; margin-bottom: 1.75rem;">
+										<div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 1rem; margin-bottom: 1.15rem;">
 											
 											<!-- Scorecard Box -->
-											<div class="dgi-score-panel">
+											<div class="dgi-score-panel" style="padding: 1.25rem;">
 												<div style="font-size: 0.72rem; text-transform: uppercase; letter-spacing: 0.08em; color: #94a3b8; font-weight: 700; margin-bottom: 0.25rem;">Overall DGI Score</div>
-												<div id="dgiScoreValue" style="font-size: 3.5rem; font-weight: 900; line-height: 1; margin-bottom: 0.5rem; color: #ffffff;">--<span style="font-size: 1.4rem; color: #64748b;">/100</span></div>
-												<div id="dgiScoreBadge" style="background: #64748b; color: #ffffff; padding: 0.35rem 0.9rem; border-radius: 6px; font-weight: 700; font-size: 0.82rem; display: inline-block;">
+												<div id="dgiScoreValue" style="font-size: 3.2rem; font-weight: 900; line-height: 1; margin-bottom: 0.4rem; color: #ffffff;">--<span style="font-size: 1.3rem; color: #64748b;">/100</span></div>
+												<div id="dgiScoreBadge" style="background: #64748b; color: #ffffff; padding: 0.3rem 0.85rem; border-radius: 6px; font-weight: 700; font-size: 0.8rem; display: inline-block;">
 													--
 												</div>
-												<div style="margin-top: 1.25rem; width: 100%;">
-													<button type="button" onclick="sendCurrentDgiToTelegram()" class="btn-sober btn-green" style="width: 100%; font-size: 0.8rem; padding: 0.5rem 1rem;">📱 Send Summary to Telegram</button>
+												<div style="margin-top: 1rem; width: 100%;">
+													<button type="button" onclick="sendCurrentDgiToTelegram()" class="btn-sober btn-green" style="width: 100%; font-size: 0.78rem; padding: 0.45rem 0.85rem;">📱 Send Summary to Telegram</button>
 												</div>
 											</div>
 
 											<!-- Company Overview & Highlights -->
-											<div style="background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 12px; padding: 1.5rem; display: flex; flex-direction: column; justify-content: space-between;">
+											<div style="background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 12px; padding: 1.25rem; display: flex; flex-direction: column; justify-content: space-between;">
 												<div>
 													<div style="display: flex; justify-content: space-between; align-items: flex-start; gap: 1rem;">
 														<div>
-															<h3 id="dgiCompName" style="margin: 0; color: #0f172a; font-weight: 800; font-size: 1.35rem;">-- <span id="dgiCompTicker" style="color: #475569; font-size: 1rem; font-weight: 600;">(--)</span></h3>
-															<p id="dgiCompSector" style="margin: 0.2rem 0 0 0; color: #64748b; font-size: 0.8rem; font-weight: 500;">--</p>
+															<h3 id="dgiCompName" style="margin: 0; color: #0f172a; font-weight: 800; font-size: 1.25rem;">-- <span id="dgiCompTicker" style="color: #475569; font-size: 0.95rem; font-weight: 600;">(--)</span></h3>
+															<p id="dgiCompSector" style="margin: 0.15rem 0 0 0; color: #64748b; font-size: 0.78rem; font-weight: 500;">--</p>
 														</div>
 														<div style="text-align: right;">
-															<div id="dgiCompPrice" style="font-size: 1.5rem; font-weight: 800; color: #0f172a;">--</div>
-															<div id="dgiCompMcap" style="font-size: 0.75rem; color: #64748b; font-weight: 600;">Cap: --</div>
+															<div id="dgiCompPrice" style="font-size: 1.35rem; font-weight: 800; color: #0f172a;">--</div>
+															<div id="dgiCompMcap" style="font-size: 0.72rem; color: #64748b; font-weight: 600;">Cap: --</div>
 														</div>
 													</div>
 													
-													<div style="margin-top: 1rem; padding: 0.85rem 1rem; background: #ffffff; border: 1px solid #e2e8f0; border-radius: 8px;">
-														<div style="font-size: 0.72rem; font-weight: 700; color: #475569; text-transform: uppercase; letter-spacing: 0.05em; margin-bottom: 0.25rem;">Executive Verdict:</div>
-														<p id="dgiVerdictSummary" style="margin: 0; color: #334155; font-size: 0.85rem; line-height: 1.45;">
+													<div style="margin-top: 0.75rem; padding: 0.75rem 0.9rem; background: #ffffff; border: 1px solid #e2e8f0; border-radius: 8px;">
+														<div style="font-size: 0.7rem; font-weight: 700; color: #475569; text-transform: uppercase; letter-spacing: 0.05em; margin-bottom: 0.2rem;">Executive Verdict:</div>
+														<p id="dgiVerdictSummary" style="margin: 0; color: #334155; font-size: 0.82rem; line-height: 1.4;">
 															--
 														</p>
 													</div>
 												</div>
 
 												<!-- 4 Essential Metrics Row -->
-												<div style="display: grid; grid-template-columns: repeat(4, 1fr); gap: 0.5rem; margin-top: 1rem; text-align: center;">
-													<div style="background: #ffffff; border: 1px solid #e2e8f0; padding: 0.45rem; border-radius: 8px;">
-														<div style="font-size: 0.68rem; color: #64748b; font-weight: 700; text-transform: uppercase;">Yield</div>
-														<div id="dgiQuickYield" style="font-size: 0.95rem; font-weight: 800; color: #0f172a; margin-top: 0.15rem;">--</div>
+												<div style="display: grid; grid-template-columns: repeat(4, 1fr); gap: 0.45rem; margin-top: 0.75rem; text-align: center;">
+													<div style="background: #ffffff; border: 1px solid #e2e8f0; padding: 0.4rem; border-radius: 8px;">
+														<div style="font-size: 0.65rem; color: #64748b; font-weight: 700; text-transform: uppercase;">Yield</div>
+														<div id="dgiQuickYield" style="font-size: 0.9rem; font-weight: 800; color: #0f172a; margin-top: 0.1rem;">--</div>
 													</div>
-													<div style="background: #ffffff; border: 1px solid #e2e8f0; padding: 0.45rem; border-radius: 8px;">
-														<div style="font-size: 0.68rem; color: #64748b; font-weight: 700; text-transform: uppercase;">FCF Payout</div>
-														<div id="dgiQuickPayout" style="font-size: 0.95rem; font-weight: 800; color: #0f172a; margin-top: 0.15rem;">--</div>
+													<div style="background: #ffffff; border: 1px solid #e2e8f0; padding: 0.4rem; border-radius: 8px;">
+														<div style="font-size: 0.65rem; color: #64748b; font-weight: 700; text-transform: uppercase;">FCF Payout</div>
+														<div id="dgiQuickPayout" style="font-size: 0.9rem; font-weight: 800; color: #0f172a; margin-top: 0.1rem;">--</div>
 													</div>
-													<div style="background: #ffffff; border: 1px solid #e2e8f0; padding: 0.45rem; border-radius: 8px;">
-														<div style="font-size: 0.68rem; color: #64748b; font-weight: 700; text-transform: uppercase;">Debt/EBITDA</div>
-														<div id="dgiQuickDebt" style="font-size: 0.95rem; font-weight: 800; color: #0f172a; margin-top: 0.15rem;">--</div>
+													<div style="background: #ffffff; border: 1px solid #e2e8f0; padding: 0.4rem; border-radius: 8px;">
+														<div style="font-size: 0.65rem; color: #64748b; font-weight: 700; text-transform: uppercase;">Debt/EBITDA</div>
+														<div id="dgiQuickDebt" style="font-size: 0.9rem; font-weight: 800; color: #0f172a; margin-top: 0.1rem;">--</div>
 													</div>
-													<div style="background: #ffffff; border: 1px solid #e2e8f0; padding: 0.45rem; border-radius: 8px;">
-														<div style="font-size: 0.68rem; color: #64748b; font-weight: 700; text-transform: uppercase;">Chowder</div>
-														<div id="dgiQuickChowder" style="font-size: 0.95rem; font-weight: 800; color: #0f172a; margin-top: 0.15rem;">--</div>
+													<div style="background: #ffffff; border: 1px solid #e2e8f0; padding: 0.4rem; border-radius: 8px;">
+														<div style="font-size: 0.65rem; color: #64748b; font-weight: 700; text-transform: uppercase;">Chowder</div>
+														<div id="dgiQuickChowder" style="font-size: 0.9rem; font-weight: 800; color: #0f172a; margin-top: 0.1rem;">--</div>
 													</div>
 												</div>
 											</div>
 										</div>
 
 										<!-- 5 Pillars Breakdown Grid -->
-										<div style="margin-bottom: 0.75rem; display: flex; justify-content: space-between; align-items: baseline;">
-											<h3 style="margin: 0; color: #0f172a; font-weight: 800; font-size: 1.05rem;">The 5 Core DGI Pillars</h3>
-											<span style="font-size: 0.78rem; color: #64748b; font-weight: 600;">Max 20 points per pillar (100 total)</span>
+										<div style="margin-bottom: 0.6rem; display: flex; justify-content: space-between; align-items: baseline;">
+											<h3 style="margin: 0; color: #0f172a; font-weight: 800; font-size: 1rem;">The 5 Core DGI Pillars</h3>
+											<span style="font-size: 0.75rem; color: #64748b; font-weight: 600;">Max 20 points per pillar (100 total)</span>
 										</div>
 
-										<div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(190px, 1fr)); gap: 0.85rem; margin-bottom: 1.75rem;">
+										<div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 0.65rem; margin-bottom: 1.15rem;">
 											
 											<!-- Pillar 1 -->
-											<div class="dgi-pillar-card">
-												<div style="font-size: 0.75rem; font-weight: 700; color: #475569; text-transform: uppercase;">1. Dividend Yield</div>
-												<div style="display: flex; justify-content: space-between; align-items: baseline; margin: 0.35rem 0 0.15rem 0;">
-													<div id="p1Score" style="font-size: 1.25rem; font-weight: 800; color: #0f172a;">-- <span style="font-size: 0.75rem; color: #94a3b8;">/20</span></div>
-													<div id="p1Metric" style="font-size: 0.9rem; font-weight: 700; color: #475569;">--</div>
+											<div class="dgi-pillar-card" style="padding: 0.9rem;">
+												<div style="font-size: 0.72rem; font-weight: 700; color: #475569; text-transform: uppercase;">1. Dividend Yield</div>
+												<div style="display: flex; justify-content: space-between; align-items: baseline; margin: 0.25rem 0 0.1rem 0;">
+													<div id="p1Score" style="font-size: 1.15rem; font-weight: 800; color: #0f172a;">-- <span style="font-size: 0.72rem; color: #94a3b8;">/20</span></div>
+													<div id="p1Metric" style="font-size: 0.85rem; font-weight: 700; color: #475569;">--</div>
 												</div>
 												<div class="dgi-progress-bar"><div id="p1Progress" class="dgi-progress-fill" style="width: 0%;"></div></div>
-												<div id="p1Desc" style="font-size: 0.72rem; color: #64748b; margin-top: 0.45rem; line-height: 1.35;">Balanced & sustainable yield (target: 2.0% - 6.0%).</div>
+												<div id="p1Desc" style="font-size: 0.7rem; color: #64748b; margin-top: 0.35rem; line-height: 1.3;">Balanced & sustainable yield (target: 2.0% - 6.0%).</div>
 											</div>
 
 											<!-- Pillar 2 -->
-											<div class="dgi-pillar-card">
-												<div style="font-size: 0.75rem; font-weight: 700; color: #475569; text-transform: uppercase;">2. FCF Payout Ratio</div>
-												<div style="display: flex; justify-content: space-between; align-items: baseline; margin: 0.35rem 0 0.15rem 0;">
-													<div id="p2Score" style="font-size: 1.25rem; font-weight: 800; color: #0f172a;">-- <span style="font-size: 0.75rem; color: #94a3b8;">/20</span></div>
-													<div id="p2Metric" style="font-size: 0.9rem; font-weight: 700; color: #475569;">--</div>
+											<div class="dgi-pillar-card" style="padding: 0.9rem;">
+												<div style="font-size: 0.72rem; font-weight: 700; color: #475569; text-transform: uppercase;">2. FCF Payout Ratio</div>
+												<div style="display: flex; justify-content: space-between; align-items: baseline; margin: 0.25rem 0 0.1rem 0;">
+													<div id="p2Score" style="font-size: 1.15rem; font-weight: 800; color: #0f172a;">-- <span style="font-size: 0.72rem; color: #94a3b8;">/20</span></div>
+													<div id="p2Metric" style="font-size: 0.85rem; font-weight: 700; color: #475569;">--</div>
 												</div>
 												<div class="dgi-progress-bar"><div id="p2Progress" class="dgi-progress-fill" style="width: 0%;"></div></div>
-												<div id="p2Desc" style="font-size: 0.72rem; color: #64748b; margin-top: 0.45rem; line-height: 1.35;">Free cash flow fully covers dividend distributions (&lt;70%).</div>
+												<div id="p2Desc" style="font-size: 0.7rem; color: #64748b; margin-top: 0.35rem; line-height: 1.3;">Free cash flow fully covers dividend distributions (&lt;70%).</div>
 											</div>
 
 											<!-- Pillar 3 -->
-											<div class="dgi-pillar-card">
-												<div style="font-size: 0.75rem; font-weight: 700; color: #475569; text-transform: uppercase;">3. Debt & Balance Sheet</div>
-												<div style="display: flex; justify-content: space-between; align-items: baseline; margin: 0.35rem 0 0.15rem 0;">
-													<div id="p3Score" style="font-size: 1.25rem; font-weight: 800; color: #0f172a;">-- <span style="font-size: 0.75rem; color: #94a3b8;">/20</span></div>
-													<div id="p3Metric" style="font-size: 0.9rem; font-weight: 700; color: #475569;">--</div>
+											<div class="dgi-pillar-card" style="padding: 0.9rem;">
+												<div style="font-size: 0.72rem; font-weight: 700; color: #475569; text-transform: uppercase;">3. Debt & Balance Sheet</div>
+												<div style="display: flex; justify-content: space-between; align-items: baseline; margin: 0.25rem 0 0.1rem 0;">
+													<div id="p3Score" style="font-size: 1.15rem; font-weight: 800; color: #0f172a;">-- <span style="font-size: 0.72rem; color: #94a3b8;">/20</span></div>
+													<div id="p3Metric" style="font-size: 0.85rem; font-weight: 700; color: #475569;">--</div>
 												</div>
 												<div class="dgi-progress-bar"><div id="p3Progress" class="dgi-progress-fill" style="width: 0%;"></div></div>
-												<div id="p3Desc" style="font-size: 0.72rem; color: #64748b; margin-top: 0.45rem; line-height: 1.35;">Solid balance sheet with low Net Debt/EBITDA (&lt;1.5x).</div>
+												<div id="p3Desc" style="font-size: 0.7rem; color: #64748b; margin-top: 0.35rem; line-height: 1.3;">Solid balance sheet with low Net Debt/EBITDA (&lt;1.5x).</div>
 											</div>
 
 											<!-- Pillar 4 -->
-											<div class="dgi-pillar-card">
-												<div style="font-size: 0.75rem; font-weight: 700; color: #475569; text-transform: uppercase;">4. Operational Growth</div>
-												<div style="display: flex; justify-content: space-between; align-items: baseline; margin: 0.35rem 0 0.15rem 0;">
-													<div id="p4Score" style="font-size: 1.25rem; font-weight: 800; color: #0f172a;">-- <span style="font-size: 0.75rem; color: #94a3b8;">/20</span></div>
-													<div id="p4Metric" style="font-size: 0.9rem; font-weight: 700; color: #475569;">--</div>
+											<div class="dgi-pillar-card" style="padding: 0.9rem;">
+												<div style="font-size: 0.72rem; font-weight: 700; color: #475569; text-transform: uppercase;">4. Operational Growth</div>
+												<div style="display: flex; justify-content: space-between; align-items: baseline; margin: 0.25rem 0 0.1rem 0;">
+													<div id="p4Score" style="font-size: 1.15rem; font-weight: 800; color: #0f172a;">-- <span style="font-size: 0.72rem; color: #94a3b8;">/20</span></div>
+													<div id="p4Metric" style="font-size: 0.85rem; font-weight: 700; color: #475569;">--</div>
 												</div>
 												<div class="dgi-progress-bar"><div id="p4Progress" class="dgi-progress-fill" style="width: 0%;"></div></div>
-												<div id="p4Desc" style="font-size: 0.72rem; color: #64748b; margin-top: 0.45rem; line-height: 1.35;">Positive 5-year CAGR across revenue and net income.</div>
+												<div id="p4Desc" style="font-size: 0.7rem; color: #64748b; margin-top: 0.35rem; line-height: 1.3;">Positive 5-year CAGR across revenue and net income.</div>
 											</div>
 
 											<!-- Pillar 5 -->
-											<div class="dgi-pillar-card">
-												<div style="font-size: 0.75rem; font-weight: 700; color: #475569; text-transform: uppercase;">5. Div Growth & Chowder</div>
-												<div style="display: flex; justify-content: space-between; align-items: baseline; margin: 0.35rem 0 0.15rem 0;">
-													<div id="p5Score" style="font-size: 1.25rem; font-weight: 800; color: #0f172a;">-- <span style="font-size: 0.75rem; color: #94a3b8;">/20</span></div>
-													<div id="p5Metric" style="font-size: 0.9rem; font-weight: 700; color: #475569;">--</div>
+											<div class="dgi-pillar-card" style="padding: 0.9rem;">
+												<div style="font-size: 0.72rem; font-weight: 700; color: #475569; text-transform: uppercase;">5. Div Growth & Chowder</div>
+												<div style="display: flex; justify-content: space-between; align-items: baseline; margin: 0.25rem 0 0.1rem 0;">
+													<div id="p5Score" style="font-size: 1.15rem; font-weight: 800; color: #0f172a;">-- <span style="font-size: 0.72rem; color: #94a3b8;">/20</span></div>
+													<div id="p5Metric" style="font-size: 0.85rem; font-weight: 700; color: #475569;">--</div>
 												</div>
 												<div class="dgi-progress-bar"><div id="p5Progress" class="dgi-progress-fill" style="width: 0%;"></div></div>
-												<div id="p5Desc" style="font-size: 0.72rem; color: #64748b; margin-top: 0.45rem; line-height: 1.35;">Consistent annual dividend increases and solid Chowder rule.</div>
+												<div id="p5Desc" style="font-size: 0.7rem; color: #64748b; margin-top: 0.35rem; line-height: 1.3;">Consistent annual dividend increases and solid Chowder rule.</div>
 											</div>
 										</div>
 
 										<!-- Charts Row (Radar & Bar) -->
-										<div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 1.25rem; margin-bottom: 1.75rem;">
+										<div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 1rem; margin-bottom: 1.15rem;">
 											
 											<!-- Radar Chart -->
-											<div style="background: #ffffff; border: 1px solid #e2e8f0; border-radius: 12px; padding: 1.25rem;">
-												<div style="font-size: 0.85rem; font-weight: 700; color: #0f172a; margin-bottom: 0.75rem;">5 Pillars Radar Profile (0 - 20 pts)</div>
-												<div style="position: relative; height: 260px; width: 100%;">
+											<div style="background: #ffffff; border: 1px solid #e2e8f0; border-radius: 12px; padding: 1rem;">
+												<div style="font-size: 0.82rem; font-weight: 700; color: #0f172a; margin-bottom: 0.5rem;">5 Pillars Radar Profile (0 - 20 pts)</div>
+												<div style="position: relative; height: 240px; width: 100%;">
 													<canvas id="dgiRadarCanvas"></canvas>
 												</div>
 											</div>
 
 											<!-- Dividend Bar Chart -->
-											<div style="background: #ffffff; border: 1px solid #e2e8f0; border-radius: 12px; padding: 1.25rem;">
-												<div style="font-size: 0.85rem; font-weight: 700; color: #0f172a; margin-bottom: 0.75rem;">Annual Dividend History Per Share</div>
-												<div style="position: relative; height: 260px; width: 100%;">
+											<div style="background: #ffffff; border: 1px solid #e2e8f0; border-radius: 12px; padding: 1rem;">
+												<div style="font-size: 0.82rem; font-weight: 700; color: #0f172a; margin-bottom: 0.5rem;">Annual Dividend History Per Share</div>
+												<div style="position: relative; height: 240px; width: 100%;">
 													<canvas id="dgiDivBarCanvas"></canvas>
 												</div>
 											</div>
 										</div>
 
 										<!-- Key Fundamentals Table -->
-										<div style="background: #ffffff; border: 1px solid #e2e8f0; border-radius: 12px; padding: 1.25rem; margin-bottom: 1rem;">
-											<div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.85rem; flex-wrap: wrap; gap: 0.5rem;">
-												<div style="font-size: 0.9rem; font-weight: 800; color: #0f172a;">Key Fundamental Multiples & Benchmarks</div>
+										<div style="background: #ffffff; border: 1px solid #e2e8f0; border-radius: 12px; padding: 1rem; margin-bottom: 0.75rem;">
+											<div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.65rem; flex-wrap: wrap; gap: 0.5rem;">
+												<div style="font-size: 0.85rem; font-weight: 800; color: #0f172a;">Key Fundamental Multiples & Benchmarks</div>
 												<button type="button" onclick="addCurrentDgiToWatchlist()" class="btn-sober btn-secondary btn-sm">➕ Add to Watchlist</button>
 											</div>
 
@@ -1648,68 +1703,6 @@
 						showWatchlistSummary(sym + ' removed from Watchlist.', 'warning');
 						triggerAutoSyncWatchlist();
 					}
-				}
-
-				async function addNewWatchlistEntry() {
-					const tickerInput = document.getElementById('newWatchlistTicker');
-					const nameInput = document.getElementById('newWatchlistName');
-					const minInput = document.getElementById('newWatchlistMin');
-					const maxInput = document.getElementById('newWatchlistMax');
-					const statusBox = document.getElementById('addStockStatusBox');
-
-					const rawTicker = tickerInput.value.trim().toUpperCase();
-					if (!rawTicker) {
-						statusBox.className = 'status-msg status-error';
-						statusBox.innerHTML = 'Please enter a valid stock ticker symbol.';
-						return;
-					}
-
-					const resolvedTicker = aliasMap[rawTicker] || rawTicker;
-
-					statusBox.className = 'status-msg status-loading';
-					statusBox.innerHTML = 'Validating quote for <strong>' + resolvedTicker + '</strong>...';
-
-					const details = await fetchLiveStockDetails(resolvedTicker);
-					let dgiScore = null;
-					let dgiVerdict = null;
-					let divRate = details?.dividendRate || null;
-					let divYield = details?.dividendYield || null;
-					let exDate = details?.exDividendDate || null;
-
-					if (currentDgiData && (currentDgiData.ticker.toUpperCase() === resolvedTicker || currentDgiData.ticker.toUpperCase() === rawTicker)) {
-						dgiScore = currentDgiData.scores?.total || null;
-						dgiVerdict = currentDgiData.verdict;
-						if (currentDgiData.dividendRate != null) divRate = currentDgiData.dividendRate;
-						if (currentDgiData.dividendYield != null) divYield = currentDgiData.dividendYield;
-						if (currentDgiData.exDividendDate) exDate = currentDgiData.exDividendDate;
-					}
-
-					const newEntry = {
-						ticker: resolvedTicker,
-						name: nameInput.value.trim() || (currentDgiData && currentDgiData.name ? currentDgiData.name : resolvedTicker),
-						minBuy: parseFloat(minInput.value) || 0,
-						maxSell: parseFloat(maxInput.value) || 0,
-						lastPrice: (details && details.price > 0) ? details.price : (currentDgiData && currentDgiData.price ? currentDgiData.price : 0),
-						dgiScore: dgiScore,
-						dgiVerdict: dgiVerdict,
-						dividendRate: divRate,
-						dividendYield: divYield,
-						exDividendDate: exDate
-					};
-
-					watchlist.push(newEntry);
-					saveWatchlistToStorage();
-					renderWatchlistTable();
-					triggerAutoSyncWatchlist(newEntry.ticker);
-
-					tickerInput.value = '';
-					nameInput.value = '';
-					minInput.value = '';
-					maxInput.value = '';
-
-					statusBox.className = 'status-msg status-success';
-					statusBox.innerHTML = '<strong>' + newEntry.name + ' (' + newEntry.ticker + ')</strong> added to Watchlist.';
-					setTimeout(() => { statusBox.style.display = 'none'; }, 3500);
 				}
 
 				async function checkAllWatchlistAlerts() {
