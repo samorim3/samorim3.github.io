@@ -70,5 +70,17 @@
     "dividendRate": 7.72,
     "dividendYield": 3.26,
     "exDividendDate": "2026-09-01"
+  },
+  {
+    "ticker": "BN.PA",
+    "name": "Danone S.A.",
+    "minBuy": 56.58,
+    "maxSell": 68.49,
+    "lastPrice": 59.56,
+    "dgiScore": 70,
+    "dgiVerdict": "Solid DGI Quality",
+    "dividendRate": 2.25,
+    "dividendYield": 3.78,
+    "exDividendDate": "2026-05-04"
   }
 ]
