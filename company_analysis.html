@@ -746,14 +746,14 @@
 					document.getElementById('dgiScoreValue').innerHTML = '--<span style="font-size: 1.4rem; color: #64748b;">/100</span>';
 					
 					const badgeEl = document.getElementById('dgiScoreBadge');
-					badgeEl.innerHTML = 'Dados Não Disponíveis';
+					badgeEl.innerHTML = 'Data Not Available';
 					badgeEl.style.background = '#64748b';
 
-					document.getElementById('dgiCompName').innerHTML = (searchedTicker || '--') + ' <span id="dgiCompTicker" style="color: #64748b; font-size: 1rem; font-weight: 600;">(Sem Dados)</span>';
-					document.getElementById('dgiCompSector').innerText = 'Ticker não catalogado na base de análise fundamental.';
+					document.getElementById('dgiCompName').innerHTML = (searchedTicker || '--') + ' <span id="dgiCompTicker" style="color: #64748b; font-size: 1rem; font-weight: 600;">(No Data)</span>';
+					document.getElementById('dgiCompSector').innerText = 'Ticker not found or no fundamental data available.';
 					document.getElementById('dgiCompPrice').innerText = '—';
 					document.getElementById('dgiCompMcap').innerText = 'Cap: —';
-					document.getElementById('dgiVerdictSummary').innerText = 'Não foram encontrados dados de mercado ou financeiros válidos para esta empresa.';
+					document.getElementById('dgiVerdictSummary').innerText = 'No valid market or financial data found for this company.';
 
 					document.getElementById('dgiQuickYield').innerText = '—';
 					document.getElementById('dgiQuickPayout').innerText = '—';
@@ -780,7 +780,7 @@
 
 					const tbody = document.getElementById('dgiMetricsTableBody');
 					if (tbody) {
-						tbody.innerHTML = '<tr><td colspan="4" style="text-align:center; padding: 1.5rem; color: #94a3b8;">Nenhum dado fundamental disponível para ' + (searchedTicker || 'este ticker') + '.</td></tr>';
+						tbody.innerHTML = '<tr><td colspan="4" style="text-align:center; padding: 1.5rem; color: #94a3b8;">No fundamental data available for ' + (searchedTicker || 'this ticker') + '.</td></tr>';
 					}
 				}
 
@@ -1059,55 +1059,101 @@
 						const curr = meta.currency || 'USD';
 						const symChar = getTickerCurrencySymbol(alias || tickerClean);
 						
-						// Parse real dividends
+						// Parse real dividends and detect special/extraordinary payouts
 						const rawDivs = liveResult.events?.dividends || {};
 						const divArr = Object.values(rawDivs).sort((a, b) => a.date - b.date);
 						
-						const yearMap = {};
+						// Group dividend payments by calendar year
+						const yearPayments = {};
 						divArr.forEach(d => {
 							const yr = new Date(d.date * 1000).getFullYear().toString();
-							yearMap[yr] = (yearMap[yr] || 0) + d.amount;
+							if (!yearPayments[yr]) yearPayments[yr] = [];
+							yearPayments[yr].push(d.amount);
 						});
-						
-						const divHistory = Object.keys(yearMap).sort().slice(-6).map(yr => ({
+
+						const yearOrdinaryMap = {};
+						const yearSpecialMap = {};
+						const yearTotalMap = {};
+
+						Object.keys(yearPayments).forEach(yr => {
+							const amounts = yearPayments[yr];
+							const sortedA = [...amounts].sort((a, b) => a - b);
+							const median = sortedA[Math.floor(sortedA.length / 2)] || 0;
+							let ordSum = 0;
+							let specSum = 0;
+							amounts.forEach(a => {
+								// Detect special dividends: quarterly/semi-annual distribution > 2.5x the median of that year
+								if (amounts.length >= 2 && a > median * 2.5) {
+									specSum += a;
+								} else {
+									ordSum += a;
+								}
+							});
+							yearOrdinaryMap[yr] = +(ordSum.toFixed(2));
+							yearSpecialMap[yr] = +(specSum.toFixed(2));
+							yearTotalMap[yr] = +(ordSum + specSum).toFixed(2);
+						});
+
+						const divHistory = Object.keys(yearTotalMap).sort().slice(-6).map(yr => ({
 							year: yr,
-							amount: +(yearMap[yr].toFixed(2))
+							amount: yearOrdinaryMap[yr] || yearTotalMap[yr], // Ordinary recurring amount
+							specialAmount: yearSpecialMap[yr] || 0,          // Extraordinary amount
+							totalAmount: yearTotalMap[yr]
 						}));
 
-						// Calculate real LTM dividend and yield
+						// Calculate real LTM total dividend and yield
 						const nowSec = Math.floor(Date.now() / 1000);
 						const oneYearSec = 365 * 24 * 60 * 60;
 						const ltmList = divArr.filter(d => (nowSec - d.date) <= oneYearSec);
-						let ltmDiv = ltmList.reduce((sum, d) => sum + d.amount, 0);
-						if (ltmDiv === 0 && divArr.length >= 4) {
-							ltmDiv = divArr.slice(-4).reduce((sum, d) => sum + d.amount, 0);
+						let ltmTotalDiv = ltmList.reduce((sum, d) => sum + d.amount, 0);
+						if (ltmTotalDiv === 0 && divArr.length >= 4) {
+							ltmTotalDiv = divArr.slice(-4).reduce((sum, d) => sum + d.amount, 0);
 						}
-						const realYield = (ltmDiv > 0 && price > 0) ? (ltmDiv / price) * 100 : 0;
+						const totalYieldLtm = (ltmTotalDiv > 0 && price > 0) ? (ltmTotalDiv / price) * 100 : 0;
 
-						// Real 5Y Div CAGR
-						let divCagr5y = 0;
+						// Extract live fundamentals from Cloudflare Worker
+						const fund = liveResult.fundamentals || {};
+
+						// Prioritize Ordinary / Recurring Dividend Rate and Yield
+						let ordDivRate = fund.ordDivRate != null ? fund.ordDivRate : null;
+						let ordYield = fund.ordDivYield != null ? fund.ordDivYield : null;
+
+						if (ordDivRate == null || ordDivRate <= 0) {
+							const latestDiv = divArr.length > 0 ? divArr[divArr.length - 1] : null;
+							ordDivRate = ltmTotalDiv > 0 ? +(ltmTotalDiv.toFixed(2)) : (latestDiv ? +(latestDiv.amount * 4).toFixed(2) : 0);
+							ordYield = (ordDivRate > 0 && price > 0) ? (ordDivRate / price) * 100 : totalYieldLtm;
+						}
+
+						// Extraordinary Dividend (LTM)
+						let extraDivRate = fund.extraDivRate || 0;
+						let extraDivYield = fund.extraDivYield || 0;
+						if (extraDivRate <= 0 && ltmTotalDiv > (ordDivRate + 0.01)) {
+							extraDivRate = +(ltmTotalDiv - ordDivRate).toFixed(2);
+							extraDivYield = (price > 0) ? +((extraDivRate / price) * 100).toFixed(2) : 0;
+						}
+
+						// 5Y Ordinary Dividend CAGR (based strictly on ordinary payments, ignoring one-off spikes!)
+						let divCagr5yOrd = 0;
 						if (divHistory.length >= 2) {
-							const first = divHistory[0].amount;
-							const last = divHistory[divHistory.length - 1].amount;
+							const firstOrd = divHistory[0].amount;
+							const lastOrd = divHistory[divHistory.length - 1].amount;
 							const yrs = divHistory.length - 1;
-							if (first > 0 && last > 0 && yrs > 0) {
-								divCagr5y = (Math.pow(last / first, 1 / yrs) - 1) * 100;
+							if (firstOrd > 0 && lastOrd > 0 && yrs > 0) {
+								divCagr5yOrd = (Math.pow(lastOrd / firstOrd, 1 / yrs) - 1) * 100;
 							}
 						}
 
-						const chowder = realYield + (divCagr5y > 0 ? divCagr5y : 0);
+						// Chowder Rule based strictly on Ordinary Yield + Ordinary 5Y Div CAGR!
+						const chowderOrd = ordYield + (divCagr5yOrd > 0 ? divCagr5yOrd : 0);
 
-						// Extract live fundamentals from Cloudflare Worker if available
-						const fund = liveResult.fundamentals || {};
-
-						// Pillar 1: Dividend Yield (2.5% - 6.0%)
+						// Pillar 1: Evaluated on Ordinary Dividend Yield (2.5% - 6.0%)
 						let p1 = 0;
-						if (realYield >= 2.5 && realYield <= 6.0) p1 = 20;
-						else if ((realYield >= 2.0 && realYield < 2.5) || (realYield > 6.0 && realYield <= 7.0)) p1 = 16;
-						else if ((realYield >= 1.5 && realYield < 2.0) || (realYield > 7.0 && realYield <= 8.5)) p1 = 10;
-						else if ((realYield >= 1.0 && realYield < 1.5) || (realYield > 8.5 && realYield <= 10.0)) p1 = 5;
+						if (ordYield >= 2.5 && ordYield <= 6.0) p1 = 20;
+						else if ((ordYield >= 2.0 && ordYield < 2.5) || (ordYield > 6.0 && ordYield <= 7.0)) p1 = 16;
+						else if ((ordYield >= 1.5 && ordYield < 2.0) || (ordYield > 7.0 && ordYield <= 8.5)) p1 = 10;
+						else if ((ordYield >= 1.0 && ordYield < 1.5) || (ordYield > 8.5 && ordYield <= 10.0)) p1 = 5;
 
-						// Pillar 2: FCF Payout Coverage (< 70%)
+						// Pillar 2: Evaluated on Ordinary FCF Payout (< 70%)
 						let p2 = 10;
 						const evalPayout = (fund.fcfPayout != null && fund.fcfPayout > 0) ? fund.fcfPayout : fund.epsPayout;
 						if (evalPayout != null && evalPayout > 0) {
@@ -1144,9 +1190,9 @@
 						}
 						p4 = revPts + niPts;
 
-						// Pillar 5: Dividend CAGR & Chowder Rule
-						let dpsPts = divCagr5y >= 7 ? 10 : (divCagr5y >= 4 ? 7 : (divCagr5y >= 1 ? 4 : (realYield > 4 ? 5 : 0)));
-						let chwPts = chowder >= 12 ? 10 : (chowder >= 8 ? 7 : (chowder >= 5 ? 4 : 0));
+						// Pillar 5: Dividend CAGR & Chowder Rule (Ordinary)
+						let dpsPts = divCagr5yOrd >= 7 ? 10 : (divCagr5yOrd >= 4 ? 7 : (divCagr5yOrd >= 1 ? 4 : (ordYield > 4 ? 5 : 0)));
+						let chwPts = chowderOrd >= 12 ? 10 : (chowderOrd >= 8 ? 7 : (chowderOrd >= 5 ? 4 : 0));
 						let p5 = dpsPts + chwPts;
 
 						const hasFund = (fund.pe != null || fund.fcfPayout != null || fund.netDebtEbitda != null);
@@ -1164,15 +1210,16 @@
 
 						const latestDiv = divArr.length > 0 ? divArr[divArr.length - 1] : null;
 						const latestDivDate = latestDiv ? new Date(latestDiv.date * 1000).toISOString().split('T')[0] : null;
-						const calculatedDivRate = ltmDiv > 0 ? +(ltmDiv.toFixed(2)) : (latestDiv ? +(latestDiv.amount.toFixed(2)) : null);
+						const calculatedDivRate = ordDivRate > 0 ? ordDivRate : (ltmTotalDiv > 0 ? +(ltmTotalDiv.toFixed(2)) : (latestDiv ? +(latestDiv.amount.toFixed(2)) : null));
 
-						let summaryText = `Real-time market price of ${symChar}${price.toFixed(2)} and Dividend Yield of ${realYield.toFixed(2)}% fetched live via Yahoo Finance (${meta.fullExchangeName || 'Global Exchange'}).`;
+						let summaryText = `Real-time market price of ${symChar}${price.toFixed(2)} and Ordinary Dividend Yield of ${ordYield.toFixed(2)}% fetched live via Yahoo Finance (${meta.fullExchangeName || 'Global Exchange'}).`;
 						if (hasFund) {
 							const peStr = fund.pe ? fund.pe.toFixed(1) + 'x' : '—';
-							const fcfStr = fund.fcfPayout ? fund.fcfPayout.toFixed(1) + '%' : (fund.epsPayout ? fund.epsPayout.toFixed(1) + '% (EPS)' : '—');
+							const fcfStr = fund.fcfPayout ? fund.fcfPayout.toFixed(1) + '% (Ord.)' : (fund.epsPayout ? fund.epsPayout.toFixed(1) + '% (EPS)' : '—');
 							const debtStr = fund.netDebtEbitda != null ? (fund.netDebtEbitda <= 0 ? 'Net Cash' : fund.netDebtEbitda.toFixed(2) + 'x') : '—';
 							const roicStr = fund.roic != null ? fund.roic.toFixed(1) + '%' : '—';
-							summaryText = `${name}: DGI Score of ${totalScore.toFixed(0)}/100. P/E of ${peStr}, ROIC of ${roicStr}, FCF Payout of ${fcfStr}, Net Debt/EBITDA of ${debtStr}, and Chowder of ${chowder.toFixed(1)}%.`;
+							const extraStr = extraDivRate > 0 ? ` (+${symChar}${extraDivRate.toFixed(2)} Extraordinary Div)` : '';
+							summaryText = `${name}: DGI Score of ${totalScore.toFixed(0)}/100. P/E of ${peStr}, ROIC of ${roicStr}, Ordinary FCF Payout of ${fcfStr}, Net Debt/EBITDA of ${debtStr}, and Ordinary Chowder of ${chowderOrd.toFixed(1)}%${extraStr}.`;
 						}
 
 						const dynamicData = {
@@ -1190,18 +1237,23 @@
 							roe: fund.roe != null ? fund.roe : null,
 							roic: fund.roic != null ? fund.roic : null,
 							margin: fund.margin != null ? fund.margin : null,
-							divYield: realYield,
+							divYield: ordYield,
+							divYieldTotal: totalYieldLtm,
 							dividendRate: calculatedDivRate,
-							dividendYield: +(realYield.toFixed(2)),
+							dividendRateTotal: ltmTotalDiv,
+							extraDivRate: extraDivRate,
+							extraDivYield: extraDivYield,
+							dividendYield: +(ordYield.toFixed(2)),
 							exDividendDate: latestDivDate,
 							fcfPayout: fund.fcfPayout || null,
+							fcfPayoutTotal: fund.fcfPayoutTotal || null,
 							epsPayout: fund.epsPayout || null,
 							netDebtEbitda: fund.netDebtEbitda !== undefined ? fund.netDebtEbitda : null,
 							revCagr5y: fund.revCagr5y !== undefined ? fund.revCagr5y : null,
 							niCagr5y: fund.niCagr5y !== undefined ? fund.niCagr5y : null,
 							sharesChange5y: fund.sharesChange5y !== undefined ? fund.sharesChange5y : null,
-							divCagr5y: divCagr5y,
-							chowder: chowder,
+							divCagr5y: divCagr5yOrd,
+							chowder: chowderOrd,
 							divHistory: divHistory,
 							scores: { p1: p1, p2: hasFund ? p2 : null, p3: hasFund ? p3 : null, p4: hasFund ? p4 : null, p5: p5, total: totalScore },
 							verdict: verdict,
@@ -1250,7 +1302,7 @@
 						
 						const badgeEl = document.getElementById('dgiScoreBadge');
 						if (badgeEl) {
-							badgeEl.innerHTML = (data.verdictIcon || '🟢') + ' ' + (data.verdict || 'Análise Concluída');
+							badgeEl.innerHTML = (data.verdictIcon || '🟢') + ' ' + (data.verdict || 'Analysis Complete');
 							if (s.total >= 85) {
 								badgeEl.style.background = '#047857';
 							} else if (s.total >= 70) {
@@ -1373,36 +1425,72 @@
 
 					const hist = data.divHistory || [];
 					const labels = hist.map(h => h.year);
-					const amounts = hist.map(h => h.amount);
+					const ordAmounts = hist.map(h => h.amount || 0);
+					const specAmounts = hist.map(h => h.specialAmount || 0);
+					const hasSpecial = specAmounts.some(s => s > 0);
+
+					const datasets = [
+						{
+							label: 'Ordinary Dividend',
+							data: ordAmounts,
+							backgroundColor: '#047857',
+							borderRadius: hasSpecial ? 0 : 4,
+							borderSkipped: false,
+							stack: 'div'
+						}
+					];
+
+					if (hasSpecial) {
+						datasets.push({
+							label: 'Extraordinary / Special',
+							data: specAmounts,
+							backgroundColor: '#f59e0b',
+							borderRadius: { topLeft: 4, topRight: 4 },
+							borderSkipped: false,
+							stack: 'div'
+						});
+					}
 
 					barChartInstance = new Chart(ctx, {
 						type: 'bar',
 						data: {
 							labels: labels,
-							datasets: [{
-								label: 'Annual Dividend (' + data.symbol + ')',
-								data: amounts,
-								backgroundColor: '#047857',
-								borderRadius: 4,
-								borderSkipped: false
-							}]
+							datasets: datasets
 						},
 						options: {
 							responsive: true,
 							maintainAspectRatio: false,
 							scales: {
+								x: {
+									stacked: true,
+									grid: { display: false },
+									ticks: { font: { size: 10, weight: '700' } }
+								},
 								y: {
+									stacked: true,
 									beginAtZero: true,
 									grid: { color: '#f1f5f9' },
 									ticks: { font: { size: 10 } }
-								},
-								x: {
-									grid: { display: false },
-									ticks: { font: { size: 10, weight: '700' } }
 								}
 							},
 							plugins: {
-								legend: { display: false }
+								legend: {
+									display: hasSpecial,
+									position: 'top',
+									labels: { font: { size: 10, weight: '600' }, boxWidth: 12, padding: 8 }
+								},
+								tooltip: {
+									callbacks: {
+										footer: function(tooltipItems) {
+											if (!hasSpecial) return '';
+											let sum = 0;
+											tooltipItems.forEach(function(item) {
+												sum += item.parsed.y;
+											});
+											return 'Total: ' + (data.symbol || '') + sum.toFixed(2);
+										}
+									}
+								}
 							}
 						}
 					});
@@ -1412,9 +1500,34 @@
 					const tbody = document.getElementById('dgiMetricsTableBody');
 					if (!tbody) return;
 
-					const fcfVal = (data.fcfPayout != null && data.fcfPayout > 0) ? data.fcfPayout.toFixed(1) + "%" : (data.epsPayout != null && data.epsPayout > 0 ? data.epsPayout.toFixed(1) + "% (EPS)" : "—");
+					// 1. Ordinary Dividend Yield
+					let yldVal = '—';
+					if (data.divYield != null) {
+						yldVal = data.divYield.toFixed(2) + '%';
+						if (data.divYieldTotal && data.divYieldTotal > (data.divYield + 0.05)) {
+							yldVal += '<div style="font-size:0.72rem; color:#64748b; font-weight:500;">Total LTM: ' + data.divYieldTotal.toFixed(2) + '%</div>';
+						}
+					}
+					const yldPass = (data.divYield != null && data.divYield >= 2.0 && data.divYield <= 6.0);
+
+					// 2. Ordinary FCF Payout
+					let fcfVal = '—';
+					if (data.fcfPayout != null && data.fcfPayout > 0) {
+						fcfVal = data.fcfPayout.toFixed(1) + '%';
+						if (data.fcfPayoutTotal && data.fcfPayoutTotal > (data.fcfPayout + 0.5)) {
+							fcfVal += '<div style="font-size:0.72rem; color:#64748b; font-weight:500;">Total LTM: ' + data.fcfPayoutTotal.toFixed(1) + '%</div>';
+						}
+					} else if (data.epsPayout != null && data.epsPayout > 0) {
+						fcfVal = data.epsPayout.toFixed(1) + '% (EPS)';
+					}
 					const fcfPass = ((data.fcfPayout || data.epsPayout || 0) > 0 && (data.fcfPayout || data.epsPayout || 0) <= 70.0);
 
+					// 3. Extraordinary Dividend (LTM)
+					const hasExtra = (data.extraDivRate != null && data.extraDivRate > 0);
+					const extraVal = hasExtra ? ('+' + data.symbol + data.extraDivRate.toFixed(2) + ' (' + data.extraDivYield.toFixed(2) + '%)') : 'None (0.00%)';
+					const extraBadge = hasExtra ? '<span class="badge-hold" style="background:#fef3c7; color:#b45309; border:1px solid #fde68a;">Special Paid</span>' : '<span class="badge-buy">Clean</span>';
+
+					// 4. Solvency & Growth
 					const debtVal = (data.netDebtEbitda != null) ? (data.netDebtEbitda <= 0 ? "Net Cash (0.0x)" : data.netDebtEbitda.toFixed(2) + "x") : "—";
 					const debtPass = (data.netDebtEbitda != null && data.netDebtEbitda <= 3.0);
 
@@ -1422,26 +1535,31 @@
 					const sharesPass = (data.sharesChange5y != null && data.sharesChange5y <= 0.0);
 
 					const metrics = [
-						{ name: "Dividend Yield", val: (data.divYield != null) ? data.divYield.toFixed(2) + "%" : "—", target: "2.0% - 6.0%", pass: (data.divYield >= 2.0 && data.divYield <= 6.0) },
-						{ name: "Payout Ratio (FCF)", val: fcfVal, target: "< 70.0%", pass: fcfPass },
+						{ name: "Dividend Yield (Ordinary)", val: yldVal, target: "2.0% - 6.0%", pass: yldPass },
+						{ name: "Payout Ratio (FCF Ordinary)", val: fcfVal, target: "< 70.0%", pass: fcfPass },
+						{ name: "5Y Dividend CAGR (Ordinary)", val: (data.divCagr5y != null) ? data.divCagr5y.toFixed(1) + "%" : "—", target: "> 5.0%/yr", pass: (data.divCagr5y != null && data.divCagr5y >= 5.0) },
+						{ name: "Chowder Number (Ord. Yield + Div CAGR)", val: (data.chowder != null) ? data.chowder.toFixed(1) + "%" : "—", target: ">= 10.0%", pass: (data.chowder != null && data.chowder >= 10.0) },
+						{ name: "Extraordinary Dividends (LTM)", val: extraVal, target: "Informative only", badge: extraBadge },
 						{ name: "Net Debt / EBITDA", val: debtVal, target: "< 3.0x", pass: debtPass },
-						{ name: "5Y Revenue CAGR", val: (data.revCagr5y != null) ? data.revCagr5y.toFixed(1) + "%" : "—", target: "> 5.0%", pass: (data.revCagr5y != null && data.revCagr5y >= 5.0) },
-						{ name: "5Y Net Income CAGR", val: (data.niCagr5y != null) ? data.niCagr5y.toFixed(1) + "%" : "—", target: "> 5.0%", pass: (data.niCagr5y != null && data.niCagr5y >= 5.0) },
-						{ name: "5Y Dividend CAGR", val: (data.divCagr5y != null) ? data.divCagr5y.toFixed(1) + "%" : "—", target: "> 5.0%", pass: (data.divCagr5y != null && data.divCagr5y >= 5.0) },
-						{ name: "Chowder Number (Yield + Div CAGR)", val: (data.chowder != null) ? data.chowder.toFixed(1) + "%" : "—", target: ">= 10.0%", pass: (data.chowder != null && data.chowder >= 10.0) },
+						{ name: "5Y Revenue CAGR", val: (data.revCagr5y != null) ? data.revCagr5y.toFixed(1) + "%" : "—", target: "> 5.0%/yr", pass: (data.revCagr5y != null && data.revCagr5y >= 5.0) },
+						{ name: "5Y Net Income CAGR", val: (data.niCagr5y != null) ? data.niCagr5y.toFixed(1) + "%" : "—", target: "> 5.0%/yr", pass: (data.niCagr5y != null && data.niCagr5y >= 5.0) },
 						{ name: "Price to Earnings (P/E)", val: (data.pe != null && data.pe > 0) ? data.pe.toFixed(1) + "x" : "—", target: "15x - 25x", pass: (data.pe != null && data.pe > 0 && data.pe <= 25.0) },
 						{ name: "Return on Invested Capital (ROIC)", val: (data.roic != null) ? data.roic.toFixed(1) + "%" : "—", target: "> 10.0%", pass: (data.roic != null && data.roic >= 10.0) },
 						{ name: "Return on Equity (ROE)", val: (data.roe != null) ? data.roe.toFixed(1) + "%" : "—", target: "> 15.0%", pass: (data.roe != null && data.roe >= 15.0) },
 						{ name: "Operating Margin", val: (data.margin != null) ? data.margin.toFixed(1) + "%" : "—", target: "> 12.0%", pass: (data.margin != null && data.margin >= 12.0) },
-						{ name: "5Y Share Count Evolution", val: sharesVal, target: "<= 0.0% (Buybacks)", pass: sharesPass }
+						{ name: "5Y Share Count Evolution", val: sharesVal, target: "<= 0.0% (Net Buybacks)", pass: sharesPass }
 					];
 
 					tbody.innerHTML = '';
 					metrics.forEach(m => {
 						const tr = document.createElement('tr');
-						let badge = '<span style="color:#94a3b8; font-size:0.75rem;">—</span>';
-						if (m.val !== '—') {
-							badge = m.pass ? '<span class="badge-buy">Pass</span>' : '<span class="badge-hold">Caution</span>';
+						let badge = m.badge;
+						if (!badge) {
+							if (m.val === '—') {
+								badge = '<span style="color:#94a3b8; font-size:0.75rem;">—</span>';
+							} else {
+								badge = m.pass ? '<span class="badge-buy">Pass</span>' : '<span class="badge-hold">Caution</span>';
+							}
 						}
 						tr.innerHTML = '<td style="font-weight:600; color:#0f172a;">' + m.name + '</td>' +
 									   '<td style="text-align:center; font-weight:700; color:#1e293b;">' + m.val + '</td>' +
@@ -1476,12 +1594,13 @@
 								"━━━━━━━━━━━━━━━━━━━━━\n" +
 								"🏆 *DGI SCORE:* *" + (s.total != null ? s.total.toFixed(0) : '--') + "/100* " + (d.verdictIcon || '🟢') + "\n" +
 								"📌 *Rating:* " + (d.verdict || 'Analysis Complete') + "\n\n" +
-								"🎯 *Core Pillars:*\n" +
-								"• 1. *Yield:* `" + (d.divYield != null ? d.divYield.toFixed(2) + '%' : '—') + "` (" + (s.p1 != null ? s.p1.toFixed(0) : '—') + "/20 pts)\n" +
-								"• 2. *FCF Payout:* `" + fcfText + "` (" + (s.p2 != null ? s.p2.toFixed(0) : '—') + "/20 pts)\n" +
+								"🎯 *Core Pillars (Ordinary / Recurring):*\n" +
+								"• 1. *Ord. Yield:* `" + (d.divYield != null ? d.divYield.toFixed(2) + '%' : '—') + "` (" + (s.p1 != null ? s.p1.toFixed(0) : '—') + "/20 pts)\n" +
+								"• 2. *Ord. FCF Payout:* `" + fcfText + "` (" + (s.p2 != null ? s.p2.toFixed(0) : '—') + "/20 pts)\n" +
 								"• 3. *Net Debt/EBITDA:* `" + debtText + "` (" + (s.p3 != null ? s.p3.toFixed(0) : '—') + "/20 pts)\n" +
 								"• 4. *5Y Growth:* Rev `" + revText + "` | Net Inc `" + niText + "` (" + (s.p4 != null ? s.p4.toFixed(0) : '—') + "/20 pts)\n" +
 								"• 5. *Div CAGR & Chowder:* Div `" + (d.divCagr5y != null ? d.divCagr5y.toFixed(1) + '%' : '—') + "` | Chowder `" + (d.chowder != null ? d.chowder.toFixed(1) + '%' : '—') + "` (" + (s.p5 != null ? s.p5.toFixed(0) : '—') + "/20 pts)\n" +
+								(d.extraDivRate > 0 ? "• ℹ️ *Extraordinary Div (LTM):* `+" + d.symbol + d.extraDivRate.toFixed(2) + " (" + d.extraDivYield.toFixed(2) + "%)`\n" : "") +
 								"━━━━━━━━━━━━━━━━━━━━━\n" +
 								"💡 _" + (d.summary || '') + "_";
 

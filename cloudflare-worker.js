@@ -197,16 +197,38 @@ function parseFundamentals(qs, tsResult) {
     netDebtEbitda = 0.0; // Net cash company
   }
 
-  // 3. Free Cash Flow & Payout
+  // 3. Dividends (Ordinary vs Extraordinary Breakdown)
+  const ordDivRate = raw(sd.dividendRate);
+  const ordDivYield = raw(sd.dividendYield) != null ? +(raw(sd.dividendYield) * 100).toFixed(2) : null;
+  const ltmTotalDivRate = raw(sd.trailingAnnualDividendRate);
+  const ltmTotalDivYield = raw(sd.trailingAnnualDividendYield) != null ? +(raw(sd.trailingAnnualDividendYield) * 100).toFixed(2) : null;
+
+  let extraDivRate = 0;
+  let extraDivYield = 0;
+  if (ltmTotalDivRate != null && ordDivRate != null && ltmTotalDivRate > (ordDivRate + 0.005)) {
+    extraDivRate = +(ltmTotalDivRate - ordDivRate).toFixed(2);
+    if (ltmTotalDivYield != null && ordDivYield != null) {
+      extraDivYield = +(ltmTotalDivYield - ordDivYield).toFixed(2);
+    }
+  }
+
+  // 4. Free Cash Flow & Payout (Ordinary vs Total)
   const fcf = raw(fd.freeCashflow);
   const shares = raw(ks.sharesOutstanding) || raw(ks.impliedSharesOutstanding);
-  const divRate = raw(sd.dividendRate) || raw(sd.trailingAnnualDividendRate);
-  let fcfPayout = null;
-  if (fcf != null && fcf > 0 && shares != null && divRate != null && divRate > 0) {
-    const totalDivPaid = shares * divRate;
-    fcfPayout = +((totalDivPaid / fcf) * 100).toFixed(1);
+  let fcfPayout = null; // Ordinary FCF Payout (Primary DGI metric)
+  let fcfPayoutTotal = null; // Total FCF Payout (including extraordinary distributions)
+
+  const activeOrdRate = ordDivRate || ltmTotalDivRate;
+  if (fcf != null && fcf > 0 && shares != null && activeOrdRate != null && activeOrdRate > 0) {
+    fcfPayout = +(((shares * activeOrdRate) / fcf) * 100).toFixed(1);
   } else if (raw(sd.payoutRatio) != null && raw(sd.payoutRatio) > 0) {
     fcfPayout = +(raw(sd.payoutRatio) * 100).toFixed(1);
+  }
+
+  if (fcf != null && fcf > 0 && shares != null && ltmTotalDivRate != null && ltmTotalDivRate > 0) {
+    fcfPayoutTotal = +(((shares * ltmTotalDivRate) / fcf) * 100).toFixed(1);
+  } else {
+    fcfPayoutTotal = fcfPayout;
   }
 
   const epsPayout = raw(sd.payoutRatio) != null ? +(raw(sd.payoutRatio) * 100).toFixed(1) : null;
@@ -305,7 +327,14 @@ function parseFundamentals(qs, tsResult) {
     netDebtEbitda,
     fcf,
     fcfPayout,
+    fcfPayoutTotal,
     epsPayout,
+    ordDivRate,
+    ordDivYield,
+    ltmTotalDivRate,
+    ltmTotalDivYield,
+    extraDivRate,
+    extraDivYield,
     revCagr5y,
     niCagr5y,
     sharesChange5y,
