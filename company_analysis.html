@@ -459,9 +459,9 @@
 									<div class="search-container">
 										<div class="search-row">
 											<div style="flex: 1; min-width: 220px;">
-												<input type="text" id="dgiTickerInput" placeholder="Enter stock ticker symbol (e.g. AAPL, MSFT, KO, PEP, GALP)..." style="width: 100%; padding: 0.65rem 1rem; font-size: 0.95rem; font-weight: 600; border-radius: 8px; border: 1px solid #cbd5e1; text-transform: uppercase;" onkeypress="if(event.key==='Enter') analyzeDgiStock(this.value)" />
+												<input type="text" id="dgiTickerInput" placeholder="Enter stock ticker or company name (e.g. AAPL, Palantir, Coca-Cola, Galp, BMW, EDP)..." style="width: 100%; padding: 0.65rem 1rem; font-size: 0.95rem; font-weight: 600; border-radius: 8px; border: 1px solid #cbd5e1;" onkeypress="if(event.key==='Enter') analyzeDgiStock(this.value)" />
 											</div>
-											<button type="button" onclick="analyzeDgiStock(document.getElementById('dgiTickerInput').value)" class="btn-sober btn-primary">Analyze Ticker</button>
+											<button type="button" onclick="analyzeDgiStock(document.getElementById('dgiTickerInput').value)" class="btn-sober btn-primary">Analyze Stock</button>
 										</div>
 										<div id="dgiLoadingMsg" class="status-msg"></div>
 									</div>
@@ -1044,21 +1044,22 @@
 
 				const CLOUDFLARE_WORKER_URL = 'https://stock-finance-api.samorim3.workers.dev';
 
-				async function fetchLiveTickerData(rawTicker) {
-					if (!rawTicker) return null;
-					const ticker = aliasMap[rawTicker.toUpperCase()] || rawTicker.toUpperCase();
-					const targetUrl = 'https://query1.finance.yahoo.com/v8/finance/chart/' + encodeURIComponent(ticker) + '?interval=1mo&range=5y&events=div';
+				async function fetchLiveTickerData(rawInput) {
+					if (!rawInput) return null;
+					const trimmed = rawInput.trim();
+					const alias = aliasMap[trimmed.toUpperCase()] || trimmed;
 
-					// 1. Primary High-Speed Gateway: Cloudflare Worker
+					// 1. Primary High-Speed Gateway: Cloudflare Worker (with built-in online Yahoo Search fallback)
 					try {
 						const controller = typeof AbortController !== 'undefined' ? new AbortController() : null;
-						const tid = controller ? setTimeout(() => controller.abort(), 6000) : null;
-						const cfRes = await fetch(CLOUDFLARE_WORKER_URL + '/?ticker=' + encodeURIComponent(ticker), controller ? { signal: controller.signal } : {});
+						const tid = controller ? setTimeout(() => controller.abort(), 8000) : null;
+						const cfRes = await fetch(CLOUDFLARE_WORKER_URL + '/?ticker=' + encodeURIComponent(alias), controller ? { signal: controller.signal } : {});
 						if (tid) clearTimeout(tid);
 						if (cfRes.ok) {
 							const json = await cfRes.json();
 							const res = json?.chart?.result?.[0];
 							if (res && res.meta && res.meta.regularMarketPrice > 0) {
+								if (json.resolvedMeta) res.resolvedMeta = json.resolvedMeta;
 								return res;
 							}
 						}
@@ -1066,10 +1067,11 @@
 						console.warn('Worker Gateway Error:', e);
 					}
 
-					// 2. Secondary Fallback: corsproxy.org
+					// 2. Secondary Fallback: Direct Chart via corsproxy.org
+					const targetUrl = 'https://query1.finance.yahoo.com/v8/finance/chart/' + encodeURIComponent(alias) + '?interval=1mo&range=5y&events=div';
 					try {
 						const controller2 = typeof AbortController !== 'undefined' ? new AbortController() : null;
-						const tid2 = controller2 ? setTimeout(() => controller2.abort(), 6000) : null;
+						const tid2 = controller2 ? setTimeout(() => controller2.abort(), 7000) : null;
 						const proxyUrl = 'https://corsproxy.org/?url=' + encodeURIComponent(targetUrl);
 						const pRes = await fetch(proxyUrl, controller2 ? { signal: controller2.signal } : {});
 						if (tid2) clearTimeout(tid2);
@@ -1081,7 +1083,7 @@
 							}
 						}
 					} catch(e) {
-						console.warn('Fallback Error:', e);
+						console.warn('Fallback Direct Chart Error:', e);
 					}
 
 					return null;
@@ -1102,17 +1104,17 @@
 						if (loadBox) {
 							loadBox.style.display = 'block';
 							loadBox.className = 'status-msg status-loading';
-							loadBox.innerHTML = 'Searching live quotes, dividends and fundamentals for <strong>' + tickerClean + '</strong>...';
+							loadBox.innerHTML = 'Searching live quotes, dividends and fundamentals online for <strong>' + rawInput + '</strong>...';
 						}
 
-						// Fetch live market & dividend events dynamically via Cloudflare / Yahoo Finance API
-						const liveResult = await fetchLiveTickerData(tickerClean);
+						// Fetch live market & dividend events dynamically via Cloudflare Worker (with Yahoo Finance Search)
+						const liveResult = await fetchLiveTickerData(rawInput);
 						if (!liveResult) {
 							currentDgiData = null;
 							if (resultSection) resultSection.style.display = 'none';
 							if (loadBox) {
 								loadBox.className = 'status-msg status-error';
-								loadBox.innerHTML = '❌ <strong>Ticker not found:</strong> Unable to locate market quotes or financial data for <strong>' + tickerClean + '</strong> across global exchanges.';
+								loadBox.innerHTML = '❌ <strong>Ticker not found:</strong> Unable to locate market quotes or financial data for "<strong>' + rawInput + '</strong>". Try entering the exchange symbol (e.g. AAPL, PLTR, KO, GALP.LS, EDP.LS).';
 							}
 							return;
 						}
@@ -1121,9 +1123,15 @@
 
 						const meta = liveResult.meta || {};
 						const price = meta.regularMarketPrice || 0;
-						const name = meta.longName || meta.shortName || tickerClean;
+						const finalTicker = liveResult.resolvedMeta?.resolvedSymbol || meta.symbol || alias || tickerClean;
+						const name = liveResult.resolvedMeta?.companyName || meta.longName || meta.shortName || finalTicker;
 						const curr = meta.currency || 'USD';
-						const symChar = getTickerCurrencySymbol(alias || tickerClean);
+						const symChar = getTickerCurrencySymbol(finalTicker);
+
+						// Update search bar if symbol was resolved from a company name
+						if (inputEl && inputEl.value.trim().toUpperCase() !== finalTicker && finalTicker) {
+							inputEl.value = finalTicker;
+						}
 						
 						// Parse real dividends and detect special/extraordinary payouts
 						const rawDivs = liveResult.events?.dividends || {};
@@ -1289,10 +1297,10 @@
 						}
 
 						const dynamicData = {
-							ticker: alias || tickerClean,
+							ticker: finalTicker,
 							displayName: name,
 							name: name,
-							sector: (meta.fullExchangeName || meta.exchangeName || "Global Exchange") + " | " + (meta.instrumentType || "Equity"),
+							sector: (liveResult.resolvedMeta?.exchange ? (liveResult.resolvedMeta.exchange + " | ") : "") + (meta.fullExchangeName || meta.exchangeName || "Global Exchange") + " | " + (meta.instrumentType || "Equity"),
 							currency: curr,
 							symbol: symChar,
 							price: price,
@@ -1331,7 +1339,7 @@
 						renderDgiDashboard(dynamicData);
 
 						// Auto-enrich existing watchlist item if present
-						const wIdx = watchlist.findIndex(item => item.ticker.toUpperCase() === tickerClean || (alias && item.ticker.toUpperCase() === alias.toUpperCase()));
+						const wIdx = watchlist.findIndex(item => item.ticker.toUpperCase() === finalTicker.toUpperCase() || item.ticker.toUpperCase() === tickerClean || (alias && item.ticker.toUpperCase() === alias.toUpperCase()));
 						if (wIdx !== -1) {
 							watchlist[wIdx].lastPrice = price;
 							watchlist[wIdx].dgiScore = p1 + p5;
@@ -1345,7 +1353,7 @@
 
 						if (loadBox) {
 							loadBox.className = 'status-msg status-success';
-							loadBox.innerHTML = '📡 Live data for <strong>' + name + ' (' + tickerClean + ')</strong> loaded successfully!';
+							loadBox.innerHTML = '📡 Live data for <strong>' + name + ' (' + finalTicker + ')</strong> loaded successfully!';
 							setTimeout(() => { if (loadBox) loadBox.style.display = 'none'; }, 4500);
 						}
 					} catch (err) {

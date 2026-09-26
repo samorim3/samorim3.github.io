@@ -23,43 +23,118 @@ export default {
     }
 
     const url = new URL(request.url);
-    const ticker = (url.searchParams.get("ticker") || url.searchParams.get("symbol") || "").trim().toUpperCase();
+    const rawInput = (url.searchParams.get("ticker") || url.searchParams.get("symbol") || url.searchParams.get("q") || url.searchParams.get("search") || "").trim();
 
-    if (!ticker) {
-      return new Response(JSON.stringify({ error: "Parâmetro 'ticker' em falta. Exemplo: /?ticker=MCD" }), {
+    if (!rawInput) {
+      return new Response(JSON.stringify({ error: "Parâmetro 'ticker' ou 'q' em falta. Exemplo: /?ticker=AAPL ou /?q=Palantir" }), {
         status: 400,
         headers: { ...corsHeaders, "Content-Type": "application/json" }
       });
     }
 
-    // 1. Fetch Chart & Dividend History
-    const chartUrl = `https://query1.finance.yahoo.com/v8/finance/chart/${encodeURIComponent(ticker)}?interval=1mo&range=5y&events=div`;
+    // Dedicated search autocomplete endpoint
+    if (url.searchParams.has("search") || url.pathname === "/search") {
+      const searchUrl = `https://query1.finance.yahoo.com/v1/finance/search?q=${encodeURIComponent(rawInput)}&quotesCount=6&newsCount=0`;
+      try {
+        const sRes = await fetch(searchUrl, { headers: { "User-Agent": USER_AGENT } });
+        if (sRes.ok) {
+          const sJson = await sRes.json();
+          return new Response(JSON.stringify(sJson), {
+            status: 200,
+            headers: { ...corsHeaders, "Content-Type": "application/json", "Cache-Control": "public, max-age=300" }
+          });
+        }
+      } catch (err) {
+        console.warn("Search Fetch Error:", err);
+      }
+    }
+
+    // Helper to fetch chart
+    async function fetchChart(sym) {
+      const chartUrl = `https://query1.finance.yahoo.com/v8/finance/chart/${encodeURIComponent(sym)}?interval=1mo&range=5y&events=div`;
+      const chartRes = await fetch(chartUrl, { headers: { "User-Agent": USER_AGENT } });
+      if (chartRes.ok) {
+        const json = await chartRes.json();
+        const res = json?.chart?.result?.[0];
+        if (res && res.meta && res.meta.regularMarketPrice > 0) {
+          return { json, res };
+        }
+      }
+      return null;
+    }
+
+    // Helper: search online for symbol
+    async function searchOnlineSymbol(query) {
+      const searchUrl = `https://query1.finance.yahoo.com/v1/finance/search?q=${encodeURIComponent(query)}&quotesCount=6&newsCount=0`;
+      try {
+        const sRes = await fetch(searchUrl, { headers: { "User-Agent": USER_AGENT } });
+        if (sRes.ok) {
+          const sJson = await sRes.json();
+          const quotes = sJson?.quotes || [];
+          const best = quotes.find(q => q.quoteType === "EQUITY" || q.quoteType === "ETF") || quotes[0];
+          if (best && best.symbol) {
+            return {
+              symbol: best.symbol.toUpperCase(),
+              name: best.shortname || best.longname || best.symbol,
+              exchange: best.exchDisp || best.exchange || "",
+              type: best.quoteType || "EQUITY"
+            };
+          }
+        }
+      } catch (e) {
+        console.warn("Search Resolution Error:", e);
+      }
+      return null;
+    }
+
+    let targetTicker = rawInput.toUpperCase();
+    let resolvedMeta = null;
     let chartResult = null;
     let chartJson = null;
 
-    try {
-      const chartRes = await fetch(chartUrl, {
-        headers: { "User-Agent": USER_AGENT }
-      });
-      if (chartRes.ok) {
-        chartJson = await chartRes.json();
-        chartResult = chartJson?.chart?.result?.[0];
+    // 1. Try direct chart fetch if input doesn't contain spaces and is <= 10 characters
+    if (!rawInput.includes(" ") && targetTicker.length <= 10) {
+      try {
+        const direct = await fetchChart(targetTicker);
+        if (direct) {
+          chartJson = direct.json;
+          chartResult = direct.res;
+        }
+      } catch (err) {
+        console.warn("Direct Chart Error:", err);
       }
-    } catch (err) {
-      console.warn("Chart Fetch Error:", err);
     }
 
-    // 2. Fetch Fundamentals & Timeseries in parallel via Yahoo Finance
+    // 2. If direct chart failed or input is a company name, resolve via Yahoo Online Search!
+    if (!chartResult) {
+      const found = await searchOnlineSymbol(rawInput);
+      if (found && found.symbol) {
+        resolvedMeta = {
+          searchedQuery: rawInput,
+          resolvedSymbol: found.symbol,
+          companyName: found.name,
+          exchange: found.exchange
+        };
+        targetTicker = found.symbol;
+        const searched = await fetchChart(targetTicker);
+        if (searched) {
+          chartJson = searched.json;
+          chartResult = searched.res;
+        }
+      }
+    }
+
+    // 3. Fetch Fundamentals & Timeseries in parallel via Yahoo Finance
     let fundamentals = null;
     try {
       const crumbInfo = await getCrumb();
       if (crumbInfo && crumbInfo.crumb && crumbInfo.cookie) {
         const modules = "financialData,defaultKeyStatistics,summaryDetail,incomeStatementHistory";
-        const qsUrl = `https://query2.finance.yahoo.com/v10/finance/quoteSummary/${encodeURIComponent(ticker)}?modules=${modules}&crumb=${encodeURIComponent(crumbInfo.crumb)}`;
+        const qsUrl = `https://query2.finance.yahoo.com/v10/finance/quoteSummary/${encodeURIComponent(targetTicker)}?modules=${modules}&crumb=${encodeURIComponent(crumbInfo.crumb)}`;
         
         const nowSec = Math.floor(Date.now() / 1000);
         const fiveYearsAgoSec = nowSec - (5 * 365 * 86400);
-        const tsUrl = `https://query2.finance.yahoo.com/ws/fundamentals-timeseries/v1/finance/timeseries/${encodeURIComponent(ticker)}?symbol=${encodeURIComponent(ticker)}&type=annualInvestedCapital,annualOperatingIncome,shares_out&period1=${fiveYearsAgoSec}&period2=${nowSec}&crumb=${encodeURIComponent(crumbInfo.crumb)}`;
+        const tsUrl = `https://query2.finance.yahoo.com/ws/fundamentals-timeseries/v1/finance/timeseries/${encodeURIComponent(targetTicker)}?symbol=${encodeURIComponent(targetTicker)}&type=annualInvestedCapital,annualOperatingIncome,shares_out&period1=${fiveYearsAgoSec}&period2=${nowSec}&crumb=${encodeURIComponent(crumbInfo.crumb)}`;
 
         const [qsRes, tsRes] = await Promise.all([
           fetch(qsUrl, { headers: { "User-Agent": USER_AGENT, "Cookie": crumbInfo.cookie } }).catch(() => null),
@@ -87,7 +162,7 @@ export default {
     }
 
     if (!chartResult && !fundamentals) {
-      return new Response(JSON.stringify({ error: `Ticker ${ticker} não encontrado nos mercados globais.` }), {
+      return new Response(JSON.stringify({ error: `Ticker ou empresa "${rawInput}" não encontrado nos mercados globais.` }), {
         status: 404,
         headers: { ...corsHeaders, "Content-Type": "application/json" }
       });
@@ -96,6 +171,9 @@ export default {
     // Attach fundamentals directly into the chart result object for seamless integration
     if (chartJson && chartJson.chart && chartJson.chart.result && chartJson.chart.result[0]) {
       chartJson.chart.result[0].fundamentals = fundamentals;
+      if (resolvedMeta) {
+        chartJson.chart.result[0].resolvedMeta = resolvedMeta;
+      }
       return new Response(JSON.stringify(chartJson), {
         status: 200,
         headers: {
@@ -106,7 +184,7 @@ export default {
       });
     }
 
-    return new Response(JSON.stringify({ chart: chartJson, fundamentals: fundamentals }), {
+    return new Response(JSON.stringify({ chart: chartJson, fundamentals: fundamentals, resolvedMeta: resolvedMeta }), {
       status: 200,
       headers: {
         ...corsHeaders,
