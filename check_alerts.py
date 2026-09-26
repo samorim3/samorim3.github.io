@@ -48,7 +48,11 @@ GF_TICKER_MAP = {
     "TSLA": "TSLA:NASDAQ",
     "MC.PA": "MC:EPA",
     "MC": "MC:EPA",
-    "LVMH": "MC:EPA"
+    "LVMH": "MC:EPA",
+    "MCD": "MCD:NYSE",
+    "BN.PA": "BN:EPA",
+    "BN": "BN:EPA",
+    "DANONE": "BN:EPA"
 }
 
 def send_telegram_alert(msg):
