@@ -1097,20 +1097,82 @@
 
 						const chowder = realYield + (divCagr5y > 0 ? divCagr5y : 0);
 
-						// Scores for Pilar 1 & Pilar 5 from real market data
+						// Extract live fundamentals from Cloudflare Worker if available
+						const fund = liveResult.fundamentals || {};
+
+						// Pillar 1: Dividend Yield (2.5% - 6.0%)
 						let p1 = 0;
 						if (realYield >= 2.5 && realYield <= 6.0) p1 = 20;
 						else if ((realYield >= 2.0 && realYield < 2.5) || (realYield > 6.0 && realYield <= 7.0)) p1 = 16;
 						else if ((realYield >= 1.5 && realYield < 2.0) || (realYield > 7.0 && realYield <= 8.5)) p1 = 10;
 						else if ((realYield >= 1.0 && realYield < 1.5) || (realYield > 8.5 && realYield <= 10.0)) p1 = 5;
 
+						// Pillar 2: FCF Payout Coverage (< 70%)
+						let p2 = 10;
+						const evalPayout = (fund.fcfPayout != null && fund.fcfPayout > 0) ? fund.fcfPayout : fund.epsPayout;
+						if (evalPayout != null && evalPayout > 0) {
+							if (evalPayout <= 50.0) p2 = 20;
+							else if (evalPayout <= 70.0) p2 = 16;
+							else if (evalPayout <= 85.0) p2 = 10;
+							else if (evalPayout <= 100.0) p2 = 5;
+							else p2 = 0;
+						}
+
+						// Pillar 3: Solvency & Balance Sheet (Net Debt / EBITDA < 3.0x)
+						let p3 = 10;
+						if (fund.netDebtEbitda != null) {
+							if (fund.netDebtEbitda <= 0 || fund.netDebtEbitda <= 1.5) p3 = 20;
+							else if (fund.netDebtEbitda <= 2.5) p3 = 16;
+							else if (fund.netDebtEbitda <= 3.2) p3 = 10;
+							else if (fund.netDebtEbitda <= 4.5) p3 = 5;
+							else p3 = 0;
+						}
+
+						// Pillar 4: Operational Growth (5Y Revenue & Net Income CAGR)
+						let p4 = 0;
+						let revPts = 0;
+						if (fund.revCagr5y != null) {
+							if (fund.revCagr5y >= 6.0) revPts = 10;
+							else if (fund.revCagr5y >= 3.0) revPts = 7;
+							else if (fund.revCagr5y >= 0.0) revPts = 4;
+						}
+						let niPts = 0;
+						if (fund.niCagr5y != null) {
+							if (fund.niCagr5y >= 7.0) niPts = 10;
+							else if (fund.niCagr5y >= 3.0) niPts = 7;
+							else if (fund.niCagr5y >= 0.0) niPts = 4;
+						}
+						p4 = revPts + niPts;
+
+						// Pillar 5: Dividend CAGR & Chowder Rule
 						let dpsPts = divCagr5y >= 7 ? 10 : (divCagr5y >= 4 ? 7 : (divCagr5y >= 1 ? 4 : (realYield > 4 ? 5 : 0)));
 						let chwPts = chowder >= 12 ? 10 : (chowder >= 8 ? 7 : (chowder >= 5 ? 4 : 0));
 						let p5 = dpsPts + chwPts;
 
+						const hasFund = (fund.pe != null || fund.fcfPayout != null || fund.netDebtEbitda != null);
+						const totalScore = hasFund ? (p1 + p2 + p3 + p4 + p5) : (p1 + p5);
+
+						let verdict = "Dados em Direto (Yahoo Finance)";
+						let verdictIcon = "📡";
+						if (hasFund) {
+							if (totalScore >= 85) { verdict = "Top Tier DGI (Aristocrat)"; verdictIcon = "⭐"; }
+							else if (totalScore >= 70) { verdict = "Solid DGI Quality"; verdictIcon = "🟢"; }
+							else if (totalScore >= 50) { verdict = "Moderate / Neutral"; verdictIcon = "🟡"; }
+							else if (totalScore >= 35) { verdict = "Weak / Caution"; verdictIcon = "🟠"; }
+							else { verdict = "High Risk / Speculative"; verdictIcon = "🔴"; }
+						}
+
 						const latestDiv = divArr.length > 0 ? divArr[divArr.length - 1] : null;
 						const latestDivDate = latestDiv ? new Date(latestDiv.date * 1000).toISOString().split('T')[0] : null;
 						const calculatedDivRate = ltmDiv > 0 ? +(ltmDiv.toFixed(2)) : (latestDiv ? +(latestDiv.amount.toFixed(2)) : null);
+
+						let summaryText = `Cotação real de ${symChar}${price.toFixed(2)} e Dividend Yield de ${realYield.toFixed(2)}% recolhidos em direto via Yahoo Finance (${meta.fullExchangeName || 'Bolsa'}).`;
+						if (hasFund) {
+							const peStr = fund.pe ? fund.pe.toFixed(1) + 'x' : '—';
+							const fcfStr = fund.fcfPayout ? fund.fcfPayout.toFixed(1) + '%' : (fund.epsPayout ? fund.epsPayout.toFixed(1) + '% (EPS)' : '—');
+							const debtStr = fund.netDebtEbitda != null ? (fund.netDebtEbitda <= 0 ? 'Net Cash' : fund.netDebtEbitda.toFixed(2) + 'x') : '—';
+							summaryText = `${name}: DGI Score de ${totalScore.toFixed(0)}/100. P/E de ${peStr}, FCF Payout de ${fcfStr}, Dívida/EBITDA de ${debtStr} e Chowder de ${chowder.toFixed(1)}%.`;
+						}
 
 						const dynamicData = {
 							ticker: alias || tickerClean,
@@ -1120,28 +1182,28 @@
 							currency: curr,
 							symbol: symChar,
 							price: price,
-							mcap: "—",
-							pe: null,
-							forwardPe: null,
+							mcap: fund.mcap ? (symChar + fund.mcap) : "—",
+							pe: fund.pe || null,
+							forwardPe: fund.forwardPe || null,
 							pb: null,
-							roe: null,
-							margin: null,
+							roe: fund.roe != null ? fund.roe : null,
+							margin: fund.margin != null ? fund.margin : null,
 							divYield: realYield,
 							dividendRate: calculatedDivRate,
 							dividendYield: +(realYield.toFixed(2)),
 							exDividendDate: latestDivDate,
-							fcfPayout: null,
-							epsPayout: null,
-							netDebtEbitda: null,
-							revCagr5y: null,
-							niCagr5y: null,
+							fcfPayout: fund.fcfPayout || null,
+							epsPayout: fund.epsPayout || null,
+							netDebtEbitda: fund.netDebtEbitda !== undefined ? fund.netDebtEbitda : null,
+							revCagr5y: fund.revCagr5y !== undefined ? fund.revCagr5y : null,
+							niCagr5y: fund.niCagr5y !== undefined ? fund.niCagr5y : null,
 							divCagr5y: divCagr5y,
 							chowder: chowder,
 							divHistory: divHistory,
-							scores: { p1: p1, p2: null, p3: null, p4: null, p5: p5, total: p1 + p5 },
-							verdict: "Dados em Direto (Yahoo Finance)",
-							verdictIcon: "📡",
-							summary: `Cotação real de ${symChar}${price.toFixed(2)} e Dividend Yield de ${realYield.toFixed(2)}% recolhidos em direto via Yahoo Finance (${meta.fullExchangeName || 'Bolsa'}).`
+							scores: { p1: p1, p2: hasFund ? p2 : null, p3: hasFund ? p3 : null, p4: hasFund ? p4 : null, p5: p5, total: totalScore },
+							verdict: verdict,
+							verdictIcon: verdictIcon,
+							summary: summaryText
 						};
 
 						currentDgiData = dynamicData;
@@ -1347,17 +1409,23 @@
 					const tbody = document.getElementById('dgiMetricsTableBody');
 					if (!tbody) return;
 
+					const fcfVal = (data.fcfPayout != null && data.fcfPayout > 0) ? data.fcfPayout.toFixed(1) + "%" : (data.epsPayout != null && data.epsPayout > 0 ? data.epsPayout.toFixed(1) + "% (EPS)" : "—");
+					const fcfPass = ((data.fcfPayout || data.epsPayout || 0) > 0 && (data.fcfPayout || data.epsPayout || 0) <= 70.0);
+
+					const debtVal = (data.netDebtEbitda != null) ? (data.netDebtEbitda <= 0 ? "Net Cash (0.0x)" : data.netDebtEbitda.toFixed(2) + "x") : "—";
+					const debtPass = (data.netDebtEbitda != null && data.netDebtEbitda <= 3.0);
+
 					const metrics = [
 						{ name: "Dividend Yield", val: (data.divYield != null) ? data.divYield.toFixed(2) + "%" : "—", target: "2.0% - 6.0%", pass: (data.divYield >= 2.0 && data.divYield <= 6.0) },
-						{ name: "Payout Ratio (FCF)", val: (data.fcfPayout != null && data.fcfPayout > 0) ? data.fcfPayout.toFixed(1) + "%" : "—", target: "< 70.0%", pass: (data.fcfPayout > 0 && data.fcfPayout <= 70.0) },
-						{ name: "Net Debt / EBITDA", val: (data.netDebtEbitda != null && data.netDebtEbitda > 0) ? data.netDebtEbitda.toFixed(2) + "x" : "—", target: "< 3.0x", pass: (data.netDebtEbitda > 0 && data.netDebtEbitda <= 3.0) },
-						{ name: "5Y Revenue CAGR", val: (data.revCagr5y != null) ? data.revCagr5y.toFixed(1) + "%" : "—", target: "> 3.0%", pass: (data.revCagr5y >= 3.0) },
-						{ name: "5Y Net Income CAGR", val: (data.niCagr5y != null) ? data.niCagr5y.toFixed(1) + "%" : "—", target: "> 5.0%", pass: (data.niCagr5y >= 5.0) },
-						{ name: "5Y Dividend CAGR", val: (data.divCagr5y != null) ? data.divCagr5y.toFixed(1) + "%" : "—", target: "> 5.0%", pass: (data.divCagr5y >= 5.0) },
-						{ name: "Chowder Number (Yield + Div CAGR)", val: (data.chowder != null) ? data.chowder.toFixed(1) + "%" : "—", target: ">= 10.0%", pass: (data.chowder >= 10.0) },
-						{ name: "Price to Earnings (P/E)", val: data.pe ? data.pe.toFixed(1) + "x" : "—", target: "15x - 25x", pass: (data.pe && data.pe <= 25) },
-						{ name: "Return on Equity (ROE)", val: data.roe ? data.roe.toFixed(1) + "%" : "—", target: "> 15.0%", pass: (data.roe && data.roe >= 15.0) },
-						{ name: "Operating Margin", val: data.margin ? data.margin.toFixed(1) + "%" : "—", target: "> 12.0%", pass: (data.margin && data.margin >= 12.0) }
+						{ name: "Payout Ratio (FCF)", val: fcfVal, target: "< 70.0%", pass: fcfPass },
+						{ name: "Net Debt / EBITDA", val: debtVal, target: "< 3.0x", pass: debtPass },
+						{ name: "5Y Revenue CAGR", val: (data.revCagr5y != null) ? data.revCagr5y.toFixed(1) + "%" : "—", target: "> 3.0%", pass: (data.revCagr5y != null && data.revCagr5y >= 3.0) },
+						{ name: "5Y Net Income CAGR", val: (data.niCagr5y != null) ? data.niCagr5y.toFixed(1) + "%" : "—", target: "> 5.0%", pass: (data.niCagr5y != null && data.niCagr5y >= 5.0) },
+						{ name: "5Y Dividend CAGR", val: (data.divCagr5y != null) ? data.divCagr5y.toFixed(1) + "%" : "—", target: "> 5.0%", pass: (data.divCagr5y != null && data.divCagr5y >= 5.0) },
+						{ name: "Chowder Number (Yield + Div CAGR)", val: (data.chowder != null) ? data.chowder.toFixed(1) + "%" : "—", target: ">= 10.0%", pass: (data.chowder != null && data.chowder >= 10.0) },
+						{ name: "Price to Earnings (P/E)", val: (data.pe != null && data.pe > 0) ? data.pe.toFixed(1) + "x" : "—", target: "15x - 25x", pass: (data.pe != null && data.pe > 0 && data.pe <= 25.0) },
+						{ name: "Return on Equity (ROE)", val: (data.roe != null) ? data.roe.toFixed(1) + "%" : "—", target: "> 15.0%", pass: (data.roe != null && data.roe >= 15.0) },
+						{ name: "Operating Margin", val: (data.margin != null) ? data.margin.toFixed(1) + "%" : "—", target: "> 12.0%", pass: (data.margin != null && data.margin >= 12.0) }
 					];
 
 					tbody.innerHTML = '';
@@ -1389,19 +1457,25 @@
 					}
 
 					const d = currentDgiData;
+					const s = d.scores || {};
+					const fcfText = (d.fcfPayout != null ? d.fcfPayout.toFixed(1) + '%' : (d.epsPayout != null ? d.epsPayout.toFixed(1) + '% (EPS)' : '—'));
+					const debtText = (d.netDebtEbitda != null ? (d.netDebtEbitda <= 0 ? 'Net Cash' : d.netDebtEbitda.toFixed(2) + 'x') : '—');
+					const revText = (d.revCagr5y != null ? d.revCagr5y.toFixed(1) + '%' : '—');
+					const niText = (d.niCagr5y != null ? d.niCagr5y.toFixed(1) + '%' : '—');
+
 					const msg = "📊 *DGI FUNDAMENTAL ANALYSIS: " + d.ticker + "*\n" +
 								"🏢 *" + d.name + "* | Price: `" + formatPriceWithCurrency(d.price, d.symbol) + "`\n" +
 								"━━━━━━━━━━━━━━━━━━━━━\n" +
-								"🏆 *DGI SCORE:* *" + d.scores.total.toFixed(0) + "/100* " + d.verdictIcon + "\n" +
-								"📌 *Rating:* " + d.verdict + "\n\n" +
+								"🏆 *DGI SCORE:* *" + (s.total != null ? s.total.toFixed(0) : '--') + "/100* " + (d.verdictIcon || '🟢') + "\n" +
+								"📌 *Rating:* " + (d.verdict || 'Análise Concluída') + "\n\n" +
 								"🎯 *Core Pillars:*\n" +
-								"• 1. *Yield:* `" + d.divYield.toFixed(2) + "%` (" + d.scores.p1.toFixed(0) + "/20 pts)\n" +
-								"• 2. *FCF Payout:* `" + d.fcfPayout.toFixed(1) + "%` (" + d.scores.p2.toFixed(0) + "/20 pts)\n" +
-								"• 3. *Net Debt/EBITDA:* `" + d.netDebtEbitda.toFixed(2) + "x` (" + d.scores.p3.toFixed(0) + "/20 pts)\n" +
-								"• 4. *5Y Growth:* Rev `" + d.revCagr5y.toFixed(1) + "%` | Net Inc `" + d.niCagr5y.toFixed(1) + "%` (" + d.scores.p4.toFixed(0) + "/20 pts)\n" +
-								"• 5. *Div CAGR & Chowder:* Div `" + d.divCagr5y.toFixed(1) + "%` | Chowder `" + d.chowder.toFixed(1) + "%` (" + d.scores.p5.toFixed(0) + "/20 pts)\n" +
+								"• 1. *Yield:* `" + (d.divYield != null ? d.divYield.toFixed(2) + '%' : '—') + "` (" + (s.p1 != null ? s.p1.toFixed(0) : '—') + "/20 pts)\n" +
+								"• 2. *FCF Payout:* `" + fcfText + "` (" + (s.p2 != null ? s.p2.toFixed(0) : '—') + "/20 pts)\n" +
+								"• 3. *Net Debt/EBITDA:* `" + debtText + "` (" + (s.p3 != null ? s.p3.toFixed(0) : '—') + "/20 pts)\n" +
+								"• 4. *5Y Growth:* Rev `" + revText + "` | Net Inc `" + niText + "` (" + (s.p4 != null ? s.p4.toFixed(0) : '—') + "/20 pts)\n" +
+								"• 5. *Div CAGR & Chowder:* Div `" + (d.divCagr5y != null ? d.divCagr5y.toFixed(1) + '%' : '—') + "` | Chowder `" + (d.chowder != null ? d.chowder.toFixed(1) + '%' : '—') + "` (" + (s.p5 != null ? s.p5.toFixed(0) : '—') + "/20 pts)\n" +
 								"━━━━━━━━━━━━━━━━━━━━━\n" +
-								"💡 _" + d.summary + "_";
+								"💡 _" + (d.summary || '') + "_";
 
 					showTelegramStatus('Sending DGI Scorecard to Telegram...', 'loading');
 					try {
