@@ -1,10 +1,7 @@
 /**
  * Cloudflare Worker: Yahoo Finance Live Market & Fundamental API Gateway
- * Proxies live stock charts, price history, dividend distributions, and company financial ratios.
- * 
- * Supports:
- * - Real-time quotes and 5-year dividend history (/v8/finance/chart)
- * - Institutional fundamentals: P/E, ROE, Margins, Debt/EBITDA, FCF Payout, Revenue & Net Income CAGR (/v10/finance/quoteSummary)
+ * Proxies live stock charts, price history, dividend distributions, institutional fundamental ratios,
+ * ROIC (Return on Invested Capital), and 5-Year Share Count Evolution (Buybacks / Dilution).
  */
 
 let cachedCookie = null;
@@ -35,7 +32,7 @@ export default {
       });
     }
 
-    // 1. Fetch Chart & Dividend History (Fast & Reliable)
+    // 1. Fetch Chart & Dividend History
     const chartUrl = `https://query1.finance.yahoo.com/v8/finance/chart/${encodeURIComponent(ticker)}?interval=1mo&range=5y&events=div`;
     let chartResult = null;
     let chartJson = null;
@@ -52,7 +49,7 @@ export default {
       console.warn("Chart Fetch Error:", err);
     }
 
-    // 2. Fetch Fundamentals via Yahoo Finance quoteSummary
+    // 2. Fetch Fundamentals & Timeseries in parallel via Yahoo Finance
     let fundamentals = null;
     try {
       const crumbInfo = await getCrumb();
@@ -60,19 +57,29 @@ export default {
         const modules = "financialData,defaultKeyStatistics,summaryDetail,incomeStatementHistory";
         const qsUrl = `https://query2.finance.yahoo.com/v10/finance/quoteSummary/${encodeURIComponent(ticker)}?modules=${modules}&crumb=${encodeURIComponent(crumbInfo.crumb)}`;
         
-        const qsRes = await fetch(qsUrl, {
-          headers: {
-            "User-Agent": USER_AGENT,
-            "Cookie": crumbInfo.cookie
-          }
-        });
+        const nowSec = Math.floor(Date.now() / 1000);
+        const fiveYearsAgoSec = nowSec - (5 * 365 * 86400);
+        const tsUrl = `https://query2.finance.yahoo.com/ws/fundamentals-timeseries/v1/finance/timeseries/${encodeURIComponent(ticker)}?symbol=${encodeURIComponent(ticker)}&type=annualInvestedCapital,annualOperatingIncome,shares_out&period1=${fiveYearsAgoSec}&period2=${nowSec}&crumb=${encodeURIComponent(crumbInfo.crumb)}`;
 
-        if (qsRes.ok) {
+        const [qsRes, tsRes] = await Promise.all([
+          fetch(qsUrl, { headers: { "User-Agent": USER_AGENT, "Cookie": crumbInfo.cookie } }).catch(() => null),
+          fetch(tsUrl, { headers: { "User-Agent": USER_AGENT, "Cookie": crumbInfo.cookie } }).catch(() => null)
+        ]);
+
+        let qsResult = null;
+        if (qsRes && qsRes.ok) {
           const qsData = await qsRes.json();
-          const qsResult = qsData?.quoteSummary?.result?.[0];
-          if (qsResult) {
-            fundamentals = parseFundamentals(qsResult);
-          }
+          qsResult = qsData?.quoteSummary?.result?.[0];
+        }
+
+        let tsResult = null;
+        if (tsRes && tsRes.ok) {
+          const tsData = await tsRes.json();
+          tsResult = tsData?.timeseries?.result;
+        }
+
+        if (qsResult) {
+          fundamentals = parseFundamentals(qsResult, tsResult);
         }
       }
     } catch (err) {
@@ -99,7 +106,6 @@ export default {
       });
     }
 
-    // Fallback if chart failed but fundamentals succeeded
     return new Response(JSON.stringify({ chart: chartJson, fundamentals: fundamentals }), {
       status: 200,
       headers: {
@@ -113,7 +119,7 @@ export default {
 
 /**
  * Retrieves valid session cookie and crumb from Yahoo Finance.
- * Caches in memory for 1 hour to maximize speed and minimize latency.
+ * Caches in memory for 1 hour to maximize speed.
  */
 async function getCrumb() {
   const now = Date.now();
@@ -129,16 +135,13 @@ async function getCrumb() {
 
     let setCookie = cookieRes.headers.get("set-cookie") || "";
     if (!setCookie) {
-      // Try follow redirect if manual did not capture set-cookie
       const cookieResFollow = await fetch("https://fc.yahoo.com", {
         headers: { "User-Agent": USER_AGENT }
       });
       setCookie = cookieResFollow.headers.get("set-cookie") || "";
     }
 
-    if (!setCookie) {
-      return null;
-    }
+    if (!setCookie) return null;
 
     const crumbRes = await fetch("https://query1.finance.yahoo.com/v1/test/getcrumb", {
       headers: {
@@ -163,9 +166,9 @@ async function getCrumb() {
 }
 
 /**
- * Parses raw Yahoo Finance modules into clean fundamental ratios for DGI screener
+ * Parses raw Yahoo Finance modules into clean institutional fundamental ratios
  */
-function parseFundamentals(qs) {
+function parseFundamentals(qs, tsResult) {
   const fd = qs.financialData || {};
   const ks = qs.defaultKeyStatistics || {};
   const sd = qs.summaryDetail || {};
@@ -191,7 +194,7 @@ function parseFundamentals(qs) {
   if (ebitda != null && ebitda > 0 && netDebt != null) {
     netDebtEbitda = +(netDebt / ebitda).toFixed(2);
   } else if (netDebt != null && netDebt <= 0) {
-    netDebtEbitda = 0.0; // Net Cash company
+    netDebtEbitda = 0.0; // Net cash company
   }
 
   // 3. Free Cash Flow & Payout
@@ -203,13 +206,12 @@ function parseFundamentals(qs) {
     const totalDivPaid = shares * divRate;
     fcfPayout = +((totalDivPaid / fcf) * 100).toFixed(1);
   } else if (raw(sd.payoutRatio) != null && raw(sd.payoutRatio) > 0) {
-    // Fallback to EPS payout ratio if FCF is unavailable
     fcfPayout = +(raw(sd.payoutRatio) * 100).toFixed(1);
   }
 
   const epsPayout = raw(sd.payoutRatio) != null ? +(raw(sd.payoutRatio) * 100).toFixed(1) : null;
 
-  // 4. Revenue & Net Income CAGR
+  // 4. Revenue & Net Income CAGR (Croissance CA)
   let revCagr5y = null;
   let niCagr5y = null;
 
@@ -231,7 +233,57 @@ function parseFundamentals(qs) {
     }
   }
 
-  // 5. Market Cap
+  // 5. ROIC (Return on Invested Capital: NOPAT / Invested Capital)
+  let roic = null;
+  let annualOpInc = null;
+  let annualInvCap = null;
+  let sharesArr = null;
+
+  if (Array.isArray(tsResult)) {
+    for (const item of tsResult) {
+      if (item.annualOperatingIncome && Array.isArray(item.annualOperatingIncome) && item.annualOperatingIncome.length > 0) {
+        annualOpInc = item.annualOperatingIncome[item.annualOperatingIncome.length - 1]?.reportedValue?.raw;
+      }
+      if (item.annualInvestedCapital && Array.isArray(item.annualInvestedCapital) && item.annualInvestedCapital.length > 0) {
+        annualInvCap = item.annualInvestedCapital[item.annualInvestedCapital.length - 1]?.reportedValue?.raw;
+      }
+      if (item.shares_out && Array.isArray(item.shares_out)) {
+        sharesArr = item.shares_out;
+      }
+    }
+  }
+
+  let taxRate = 0.21;
+  if (inc.length > 0) {
+    const incTax = raw(inc[0].incomeTaxExpense);
+    const incPreTax = raw(inc[0].incomeBeforeTax);
+    if (incTax != null && incPreTax != null && incPreTax > 0) {
+      const calculatedRate = incTax / incPreTax;
+      if (calculatedRate >= 0 && calculatedRate <= 0.45) {
+        taxRate = calculatedRate;
+      }
+    }
+  }
+
+  const opIncome = annualOpInc || (inc.length > 0 ? raw(inc[0].operatingIncome) : null);
+  if (opIncome != null && annualInvCap != null && annualInvCap > 0) {
+    const nopat = opIncome * (1 - taxRate);
+    roic = +((nopat / annualInvCap) * 100).toFixed(1);
+  }
+
+  // 6. Share Count Evolution (5Y Share buybacks / Dilution)
+  let sharesChange5y = null;
+  let sharesCagr5y = null;
+  if (sharesArr && sharesArr.length >= 2) {
+    const first = sharesArr[0];
+    const last = sharesArr[sharesArr.length - 1];
+    if (first > 0 && last > 0) {
+      sharesChange5y = +(((last - first) / first) * 100).toFixed(1);
+      sharesCagr5y = +((Math.pow(last / first, 1 / 5) - 1) * 100).toFixed(1);
+    }
+  }
+
+  // 7. Market Cap
   let mcap = null;
   const mcapRaw = raw(sd.marketCap);
   if (mcapRaw) {
@@ -244,6 +296,7 @@ function parseFundamentals(qs) {
     pe,
     forwardPe,
     roe,
+    roic,
     margin,
     totalDebt,
     totalCash,
@@ -255,6 +308,8 @@ function parseFundamentals(qs) {
     epsPayout,
     revCagr5y,
     niCagr5y,
+    sharesChange5y,
+    sharesCagr5y,
     mcap
   };
 }
