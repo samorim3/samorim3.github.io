@@ -52,7 +52,9 @@ GF_TICKER_MAP = {
     "MCD": "MCD:NYSE",
     "BN.PA": "BN:EPA",
     "BN": "BN:EPA",
-    "DANONE": "BN:EPA"
+    "DANONE": "BN:EPA",
+    "EDP.LS": "EDP:ELI",
+    "EDP": "EDP:ELI"
 }
 
 def send_telegram_alert(msg):
