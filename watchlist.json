@@ -46,5 +46,17 @@
     "dividendRate": 1.0,
     "dividendYield": 0.44,
     "exDividendDate": "2026-09-10"
+  },
+  {
+    "ticker": "MC.PA",
+    "name": "LVMH Moët Hennessy Louis Vuitton",
+    "minBuy": 360,
+    "maxSell": 450,
+    "lastPrice": 396.85,
+    "dgiScore": 75.0,
+    "dgiVerdict": "Solid DGI Quality",
+    "dividendRate": 13.0,
+    "dividendYield": 3.28,
+    "exDividendDate": "2026-12-05"
   }
 ]

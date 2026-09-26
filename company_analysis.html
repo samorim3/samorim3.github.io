@@ -1738,7 +1738,8 @@
 					{ ticker: "ADS.DE", name: "Adidas AG", minBuy: 140.00, maxSell: 200.00, lastPrice: 146.50, dgiScore: 43.0, dgiVerdict: "Weak / High Risk", dividendRate: 2.80, dividendYield: 1.91, exDividendDate: "2026-05-08", status: "HOLD" },
 					{ ticker: "NKE", name: "Nike, Inc.", minBuy: 30.00, maxSell: 95.00, lastPrice: 35.75, dgiScore: 60.0, dgiVerdict: "Moderate / Neutral", dividendRate: 1.64, dividendYield: 4.59, exDividendDate: "2026-09-01", status: "HOLD" },
 					{ ticker: "GALP", name: "Galp Energia", minBuy: 15.00, maxSell: 25.00, lastPrice: 22.50, dgiScore: 60.0, dgiVerdict: "Moderate / Neutral", dividendRate: 0.68, dividendYield: 3.02, exDividendDate: "2026-08-19", status: "HOLD" },
-					{ ticker: "NVDA", name: "NVIDIA Corporation", minBuy: 150.00, maxSell: 300.00, lastPrice: 225.07, dgiScore: 80.0, dgiVerdict: "Solid DGI Quality", dividendRate: 1.00, dividendYield: 0.44, exDividendDate: "2026-09-10", status: "HOLD" }
+					{ ticker: "NVDA", name: "NVIDIA Corporation", minBuy: 150.00, maxSell: 300.00, lastPrice: 225.07, dgiScore: 80.0, dgiVerdict: "Solid DGI Quality", dividendRate: 1.00, dividendYield: 0.44, exDividendDate: "2026-09-10", status: "HOLD" },
+					{ ticker: "MC.PA", name: "LVMH Moët Hennessy Louis Vuitton", minBuy: 360.00, maxSell: 450.00, lastPrice: 396.85, dgiScore: 75.0, dgiVerdict: "Solid DGI Quality", dividendRate: 13.00, dividendYield: 3.28, exDividendDate: "2026-12-05", status: "HOLD" }
 				];
 
 				let watchlist = [];
@@ -2128,21 +2129,37 @@
 				window.addEventListener('DOMContentLoaded', async () => {
 					loadTelegramCredentials();
 					
+					const localItems = getStoredWatchlist();
+					let serverItems = [];
+
 					try {
 						const res = await fetch('./watchlist.json?t=' + Date.now());
 						if (res.ok) {
 							const jsonItems = await res.json();
 							if (Array.isArray(jsonItems) && jsonItems.length > 0) {
-								watchlist = jsonItems;
-								saveWatchlistToStorage();
-							} else {
-								watchlist = getStoredWatchlist();
+								serverItems = jsonItems;
 							}
-						} else {
-							watchlist = getStoredWatchlist();
 						}
-					} catch(e) {
-						watchlist = getStoredWatchlist();
+					} catch(e) {}
+
+					// Smart Merge: start with serverItems, but NEVER erase locally added assets or customized targets
+					if (serverItems.length > 0) {
+						const merged = [...serverItems];
+						localItems.forEach(localItem => {
+							if (!localItem || !localItem.ticker) return;
+							const idx = merged.findIndex(s => s.ticker.toUpperCase() === localItem.ticker.toUpperCase());
+							if (idx === -1) {
+								// Ticker was added locally by user, keep it!
+								merged.push(localItem);
+							} else {
+								// Preserve custom thresholds set in browser
+								if (localItem.minBuy != null) merged[idx].minBuy = localItem.minBuy;
+								if (localItem.maxSell != null) merged[idx].maxSell = localItem.maxSell;
+							}
+						});
+						watchlist = merged;
+					} else {
+						watchlist = localItems;
 					}
 
 					// Sanitize legacy or compound entries
