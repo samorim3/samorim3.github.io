@@ -707,6 +707,84 @@
 								</div>
 
 									<!-- ==========================================
+									     SECTION 3: GLOBAL DGI MARKET RADAR & RANKINGS
+									     ========================================== -->
+									<div class="tool-card" style="margin-top: 2rem;">
+										<div class="section-header">
+											<div>
+												<h2 class="section-title">Global DGI Market Screener & Radar</h2>
+												<p class="section-subtitle">Automated weekly screening across S&P 500, STOXX Europe 600, and Euronext Lisboa (PSI), ranked by institutional 5-Pillar DGI score.</p>
+											</div>
+											<div style="display: flex; gap: 0.5rem; flex-wrap: wrap;">
+												<span style="font-size: 0.72rem; background: #f0fdf4; color: #166534; border: 1px solid #bbf7d0; padding: 0.25rem 0.6rem; border-radius: 6px; font-weight: 700;">Scanned: 973 Assets</span>
+												<span id="rankingsEliteCount" style="font-size: 0.72rem; background: #0f172a; color: #ffffff; padding: 0.25rem 0.6rem; border-radius: 6px; font-weight: 700;">🏆 Elite DGI (≥85): 25</span>
+												<span style="font-size: 0.72rem; background: #f1f5f9; color: #475569; border: 1px solid #e2e8f0; padding: 0.25rem 0.6rem; border-radius: 6px; font-weight: 600;">Updated: Weekly</span>
+											</div>
+										</div>
+
+										<!-- Filter & Search Controls -->
+										<div style="background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 10px; padding: 0.85rem 1rem; margin-bottom: 1.15rem; display: flex; flex-wrap: wrap; gap: 0.75rem; align-items: center; justify-content: space-between;">
+											<div style="flex: 1; min-width: 200px;">
+												<input type="text" id="marketSearchInput" placeholder="Filter by company name or ticker..." oninput="onMarketFilterChange()" style="width: 100%; padding: 0.45rem 0.85rem; font-size: 0.85rem; border-radius: 6px; border: 1px solid #cbd5e1; background: #ffffff;" />
+											</div>
+											<div style="display: flex; gap: 0.5rem; flex-wrap: wrap; align-items: center;">
+												<select id="marketScoreFilter" onchange="onMarketFilterChange()" style="padding: 0.45rem 0.75rem; font-size: 0.8rem; font-weight: 600; border-radius: 6px; border: 1px solid #cbd5e1; background: #ffffff; color: #0f172a;">
+													<option value="all">All Scores</option>
+													<option value="90">⚡ Score ≥ 90 (Top 1%)</option>
+													<option value="85" selected>🏆 Score ≥ 85 (Elite DGI)</option>
+													<option value="70">🟢 Score ≥ 70 (Solid DGI)</option>
+													<option value="55">🟡 Score ≥ 55 (Moderate)</option>
+												</select>
+
+												<select id="marketIndexFilter" onchange="onMarketFilterChange()" style="padding: 0.45rem 0.75rem; font-size: 0.8rem; font-weight: 600; border-radius: 6px; border: 1px solid #cbd5e1; background: #ffffff; color: #0f172a;">
+													<option value="all">All Markets</option>
+													<option value="S&P 500">🇺🇸 S&P 500</option>
+													<option value="STOXX Europe 600">🇪🇺 STOXX Europe 600</option>
+													<option value="PSI Lisboa">🇵🇹 Euronext Lisboa (PSI)</option>
+													<option value="IBEX 35">🇪🇸 IBEX 35</option>
+												</select>
+
+												<select id="marketSortFilter" onchange="onMarketFilterChange()" style="padding: 0.45rem 0.75rem; font-size: 0.8rem; font-weight: 600; border-radius: 6px; border: 1px solid #cbd5e1; background: #ffffff; color: #0f172a;">
+													<option value="score">Sort: DGI Score (High to Low)</option>
+													<option value="yield">Sort: Dividend Yield (High to Low)</option>
+													<option value="chowder">Sort: Chowder Rule (High to Low)</option>
+													<option value="pe">Sort: P/E Ratio (Low to High)</option>
+													<option value="roic">Sort: ROIC (High to Low)</option>
+												</select>
+											</div>
+										</div>
+
+										<!-- Market Ranking Table -->
+										<div class="table-wrapper" style="overflow-x: auto; margin-bottom: 0.75rem;">
+											<table style="width: 100%; border-collapse: separate; border-spacing: 0; font-size: 0.82rem;">
+												<thead>
+													<tr style="background: #f8fafc; color: #475569; font-size: 0.7rem; text-transform: uppercase; letter-spacing: 0.05em; border-bottom: 2px solid #e2e8f0;">
+														<th style="padding: 0.6rem 0.5rem; width: 45px; text-align: center;">#</th>
+														<th style="padding: 0.6rem 0.6rem;">Company / Market</th>
+														<th style="padding: 0.6rem 0.4rem; text-align: center;">Price</th>
+														<th style="padding: 0.6rem 0.4rem; text-align: center;">DGI Score</th>
+														<th style="padding: 0.6rem 0.4rem; text-align: center;">Div. Yield</th>
+														<th style="padding: 0.6rem 0.4rem; text-align: center;">FCF Payout</th>
+														<th style="padding: 0.6rem 0.4rem; text-align: center;">Net Debt/EBITDA</th>
+														<th style="padding: 0.6rem 0.4rem; text-align: center;">Chowder</th>
+														<th style="padding: 0.6rem 0.4rem; text-align: center; width: 140px;">Actions</th>
+													</tr>
+												</thead>
+												<tbody id="marketRankingsTableBody">
+													<tr><td colspan="9" style="text-align:center; padding: 2rem; color: #94a3b8;">Loading global market screener data...</td></tr>
+												</tbody>
+											</table>
+										</div>
+
+										<div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 0.5rem; margin-top: 0.5rem;">
+											<div id="marketCountDisplay" style="font-size: 0.78rem; color: #64748b; font-weight: 600;">Showing 0 companies</div>
+											<div id="marketPaginationControls">
+												<button id="marketLoadMoreBtn" onclick="marketShowMore()" class="btn-sober btn-secondary btn-sm" style="display: none;">Show More Companies ↓</button>
+											</div>
+										</div>
+									</div>
+
+									<!-- ==========================================
 									     PROJECT CASE STUDY & TECHNICAL ARCHITECTURE
 									     ========================================== -->
 									<div id="project-details" style="margin-top: 3.5rem; padding-top: 2rem; border-top: 2px solid #e2e8f0;">
@@ -2126,8 +2204,206 @@
 					}
 				}
 
+				// ==========================================
+				// GLOBAL DGI MARKET RADAR & SCREENER
+				// ==========================================
+				let marketRankings = [];
+				let filteredMarketRankings = [];
+				let marketDisplayLimit = 25;
+
+				async function loadMarketRankings() {
+					try {
+						const res = await fetch('./dgi_market_ranking.json?v=' + Date.now());
+						if (res.ok) {
+							const data = await res.json();
+							marketRankings = data.rankings || [];
+							const eliteCountEl = document.getElementById('rankingsEliteCount');
+							if (eliteCountEl && data.eliteCount) {
+								eliteCountEl.innerHTML = `🏆 Elite DGI (≥85): ${data.eliteCount}`;
+							}
+							onMarketFilterChange();
+						} else {
+							const tbody = document.getElementById('marketRankingsTableBody');
+							if (tbody) tbody.innerHTML = '<tr><td colspan="9" style="text-align:center; padding: 2rem; color: #94a3b8;">Market ranking data unavailable. Run the weekly screener to populate.</td></tr>';
+						}
+					} catch (e) {
+						console.warn("Failed to load market rankings:", e);
+						const tbody = document.getElementById('marketRankingsTableBody');
+						if (tbody) tbody.innerHTML = '<tr><td colspan="9" style="text-align:center; padding: 2rem; color: #94a3b8;">Market ranking data currently offline.</td></tr>';
+					}
+				}
+
+				function onMarketFilterChange() {
+					const searchVal = (document.getElementById('marketSearchInput')?.value || '').trim().toLowerCase();
+					const scoreVal = document.getElementById('marketScoreFilter')?.value || 'all';
+					const indexVal = document.getElementById('marketIndexFilter')?.value || 'all';
+					const sortVal = document.getElementById('marketSortFilter')?.value || 'score';
+
+					filteredMarketRankings = marketRankings.filter(item => {
+						if (searchVal) {
+							const matchesName = (item.name || '').toLowerCase().includes(searchVal);
+							const matchesTicker = (item.ticker || '').toLowerCase().includes(searchVal);
+							const matchesCountry = (item.country || '').toLowerCase().includes(searchVal);
+							if (!matchesName && !matchesTicker && !matchesCountry) return false;
+						}
+
+						if (scoreVal !== 'all') {
+							const minScore = parseFloat(scoreVal);
+							if (item.dgiScore < minScore) return false;
+						}
+
+						if (indexVal !== 'all') {
+							if (item.index !== indexVal) return false;
+						}
+
+						return true;
+					});
+
+					filteredMarketRankings.sort((a, b) => {
+						if (sortVal === 'score') return (b.dgiScore || 0) - (a.dgiScore || 0);
+						if (sortVal === 'yield') return (b.divYield || 0) - (a.divYield || 0);
+						if (sortVal === 'chowder') return (b.chowder || 0) - (a.chowder || 0);
+						if (sortVal === 'pe') return (a.pe || 999) - (b.pe || 999);
+						if (sortVal === 'roic') return (b.roic || 0) - (a.roic || 0);
+						return 0;
+					});
+
+					marketDisplayLimit = 25;
+					renderMarketRankingsTable();
+				}
+
+				function marketShowMore() {
+					marketDisplayLimit += 25;
+					renderMarketRankingsTable();
+				}
+
+				function renderMarketRankingsTable() {
+					const tbody = document.getElementById('marketRankingsTableBody');
+					const countEl = document.getElementById('marketCountDisplay');
+					const loadMoreBtn = document.getElementById('marketLoadMoreBtn');
+					if (!tbody) return;
+
+					tbody.innerHTML = '';
+
+					if (filteredMarketRankings.length === 0) {
+						tbody.innerHTML = '<tr><td colspan="9" style="text-align:center; padding: 2rem; color: #94a3b8;">No companies match the selected filter criteria.</td></tr>';
+						if (countEl) countEl.innerText = 'Showing 0 of ' + marketRankings.length + ' companies';
+						if (loadMoreBtn) loadMoreBtn.style.display = 'none';
+						return;
+					}
+
+					const visibleItems = filteredMarketRankings.slice(0, marketDisplayLimit);
+
+					visibleItems.forEach((item, idx) => {
+						const tr = document.createElement('tr');
+						tr.style.borderBottom = '1px solid #f1f5f9';
+
+						let flag = '🌐';
+						if (item.country === 'USA') flag = '🇺🇸';
+						else if (item.country === 'Portugal') flag = '🇵🇹';
+						else if (item.country === 'Germany') flag = '🇩🇪';
+						else if (item.country === 'France') flag = '🇫🇷';
+						else if (item.country === 'United Kingdom') flag = '🇬🇧';
+						else if (item.country === 'Netherlands') flag = '🇳🇱';
+						else if (item.country === 'Spain') flag = '🇪🇸';
+						else if (item.country === 'Switzerland') flag = '🇨🇭';
+						else if (item.country === 'Italy') flag = '🇮🇹';
+						else if (item.country === 'Denmark') flag = '🇩🇰';
+						else if (item.country === 'Sweden') flag = '🇸🇪';
+
+						const scoreBg = item.dgiScore >= 85 ? '#047857' : (item.dgiScore >= 70 ? '#15803d' : (item.dgiScore >= 55 ? '#d97706' : '#dc2626'));
+						const scoreBadge = `<span style="background: ${scoreBg}; color: #ffffff; padding: 0.2rem 0.5rem; border-radius: 6px; font-weight: 800; font-size: 0.78rem;">${item.dgiScore}/100</span>`;
+
+						const priceStr = formatPriceWithCurrency(item.price, item.symChar || '$');
+						const debtStr = item.netDebtEbitda != null ? (item.netDebtEbitda <= 0 ? 'Net Cash' : item.netDebtEbitda.toFixed(2) + 'x') : '—';
+						const payoutStr = item.fcfPayout != null ? item.fcfPayout.toFixed(1) + '%' : (item.epsPayout != null ? item.epsPayout.toFixed(1) + '% (EPS)' : '—');
+						const chowderStr = item.chowder != null ? item.chowder.toFixed(1) + '%' : '—';
+
+						tr.innerHTML = `
+							<td style="padding: 0.6rem 0.5rem; text-align: center; color: #94a3b8; font-weight: 700;">${idx + 1}</td>
+							<td style="padding: 0.6rem 0.6rem;">
+								<div style="display: flex; align-items: center; gap: 0.35rem;">
+									<span style="font-size: 1rem;">${flag}</span>
+									<strong style="color: #0f172a; font-weight: 700; cursor: pointer;" onclick="inspectMarketStock('${item.ticker}')" title="Click to inspect">${item.name}</strong>
+									<span style="font-size: 0.68rem; color: #475569; background: #f1f5f9; padding: 0.1rem 0.35rem; border-radius: 4px; font-weight: 700;">${item.ticker}</span>
+								</div>
+								<div style="font-size: 0.68rem; color: #64748b; margin-top: 2px;">${item.index || 'Market'} • ${item.sector || 'General'}</div>
+							</td>
+							<td style="padding: 0.6rem 0.4rem; text-align: center; font-weight: 700; color: #0f172a;">${priceStr}</td>
+							<td style="padding: 0.6rem 0.4rem; text-align: center;">${scoreBadge}</td>
+							<td style="padding: 0.6rem 0.4rem; text-align: center; font-weight: 700; color: #059669;">${item.divYield ? item.divYield.toFixed(2) + '%' : '—'}</td>
+							<td style="padding: 0.6rem 0.4rem; text-align: center; color: #334155;">${payoutStr}</td>
+							<td style="padding: 0.6rem 0.4rem; text-align: center; color: #334155;">${debtStr}</td>
+							<td style="padding: 0.6rem 0.4rem; text-align: center; font-weight: 600; color: #0f172a;">${chowderStr}</td>
+							<td style="padding: 0.6rem 0.4rem; text-align: center; white-space: nowrap;">
+								<div style="display: inline-flex; gap: 0.25rem;">
+									<button type="button" class="btn-sober btn-secondary btn-sm" style="padding: 0.25rem 0.45rem; font-size: 0.7rem;" onclick="inspectMarketStock('${item.ticker}')" title="Deep DGI Analysis">Inspect</button>
+									<button type="button" class="btn-sober btn-green btn-sm" style="padding: 0.25rem 0.45rem; font-size: 0.7rem;" onclick="addMarketStockToWatchlist('${item.ticker}')" title="Add to Telegram Watchlist">+ Watchlist</button>
+								</div>
+							</td>
+						`;
+						tbody.appendChild(tr);
+					});
+
+					if (countEl) {
+						countEl.innerText = `Showing ${visibleItems.length} of ${filteredMarketRankings.length} companies (${marketRankings.length} total scanned)`;
+					}
+
+					if (loadMoreBtn) {
+						if (marketDisplayLimit < filteredMarketRankings.length) {
+							loadMoreBtn.style.display = 'inline-block';
+							loadMoreBtn.innerText = `Show More Companies (${filteredMarketRankings.length - marketDisplayLimit} remaining) ↓`;
+						} else {
+							loadMoreBtn.style.display = 'none';
+						}
+					}
+				}
+
+				function inspectMarketStock(ticker) {
+					const inputEl = document.getElementById('dgiTickerInput');
+					if (inputEl) {
+						inputEl.value = ticker;
+					}
+					analyzeDgiStock(ticker);
+					const targetSec = document.getElementById('dgiResultSection') || document.getElementById('header');
+					if (targetSec) {
+						targetSec.scrollIntoView({ behavior: 'smooth' });
+					}
+				}
+
+				function addMarketStockToWatchlist(ticker) {
+					const found = marketRankings.find(m => m.ticker.toUpperCase() === ticker.toUpperCase());
+					if (!found) return;
+
+					const existing = watchlist.find(w => w.ticker.toUpperCase() === ticker.toUpperCase());
+					if (existing) {
+						showWatchlistSummary(`Ticker <strong>${ticker}</strong> is already in your Watchlist.`, 'warning');
+						return;
+					}
+
+					const p = found.price || 0;
+					watchlist.push({
+						ticker: found.ticker,
+						name: found.name,
+						minBuy: +(p * 0.95).toFixed(2),
+						maxSell: +(p * 1.15).toFixed(2),
+						lastPrice: p,
+						dgiScore: found.dgiScore,
+						dgiVerdict: found.verdict,
+						dividendRate: found.divRate,
+						dividendYield: found.divYield,
+						exDividendDate: null
+					});
+
+					saveWatchlistToStorage();
+					renderWatchlistTable();
+					triggerAutoSyncWatchlist(found.ticker);
+					showWatchlistSummary(`<strong>${found.name} (${found.ticker})</strong> added to your Telegram Watchlist!`, 'success');
+				}
+
 				window.addEventListener('DOMContentLoaded', async () => {
 					loadTelegramCredentials();
+					loadMarketRankings();
 					
 					const localItems = getStoredWatchlist();
 					let serverItems = [];
