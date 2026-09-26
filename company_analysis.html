@@ -1036,7 +1036,7 @@
 						if (loadBox) {
 							loadBox.style.display = 'block';
 							loadBox.className = 'status-msg status-loading';
-							loadBox.innerHTML = 'A procurar cotações e dividendos em tempo real para <strong>' + tickerClean + '</strong>...';
+							loadBox.innerHTML = 'Searching live quotes, dividends and fundamentals for <strong>' + tickerClean + '</strong>...';
 						}
 
 						// Fetch live market & dividend events dynamically via Cloudflare / Yahoo Finance API
@@ -1046,7 +1046,7 @@
 							if (resultSection) resultSection.style.display = 'none';
 							if (loadBox) {
 								loadBox.className = 'status-msg status-error';
-								loadBox.innerHTML = '❌ <strong>Ticker não encontrado:</strong> Não foi possível localizar cotações ou dados financeiros para <strong>' + tickerClean + '</strong> nos mercados globais.';
+								loadBox.innerHTML = '❌ <strong>Ticker not found:</strong> Unable to locate market quotes or financial data for <strong>' + tickerClean + '</strong> across global exchanges.';
 							}
 							return;
 						}
@@ -1152,7 +1152,7 @@
 						const hasFund = (fund.pe != null || fund.fcfPayout != null || fund.netDebtEbitda != null);
 						const totalScore = hasFund ? (p1 + p2 + p3 + p4 + p5) : (p1 + p5);
 
-						let verdict = "Dados em Direto (Yahoo Finance)";
+						let verdict = "Live Market Data (Yahoo Finance)";
 						let verdictIcon = "📡";
 						if (hasFund) {
 							if (totalScore >= 85) { verdict = "Top Tier DGI (Aristocrat)"; verdictIcon = "⭐"; }
@@ -1166,12 +1166,13 @@
 						const latestDivDate = latestDiv ? new Date(latestDiv.date * 1000).toISOString().split('T')[0] : null;
 						const calculatedDivRate = ltmDiv > 0 ? +(ltmDiv.toFixed(2)) : (latestDiv ? +(latestDiv.amount.toFixed(2)) : null);
 
-						let summaryText = `Cotação real de ${symChar}${price.toFixed(2)} e Dividend Yield de ${realYield.toFixed(2)}% recolhidos em direto via Yahoo Finance (${meta.fullExchangeName || 'Bolsa'}).`;
+						let summaryText = `Real-time market price of ${symChar}${price.toFixed(2)} and Dividend Yield of ${realYield.toFixed(2)}% fetched live via Yahoo Finance (${meta.fullExchangeName || 'Global Exchange'}).`;
 						if (hasFund) {
 							const peStr = fund.pe ? fund.pe.toFixed(1) + 'x' : '—';
 							const fcfStr = fund.fcfPayout ? fund.fcfPayout.toFixed(1) + '%' : (fund.epsPayout ? fund.epsPayout.toFixed(1) + '% (EPS)' : '—');
 							const debtStr = fund.netDebtEbitda != null ? (fund.netDebtEbitda <= 0 ? 'Net Cash' : fund.netDebtEbitda.toFixed(2) + 'x') : '—';
-							summaryText = `${name}: DGI Score de ${totalScore.toFixed(0)}/100. P/E de ${peStr}, FCF Payout de ${fcfStr}, Dívida/EBITDA de ${debtStr} e Chowder de ${chowder.toFixed(1)}%.`;
+							const roicStr = fund.roic != null ? fund.roic.toFixed(1) + '%' : '—';
+							summaryText = `${name}: DGI Score of ${totalScore.toFixed(0)}/100. P/E of ${peStr}, ROIC of ${roicStr}, FCF Payout of ${fcfStr}, Net Debt/EBITDA of ${debtStr}, and Chowder of ${chowder.toFixed(1)}%.`;
 						}
 
 						const dynamicData = {
@@ -1226,7 +1227,7 @@
 
 						if (loadBox) {
 							loadBox.className = 'status-msg status-success';
-							loadBox.innerHTML = '📡 Dados em direto para <strong>' + name + ' (' + tickerClean + ')</strong> carregados com sucesso!';
+							loadBox.innerHTML = '📡 Live data for <strong>' + name + ' (' + tickerClean + ')</strong> loaded successfully!';
 							setTimeout(() => { if (loadBox) loadBox.style.display = 'none'; }, 4500);
 						}
 					} catch (err) {
@@ -1234,7 +1235,7 @@
 						const loadBox = document.getElementById('dgiLoadingMsg');
 						if (loadBox) {
 							loadBox.className = 'status-msg status-error';
-							loadBox.innerHTML = 'Erro ao processar dados: ' + (err.message || 'Ocorreu um erro');
+							loadBox.innerHTML = 'Error processing data: ' + (err.message || 'An error occurred');
 						}
 					}
 				}
@@ -1417,22 +1418,22 @@
 					const debtVal = (data.netDebtEbitda != null) ? (data.netDebtEbitda <= 0 ? "Net Cash (0.0x)" : data.netDebtEbitda.toFixed(2) + "x") : "—";
 					const debtPass = (data.netDebtEbitda != null && data.netDebtEbitda <= 3.0);
 
-					const sharesVal = (data.sharesChange5y != null) ? (data.sharesChange5y <= 0 ? data.sharesChange5y.toFixed(1) + "% (Recompras)" : "+" + data.sharesChange5y.toFixed(1) + "% (Diluição)") : "—";
+					const sharesVal = (data.sharesChange5y != null) ? (data.sharesChange5y <= 0 ? data.sharesChange5y.toFixed(1) + "% (Buybacks)" : "+" + data.sharesChange5y.toFixed(1) + "% (Dilution)") : "—";
 					const sharesPass = (data.sharesChange5y != null && data.sharesChange5y <= 0.0);
 
 					const metrics = [
 						{ name: "Dividend Yield", val: (data.divYield != null) ? data.divYield.toFixed(2) + "%" : "—", target: "2.0% - 6.0%", pass: (data.divYield >= 2.0 && data.divYield <= 6.0) },
 						{ name: "Payout Ratio (FCF)", val: fcfVal, target: "< 70.0%", pass: fcfPass },
-						{ name: "Net Debt / EBITDA (Dette/EBITDA)", val: debtVal, target: "< 3.0x", pass: debtPass },
-						{ name: "5Y Revenue CAGR (Croissance CA)", val: (data.revCagr5y != null) ? data.revCagr5y.toFixed(1) + "%" : "—", target: "> 5.0%", pass: (data.revCagr5y != null && data.revCagr5y >= 5.0) },
+						{ name: "Net Debt / EBITDA", val: debtVal, target: "< 3.0x", pass: debtPass },
+						{ name: "5Y Revenue CAGR", val: (data.revCagr5y != null) ? data.revCagr5y.toFixed(1) + "%" : "—", target: "> 5.0%", pass: (data.revCagr5y != null && data.revCagr5y >= 5.0) },
 						{ name: "5Y Net Income CAGR", val: (data.niCagr5y != null) ? data.niCagr5y.toFixed(1) + "%" : "—", target: "> 5.0%", pass: (data.niCagr5y != null && data.niCagr5y >= 5.0) },
 						{ name: "5Y Dividend CAGR", val: (data.divCagr5y != null) ? data.divCagr5y.toFixed(1) + "%" : "—", target: "> 5.0%", pass: (data.divCagr5y != null && data.divCagr5y >= 5.0) },
 						{ name: "Chowder Number (Yield + Div CAGR)", val: (data.chowder != null) ? data.chowder.toFixed(1) + "%" : "—", target: ">= 10.0%", pass: (data.chowder != null && data.chowder >= 10.0) },
 						{ name: "Price to Earnings (P/E)", val: (data.pe != null && data.pe > 0) ? data.pe.toFixed(1) + "x" : "—", target: "15x - 25x", pass: (data.pe != null && data.pe > 0 && data.pe <= 25.0) },
 						{ name: "Return on Invested Capital (ROIC)", val: (data.roic != null) ? data.roic.toFixed(1) + "%" : "—", target: "> 10.0%", pass: (data.roic != null && data.roic >= 10.0) },
 						{ name: "Return on Equity (ROE)", val: (data.roe != null) ? data.roe.toFixed(1) + "%" : "—", target: "> 15.0%", pass: (data.roe != null && data.roe >= 15.0) },
-						{ name: "Operating Margin (Marge Opérationnelle)", val: (data.margin != null) ? data.margin.toFixed(1) + "%" : "—", target: "> 12.0%", pass: (data.margin != null && data.margin >= 12.0) },
-						{ name: "Evolução do Número de Ações (5Y)", val: sharesVal, target: "<= 0.0% (Recompras)", pass: sharesPass }
+						{ name: "Operating Margin", val: (data.margin != null) ? data.margin.toFixed(1) + "%" : "—", target: "> 12.0%", pass: (data.margin != null && data.margin >= 12.0) },
+						{ name: "5Y Share Count Evolution", val: sharesVal, target: "<= 0.0% (Buybacks)", pass: sharesPass }
 					];
 
 					tbody.innerHTML = '';
@@ -1452,14 +1453,14 @@
 
 				async function sendCurrentDgiToTelegram() {
 					if (!currentDgiData) {
-						showTelegramStatus('❌ Não é possível enviar: selecione primeiro uma empresa válida com dados fundamentais.', 'warning');
+						showTelegramStatus('❌ Cannot send: select a valid company with fundamental data first.', 'warning');
 						return;
 					}
 					const token = document.getElementById('telegramToken').value.trim();
 					const chatId = document.getElementById('telegramChatId').value.trim();
 
 					if (!token || !chatId) {
-						showTelegramStatus('Configure o Telegram Bot Token e Chat ID abaixo.', 'warning');
+						showTelegramStatus('Configure your Telegram Bot Token and Chat ID below.', 'warning');
 						return;
 					}
 
@@ -1474,7 +1475,7 @@
 								"🏢 *" + d.name + "* | Price: `" + formatPriceWithCurrency(d.price, d.symbol) + "`\n" +
 								"━━━━━━━━━━━━━━━━━━━━━\n" +
 								"🏆 *DGI SCORE:* *" + (s.total != null ? s.total.toFixed(0) : '--') + "/100* " + (d.verdictIcon || '🟢') + "\n" +
-								"📌 *Rating:* " + (d.verdict || 'Análise Concluída') + "\n\n" +
+								"📌 *Rating:* " + (d.verdict || 'Analysis Complete') + "\n\n" +
 								"🎯 *Core Pillars:*\n" +
 								"• 1. *Yield:* `" + (d.divYield != null ? d.divYield.toFixed(2) + '%' : '—') + "` (" + (s.p1 != null ? s.p1.toFixed(0) : '—') + "/20 pts)\n" +
 								"• 2. *FCF Payout:* `" + fcfText + "` (" + (s.p2 != null ? s.p2.toFixed(0) : '—') + "/20 pts)\n" +
@@ -1505,7 +1506,7 @@
 
 				function addCurrentDgiToWatchlist() {
 					if (!currentDgiData) {
-						showWatchlistSummary('❌ Selecione primeiro uma empresa válida com dados fundamentais.', 'warning');
+						showWatchlistSummary('❌ Please analyze a valid company with fundamental data first.', 'warning');
 						return;
 					}
 					const d = currentDgiData;
@@ -1513,7 +1514,7 @@
 					
 					const existing = watchlist.find(w => w.ticker.toUpperCase() === d.ticker.toUpperCase());
 					if (existing) {
-						showWatchlistSummary('Ticker <strong>' + d.ticker + '</strong> já se encontra na Watchlist.', 'warning');
+						showWatchlistSummary('Ticker <strong>' + d.ticker + '</strong> is already in your Watchlist.', 'warning');
 						return;
 					}
 
