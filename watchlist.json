@@ -82,5 +82,17 @@
     "dividendRate": 2.25,
     "dividendYield": 3.78,
     "exDividendDate": "2026-05-04"
+  },
+  {
+    "ticker": "EDP.LS",
+    "name": "EDP, S.A.",
+    "minBuy": 4.6,
+    "maxSell": 5.56,
+    "lastPrice": 4.839,
+    "dgiScore": 48,
+    "dgiVerdict": "Weak / Caution",
+    "dividendRate": 0.21,
+    "dividendYield": 4.24,
+    "exDividendDate": "2026-05-05"
   }
 ]
