@@ -1,5 +1,5 @@
 {
-  "updatedAt": "2026-09-26 20:11:07 UTC",
+  "updatedAt": "2026-09-27 23:33:32 UTC",
   "totalScanned": 973,
   "totalRanked": 439,
   "eliteCount": 25,
@@ -942,7 +942,7 @@
       "price": 5.28,
       "currency": "EUR",
       "symChar": "€",
-      "mcap": "1.62B",
+      "mcap": "—",
       "dgiScore": 82,
       "verdict": "Solid DGI Quality",
       "badgeColor": "#15803d",
@@ -2236,7 +2236,7 @@
       "divCagr5y": 5.0,
       "chowder": 5.3,
       "pe": 17.3,
-      "forwardPe": 23.1,
+      "forwardPe": 22.8,
       "pillars": {
         "p1": 2.0,
         "p2": 20.0,
@@ -2268,7 +2268,7 @@
       "divCagr5y": 5.0,
       "chowder": 5.3,
       "pe": 17.1,
-      "forwardPe": 22.9,
+      "forwardPe": 22.6,
       "pillars": {
         "p1": 2.0,
         "p2": 20.0,
@@ -2459,7 +2459,7 @@
       "margin": 21.9,
       "divCagr5y": -1.5,
       "chowder": 2.0,
-      "pe": 19.6,
+      "pe": 19.7,
       "forwardPe": 14.5,
       "pillars": {
         "p1": 20.0,
@@ -3228,7 +3228,7 @@
       "divCagr5y": -0.6,
       "chowder": 3.0,
       "pe": 10.8,
-      "forwardPe": 9.2,
+      "forwardPe": 9.3,
       "pillars": {
         "p1": 20.0,
         "p2": 20.0,
@@ -4315,7 +4315,7 @@
       "margin": 30.7,
       "divCagr5y": 0.6,
       "chowder": 2.0,
-      "pe": 12.3,
+      "pe": 11.9,
       "forwardPe": 9.5,
       "pillars": {
         "p1": 6.0,
@@ -5435,7 +5435,7 @@
       "margin": 68.2,
       "divCagr5y": 5.0,
       "chowder": 6.1,
-      "pe": 31.3,
+      "pe": 31.2,
       "forwardPe": 26.0,
       "pillars": {
         "p1": 6.0,
@@ -5564,7 +5564,7 @@
       "divCagr5y": 5.0,
       "chowder": 5.6,
       "pe": 44.4,
-      "forwardPe": 37.0,
+      "forwardPe": 36.9,
       "pillars": {
         "p1": 2.0,
         "p2": 20.0,
@@ -5787,7 +5787,7 @@
       "margin": 18.7,
       "divCagr5y": -6.1,
       "chowder": -5.0,
-      "pe": 23.4,
+      "pe": 23.2,
       "forwardPe": 16.5,
       "pillars": {
         "p1": 6.0,
@@ -7099,7 +7099,7 @@
       "margin": 22.2,
       "divCagr5y": -1.9,
       "chowder": -0.6,
-      "pe": 33.2,
+      "pe": 33.1,
       "forwardPe": 23.9,
       "pillars": {
         "p1": 6.0,
@@ -7636,7 +7636,7 @@
       "badgeColor": "#d97706",
       "divYield": 2.05,
       "divRate": 20.64,
-      "fcfPayout": 53.9,
+      "fcfPayout": 53.8,
       "epsPayout": 126.8,
       "netDebtEbitda": 4.93,
       "roic": 7.5,
@@ -8891,7 +8891,7 @@
       "margin": 11.1,
       "divCagr5y": -6.9,
       "chowder": -6.5,
-      "pe": 7.5,
+      "pe": 7.3,
       "forwardPe": 7.5,
       "pillars": {
         "p1": 2.0,
@@ -9595,7 +9595,7 @@
       "margin": 12.2,
       "divCagr5y": 3.9,
       "chowder": 4.8,
-      "pe": 25.2,
+      "pe": 25.6,
       "forwardPe": 15.6,
       "pillars": {
         "p1": 2.0,
@@ -10427,7 +10427,7 @@
       "margin": 17.2,
       "divCagr5y": -1.1,
       "chowder": 1.9,
-      "pe": 21.1,
+      "pe": 21.0,
       "forwardPe": 17.5,
       "pillars": {
         "p1": 20.0,
@@ -10907,7 +10907,7 @@
       "margin": 18.0,
       "divCagr5y": -15.9,
       "chowder": -14.8,
-      "pe": 22.4,
+      "pe": 22.1,
       "forwardPe": 10.0,
       "pillars": {
         "p1": 6.0,
@@ -12284,7 +12284,7 @@
       "divCagr5y": -6.9,
       "chowder": -6.7,
       "pe": 72.3,
-      "forwardPe": 25.6,
+      "forwardPe": 25.7,
       "pillars": {
         "p1": 2.0,
         "p2": 20.0,
@@ -13211,7 +13211,7 @@
       "margin": 12.9,
       "divCagr5y": -5.5,
       "chowder": 0.5,
-      "pe": 17.9,
+      "pe": 17.4,
       "forwardPe": 13.4,
       "pillars": {
         "p1": 20.0,
@@ -13403,7 +13403,7 @@
       "margin": 32.8,
       "divCagr5y": -0.3,
       "chowder": 1.9,
-      "pe": 17.9,
+      "pe": 17.5,
       "forwardPe": 20.0,
       "pillars": {
         "p1": 16.0,
@@ -13851,7 +13851,7 @@
       "margin": 3.5,
       "divCagr5y": -0.1,
       "chowder": 0.8,
-      "pe": 39.0,
+      "pe": 39.1,
       "forwardPe": 33.4,
       "pillars": {
         "p1": 2.0,
