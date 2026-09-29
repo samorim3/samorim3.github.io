@@ -4,11 +4,11 @@
     "name": "Adidas AG",
     "minBuy": 140,
     "maxSell": 200,
-    "lastPrice": 147.85,
+    "lastPrice": 145.75,
     "dgiScore": 43.0,
     "dgiVerdict": "Weak / High Risk",
     "dividendRate": 2.8,
-    "dividendYield": 1.89,
+    "dividendYield": 1.92,
     "exDividendDate": "2026-05-08"
   },
   {
@@ -16,11 +16,11 @@
     "name": "Nike, Inc.",
     "minBuy": 30,
     "maxSell": 95,
-    "lastPrice": 36.39,
+    "lastPrice": 35.86,
     "dgiScore": 60.0,
     "dgiVerdict": "Moderate / Neutral",
     "dividendRate": 1.64,
-    "dividendYield": 4.51,
+    "dividendYield": 4.58,
     "exDividendDate": "2026-09-01"
   },
   {
@@ -28,11 +28,11 @@
     "name": "Galp Energia",
     "minBuy": 15,
     "maxSell": 25,
-    "lastPrice": 22.92,
+    "lastPrice": 22.5,
     "dgiScore": 60.0,
     "dgiVerdict": "Moderate / Neutral",
     "dividendRate": 0.68,
-    "dividendYield": 2.97,
+    "dividendYield": 3.02,
     "exDividendDate": "2026-08-19"
   },
   {
@@ -40,7 +40,7 @@
     "name": "NVIDIA Corporation",
     "minBuy": 150,
     "maxSell": 300,
-    "lastPrice": 228.86,
+    "lastPrice": 227.14,
     "dgiScore": 80.0,
     "dgiVerdict": "Solid DGI Quality",
     "dividendRate": 1.0,
@@ -52,11 +52,11 @@
     "name": "LVMH Mo\u00ebt Hennessy Louis Vuitton",
     "minBuy": 377.01,
     "maxSell": 456.38,
-    "lastPrice": 398.8,
+    "lastPrice": 394.6,
     "dgiScore": 64.0,
     "dgiVerdict": "Moderate / Neutral",
     "dividendRate": 13.0,
-    "dividendYield": 3.26,
+    "dividendYield": 3.29,
     "exDividendDate": "2026-12-01"
   },
   {
@@ -64,7 +64,7 @@
     "name": "McDonald's Corporation",
     "minBuy": 224.67,
     "maxSell": 271.97,
-    "lastPrice": 233.6,
+    "lastPrice": 233.89,
     "dgiScore": 69.0,
     "dgiVerdict": "Moderate / Neutral",
     "dividendRate": 7.72,
@@ -76,11 +76,11 @@
     "name": "Danone S.A.",
     "minBuy": 56.58,
     "maxSell": 68.49,
-    "lastPrice": 59.5,
+    "lastPrice": 58.76,
     "dgiScore": 62.0,
     "dgiVerdict": "Moderate / Neutral",
     "dividendRate": 2.25,
-    "dividendYield": 3.78,
+    "dividendYield": 3.83,
     "exDividendDate": "2026-05-04"
   },
   {
@@ -88,11 +88,11 @@
     "name": "EDP, S.A.",
     "minBuy": 4.6,
     "maxSell": 5.56,
-    "lastPrice": 4.82,
+    "lastPrice": 4.78,
     "dgiScore": 48.0,
     "dgiVerdict": "Weak / High Risk",
     "dividendRate": 0.21,
-    "dividendYield": 4.36,
+    "dividendYield": 4.4,
     "exDividendDate": "2026-05-05"
   }
 ]
