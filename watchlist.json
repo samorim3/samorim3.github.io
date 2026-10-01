@@ -86,7 +86,7 @@
   {
     "ticker": "EDP.LS",
     "name": "EDP, S.A.",
-    "minBuy": 4.6,
+    "minBuy": 4.7,
     "maxSell": 5.56,
     "lastPrice": 4.78,
     "dgiScore": 48,
