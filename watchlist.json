@@ -118,5 +118,17 @@
     "dividendRate": 4.12,
     "dividendYield": 5.67,
     "exDividendDate": "2026-05-05"
+  },
+  {
+    "ticker": "NFLX",
+    "name": "Netflix, Inc.",
+    "minBuy": 64.46,
+    "maxSell": 78.03,
+    "lastPrice": 67.85,
+    "dgiScore": 50,
+    "dgiVerdict": "Moderate / Neutral",
+    "dividendRate": null,
+    "dividendYield": null,
+    "exDividendDate": null
   }
 ]
