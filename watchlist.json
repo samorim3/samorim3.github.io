@@ -154,5 +154,17 @@
     "dividendRate": 5.05,
     "dividendYield": 4.72,
     "exDividendDate": "2026-04-21"
+  },
+  {
+    "ticker": "COLO-B.CO",
+    "name": "Coloplast B A/S",
+    "minBuy": 394.53,
+    "maxSell": 477.59,
+    "lastPrice": 415.3,
+    "dgiScore": 49,
+    "dgiVerdict": "Weak / Caution",
+    "dividendRate": 23,
+    "dividendYield": 5.5,
+    "exDividendDate": "2026-05-18"
   }
 ]
