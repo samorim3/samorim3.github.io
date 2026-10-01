@@ -98,7 +98,7 @@
   {
     "ticker": "EL.PA",
     "name": "ESSILORLUXOTTICA",
-    "minBuy": 137.37,
+    "minBuy": 140,
     "maxSell": 166.29,
     "lastPrice": 144.6,
     "dgiScore": 83,
