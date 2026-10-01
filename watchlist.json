@@ -130,5 +130,17 @@
     "dividendRate": null,
     "dividendYield": null,
     "exDividendDate": null
+  },
+  {
+    "ticker": "GOOGL",
+    "name": "Alphabet Inc.",
+    "minBuy": 321.33,
+    "maxSell": 388.98,
+    "lastPrice": 338.24,
+    "dgiScore": 67,
+    "dgiVerdict": "Moderate / Neutral",
+    "dividendRate": 0.88,
+    "dividendYield": 0.26,
+    "exDividendDate": "2026-09-04"
   }
 ]
