@@ -38,7 +38,7 @@
   {
     "ticker": "NVDA",
     "name": "NVIDIA Corporation",
-    "minBuy": 150,
+    "minBuy": 200,
     "maxSell": 300,
     "lastPrice": 230.7,
     "dgiScore": 80,
