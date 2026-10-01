@@ -142,5 +142,17 @@
     "dividendRate": 0.88,
     "dividendYield": 0.26,
     "exDividendDate": "2026-09-04"
+  },
+  {
+    "ticker": "DG.PA",
+    "name": "VINCI",
+    "minBuy": 100.32,
+    "maxSell": 121.44,
+    "lastPrice": 105.6,
+    "dgiScore": 93,
+    "dgiVerdict": "Top Tier DGI (Aristocrat)",
+    "dividendRate": 5.05,
+    "dividendYield": 4.72,
+    "exDividendDate": "2026-04-21"
   }
 ]
