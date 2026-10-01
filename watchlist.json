@@ -62,7 +62,7 @@
   {
     "ticker": "MCD",
     "name": "McDonald's Corporation",
-    "minBuy": 224.67,
+    "minBuy": 225,
     "maxSell": 271.97,
     "lastPrice": 230.07,
     "dgiScore": 69,
