@@ -94,5 +94,17 @@
     "dividendRate": 0.21,
     "dividendYield": 4.4,
     "exDividendDate": "2026-05-05"
+  },
+  {
+    "ticker": "EL.PA",
+    "name": "ESSILORLUXOTTICA",
+    "minBuy": 137.37,
+    "maxSell": 166.29,
+    "lastPrice": 144.6,
+    "dgiScore": 83,
+    "dgiVerdict": "Solid DGI Quality",
+    "dividendRate": 4,
+    "dividendYield": 2.75,
+    "exDividendDate": "2026-05-05"
   }
 ]
