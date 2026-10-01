@@ -146,7 +146,7 @@
   {
     "ticker": "DG.PA",
     "name": "VINCI",
-    "minBuy": 100.32,
+    "minBuy": 100,
     "maxSell": 121.44,
     "lastPrice": 105.6,
     "dgiScore": 93,
