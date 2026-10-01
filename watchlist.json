@@ -166,5 +166,17 @@
     "dividendRate": 23,
     "dividendYield": 5.5,
     "exDividendDate": "2026-05-18"
+  },
+  {
+    "ticker": "LFDJF",
+    "name": "LA FRANCAISE DES JEUX",
+    "minBuy": 22.93,
+    "maxSell": 27.76,
+    "lastPrice": 24.14,
+    "dgiScore": 46,
+    "dgiVerdict": "Weak / Caution",
+    "dividendRate": 2.46,
+    "dividendYield": 10.19,
+    "exDividendDate": "2026-04-28"
   }
 ]
