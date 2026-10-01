@@ -170,7 +170,7 @@
   {
     "ticker": "LFDJF",
     "name": "LA FRANCAISE DES JEUX",
-    "minBuy": 22.93,
+    "minBuy": 20,
     "maxSell": 27.76,
     "lastPrice": 24.14,
     "dgiScore": 46,
