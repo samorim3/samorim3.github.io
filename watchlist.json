@@ -158,7 +158,7 @@
   {
     "ticker": "COLO-B.CO",
     "name": "Coloplast B A/S",
-    "minBuy": 394.53,
+    "minBuy": 390,
     "maxSell": 477.59,
     "lastPrice": 415.3,
     "dgiScore": 49,
