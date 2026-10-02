@@ -180,18 +180,6 @@
     "exDividendDate": "2026-04-29"
   },
   {
-    "ticker": "FDJ.PA",
-    "name": "La Française des Jeux",
-    "minBuy": 20,
-    "maxSell": 27.76,
-    "lastPrice": 24.14,
-    "dgiScore": 62,
-    "dgiVerdict": "Moderate / Neutral",
-    "dividendRate": 2.46,
-    "dividendYield": 10.19,
-    "exDividendDate": "2026-04-29"
-  },
-  {
     "ticker": "NTDOY",
     "name": "Nintendo Co., Ltd.",
     "minBuy": 11,
