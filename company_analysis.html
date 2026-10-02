@@ -358,7 +358,7 @@
 				box-shadow: 0 0 0 2px rgba(15, 23, 42, 0.08) !important;
 			}
 			.input-target-box input {
-				width: 42px !important;
+				width: 46px !important;
 				height: 22px !important;
 				line-height: 22px !important;
 				border: none !important;
@@ -371,6 +371,16 @@
 				padding: 0 !important;
 				margin: 0 !important;
 				box-shadow: none !important;
+				-moz-appearance: textfield !important;
+				appearance: textfield !important;
+			}
+			.input-target-box input::-webkit-outer-spin-button,
+			.input-target-box input::-webkit-inner-spin-button {
+				-webkit-appearance: none !important;
+				margin: 0 !important;
+			}
+			.masked-token-input {
+				-webkit-text-security: disc !important;
 			}
 
 			.sober-table button,
@@ -686,15 +696,15 @@
 										<div class="form-grid-inputs">
 											<div class="input-group">
 												<label for="telegramToken">Telegram Bot Token:</label>
-												<input type="password" id="telegramToken" placeholder="123456789:ABCdef..." />
+												<input type="text" id="telegramToken" class="masked-token-input" autocomplete="off" spellcheck="false" data-lpignore="true" placeholder="123456789:ABCdef..." />
 											</div>
 											<div class="input-group">
 												<label for="telegramChatId">Telegram Chat ID:</label>
-												<input type="text" id="telegramChatId" placeholder="12345678" />
+												<input type="text" id="telegramChatId" autocomplete="off" placeholder="12345678" />
 											</div>
 											<div class="input-group">
 												<label for="githubToken">GitHub Token (Optional Sync):</label>
-												<input type="password" id="githubToken" placeholder="ghp_..." />
+												<input type="text" id="githubToken" class="masked-token-input" autocomplete="off" spellcheck="false" data-lpignore="true" placeholder="ghp_..." />
 											</div>
 											<div style="display: flex; gap: 0.4rem;">
 												<button onclick="saveTelegramCredentials(true)" class="btn-sober btn-secondary btn-sm" style="height: 38px;">Save</button>
@@ -958,6 +968,11 @@
 					"GREENVOLT": "GVOLT.LS",
 
 					// França (Euronext Paris)
+					"FDJ": "FDJ.PA",
+					"FDJ.PA": "FDJ.PA",
+					"FRANCAISE DES JEUX": "FDJ.PA",
+					"LA FRANCAISE DES JEUX": "FDJ.PA",
+					"LFDJF": "FDJ.PA",
 					"LVMH": "MC.PA",
 					"LOUIS VUITTON": "MC.PA",
 					"MC": "MC.PA",
@@ -1828,7 +1843,7 @@
 					if (t.includes('.SW') || t.includes('.VX')) return 'CHF';
 					if (t.includes('.ST')) return 'SEK';
 					if (t.includes('.CO')) return 'DKK';
-					if (t.includes('.LS') || t.includes('.DE') || t.includes('.PA') || t.includes('.AS') || t.includes('.MI') || t.includes('.MC') || t.includes('.BR') || t.includes('GALP') || t.includes('ADS') || t.includes('LVMH') || t.includes('AHOLD') || t.includes('AD.AS')) return '€';
+					if (t.includes('.LS') || t.includes('.DE') || t.includes('.PA') || t.includes('.AS') || t.includes('.MI') || t.includes('.MC') || t.includes('.BR') || t.includes('GALP') || t.includes('ADS') || t.includes('LVMH') || t.includes('AHOLD') || t.includes('AD.AS') || t.includes('FDJ')) return '€';
 					if (t.includes('.SA') || t.includes('PETR') || t.includes('VALE') || t.includes('ITUB')) return 'R$';
 					if (t.includes('.L')) return '£';
 					return '$';
@@ -1962,13 +1977,13 @@
 							'<td style="padding: 0.5rem 0.2rem; text-align: center; white-space:nowrap;">' +
 								'<div class="input-target-box">' +
 									'<span style="font-size:0.68rem; color:#64748b; font-weight:600;">' + currSym + '</span>' +
-									'<input type="number" value="' + item.minBuy + '" step="0.1" onchange="updateWatchlistThreshold(' + index + ', \'minBuy\', this.value)" />' +
+									'<input type="text" inputmode="decimal" autocomplete="off" value="' + (item.minBuy != null ? item.minBuy : '') + '" onchange="updateWatchlistThreshold(' + index + ', \'minBuy\', this.value)" />' +
 								'</div>' +
 							'</td>' +
 							'<td style="padding: 0.5rem 0.2rem; text-align: center; white-space:nowrap;">' +
 								'<div class="input-target-box">' +
 									'<span style="font-size:0.68rem; color:#64748b; font-weight:600;">' + currSym + '</span>' +
-									'<input type="number" value="' + item.maxSell + '" step="0.1" onchange="updateWatchlistThreshold(' + index + ', \'maxSell\', this.value)" />' +
+									'<input type="text" inputmode="decimal" autocomplete="off" value="' + (item.maxSell != null ? item.maxSell : '') + '" onchange="updateWatchlistThreshold(' + index + ', \'maxSell\', this.value)" />' +
 								'</div>' +
 							'</td>' +
 							'<td style="padding: 0.5rem 0.2rem; text-align: center; font-weight: 700; color:#0f172a; font-size:0.82rem; white-space:nowrap;">' +
@@ -2039,9 +2054,10 @@
 				}
 
 				function updateWatchlistThreshold(index, field, value) {
-					const numVal = parseFloat(value) || 0;
+					const cleanStr = String(value).replace(',', '.').trim();
+					const numVal = parseFloat(cleanStr);
 					if (watchlist[index]) {
-						watchlist[index][field] = numVal;
+						watchlist[index][field] = isNaN(numVal) ? 0 : numVal;
 						saveWatchlistToStorage();
 						renderWatchlistTable();
 						triggerAutoSyncWatchlist(watchlist[index].ticker);
@@ -2452,6 +2468,10 @@
 						if (t === "AHOLD" || t === "AHOLD DELHAIZE") {
 							t = "AD.AS";
 							n = "Koninklijke Ahold Delhaize N.V.";
+						}
+						if (t === "LFDJF" || t === "FDJ") {
+							t = "FDJ.PA";
+							n = "La Française des Jeux";
 						}
 						return { ...item, ticker: t, name: n };
 					});

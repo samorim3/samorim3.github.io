@@ -54,7 +54,20 @@ GF_TICKER_MAP = {
     "BN": "BN:EPA",
     "DANONE": "BN:EPA",
     "EDP.LS": "EDP:ELI",
-    "EDP": "EDP:ELI"
+    "EDP": "EDP:ELI",
+    "FDJ.PA": "FDJ:EPA",
+    "FDJ": "FDJ:EPA",
+    "LFDJF": "FDJ:EPA",
+    "EL.PA": "EL:EPA",
+    "EL": "EL:EPA",
+    "SAN.PA": "SAN:EPA",
+    "SAN": "SAN:EPA",
+    "DG.PA": "DG:EPA",
+    "DG": "DG:EPA",
+    "COLO-B.CO": "COLO-B:CPH",
+    "COLO-B": "COLO-B:CPH",
+    "NFLX": "NFLX:NASDAQ",
+    "GOOGL": "GOOGL:NASDAQ"
 }
 
 def send_telegram_alert(msg):
@@ -81,6 +94,12 @@ def send_telegram_alert(msg):
             return True
         else:
             print(f"[Telegram API Error] {res_data.get('description')}")
+            # Fallback: Retry without Markdown if formatting error
+            payload.pop("parse_mode", None)
+            res_retry = requests.post(url, json=payload, timeout=10)
+            if res_retry.json().get("ok"):
+                print("[Telegram] Alert sent successfully via plain-text fallback.")
+                return True
             return False
     except Exception as e:
         print(f"[Exception] Error sending Telegram alert: {e}")
@@ -388,6 +407,21 @@ def get_google_finance_price(ticker_symbol):
         if ":" in ticker_clean:
             symbols_to_try.append(ticker_clean)
         else:
+            if ticker_clean.endswith(".PA"):
+                symbols_to_try.append(f"{ticker_clean[:-3]}:EPA")
+            elif ticker_clean.endswith(".LS"):
+                symbols_to_try.append(f"{ticker_clean[:-3]}:ELI")
+            elif ticker_clean.endswith(".DE"):
+                symbols_to_try.append(f"{ticker_clean[:-3]}:ETR")
+            elif ticker_clean.endswith(".AS"):
+                symbols_to_try.append(f"{ticker_clean[:-3]}:AMS")
+            elif ticker_clean.endswith(".CO"):
+                symbols_to_try.append(f"{ticker_clean[:-3]}:CPH")
+            elif ticker_clean.endswith(".MI"):
+                symbols_to_try.append(f"{ticker_clean[:-3]}:BIT")
+            elif ticker_clean.endswith(".MC"):
+                symbols_to_try.append(f"{ticker_clean[:-3]}:BME")
+
             symbols_to_try.extend([
                 f"{ticker_clean}:NYSE",
                 f"{ticker_clean}:NASDAQ",
