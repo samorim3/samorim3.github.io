@@ -101,36 +101,47 @@ function initFilters() {
    -------------------------------------------------------------------------- */
 function initStatsCounter() {
   const statNumbers = document.querySelectorAll('.stat-number');
+  const statsBanner = document.querySelector('.stats-banner');
+  if (!statNumbers.length || !statsBanner) return;
+
+  function runCounterAnimation() {
+    statNumbers.forEach(stat => {
+      const target = parseInt(stat.getAttribute('data-target') || '0', 10);
+      const suffix = stat.getAttribute('data-suffix') || '';
+      if (!target) return;
+      
+      let current = 0;
+      const step = Math.max(1, Math.floor(target / 30));
+      const interval = 25;
+
+      const timer = setInterval(() => {
+        current += step;
+        if (current >= target) {
+          stat.textContent = target + suffix;
+          clearInterval(timer);
+        } else {
+          stat.textContent = current + suffix;
+        }
+      }, interval);
+    });
+  }
+
   let animated = false;
 
-  const observer = new IntersectionObserver((entries) => {
-    entries.forEach(entry => {
-      if (entry.isIntersecting && !animated) {
-        animated = true;
-        statNumbers.forEach(stat => {
-          const target = parseInt(stat.getAttribute('data-target') || '0', 10);
-          const suffix = stat.getAttribute('data-suffix') || '';
-          let current = 0;
-          const duration = 1000;
-          const stepTime = Math.max(Math.floor(duration / (target || 1)), 25);
-
-          const timer = setInterval(() => {
-            current++;
-            if (current >= target) {
-              stat.textContent = target + suffix;
-              clearInterval(timer);
-            } else {
-              stat.textContent = current + suffix;
-            }
-          }, stepTime);
-        });
-      }
-    });
-  }, { threshold: 0.3 });
-
-  const statsBanner = document.querySelector('.stats-banner');
-  if (statsBanner) {
+  // If IntersectionObserver is available, trigger as soon as 10% is visible
+  if ('IntersectionObserver' in window) {
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting && !animated) {
+          animated = true;
+          runCounterAnimation();
+          observer.disconnect();
+        }
+      });
+    }, { threshold: 0.05, rootMargin: '50px' });
     observer.observe(statsBanner);
+  } else {
+    runCounterAnimation();
   }
 }
 
