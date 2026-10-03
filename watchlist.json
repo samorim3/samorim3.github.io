@@ -194,7 +194,7 @@
   {
     "ticker": "ADA.XC",
     "name": "Koninklijke Ahold Delhaize NV",
-    "minBuy": 30.01,
+    "minBuy": 30,
     "maxSell": 36.32,
     "lastPrice": 31.585,
     "dgiScore": 68,
