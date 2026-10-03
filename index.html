@@ -1,133 +1,483 @@
-<!DOCTYPE HTML>
-<!--
-	Massively by HTML5 UP
-	html5up.net | @ajlkn
-	Free for personal and commercial use under the CCA 3.0 license (html5up.net/license)
--->
-<html>
-	<head>
-		<title>My Portfolio</title>
-		<meta charset="utf-8" />
-		<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
-		<link rel="stylesheet" href="assets/css/main.css?v=4" />
-		<noscript><link rel="stylesheet" href="assets/css/noscript.css" /></noscript>
-		<!-- Google Analytics (GA4) -->
-		<script async src="https://www.googletagmanager.com/gtag/js?id=G-W76N1EJ13Q"></script>
-		<script>
-		  window.dataLayer = window.dataLayer || [];
-		  function gtag(){dataLayer.push(arguments);}
-		  gtag('js', new Date());
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Samuel Amorim | Computer Science & Nutrition | Portfolio</title>
+  <meta name="description" content="Portfolio of Samuel Amorim. Background in Computer Science and Nutrition. Software engineering, data analytics, and cloud automation." />
 
-		  gtag('config', 'G-W76N1EJ13Q');
-		</script>
-	</head>
-	<body class="is-preload">
+  <!-- Google Analytics (GA4) -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-W76N1EJ13Q"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', 'G-W76N1EJ13Q');
+  </script>
 
-		<!-- Wrapper -->
-			<div id="wrapper" class="fade-in">
+  <!-- Typography: Plus Jakarta Sans -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
 
-				<!-- Intro -->
-					<div id="intro">
-						<h1>My<br />
-						Portfolio</h1>
-						<p>A showcase of my projects and work.</p>
-						<ul class="actions">
-							<li><a href="#header" class="button icon solid solo fa-arrow-down scrolly">Continue</a></li>
-						</ul>
-					</div>
+  <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate" />
+  <meta http-equiv="Pragma" content="no-cache" />
+  <meta http-equiv="Expires" content="0" />
 
-				<!-- Header -->
-					<header id="header">
-						<a href="index.html" class="logo">Portfolio</a>
-					</header>
+  <!-- Stylesheet -->
+  <link rel="stylesheet" href="assets/css/modern.css?v=2" />
+</head>
+<body>
 
-				<!-- Nav -->
-					<nav id="nav">
-						<ul class="links">
-							<li class="active"><a href="index.html">Projects</a></li>
-						</ul>
-						<ul class="icons">
-							<li><a href="https://www.linkedin.com/in/amorimsamuel/" target="_blank" class="icon brands fa-linkedin"><span class="label">LinkedIn</span></a></li>
-							<li><a href="https://github.com/samorim3" target="_blank" class="icon brands fa-github"><span class="label">GitHub</span></a></li>
-						</ul>
-					</nav>
+  <!-- ==========================================================================
+       SITE HEADER / NAVBAR
+       ========================================================================== -->
+  <header class="site-header">
+    <div class="container header-inner">
+      <a href="#home" class="logo-brand">
+        <span class="logo-badge">SA</span>
+        <span>Samuel Amorim</span>
+      </a>
 
-				<!-- Main -->
-					<div id="main">
+      <!-- Navigation Links -->
+      <nav id="nav-links" class="nav-links">
+        <a href="#home" class="nav-link active">Home</a>
+        <a href="#projects" class="nav-link">Projects</a>
+        <a href="#background" class="nav-link">Background</a>
+        <a href="#contact" class="nav-link">Contact</a>
+      </nav>
 
-						<!-- Project 1: STRAVA UTMB Analysis (2026) -->
-							<article class="post featured">
-								<header class="major">
-									<span class="date">2026</span>
-									<h2><a href="strava_utmb.html">STRAVA Analysis<br />to get UTMB done</a></h2>
-									<p>Analysis of Strava endurance data and race pacing strategies to prepare physically and strategically for the Ultra-Trail du Mont-Blanc (UTMB).</p>
-								</header>
-								<a href="strava_utmb.html" class="image main"><img src="images/strava_utmb.jpg?v=2" alt="STRAVA Analysis UTMB" /></a>
-								<ul class="actions special">
-									<li><a href="strava_utmb.html" class="button large">View Project</a></li>
-								</ul>
-							</article>
+      <!-- Action Controls -->
+      <div class="header-actions">
+        <!-- Theme Toggle -->
+        <button id="theme-toggle-btn" class="btn-control" title="Toggle Theme" aria-label="Toggle Theme">
+          <span id="theme-icon">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <circle cx="12" cy="12" r="5"></circle>
+              <line x1="12" y1="1" x2="12" y2="3"></line>
+              <line x1="12" y1="21" x2="12" y2="23"></line>
+              <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+              <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+              <line x1="1" y1="12" x2="3" y2="12"></line>
+              <line x1="21" y1="12" x2="23" y2="12"></line>
+              <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+              <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+            </svg>
+          </span>
+        </button>
 
-						<!-- Project 2: DGI Screener & Stock Alerts (2026) -->
-							<article class="post featured">
-								<header class="major">
-									<span class="date">2026</span>
-									<h2><a href="company_analysis.html">DGI Fundamental Screener &<br />Stock Alerts via Telegram</a></h2>
-									<p>Rapid 5-Pillar Dividend Growth Investing (DGI) fundamental scorecard, live valuation checks, and automated stock price alerts via Telegram.</p>
-								</header>
-								<a href="company_analysis.html" class="image main"><img src="images/company_analysis.jpg?v=2" alt="Stock Price Alert System" /></a>
-								<ul class="actions special">
-									<li><a href="company_analysis.html" class="button large">View Project</a></li>
-								</ul>
-							</article>
+        <!-- Mobile Hamburger Button -->
+        <button id="hamburger-btn" class="hamburger-btn" aria-label="Mobile Navigation">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <line x1="3" y1="12" x2="21" y2="12"></line>
+            <line x1="3" y1="6" x2="21" y2="6"></line>
+            <line x1="3" y1="18" x2="21" y2="18"></line>
+          </svg>
+        </button>
+      </div>
+    </div>
+  </header>
 
-						<!-- Project 3: Financial Investments 2025 -->
-							<article class="post featured">
-								<header class="major">
-									<span class="date">2025</span>
-									<h2><a href="financial_investments_2025.html">Financial Investments<br />- 2025</a></h2>
-									<p>Overview and analysis of my financial investment journey for 2025, featuring an interactive Power BI dashboard and portfolio asset allocation breakdown.</p>
-								</header>
-								<a href="financial_investments_2025.html" class="image main"><img src="images/investimentos_2025.png" alt="Financial Investments 2025" /></a>
-								<ul class="actions special">
-									<li><a href="financial_investments_2025.html" class="button large">View Project</a></li>
-								</ul>
-							</article>
+  <main>
+    <!-- ==========================================================================
+         HERO SECTION
+         ========================================================================== -->
+    <section id="home" class="hero">
+      <div class="hero-glow-bg"></div>
+      <div class="container hero-inner">
+        <div class="status-badge">
+          <span class="status-dot"></span>
+          <span>Portugal • Computer Science & Nutrition</span>
+        </div>
 
-					</div>
+        <h1 class="hero-title">
+          <span class="gradient-text">Samuel Amorim</span>
+        </h1>
 
-				<!-- Footer -->
-					<footer id="footer">
-						<section class="split contact" style="width: 100%;">
-							<section class="alt">
-								<h3>Location</h3>
-								<p>Portugal</p>
-							</section>
-							<section>
-								<h3>Social</h3>
-								<ul class="icons alt">
-									<li><a href="https://www.linkedin.com/in/amorimsamuel/" target="_blank" class="icon brands alt fa-linkedin"><span class="label">LinkedIn</span></a></li>
-									<li><a href="https://github.com/samorim3" target="_blank" class="icon brands alt fa-github"><span class="label">GitHub</span></a></li>
-								</ul>
-							</section>
-						</section>
-					</footer>
+        <p class="hero-subtitle">
+          Computer Science & Nutrition Background | Software & Data Systems
+        </p>
 
-				<!-- Copyright -->
-					<div id="copyright">
-						<ul><li>&copy; Samuel Amorim</li></ul>
-					</div>
+        <p class="hero-text">
+          Software engineer and analyst combining academic training in Computer Science and Nutritional Sciences. I design and build reliable data-driven applications, automated cloud services, and analytical tools grounded in algorithmic precision and empirical scientific rigor.
+        </p>
 
-			</div>
+        <div class="hero-actions">
+          <a href="#projects" class="btn btn-primary">
+            <span>View Projects</span>
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <line x1="12" y1="5" x2="12" y2="19"></line>
+              <polyline points="19 12 12 19 5 12"></polyline>
+            </svg>
+          </a>
 
-		<!-- Scripts -->
-			<script src="assets/js/jquery.min.js"></script>
-			<script src="assets/js/jquery.scrollex.min.js"></script>
-			<script src="assets/js/jquery.scrolly.min.js"></script>
-			<script src="assets/js/browser.min.js"></script>
-			<script src="assets/js/breakpoints.min.js"></script>
-			<script src="assets/js/util.js"></script>
-			<script src="assets/js/main.js"></script>
+          <a href="#contact" class="btn btn-outline">
+            <span>Contact</span>
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <rect x="2" y="4" width="20" height="16" rx="2"></rect>
+              <polyline points="2 7 12 13 22 7"></polyline>
+            </svg>
+          </a>
 
-	</body>
+          <div class="social-pills">
+            <a href="https://www.linkedin.com/in/amorimsamuel/" target="_blank" rel="noopener noreferrer" class="social-pill-link" title="LinkedIn" aria-label="LinkedIn">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"></path>
+                <rect x="2" y="9" width="4" height="12"></rect>
+                <circle cx="4" cy="4" r="2"></circle>
+              </svg>
+            </a>
+            <a href="https://github.com/samorim3" target="_blank" rel="noopener noreferrer" class="social-pill-link" title="GitHub" aria-label="GitHub">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"></path>
+              </svg>
+            </a>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ==========================================================================
+         STATS BANNER
+         ========================================================================== -->
+    <section class="stats-banner">
+      <div class="container">
+        <div class="stats-grid">
+          <!-- Stat 1 -->
+          <div class="stat-card">
+            <div class="stat-icon">
+              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <polygon points="12 2 2 7 12 12 22 7 12 2"></polygon>
+                <polyline points="2 17 12 22 22 17"></polyline>
+                <polyline points="2 12 12 17 22 12"></polyline>
+              </svg>
+            </div>
+            <div class="stat-info">
+              <span class="stat-number" data-target="3" data-suffix="+">0</span>
+              <span class="stat-label">Production Projects</span>
+            </div>
+          </div>
+
+          <!-- Stat 2 -->
+          <div class="stat-card">
+            <div class="stat-icon">
+              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M22 10v6M2 10l10-5 10 5-10 5z"></path>
+                <path d="M6 12v5c3 3 9 3 12 0v-5"></path>
+              </svg>
+            </div>
+            <div class="stat-info">
+              <span class="stat-number" data-target="2" data-suffix=" Fields">0</span>
+              <span class="stat-label">CS & Nutrition Foundation</span>
+            </div>
+          </div>
+
+          <!-- Stat 3 -->
+          <div class="stat-card">
+            <div class="stat-icon">
+              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M3 3v18h18"></path>
+                <path d="m19 9-5 5-4-4-3 3"></path>
+              </svg>
+            </div>
+            <div class="stat-info">
+              <span class="stat-number" data-target="100" data-suffix="+">0</span>
+              <span class="stat-label">Screened Assets & Models</span>
+            </div>
+          </div>
+
+          <!-- Stat 4 -->
+          <div class="stat-card">
+            <div class="stat-icon">
+              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <rect x="2" y="2" width="20" height="8" rx="2" ry="2"></rect>
+                <rect x="2" y="14" width="20" height="8" rx="2" ry="2"></rect>
+                <line x1="6" y1="6" x2="6.01" y2="6"></line>
+                <line x1="6" y1="18" x2="6.01" y2="18"></line>
+              </svg>
+            </div>
+            <div class="stat-info">
+              <span class="stat-number" data-target="24" data-suffix="/7">0</span>
+              <span class="stat-label">Automated Cloud Services</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ==========================================================================
+         PROJECTS SECTION
+         ========================================================================== -->
+    <section id="projects" class="section">
+      <div class="container">
+        <div class="section-header">
+          <span class="section-tag">Featured Work</span>
+          <h2 class="section-title">Technical Projects</h2>
+          <p class="section-subtitle">
+            Analytical tools, automated cloud services, and quantitative models developed with modern technologies.
+          </p>
+        </div>
+
+        <!-- Filter Buttons -->
+        <div class="projects-filter-bar">
+          <button class="filter-btn active" data-filter="all">All</button>
+          <button class="filter-btn" data-filter="python">Python & Automation</button>
+          <button class="filter-btn" data-filter="finance">Finance & Markets</button>
+          <button class="filter-btn" data-filter="bi">BI & Analytics</button>
+        </div>
+
+        <!-- Projects Grid -->
+        <div class="projects-grid">
+          
+          <!-- Project 1: DGI Fundamental Screener -->
+          <article class="project-card" data-categories="python finance">
+            <div class="project-thumb-wrapper">
+              <img src="images/company_analysis.jpg?v=2" alt="DGI Fundamental Screener & Telegram Alerts" class="project-thumb" loading="lazy" />
+              <span class="project-badge-year">2026</span>
+            </div>
+            <div class="project-content">
+              <span class="project-category">Quantitative Finance & Cloud Automation</span>
+              <h3 class="project-title">
+                <a href="company_analysis.html">DGI Fundamental Screener & Telegram Alerts</a>
+              </h3>
+              <p class="project-desc">
+                Quantitative fundamental scorecard implementing the 5-Pillar Dividend Growth Investing model, live market valuation engine, and automated real-time price alerts via Telegram bot.
+              </p>
+              <div class="project-tags">
+                <span class="tech-tag">Python</span>
+                <span class="tech-tag">Telegram Bot API</span>
+                <span class="tech-tag">Cloudflare Workers</span>
+                <span class="tech-tag">Chart.js</span>
+              </div>
+              <div class="project-actions">
+                <a href="company_analysis.html" class="btn btn-primary btn-card">
+                  <span>View Project</span>
+                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <line x1="5" y1="12" x2="19" y2="12"></line>
+                    <polyline points="12 5 19 12 12 19"></polyline>
+                  </svg>
+                </a>
+              </div>
+            </div>
+          </article>
+
+          <!-- Project 2: Endurance Dataset Analysis -->
+          <article class="project-card" data-categories="python bi">
+            <div class="project-thumb-wrapper">
+              <img src="images/strava_utmb.jpg?v=2" alt="Endurance Performance Data Analysis" class="project-thumb" loading="lazy" />
+              <span class="project-badge-year">2026</span>
+            </div>
+            <div class="project-content">
+              <span class="project-category">Performance Analytics & Data Modeling</span>
+              <h3 class="project-title">
+                <a href="strava_utmb.html">Endurance Performance Data Analysis</a>
+              </h3>
+              <p class="project-desc">
+                Longitudinal data modeling and pacing strategy analysis evaluating multi-year endurance datasets, cardiovascular strain, and elevation workload metrics for ultra-distance events.
+              </p>
+              <div class="project-tags">
+                <span class="tech-tag">Power BI</span>
+                <span class="tech-tag">Python</span>
+                <span class="tech-tag">Strava API</span>
+                <span class="tech-tag">Data Modeling</span>
+              </div>
+              <div class="project-actions">
+                <a href="strava_utmb.html" class="btn btn-primary btn-card">
+                  <span>View Project</span>
+                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <line x1="5" y1="12" x2="19" y2="12"></line>
+                    <polyline points="12 5 19 12 12 19"></polyline>
+                  </svg>
+                </a>
+              </div>
+            </div>
+          </article>
+
+          <!-- Project 3: Financial Investments Dashboard -->
+          <article class="project-card" data-categories="finance bi">
+            <div class="project-thumb-wrapper">
+              <img src="images/investimentos_2025.png" alt="Financial Investments Dashboard" class="project-thumb" loading="lazy" />
+              <span class="project-badge-year">2025</span>
+            </div>
+            <div class="project-content">
+              <span class="project-category">Business Intelligence & Portfolio Management</span>
+              <h3 class="project-title">
+                <a href="financial_investments_2025.html">Financial Investments: Portfolio Dashboard</a>
+              </h3>
+              <p class="project-desc">
+                Interactive Power BI dashboard monitoring portfolio asset allocation, capital evolution, cash flow distribution, and dividend yield performance with custom DAX measures.
+              </p>
+              <div class="project-tags">
+                <span class="tech-tag">Power BI</span>
+                <span class="tech-tag">Asset Allocation</span>
+                <span class="tech-tag">Excel</span>
+                <span class="tech-tag">DAX</span>
+              </div>
+              <div class="project-actions">
+                <a href="financial_investments_2025.html" class="btn btn-primary btn-card">
+                  <span>View Project</span>
+                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <line x1="5" y1="12" x2="19" y2="12"></line>
+                    <polyline points="12 5 19 12 12 19"></polyline>
+                  </svg>
+                </a>
+              </div>
+            </div>
+          </article>
+
+        </div>
+      </div>
+    </section>
+
+    <!-- ==========================================================================
+         BACKGROUND & EDUCATION SECTION
+         ========================================================================== -->
+    <section id="background" class="section">
+      <div class="container">
+        <div class="section-header">
+          <span class="section-tag">Academic Profile</span>
+          <h2 class="section-title">Background & Education</h2>
+        </div>
+
+        <div class="about-grid">
+          <!-- Left Summary Card -->
+          <div class="about-card-left">
+            <div class="about-avatar-box">SA</div>
+            <h3 class="about-name">Samuel Amorim</h3>
+            <p class="about-role">Computer Science & Nutrition Background</p>
+            <div class="about-quick-facts">
+              <div class="fact-item">
+                <span class="fact-icon">🎓</span>
+                <span><strong>Education:</strong> Computer Engineering & Nutritional Sciences</span>
+              </div>
+              <div class="fact-item">
+                <span class="fact-icon">📍</span>
+                <span><strong>Location:</strong> Portugal</span>
+              </div>
+              <div class="fact-item">
+                <span class="fact-icon">💻</span>
+                <span><strong>Focus:</strong> Software Engineering, Data Modeling & Cloud</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Right Content: Academic Foundations -->
+          <div class="about-content-right">
+            <p class="about-p">
+              My academic profile combines two distinct fields: <strong>Computer Science & Software Engineering</strong> and <strong>Nutritional Sciences</strong>. This dual foundation unites software engineering principles and computational thinking with the analytical rigor, biochemical dynamics, and evidence-based methodology of health sciences.
+            </p>
+            <p class="about-p">
+              Whether architecting automated software pipelines, structuring relational and analytical data schemas, or evaluating empirical datasets, I approach technical problems with methodical discipline, clear documentation, and a focus on long-term maintainability.
+            </p>
+
+            <div class="education-cards-grid">
+              <!-- Field 1: Computer Engineering -->
+              <div class="edu-card">
+                <span class="edu-badge">Engineering Foundation</span>
+                <h4 class="edu-title">Computer Science & Engineering</h4>
+                <p class="edu-desc">
+                  Core competencies in software design, algorithms, object-oriented programming, databases, web technologies, and systems architecture.
+                </p>
+              </div>
+
+              <!-- Field 2: Nutrition -->
+              <div class="edu-card">
+                <span class="edu-badge">Scientific Foundation</span>
+                <h4 class="edu-title">Nutritional Sciences</h4>
+                <p class="edu-desc">
+                  Rigorous scientific training in human physiology, metabolic biochemistry, biostatistics, evidence-based research methodologies, and clinical data interpretation.
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ==========================================================================
+         CONTACT SECTION
+         ========================================================================== -->
+    <section id="contact" class="section contact-section">
+      <div class="container">
+        <div class="section-header">
+          <span class="section-tag">Get in Touch</span>
+          <h2 class="section-title">Contact & Profiles</h2>
+          <p class="section-subtitle">
+            Available for software engineering projects, data analytics initiatives, and technical discussions.
+          </p>
+        </div>
+
+        <div class="contact-cards-grid">
+          <!-- LinkedIn -->
+          <div class="contact-card">
+            <div class="contact-icon-wrapper">
+              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"></path>
+                <rect x="2" y="9" width="4" height="12"></rect>
+                <circle cx="4" cy="4" r="2"></circle>
+              </svg>
+            </div>
+            <h3 class="contact-card-title">LinkedIn</h3>
+            <p class="contact-card-subtitle">Professional Profile</p>
+            <a href="https://www.linkedin.com/in/amorimsamuel/" target="_blank" rel="noopener noreferrer" class="contact-card-link">
+              <span>amorimsamuel</span>
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path><polyline points="15 3 21 3 21 9"></polyline><line x1="10" y1="14" x2="21" y2="3"></line></svg>
+            </a>
+          </div>
+
+          <!-- GitHub -->
+          <div class="contact-card">
+            <div class="contact-icon-wrapper">
+              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"></path>
+              </svg>
+            </div>
+            <h3 class="contact-card-title">GitHub</h3>
+            <p class="contact-card-subtitle">Source Code & Repositories</p>
+            <a href="https://github.com/samorim3" target="_blank" rel="noopener noreferrer" class="contact-card-link">
+              <span>samorim3</span>
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path><polyline points="15 3 21 3 21 9"></polyline><line x1="10" y1="14" x2="21" y2="3"></line></svg>
+            </a>
+          </div>
+
+          <!-- Location -->
+          <div class="contact-card">
+            <div class="contact-icon-wrapper">
+              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"></path>
+                <circle cx="12" cy="10" r="3"></circle>
+              </svg>
+            </div>
+            <h3 class="contact-card-title">Location</h3>
+            <p class="contact-card-subtitle">Based in Portugal</p>
+            <span class="contact-card-link" style="text-decoration:none;">
+              <span>Portugal</span>
+            </span>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <!-- ==========================================================================
+       SITE FOOTER
+       ========================================================================== -->
+  <footer class="site-footer">
+    <div class="container footer-inner">
+      <div class="footer-copy">
+        <p>&copy; 2026 Samuel Amorim. All rights reserved.</p>
+      </div>
+      <a href="#home" class="back-to-top">
+        <span>Back to Top</span>
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <line x1="12" y1="19" x2="12" y2="5"></line>
+          <polyline points="5 12 12 5 19 12"></polyline>
+        </svg>
+      </a>
+    </div>
+  </footer>
+
+  <!-- Scripts -->
+  <script src="assets/js/modern.js?v=2"></script>
+</body>
 </html>
