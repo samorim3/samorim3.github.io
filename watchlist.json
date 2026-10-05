@@ -192,18 +192,6 @@
     "exDividendDate": "2026-03-31"
   },
   {
-    "ticker": "ADA.XC",
-    "name": "Koninklijke Ahold Delhaize NV",
-    "minBuy": 30,
-    "maxSell": 36.32,
-    "lastPrice": 31.334999084472656,
-    "dgiScore": 68,
-    "dgiVerdict": "Moderate / Neutral",
-    "dividendRate": 1.24,
-    "dividendYield": 3.96,
-    "exDividendDate": "2026-08-07"
-  },
-  {
     "ticker": "AD.AS",
     "name": "Koninklijke Ahold Delhaize N.V.",
     "minBuy": 31,
