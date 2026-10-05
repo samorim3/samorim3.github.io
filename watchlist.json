@@ -182,7 +182,7 @@
   {
     "ticker": "NTDOY",
     "name": "Nintendo Co., Ltd.",
-    "minBuy": 11,
+    "minBuy": 12,
     "maxSell": 14.33,
     "lastPrice": 12.239999771118164,
     "dgiScore": 86,
