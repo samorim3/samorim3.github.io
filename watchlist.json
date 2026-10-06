@@ -182,7 +182,7 @@
   {
     "ticker": "AD.AS",
     "name": "Koninklijke Ahold Delhaize N.V.",
-    "minBuy": 31,
+    "minBuy": 31.5,
     "maxSell": 36.18,
     "lastPrice": 31.57,
     "dgiScore": 68,
