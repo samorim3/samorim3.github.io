@@ -110,7 +110,7 @@
   {
     "ticker": "SAN.PA",
     "name": "Sanofi",
-    "minBuy": 70.5,
+    "minBuy": 70,
     "maxSell": 84.06,
     "lastPrice": 70.61,
     "dgiScore": 77,
