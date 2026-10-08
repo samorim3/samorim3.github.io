@@ -219,7 +219,7 @@
     "ticker": "AMD",
     "name": "Advanced Micro Devices, Inc.",
     "minBuy": 200,
-    "maxSell": 742.74,
+    "maxSell": 700,
     "lastPrice": 645.86,
     "dgiScore": 50,
     "dgiVerdict": "Moderate / Neutral",
