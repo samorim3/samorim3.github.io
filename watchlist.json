@@ -206,7 +206,7 @@
   {
     "ticker": "XTB.WA",
     "name": "XTB",
-    "minBuy": 129.69,
+    "minBuy": 130,
     "maxSell": 157,
     "lastPrice": 136.52,
     "dgiScore": 90,
