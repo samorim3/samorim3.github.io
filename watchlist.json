@@ -207,7 +207,7 @@
     "ticker": "XTB.WA",
     "name": "XTB",
     "minBuy": 130,
-    "maxSell": 157,
+    "maxSell": 200,
     "lastPrice": 136.52,
     "dgiScore": 90,
     "dgiVerdict": "Top Tier DGI (Aristocrat)",
