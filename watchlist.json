@@ -214,5 +214,17 @@
     "dividendRate": 4.07,
     "dividendYield": 2.94,
     "exDividendDate": "2026-06-12"
+  },
+  {
+    "ticker": "AMD",
+    "name": "Advanced Micro Devices, Inc.",
+    "minBuy": 613.57,
+    "maxSell": 742.74,
+    "lastPrice": 645.86,
+    "dgiScore": 50,
+    "dgiVerdict": "Moderate / Neutral",
+    "dividendRate": null,
+    "dividendYield": null,
+    "exDividendDate": null
   }
 ]
