@@ -841,18 +841,18 @@ img {
 }
 
 .contact-cards-grid {
-  display: grid;
-  grid-template-columns: repeat(2, 1fr);
-  gap: 1.5rem;
-  max-width: 650px;
+  display: flex;
+  justify-content: center;
+  max-width: 380px;
   margin: 0 auto;
 }
 
 .contact-card {
+  width: 100%;
   background: var(--bg-card);
   border: 1px solid var(--border-card);
   border-radius: var(--radius-lg);
-  padding: 2rem 1.5rem;
+  padding: 2.25rem 2rem;
   text-align: center;
   transition: var(--transition);
   display: flex;
@@ -984,7 +984,8 @@ img {
     grid-template-columns: 1fr;
   }
   .contact-cards-grid {
-    grid-template-columns: 1fr;
+    width: 100%;
+    max-width: 100%;
   }
   
   .nav-links {
