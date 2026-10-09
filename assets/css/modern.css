@@ -841,14 +841,17 @@ img {
 }
 
 .contact-cards-grid {
-  display: flex;
-  justify-content: center;
-  max-width: 380px;
-  margin: 0 auto;
+  display: flex !important;
+  justify-content: center !important;
+  align-items: center !important;
+  max-width: 380px !important;
+  margin: 0 auto !important;
 }
 
 .contact-card {
-  width: 100%;
+  width: 100% !important;
+  max-width: 380px !important;
+  margin: 0 auto !important;
   background: var(--bg-card);
   border: 1px solid var(--border-card);
   border-radius: var(--radius-lg);
