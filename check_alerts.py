@@ -128,7 +128,7 @@ def calculate_dgi_data(ticker_sym):
     2. Payout Ratio on FCF (<70%)
     3. Net Debt / EBITDA (<3.0x)
     4. 5Y Revenue & Net Income CAGR
-    5. 5Y Dividend CAGR & Chowder Rule
+    5. 5Y Dividend CAGR
     """
     aliases = {
         "GALP": "GALP.LS",
@@ -262,7 +262,7 @@ def calculate_dgi_data(ticker_sym):
     ni_pts = 10.0 if (ni_cagr and ni_cagr >= 0.07) else (7.0 if (ni_cagr and ni_cagr >= 0.03) else (4.0 if (ni_cagr and ni_cagr >= 0) else 0.0))
     p4_score = rev_pts + ni_pts
 
-    # 5. Dividend CAGR & Chowder Rule
+    # 5. Dividend CAGR (5Y)
     div_history = stock.dividends
     dps_cagr_5y = None
     if not div_history.empty:
@@ -278,11 +278,23 @@ def calculate_dgi_data(ticker_sym):
         except Exception:
             pass
 
-    chowder = (div_yield_pct + (dps_cagr_5y * 100.0)) if (dps_cagr_5y is not None and div_yield_pct > 0) else (div_yield_pct if div_yield_pct > 0 else None)
-
-    dps_pts = 10.0 if (dps_cagr_5y and dps_cagr_5y >= 0.07) else (7.0 if (dps_cagr_5y and dps_cagr_5y >= 0.04) else (4.0 if (dps_cagr_5y and dps_cagr_5y >= 0.01) else 0.0))
-    chw_pts = 10.0 if (chowder and chowder >= 12.0) else (7.0 if (chowder and chowder >= 8.0) else (4.0 if (chowder and chowder >= 5.0) else 0.0))
-    p5_score = dps_pts + chw_pts
+    if dps_cagr_5y is not None:
+        if dps_cagr_5y >= 0.08:
+            p5_score = 20.0
+        elif dps_cagr_5y >= 0.06:
+            p5_score = 16.0
+        elif dps_cagr_5y >= 0.04:
+            p5_score = 12.0
+        elif dps_cagr_5y >= 0.02:
+            p5_score = 8.0
+        elif dps_cagr_5y > 0.0:
+            p5_score = 4.0
+        else:
+            p5_score = 0.0
+    elif div_yield_pct >= 4.5:
+        p5_score = 10.0
+    else:
+        p5_score = 0.0
 
     # Ex-Dividend Date
     ex_div_timestamp = info.get('exDividendDate')
@@ -372,7 +384,6 @@ def format_telegram_dgi_card(dgi):
     rev_s = f"{dgi['revenue_cagr_5y']*100:.1f}%" if dgi['revenue_cagr_5y'] is not None else "N/A"
     ni_s = f"{dgi['net_income_cagr_5y']*100:.1f}%" if dgi['net_income_cagr_5y'] is not None else "N/A"
     dps_s = f"{dgi['dps_cagr_5y']*100:.1f}%" if dgi['dps_cagr_5y'] is not None else "N/A"
-    chw_s = f"{dgi['chowder_number']:.1f}%" if dgi['chowder_number'] is not None else "N/A"
     payout_s = f"{dgi['eval_payout']:.1f}%" if dgi['eval_payout'] is not None else "N/A"
     debt_s = f"{dgi['net_debt_ebitda']:.2f}x" if dgi['net_debt_ebitda'] is not None else "Net Cash"
 
@@ -388,7 +399,7 @@ def format_telegram_dgi_card(dgi):
         f"• 2. *Payout ({dgi['payout_lbl']}):* `{payout_s}` ({dgi['p2_score']:.0f}/20 pts)\n"
         f"• 3. *Debt/EBITDA:* `{debt_s}` ({dgi['p3_score']:.0f}/20 pts)\n"
         f"• 4. *5Y Growth:* Rev `{rev_s}` | Net Inc `{ni_s}` ({dgi['p4_score']:.0f}/20 pts)\n"
-        f"• 5. *Div Growth & Chowder:* Div `{dps_s}` | Chowder `{chw_s}` ({dgi['p5_score']:.0f}/20 pts)\n"
+        f"• 5. *Div Growth (5Y CAGR):* `{dps_s}` ({dgi['p5_score']:.0f}/20 pts)\n"
         f"━━━━━━━━━━━━━━━━━━━━━\n"
         f"💡 _{dgi['verdict_summary']}_"
     )
@@ -588,7 +599,7 @@ def main():
             dgi_info_str = (
                 f"\n🏆 *DGI Score:* `{dgi_data['total_score']:.0f}/100` {dgi_data['verdict_icon']}\n"
                 f"• 💰 *Dividendo:* `{div_str} / ação` (`{dgi_data['dividend_yield_pct']:.2f}%`) | *Ex-Div:* `{ex_str}`\n"
-                f"• Payout ({dgi_data['payout_lbl']}): `{dgi_data['eval_payout'] or 0:.1f}%` | Chowder: `{dgi_data['chowder_number'] or 0:.1f}%`"
+                f"• Payout ({dgi_data['payout_lbl']}): `{dgi_data['eval_payout'] or 0:.1f}%` | Div Growth (5y): `{dgi_data.get('dps_cagr_5y', 0)*100 if dgi_data.get('dps_cagr_5y') is not None else 0:.1f}%`"
             )
 
         print(f"Stock: {ticker_symbol} ({name}) | Current = {price:.2f} | Buy Target = {min_buy:.2f} | Sell Target = {max_sell:.2f} | DGI Score = {item.get('dgiScore', 'N/D')} | Div = {item.get('dividendRate', 'N/D')}")

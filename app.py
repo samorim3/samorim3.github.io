@@ -130,7 +130,6 @@ def send_telegram_dgi_alert(data, token=None, chat_id=None):
     rev_s = f"{data['revenue_cagr_5y']*100:.1f}%" if data['revenue_cagr_5y'] is not None else "N/D"
     ni_s = f"{data['net_income_cagr_5y']*100:.1f}%" if data['net_income_cagr_5y'] is not None else "N/D"
     dps_s = f"{data['dps_cagr_5y']*100:.1f}%" if data['dps_cagr_5y'] is not None else "N/D"
-    chw_s = f"{data['chowder_number']:.1f}%" if data['chowder_number'] is not None else "N/D"
     payout_s = f"{s['p2_payout']['val']:.1f}%" if s['p2_payout']['val'] is not None else "N/D"
     debt_s = f"{data['net_debt_ebitda']:.2f}x" if data['net_debt_ebitda'] is not None else "Caixa Líq."
 
@@ -145,7 +144,7 @@ def send_telegram_dgi_alert(data, token=None, chat_id=None):
         f"• 2. *Payout ({s['p2_payout']['metric']}):* `{payout_s}` ({s['p2_payout']['score']:.0f}/20 pts)\n"
         f"• 3. *Dívida/EBITDA:* `{debt_s}` ({s['p3_leverage']['score']:.0f}/20 pts)\n"
         f"• 4. *Cresc. Operac. (5y):* Rev `{rev_s}` | Lucro `{ni_s}` ({s['p4_growth']['score']:.0f}/20 pts)\n"
-        f"• 5. *Cresc. Div. & Chowder:* Div `{dps_s}` | Chowder `{chw_s}` ({s['p5_chowder']['score']:.0f}/20 pts)\n"
+        f"• 5. *Cresc. Dividendo (5y):* `{dps_s}` ({s.get('p5_growth', s.get('p5_chowder', {})).get('score', 0):.0f}/20 pts)\n"
         f"━━━━━━━━━━━━━━━━━━━━━\n"
         f"💡 _{data['verdict_summary']}_"
     )
@@ -355,7 +354,7 @@ def analyze_company(ticker_sym):
     p4_status = f"Receita: {rev_display} | Lucro: {ni_display}"
     p4_desc = "Crescimento anual composto recente de receitas e lucros da empresa."
 
-    # 5. PILAR 5: CRESCIMENTO DO DIVIDENDO & REGRA DE CHOWDER
+    # 5. PILAR 5: CRESCIMENTO DO DIVIDENDO (5Y CAGR)
     div_history = stock.dividends
     dps_cagr_5y = None
     dps_cagr_3y = None
@@ -376,15 +375,28 @@ def analyze_company(ticker_sym):
         except Exception:
             pass
 
-    chowder = (div_yield_pct + (dps_cagr_5y * 100.0)) if (dps_cagr_5y is not None and div_yield_pct > 0) else (div_yield_pct if div_yield_pct > 0 else None)
-    dps_pts = 10.0 if (dps_cagr_5y and dps_cagr_5y >= 0.07) else (7.0 if (dps_cagr_5y and dps_cagr_5y >= 0.04) else (4.0 if (dps_cagr_5y and dps_cagr_5y >= 0.01) else (5.0 if div_yield_pct > 4.0 else 0.0)))
-    chw_pts = 10.0 if (chowder and chowder >= 12.0) else (7.0 if (chowder and chowder >= 8.0) else (4.0 if (chowder and chowder >= 5.0) else 0.0))
-    p5_score = dps_pts + chw_pts
+    # Pontuação direta pelo Crescimento do Dividendo (20 pts)
+    if dps_cagr_5y is not None:
+        if dps_cagr_5y >= 0.08:
+            p5_score = 20.0
+        elif dps_cagr_5y >= 0.06:
+            p5_score = 16.0
+        elif dps_cagr_5y >= 0.04:
+            p5_score = 12.0
+        elif dps_cagr_5y >= 0.02:
+            p5_score = 8.0
+        elif dps_cagr_5y > 0.0:
+            p5_score = 4.0
+        else:
+            p5_score = 0.0
+    elif div_yield_pct >= 4.5:
+        p5_score = 10.0
+    else:
+        p5_score = 0.0
 
     dps_display = f"{dps_cagr_5y*100:.1f}%" if dps_cagr_5y is not None else "N/D"
-    chowder_display = f"{chowder:.1f}%" if chowder is not None else "N/D"
-    p5_status = f"CAGR Div: {dps_display} | Chowder: {chowder_display}"
-    p5_desc = "Crescimento de proventos a 5 anos e pontuação combinada da Regra de Chowder."
+    p5_status = f"CAGR Div 5y: {dps_display}"
+    p5_desc = "Crescimento anual composto dos proventos nos últimos 5 anos."
 
     # SCORE FINAL
     total_score = round(p1_score + p2_score + p3_score + p4_score + p5_score, 1)
@@ -441,7 +453,6 @@ def analyze_company(ticker_sym):
         'eps_payout_pct': eps_payout,
         'dps_cagr_5y': dps_cagr_5y,
         'dps_cagr_3y': dps_cagr_3y,
-        'chowder_number': chowder,
         'revenue_cagr_5y': rev_cagr_5y,
         'net_income_cagr_5y': ni_cagr_5y,
         'annual_divs': annual_divs,
@@ -452,7 +463,8 @@ def analyze_company(ticker_sym):
             'p2_payout': {'score': p2_score, 'max': 20, 'status': p2_status, 'desc': p2_desc, 'val': eval_payout, 'metric': payout_metric_used},
             'p3_leverage': {'score': p3_score, 'max': 20, 'status': p3_status, 'desc': p3_desc, 'val': net_debt_ebitda},
             'p4_growth': {'score': p4_score, 'max': 20, 'status': p4_status, 'desc': p4_desc, 'rev_cagr': rev_cagr_5y, 'ni_cagr': ni_cagr_5y},
-            'p5_chowder': {'score': p5_score, 'max': 20, 'status': p5_score, 'desc': p5_desc, 'dps_cagr': dps_cagr_5y, 'chowder': chowder},
+            'p5_growth': {'score': p5_score, 'max': 20, 'status': p5_status, 'desc': p5_desc, 'dps_cagr': dps_cagr_5y},
+            'p5_chowder': {'score': p5_score, 'max': 20, 'status': p5_status, 'desc': p5_desc, 'dps_cagr': dps_cagr_5y},
         },
         'verdict': verdict,
         'verdict_badge': verdict_badge,
@@ -488,7 +500,7 @@ st.sidebar.markdown('''
 * 🛡️ **2. Sustentabilidade**: Payout s/ FCF < 70%
 * 🏦 **3. Solidez & Alavancagem**: Dívida Líq./EBITDA < 3.0x
 * 📈 **4. Crescimento Operacional**: CAGR Receita e Lucro
-* 👑 **5. Crescimento do Dividendo**: CAGR 5y & Chowder
+* 👑 **5. Crescimento do Dividendo**: CAGR 5y consistente
 ''')
 
 st.sidebar.caption("Integrado com o sistema de alertas do Telegram e Yahoo Finance.")
@@ -569,8 +581,8 @@ if ticker_input:
             leverage_val = data['net_debt_ebitda']
             m3.metric("Dívida Líq./EBITDA", f"{leverage_val:.2f}x" if leverage_val is not None else "N/D")
             
-            chowder_val = data['chowder_number']
-            m4.metric("Regra de Chowder", f"{chowder_val:.1f}%" if chowder_val is not None else "N/D")
+            cagr_div_val = data['dps_cagr_5y']
+            m4.metric("Crescimento Div. (5y)", f"{cagr_div_val*100:.1f}%" if cagr_div_val is not None else "N/D")
 
         st.markdown("---")
 
@@ -578,12 +590,13 @@ if ticker_input:
         st.subheader("🎯 Avaliação dos 5 Pilares DGI")
         
         p_cols = st.columns(5)
+        dps_val = data['dps_cagr_5y']
         pillars_info = [
             ("1. Dividend Yield", data['scores']['p1_yield'], "🎯", f"{data['dividend_yield_pct']:.2f}%"),
             ("2. Sustentabilidade FCF", data['scores']['p2_payout'], "🛡️", f"{data['scores']['p2_payout']['val']:.1f}%" if data['scores']['p2_payout']['val'] is not None else "N/D"),
             ("3. Solidez / Balanço", data['scores']['p3_leverage'], "🏦", f"{data['net_debt_ebitda']:.2f}x" if data['net_debt_ebitda'] is not None else "Caixa Líq."),
             ("4. Cresc. Operacional", data['scores']['p4_growth'], "📈", f"Rev: {data['scores']['p4_growth']['rev_cagr']*100:.1f}%" if data['scores']['p4_growth']['rev_cagr'] else "N/D"),
-            ("5. Div. CAGR & Chowder", data['scores']['p5_chowder'], "👑", f"Chowder: {data['chowder_number']:.1f}%" if data['chowder_number'] else "N/D")
+            ("5. Crescimento Div.", data['scores'].get('p5_growth', data['scores'].get('p5_chowder')), "👑", f"CAGR: {dps_val*100:.1f}%" if dps_val is not None else "N/D")
         ]
 
         for i, (title, p_data, icon, main_metric) in enumerate(pillars_info):
@@ -620,14 +633,14 @@ if ticker_input:
                     '2. Sustentabilidade FCF',
                     '3. Solidez / Balanço',
                     '4. Cresc. Operacional',
-                    '5. Div. CAGR & Chowder'
+                    '5. Crescimento Div.'
                 ]
                 scores_list = [
                     data['scores']['p1_yield']['score'],
                     data['scores']['p2_payout']['score'],
                     data['scores']['p3_leverage']['score'],
                     data['scores']['p4_growth']['score'],
-                    data['scores']['p5_chowder']['score']
+                    data['scores'].get('p5_growth', data['scores'].get('p5_chowder'))['score']
                 ]
                 
                 fig_radar = go.Figure()
@@ -671,8 +684,7 @@ if ticker_input:
                     ("Alavancagem Controlada (Dívida Líq./EBITDA < 3.0x)", (data['net_debt_ebitda'] is None or data['net_debt_ebitda'] <= 3.0), f"{data['net_debt_ebitda']:.2f}x" if data['net_debt_ebitda'] is not None else "Caixa Líq."),
                     ("Crescimento de Receita 5 Anos Positivo", (data['revenue_cagr_5y'] is not None and data['revenue_cagr_5y'] > 0), f"{data['revenue_cagr_5y']*100:.1f}%" if data['revenue_cagr_5y'] else "N/D"),
                     ("Crescimento de Lucro Líquido 5 Anos Positivo", (data['net_income_cagr_5y'] is not None and data['net_income_cagr_5y'] > 0), f"{data['net_income_cagr_5y']*100:.1f}%" if data['net_income_cagr_5y'] else "N/D"),
-                    ("CAGR Dividendos 5 Anos >= 5%", (data['dps_cagr_5y'] is not None and data['dps_cagr_5y'] >= 0.05), f"{data['dps_cagr_5y']*100:.1f}%" if data['dps_cagr_5y'] else "N/D"),
-                    ("Regra de Chowder >= 10% (Yield + Div CAGR)", (data['chowder_number'] is not None and data['chowder_number'] >= 10.0), f"{data['chowder_number']:.1f}%" if data['chowder_number'] else "N/D")
+                    ("CAGR Dividendos 5 Anos >= 5%", (data['dps_cagr_5y'] is not None and data['dps_cagr_5y'] >= 0.05), f"{data['dps_cagr_5y']*100:.1f}%" if data['dps_cagr_5y'] else "N/D")
                 ]
 
                 for label, passed, val_text in checklist:
@@ -685,9 +697,9 @@ if ticker_input:
                     </div>
                     ''', unsafe_allow_html=True)
 
-        # TAB 2: HISTÓRICO DE DIVIDENDOS & CHOWDER
+        # TAB 2: HISTÓRICO DE DIVIDENDOS
         with tab_divs:
-            st.markdown("#### 💰 Histórico de Dividendos por Ação & Regra de Chowder")
+            st.markdown("#### 💰 Histórico & Crescimento de Dividendos por Ação")
             
             annual_divs = data['annual_divs']
             if not annual_divs.empty:
@@ -718,20 +730,11 @@ if ticker_input:
                     st.markdown("##### 📌 Métricas de Dividend Growth")
                     cagr_5y_str = f"{data['dps_cagr_5y']*100:.2f}%" if data['dps_cagr_5y'] is not None else "N/D"
                     cagr_3y_str = f"{data['dps_cagr_3y']*100:.2f}%" if data['dps_cagr_3y'] is not None else "N/D"
-                    chowder_str = f"{data['chowder_number']:.2f}%" if data['chowder_number'] is not None else "N/D"
 
                     st.markdown(f'''
                     * **Dividend Yield Atual:** `{data['dividend_yield_pct']:.2f}%`
                     * **CAGR Dividendos (3 Anos):** `{cagr_3y_str}`
                     * **CAGR Dividendos (5 Anos):** `{cagr_5y_str}`
-                    * **Número de Chowder:** `{chowder_str}`
-                    ''')
-                    
-                    st.info('''
-                    **Como interpretar a Regra de Chowder:**
-                    * **Yield < 3%**: Requer Chowder >= 15% (alto crescimento).
-                    * **Yield >= 3%**: Requer Chowder >= 12% (equilíbrio ótimo).
-                    * **Utilities / REITs (Yield > 4.5%)**: Requer Chowder >= 8%.
                     ''')
             else:
                 st.warning("Não foram encontrados registos históricos de dividendos para esta empresa.")
@@ -798,7 +801,6 @@ if ticker_input:
                 {"Métrica": "Payout Ratio (FCF)", "Valor": f"{data['fcf_payout_pct']:.2f}%" if data['fcf_payout_pct'] is not None else "N/D", "Categoria": "Dividendos"},
                 {"Métrica": "Payout Ratio (EPS)", "Valor": f"{data['eps_payout_pct']:.2f}%" if data['eps_payout_pct'] is not None else "N/D", "Categoria": "Dividendos"},
                 {"Métrica": "CAGR Dividendos 5 Anos", "Valor": f"{data['dps_cagr_5y']*100:.2f}%" if data['dps_cagr_5y'] is not None else "N/D", "Categoria": "Dividendos"},
-                {"Métrica": "Número de Chowder", "Valor": f"{data['chowder_number']:.2f}%" if data['chowder_number'] is not None else "N/D", "Categoria": "Dividendos"},
                 {"Métrica": "Dívida Líquida / EBITDA", "Valor": f"{data['net_debt_ebitda']:.2f}x" if data['net_debt_ebitda'] is not None else "N/D", "Categoria": "Solidez"},
                 {"Métrica": "CAGR Receita (5 Anos)", "Valor": f"{data['revenue_cagr_5y']*100:.2f}%" if data['revenue_cagr_5y'] is not None else "N/D", "Categoria": "Crescimento"},
                 {"Métrica": "CAGR Lucro Líquido (5 Anos)", "Valor": f"{data['net_income_cagr_5y']*100:.2f}%" if data['net_income_cagr_5y'] is not None else "N/D", "Categoria": "Crescimento"},

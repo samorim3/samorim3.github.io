@@ -532,8 +532,8 @@
 														<div id="dgiQuickDebt" style="font-size: 0.9rem; font-weight: 800; color: #0f172a; margin-top: 0.1rem;">--</div>
 													</div>
 													<div style="background: #ffffff; border: 1px solid #e2e8f0; padding: 0.4rem; border-radius: 8px;">
-														<div style="font-size: 0.65rem; color: #64748b; font-weight: 700; text-transform: uppercase;">Chowder</div>
-														<div id="dgiQuickChowder" style="font-size: 0.9rem; font-weight: 800; color: #0f172a; margin-top: 0.1rem;">--</div>
+														<div style="font-size: 0.65rem; color: #64748b; font-weight: 700; text-transform: uppercase;">Div Growth</div>
+														<div id="dgiQuickDivGrowth" style="font-size: 0.9rem; font-weight: 800; color: #0f172a; margin-top: 0.1rem;">--</div>
 													</div>
 												</div>
 											</div>
@@ -593,13 +593,13 @@
 
 											<!-- Pillar 5 -->
 											<div class="dgi-pillar-card" style="padding: 0.9rem;">
-												<div style="font-size: 0.72rem; font-weight: 700; color: #475569; text-transform: uppercase;">5. Div Growth & Chowder</div>
+												<div style="font-size: 0.72rem; font-weight: 700; color: #475569; text-transform: uppercase;">5. Dividend Growth</div>
 												<div style="display: flex; justify-content: space-between; align-items: baseline; margin: 0.25rem 0 0.1rem 0;">
 													<div id="p5Score" style="font-size: 1.15rem; font-weight: 800; color: #0f172a;">-- <span style="font-size: 0.72rem; color: #94a3b8;">/20</span></div>
 													<div id="p5Metric" style="font-size: 0.85rem; font-weight: 700; color: #475569;">--</div>
 												</div>
 												<div class="dgi-progress-bar"><div id="p5Progress" class="dgi-progress-fill" style="width: 0%;"></div></div>
-												<div id="p5Desc" style="font-size: 0.7rem; color: #64748b; margin-top: 0.35rem; line-height: 1.3;">Consistent annual dividend increases and solid Chowder rule.</div>
+												<div id="p5Desc" style="font-size: 0.7rem; color: #64748b; margin-top: 0.35rem; line-height: 1.3;">Consistent 5-year dividend growth CAGR.</div>
 											</div>
 										</div>
 
@@ -757,7 +757,7 @@
 												<select id="marketSortFilter" onchange="onMarketFilterChange()" style="padding: 0.45rem 0.75rem; font-size: 0.8rem; font-weight: 600; border-radius: 6px; border: 1px solid #cbd5e1; background: #ffffff; color: #0f172a;">
 													<option value="score">Sort: DGI Score (High to Low)</option>
 													<option value="yield">Sort: Dividend Yield (High to Low)</option>
-													<option value="chowder">Sort: Chowder Rule (High to Low)</option>
+													<option value="growth">Sort: 5Y Div Growth (High to Low)</option>
 													<option value="pe">Sort: P/E Ratio (Low to High)</option>
 													<option value="roic">Sort: ROIC (High to Low)</option>
 												</select>
@@ -776,7 +776,7 @@
 														<th style="padding: 0.6rem 0.4rem; text-align: center;">Div. Yield</th>
 														<th style="padding: 0.6rem 0.4rem; text-align: center;">FCF Payout</th>
 														<th style="padding: 0.6rem 0.4rem; text-align: center;">Net Debt/EBITDA</th>
-														<th style="padding: 0.6rem 0.4rem; text-align: center;">Chowder</th>
+														<th style="padding: 0.6rem 0.4rem; text-align: center;">5Y Div CAGR</th>
 														<th style="padding: 0.6rem 0.4rem; text-align: center; width: 140px;">Actions</th>
 													</tr>
 												</thead>
@@ -824,7 +824,7 @@
 											<div style="background: #ffffff; border: 1px solid #e2e8f0; border-radius: 12px; padding: 1.25rem;">
 												<h4 style="font-size: 0.95rem; font-weight: 700; color: #0f172a; margin-bottom: 0.5rem;">📊 Institutional-Grade DGI Screener</h4>
 												<ul style="font-size: 0.82rem; color: #475569; line-height: 1.55; padding-left: 1rem; margin: 0;">
-													<li><strong>5-Pillar Score (0–100):</strong> Yield, FCF Coverage, Solvency (Net Debt/EBITDA &lt; 3x), Operational Growth (Revenue/Net Income CAGR), and the Chowder Rule.</li>
+													<li><strong>5-Pillar Score (0–100):</strong> Yield, FCF Coverage, Solvency (Net Debt/EBITDA &lt; 3x), Operational Growth (Revenue/Net Income CAGR), and Dividend Growth (5Y CAGR).</li>
 													<li><strong>Ordinary vs. Extraordinary Dividends:</strong> One-off special dividends are isolated from core metrics (yield, payout, 5Y CAGR), preventing cyclical windfalls from masquerading as aristocrats.</li>
 													<li><strong>Quality Multiples:</strong> Integrates Return on Invested Capital (ROIC &gt; 10%), Operating Margins (&gt; 12%), and 5-Year Share Count Evolution (rewarding buybacks vs. dilution).</li>
 												</ul>
@@ -900,7 +900,8 @@
 					document.getElementById('dgiQuickYield').innerText = '—';
 					document.getElementById('dgiQuickPayout').innerText = '—';
 					document.getElementById('dgiQuickDebt').innerText = '—';
-					document.getElementById('dgiQuickChowder').innerText = '—';
+					const qgEl = document.getElementById('dgiQuickDivGrowth');
+					if (qgEl) qgEl.innerText = '—';
 
 					for (let i = 1; i <= 5; i++) {
 						const scoreEl = document.getElementById('p' + i + 'Score');
@@ -1298,9 +1299,6 @@
 							}
 						}
 
-						// Chowder Rule based strictly on Ordinary Yield + Ordinary 5Y Div CAGR!
-						const chowderOrd = ordYield + (divCagr5yOrd > 0 ? divCagr5yOrd : 0);
-
 						// Pillar 1: Evaluated on Ordinary Dividend Yield (2.5% - 6.0%)
 						let p1 = 0;
 						if (ordYield >= 2.5 && ordYield <= 6.0) p1 = 20;
@@ -1345,10 +1343,14 @@
 						}
 						p4 = revPts + niPts;
 
-						// Pillar 5: Dividend CAGR & Chowder Rule (Ordinary)
-						let dpsPts = divCagr5yOrd >= 7 ? 10 : (divCagr5yOrd >= 4 ? 7 : (divCagr5yOrd >= 1 ? 4 : (ordYield > 4 ? 5 : 0)));
-						let chwPts = chowderOrd >= 12 ? 10 : (chowderOrd >= 8 ? 7 : (chowderOrd >= 5 ? 4 : 0));
-						let p5 = dpsPts + chwPts;
+						// Pillar 5: Dividend Growth (5Y Ordinary Dividend CAGR)
+						let p5 = 0;
+						if (divCagr5yOrd >= 8.0) p5 = 20;
+						else if (divCagr5yOrd >= 6.0) p5 = 16;
+						else if (divCagr5yOrd >= 4.0) p5 = 12;
+						else if (divCagr5yOrd >= 2.0) p5 = 8;
+						else if (divCagr5yOrd > 0.0) p5 = 4;
+						else if (ordYield >= 4.5) p5 = 10;
 
 						const hasFund = (fund.pe != null || fund.fcfPayout != null || fund.netDebtEbitda != null);
 						const totalScore = hasFund ? (p1 + p2 + p3 + p4 + p5) : (p1 + p5);
@@ -1374,7 +1376,8 @@
 							const debtStr = fund.netDebtEbitda != null ? (fund.netDebtEbitda <= 0 ? 'Net Cash' : fund.netDebtEbitda.toFixed(2) + 'x') : '—';
 							const roicStr = fund.roic != null ? fund.roic.toFixed(1) + '%' : '—';
 							const extraStr = extraDivRate > 0 ? ` (+${symChar}${extraDivRate.toFixed(2)} Extraordinary Div)` : '';
-							summaryText = `${name}: DGI Score of ${totalScore.toFixed(0)}/100. P/E of ${peStr}, ROIC of ${roicStr}, Ordinary FCF Payout of ${fcfStr}, Net Debt/EBITDA of ${debtStr}, and Ordinary Chowder of ${chowderOrd.toFixed(1)}%${extraStr}.`;
+							const divGrowthStr = (divCagr5yOrd != null && divCagr5yOrd !== 0) ? `5Y Div CAGR of ${divCagr5yOrd.toFixed(1)}%` : 'stable dividend record';
+							summaryText = `${name}: DGI Score of ${totalScore.toFixed(0)}/100. P/E of ${peStr}, ROIC of ${roicStr}, Ordinary FCF Payout of ${fcfStr}, Net Debt/EBITDA of ${debtStr}, and ${divGrowthStr}${extraStr}.`;
 						}
 
 						const dynamicData = {
@@ -1408,7 +1411,6 @@
 							niCagr5y: fund.niCagr5y !== undefined ? fund.niCagr5y : null,
 							sharesChange5y: fund.sharesChange5y !== undefined ? fund.sharesChange5y : null,
 							divCagr5y: divCagr5yOrd,
-							chowder: chowderOrd,
 							divHistory: divHistory,
 							scores: { p1: p1, p2: hasFund ? p2 : null, p3: hasFund ? p3 : null, p4: hasFund ? p4 : null, p5: p5, total: totalScore },
 							verdict: verdict,
@@ -1497,8 +1499,8 @@
 						const qd = document.getElementById('dgiQuickDebt');
 						if (qd) qd.innerText = (data.netDebtEbitda != null ? data.netDebtEbitda.toFixed(2) + 'x' : '—');
 						
-						const qc = document.getElementById('dgiQuickChowder');
-						if (qc) qc.innerText = (data.chowder != null ? data.chowder.toFixed(1) + '%' : '—');
+						const qg = document.getElementById('dgiQuickDivGrowth');
+						if (qg) qg.innerText = (data.divCagr5y != null ? data.divCagr5y.toFixed(1) + '%' : '—');
 
 						// 5 Pillar Cards
 						const setPillar = (idNum, scoreVal, metricText, progressPct) => {
@@ -1514,7 +1516,7 @@
 						setPillar(2, s.p2, (data.fcfPayout != null ? data.fcfPayout.toFixed(1) + '%' : '—'), (s.p2 != null ? (s.p2 / 20) * 100 : 0));
 						setPillar(3, s.p3, (data.netDebtEbitda != null ? data.netDebtEbitda.toFixed(2) + 'x' : '—'), (s.p3 != null ? (s.p3 / 20) * 100 : 0));
 						setPillar(4, s.p4, (data.revCagr5y != null ? 'Rev: ' + data.revCagr5y.toFixed(1) + '%' : '—'), (s.p4 != null ? (s.p4 / 20) * 100 : 0));
-						setPillar(5, s.p5, (data.chowder != null ? 'Chowder ' + data.chowder.toFixed(1) + '%' : '—'), (s.p5 != null ? (s.p5 / 20) * 100 : 0));
+						setPillar(5, s.p5, (data.divCagr5y != null ? 'CAGR ' + data.divCagr5y.toFixed(1) + '%' : '—'), (s.p5 != null ? (s.p5 / 20) * 100 : 0));
 
 						// Render Charts & Table safely
 						try { renderDgiRadar(data); } catch(e) { console.warn("Radar Chart Error:", e); }
@@ -1533,7 +1535,7 @@
 						radarChartInstance.destroy();
 					}
 
-					const labels = ['1. Dividend Yield', '2. FCF Coverage', '3. Balance Sheet', '4. Operational Growth', '5. Div Growth & Chowder'];
+					const labels = ['1. Dividend Yield', '2. FCF Coverage', '3. Balance Sheet', '4. Operational Growth', '5. Dividend Growth'];
 					const s = data.scores;
 					const values = [s.p1 || 0, s.p2 || 0, s.p3 || 0, s.p4 || 0, s.p5 || 0];
 
@@ -1693,7 +1695,6 @@
 						{ name: "Dividend Yield (Ordinary)", val: yldVal, target: "2.0% - 6.0%", pass: yldPass },
 						{ name: "Payout Ratio (FCF Ordinary)", val: fcfVal, target: "< 70.0%", pass: fcfPass },
 						{ name: "5Y Dividend CAGR (Ordinary)", val: (data.divCagr5y != null) ? data.divCagr5y.toFixed(1) + "%" : "—", target: "> 5.0%/yr", pass: (data.divCagr5y != null && data.divCagr5y >= 5.0) },
-						{ name: "Chowder Number (Ord. Yield + Div CAGR)", val: (data.chowder != null) ? data.chowder.toFixed(1) + "%" : "—", target: ">= 10.0%", pass: (data.chowder != null && data.chowder >= 10.0) },
 						{ name: "Extraordinary Dividends (LTM)", val: extraVal, target: "Informative only", badge: extraBadge },
 						{ name: "Net Debt / EBITDA", val: debtVal, target: "< 3.0x", pass: debtPass },
 						{ name: "5Y Revenue CAGR", val: (data.revCagr5y != null) ? data.revCagr5y.toFixed(1) + "%" : "—", target: "> 5.0%/yr", pass: (data.revCagr5y != null && data.revCagr5y >= 5.0) },
@@ -1754,7 +1755,7 @@
 								"• 2. *Ord. FCF Payout:* `" + fcfText + "` (" + (s.p2 != null ? s.p2.toFixed(0) : '—') + "/20 pts)\n" +
 								"• 3. *Net Debt/EBITDA:* `" + debtText + "` (" + (s.p3 != null ? s.p3.toFixed(0) : '—') + "/20 pts)\n" +
 								"• 4. *5Y Growth:* Rev `" + revText + "` | Net Inc `" + niText + "` (" + (s.p4 != null ? s.p4.toFixed(0) : '—') + "/20 pts)\n" +
-								"• 5. *Div CAGR & Chowder:* Div `" + (d.divCagr5y != null ? d.divCagr5y.toFixed(1) + '%' : '—') + "` | Chowder `" + (d.chowder != null ? d.chowder.toFixed(1) + '%' : '—') + "` (" + (s.p5 != null ? s.p5.toFixed(0) : '—') + "/20 pts)\n" +
+								"• 5. *Div Growth (5Y CAGR):* `" + (d.divCagr5y != null ? d.divCagr5y.toFixed(1) + '%' : '—') + "` (" + (s.p5 != null ? s.p5.toFixed(0) : '—') + "/20 pts)\n" +
 								(d.extraDivRate > 0 ? "• ℹ️ *Extraordinary Div (LTM):* `+" + d.symbol + d.extraDivRate.toFixed(2) + " (" + d.extraDivYield.toFixed(2) + "%)`\n" : "") +
 								"━━━━━━━━━━━━━━━━━━━━━\n" +
 								"💡 _" + (d.summary || '') + "_";
@@ -2266,7 +2267,7 @@
 					filteredMarketRankings.sort((a, b) => {
 						if (sortVal === 'score') return (b.dgiScore || 0) - (a.dgiScore || 0);
 						if (sortVal === 'yield') return (b.divYield || 0) - (a.divYield || 0);
-						if (sortVal === 'chowder') return (b.chowder || 0) - (a.chowder || 0);
+						if (sortVal === 'growth') return (b.divCagr5y || 0) - (a.divCagr5y || 0);
 						if (sortVal === 'pe') return (a.pe || 999) - (b.pe || 999);
 						if (sortVal === 'roic') return (b.roic || 0) - (a.roic || 0);
 						return 0;
@@ -2321,7 +2322,7 @@
 						const priceStr = formatPriceWithCurrency(item.price, item.symChar || '$');
 						const debtStr = item.netDebtEbitda != null ? (item.netDebtEbitda <= 0 ? 'Net Cash' : item.netDebtEbitda.toFixed(2) + 'x') : '—';
 						const payoutStr = item.fcfPayout != null ? item.fcfPayout.toFixed(1) + '%' : (item.epsPayout != null ? item.epsPayout.toFixed(1) + '% (EPS)' : '—');
-						const chowderStr = item.chowder != null ? item.chowder.toFixed(1) + '%' : '—';
+						const growthStr = item.divCagr5y != null ? item.divCagr5y.toFixed(1) + '%' : '—';
 
 						tr.innerHTML = `
 							<td style="padding: 0.6rem 0.5rem; text-align: center; color: #94a3b8; font-weight: 700;">${idx + 1}</td>
@@ -2338,7 +2339,7 @@
 							<td style="padding: 0.6rem 0.4rem; text-align: center; font-weight: 700; color: #059669;">${item.divYield ? item.divYield.toFixed(2) + '%' : '—'}</td>
 							<td style="padding: 0.6rem 0.4rem; text-align: center; color: #334155;">${payoutStr}</td>
 							<td style="padding: 0.6rem 0.4rem; text-align: center; color: #334155;">${debtStr}</td>
-							<td style="padding: 0.6rem 0.4rem; text-align: center; font-weight: 600; color: #0f172a;">${chowderStr}</td>
+							<td style="padding: 0.6rem 0.4rem; text-align: center; font-weight: 600; color: #0f172a;">${growthStr}</td>
 							<td style="padding: 0.6rem 0.4rem; text-align: center; white-space: nowrap;">
 								<div style="display: inline-flex; gap: 0.25rem;">
 									<button type="button" class="btn-sober btn-secondary btn-sm" style="padding: 0.25rem 0.45rem; font-size: 0.7rem;" onclick="inspectMarketStock('${item.ticker}')" title="Deep DGI Analysis">Inspect</button>

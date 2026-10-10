@@ -140,7 +140,7 @@ def analyze_company(item):
     margin_pts = 10.0 if margin >= 15.0 else (7.0 if margin >= 10.0 else (4.0 if margin >= 5.0 else 0.0))
     p4 = roic_pts + margin_pts
 
-    # 5. Dividend CAGR 5Y, Chowder & Shareholder Returns
+    # 5. Dividend Growth (5Y CAGR)
     div_cagr_5y = None
     try:
         divs = stock.dividends
@@ -158,16 +158,20 @@ def analyze_company(item):
     if div_cagr_5y is None:
         div_cagr_5y = 5.0  # conservative baseline
 
-    chowder = round(div_yield_pct + div_cagr_5y, 1)
-
-    if chowder >= 12.0 and div_cagr_5y >= 5.0:
+    if div_cagr_5y >= 8.0:
         p5 = 20.0
-    elif chowder >= 10.0 or div_cagr_5y >= 4.0:
+    elif div_cagr_5y >= 6.0:
         p5 = 16.0
-    elif chowder >= 7.0 or div_cagr_5y >= 2.0:
-        p5 = 11.0
+    elif div_cagr_5y >= 4.0:
+        p5 = 12.0
+    elif div_cagr_5y >= 2.0:
+        p5 = 8.0
+    elif div_cagr_5y > 0.0:
+        p5 = 4.0
+    elif div_yield_pct >= 4.5:
+        p5 = 10.0
     else:
-        p5 = 5.0
+        p5 = 0.0
 
     total_score = round(p1 + p2 + p3 + p4 + p5)
 
@@ -262,8 +266,8 @@ def run_screener(limit=None):
             except Exception as e:
                 pass
 
-    # Sort descending by DGI Score, then by Chowder Rule
-    results.sort(key=lambda x: (x["dgiScore"], x["chowder"]), reverse=True)
+    # Sort descending by DGI Score, then by 5Y Dividend Growth
+    results.sort(key=lambda x: (x["dgiScore"], x.get("divCagr5y") or 0), reverse=True)
 
     output_data = {
         "updatedAt": time.strftime("%Y-%m-%d %H:%M:%S UTC", time.gmtime()),
@@ -284,7 +288,7 @@ def run_screener(limit=None):
     if results:
         print("\nTop 5 DGI Leaders:")
         for r in results[:5]:
-            print(f" - {r['name']} ({r['ticker']}): Score {r['dgiScore']}/100 | Yield {r['divYield']}% | Chowder {r['chowder']}%")
+            print(f" - {r['name']} ({r['ticker']}): Score {r['dgiScore']}/100 | Yield {r['divYield']}% | 5Y Div CAGR {r.get('divCagr5y')}%")
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(description="Run Western DGI Screener")
