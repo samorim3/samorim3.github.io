@@ -228,10 +228,11 @@ img {
    HERO SECTION
    ========================================================================== */
 .hero {
-  padding-top: calc(var(--header-height) + 4rem);
-  padding-bottom: 4rem;
+  padding-top: calc(var(--header-height) + 2rem);
+  padding-bottom: 1rem;
   position: relative;
   overflow: hidden;
+  text-align: left;
 }
 
 .hero-glow-bg {
@@ -250,7 +251,8 @@ img {
 .hero-inner {
   position: relative;
   z-index: 1;
-  max-width: 860px;
+  max-width: 100%;
+  text-align: left;
 }
 
 .status-badge {
@@ -286,7 +288,8 @@ img {
   font-weight: 800;
   line-height: 1.15;
   letter-spacing: -0.03em;
-  margin-bottom: 1rem;
+  margin-bottom: 0.85rem;
+  text-align: left;
 }
 
 .gradient-text {
@@ -306,8 +309,9 @@ img {
   font-size: 1.1rem;
   color: var(--text-secondary);
   line-height: 1.75;
-  margin-bottom: 2.25rem;
+  margin-bottom: 0;
   max-width: 760px;
+  text-align: left;
 }
 
 .hero-actions {
@@ -481,6 +485,14 @@ img {
 /* ==========================================================================
    PROJECTS SECTION & FILTERS
    ========================================================================== */
+#projects.section {
+  padding-top: 1.25rem;
+  padding-bottom: 4rem;
+}
+
+#projects .section-header {
+  margin-bottom: 1.5rem;
+}
 .projects-filter-bar {
   display: flex;
   justify-content: center;
