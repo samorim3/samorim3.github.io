@@ -594,8 +594,11 @@ img {
 }
 
 .projects-grid {
-  display: flex;
-  overflow-x: auto;
+  display: flex !important;
+  flex-direction: row !important;
+  flex-wrap: nowrap !important;
+  overflow-x: auto !important;
+  overflow-y: hidden !important;
   scroll-snap-type: x mandatory;
   scroll-behavior: smooth;
   gap: 1.75rem;
@@ -603,6 +606,7 @@ img {
   -webkit-overflow-scrolling: touch;
   scrollbar-width: thin;
   scrollbar-color: var(--border-card) transparent;
+  width: 100%;
 }
 
 .projects-grid::-webkit-scrollbar {
@@ -623,8 +627,12 @@ img {
 }
 
 .project-card {
-  flex: 0 0 calc((100% - 2 * 1.75rem) / 3);
-  min-width: 320px;
+  flex: 0 0 calc((100% - 2 * 1.75rem) / 3) !important;
+  width: calc((100% - 2 * 1.75rem) / 3) !important;
+  min-width: 330px !important;
+  max-width: 390px !important;
+  flex-shrink: 0 !important;
+  flex-grow: 0 !important;
   scroll-snap-align: start;
   background: var(--bg-card);
   border: 1px solid var(--border-card);
@@ -637,15 +645,19 @@ img {
 
 @media screen and (max-width: 1024px) {
   .project-card {
-    flex: 0 0 calc((100% - 1.5rem) / 2);
-    min-width: 290px;
+    flex: 0 0 calc((100% - 1.5rem) / 2) !important;
+    width: calc((100% - 1.5rem) / 2) !important;
+    min-width: 290px !important;
+    max-width: none !important;
   }
 }
 
 @media screen and (max-width: 640px) {
   .project-card {
-    flex: 0 0 85%;
-    min-width: 260px;
+    flex: 0 0 85% !important;
+    width: 85% !important;
+    min-width: 260px !important;
+    max-width: none !important;
   }
 }
 
