@@ -33,6 +33,7 @@ function initTheme() {
       document.documentElement.setAttribute('data-theme', newTheme);
       localStorage.setItem('sa_portfolio_theme', newTheme);
       updateThemeIcon(newTheme);
+      window.dispatchEvent(new CustomEvent('themeChanged', { detail: { theme: newTheme } }));
     });
   }
 
@@ -171,6 +172,7 @@ function initMobileNav() {
 function initActiveNavSpy() {
   const sections = document.querySelectorAll('section[id]');
   const navLinks = document.querySelectorAll('.nav-link');
+  if (!sections.length) return;
 
   window.addEventListener('scroll', () => {
     let current = '';

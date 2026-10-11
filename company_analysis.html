@@ -1,557 +1,333 @@
-<!DOCTYPE HTML>
-<!--
-	Massively by HTML5 UP
-	html5up.net | @ajlkn
-	Free for personal and commercial use under the CCA 3.0 license (html5up.net/license)
--->
-<html>
-	<head>
-		<title>DGI Fundamental Screener & Stock Alerts via Telegram</title>
-		<meta charset="utf-8" />
-		<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
-		<link rel="stylesheet" href="assets/css/main.css?v=8" />
-		<noscript><link rel="stylesheet" href="assets/css/noscript.css" /></noscript>
-		<!-- Google Analytics (GA4) -->
-		<script async src="https://www.googletagmanager.com/gtag/js?id=G-W76N1EJ13Q"></script>
-		<script>
-		  window.dataLayer = window.dataLayer || [];
-		  function gtag(){dataLayer.push(arguments);}
-		  gtag('js', new Date());
-		  gtag('config', 'G-W76N1EJ13Q');
-		</script>
-		<link rel="preconnect" href="https://fonts.googleapis.com">
-		<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-		<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
-		<!-- Chart.js -->
-		<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>DGI Fundamental Screener & Stock Alerts via Telegram | Samuel Amorim</title>
+  <meta name="description" content="Automated DGI fundamental analysis screener, international market radar, and real-time Telegram alerts by Samuel Amorim." />
 
-		<style>
-			body, input, button, select, textarea {
-				font-family: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
-			}
+  <!-- Google Analytics (GA4) -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-W76N1EJ13Q"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', 'G-W76N1EJ13Q');
+  </script>
 
-			/* =========================================================
-			   PAGE COHERENCE & COMPACT SPACING OVERRIDES
-			   ========================================================= */
-			#header {
-				height: 7rem !important;
-				padding-bottom: 2rem !important;
-			}
+  <!-- Typography: Plus Jakarta Sans -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
 
-			#main > .post {
-				padding: 3rem 2.5rem 2.5rem 2.5rem !important;
-			}
+  <!-- Chart.js -->
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 
-			@media screen and (max-width: 980px) {
-				#main > .post {
-					padding: 2rem 1.5rem !important;
-				}
-			}
+  <!-- Stylesheet -->
+  <link rel="stylesheet" href="assets/css/modern.css?v=17" />
 
-			@media screen and (max-width: 736px) {
-				#main > .post {
-					padding: 1.5rem 1rem !important;
-				}
-			}
+  <style>
+    body, input, button, select, textarea {
+      font-family: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+    }
 
-			/* Clean Header Title */
-			.post > header.major {
-				margin: 0 0 1.75rem 0 !important;
-				text-align: center !important;
-			}
+    .app-tab-panel {
+      width: 100%;
+    }
 
-			.post > header.major h1 {
-				font-size: 2.25rem !important;
-				line-height: 1.2 !important;
-				margin: 0 0 0.5rem 0 !important;
-				letter-spacing: -0.02em !important;
-				text-transform: none !important;
-				color: #0f172a !important;
-			}
+    .section-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 0.75rem;
+      margin-bottom: 1.15rem;
+      padding-bottom: 0.75rem;
+      border-bottom: 1px solid var(--border-subtle);
+    }
 
-			.post > header.major p {
-				font-size: 0.95rem !important;
-				line-height: 1.65 !important;
-				margin: 0 auto !important;
-				max-width: 52rem !important;
-				color: #475569 !important;
-				text-align: center !important;
-			}
+    .section-title {
+      margin: 0;
+      color: var(--text-main);
+      font-weight: 800;
+      font-size: 1.25rem;
+      letter-spacing: -0.02em;
+    }
 
-			/* Text blocks line-height and text spacing */
-			p {
-				line-height: 1.55 !important;
-				margin-bottom: 0.75rem !important;
-				text-align: left !important;
-			}
+    .section-subtitle {
+      margin: 0.2rem 0 0 0;
+      color: var(--text-secondary);
+      font-size: 0.85rem;
+    }
 
-			/* =========================================================
-			   4-TAB NAVIGATION BAR
-			   ========================================================= */
-			.tabs-navigation-wrapper {
-				margin: 2rem 0 1.5rem 0;
-				display: flex;
-				justify-content: center;
-			}
+    .search-container {
+      background: var(--bg-card);
+      border: 1px solid var(--border-card);
+      border-radius: var(--radius-md);
+      padding: 1rem 1.15rem;
+      margin-bottom: 1.25rem;
+    }
 
-			.tabs-nav-bar {
-				display: inline-flex;
-				background: #f1f5f9;
-				padding: 0.35rem;
-				border-radius: 12px;
-				border: 1px solid #e2e8f0;
-				gap: 0.35rem;
-				flex-wrap: wrap;
-				justify-content: center;
-				box-shadow: 0 4px 14px rgba(15, 23, 42, 0.04);
-			}
+    .search-row {
+      display: flex;
+      gap: 0.75rem;
+      flex-wrap: wrap;
+      align-items: center;
+    }
 
-			.tab-nav-btn,
-			button.tab-nav-btn {
-				border: 0 !important;
-				outline: none !important;
-				background: transparent !important;
-				background-color: transparent !important;
-				box-shadow: none !important;
-				color: #475569 !important;
-				font-family: inherit !important;
-				font-size: 0.92rem !important;
-				font-weight: 700 !important;
-				letter-spacing: normal !important;
-				text-transform: none !important;
-				height: auto !important;
-				line-height: 1.4 !important;
-				padding: 0.65rem 1.35rem !important;
-				border-radius: 9px !important;
-				cursor: pointer !important;
-				display: inline-flex !important;
-				align-items: center !important;
-				justify-content: center !important;
-				gap: 0.5rem !important;
-				transition: all 0.2s ease !important;
-				white-space: nowrap !important;
-				-webkit-appearance: none !important;
-				-moz-appearance: none !important;
-				appearance: none !important;
-			}
+    .form-grid-inputs {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+      gap: 0.85rem;
+      align-items: end;
+    }
 
-			.tab-nav-btn:hover,
-			button.tab-nav-btn:hover {
-				color: #0f172a !important;
-				background: rgba(255, 255, 255, 0.8) !important;
-				background-color: rgba(255, 255, 255, 0.8) !important;
-				box-shadow: none !important;
-			}
+    .input-group {
+      display: flex;
+      flex-direction: column;
+    }
 
-			.tab-nav-btn.active,
-			button.tab-nav-btn.active,
-			.tab-nav-btn.active:hover,
-			button.tab-nav-btn.active:hover {
-				background: #0f172a !important;
-				background-color: #0f172a !important;
-				color: #38bdf8 !important;
-				box-shadow: 0 4px 12px rgba(15, 23, 42, 0.25) !important;
-			}
+    .input-group label {
+      font-size: 0.72rem;
+      font-weight: 700;
+      color: var(--text-secondary);
+      margin-bottom: 0.35rem;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+    }
 
-			@media screen and (max-width: 768px) {
-				.tabs-nav-bar {
-					width: 100%;
-				}
-				.tab-nav-btn,
-				button.tab-nav-btn {
-					flex: 1 1 calc(50% - 0.5rem);
-					justify-content: center;
-					padding: 0.55rem 0.75rem !important;
-					font-size: 0.82rem !important;
-				}
-			}
+    .input-group input,
+    .input-group select {
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      font-size: 0.9rem;
+      font-weight: 600;
+      border-radius: var(--radius-sm);
+      border: 1px solid var(--border-card);
+      background: var(--bg-input);
+      padding: 0.6rem 0.85rem;
+      color: var(--text-main);
+      transition: border-color 0.2s ease, box-shadow 0.2s ease;
+    }
 
-			.app-tab-panel {
-				width: 100%;
-			}
+    .input-group input:focus,
+    .input-group select:focus {
+      outline: none;
+      border-color: var(--border-focus);
+      box-shadow: 0 0 0 2px var(--accent-glow);
+    }
 
-			/* Clean, sober dashboard cards */
-			.tool-card {
-				background: #ffffff;
-				border: 1px solid #e2e8f0;
-				border-radius: 14px;
-				padding: 1.5rem;
-				margin: 1.25rem 0;
-				box-shadow: 0 4px 18px -2px rgba(15, 23, 42, 0.04);
-				color: #0f172a;
-			}
+    /* Minimalist Buttons */
+    .btn-sober {
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.4rem;
+      padding: 0.6rem 1.25rem;
+      font-size: 0.85rem;
+      font-weight: 700;
+      border-radius: var(--radius-sm);
+      cursor: pointer;
+      transition: all 0.15s ease-in-out;
+      border: 1px solid transparent;
+      text-decoration: none !important;
+      white-space: nowrap;
+    }
 
-			.section-header {
-				display: flex;
-				justify-content: space-between;
-				align-items: center;
-				flex-wrap: wrap;
-				gap: 0.75rem;
-				margin-bottom: 1.15rem;
-				padding-bottom: 0.75rem;
-				border-bottom: 1px solid #f1f5f9;
-			}
+    .btn-sober.btn-primary {
+      background: var(--accent-primary) !important;
+      color: #ffffff !important;
+      box-shadow: 0 4px 14px var(--accent-glow);
+    }
+    .btn-sober.btn-primary:hover {
+      background: var(--accent-primary-hover) !important;
+    }
 
-			.section-title {
-				margin: 0;
-				color: #0f172a;
-				font-weight: 800;
-				font-size: 1.25rem;
-				letter-spacing: -0.02em;
-			}
+    .btn-sober.btn-secondary {
+      background: var(--bg-card);
+      color: var(--text-main) !important;
+      border: 1px solid var(--border-card);
+    }
+    .btn-sober.btn-secondary:hover {
+      background: var(--bg-card-hover);
+      color: var(--text-main) !important;
+    }
 
-			.section-subtitle {
-				margin: 0.2rem 0 0 0;
-				color: #64748b;
-				font-size: 0.82rem;
-			}
+    .btn-sober.btn-green {
+      background: #059669;
+      color: #ffffff !important;
+    }
+    .btn-sober.btn-green:hover {
+      background: #047857;
+    }
 
-			.search-container {
-				background: #f8fafc;
-				border: 1px solid #e2e8f0;
-				border-radius: 10px;
-				padding: 1rem 1.15rem;
-				margin-bottom: 1.25rem;
-			}
+    .btn-sm {
+      padding: 0.35rem 0.75rem;
+      font-size: 0.78rem;
+      border-radius: 6px;
+    }
 
-			.search-row {
-				display: flex;
-				gap: 0.75rem;
-				flex-wrap: wrap;
-				align-items: center;
-			}
+    /* Status & Notifications */
+    .status-msg {
+      margin-top: 1rem;
+      padding: 0.75rem 1rem;
+      border-radius: var(--radius-sm);
+      font-size: 0.85rem;
+      font-weight: 600;
+      display: none;
+    }
+    .status-loading { background: var(--bg-card); color: var(--text-main); border: 1px solid var(--border-card); display: block; }
+    .status-error { background: rgba(239, 68, 68, 0.12); color: #ef4444; border: 1px solid rgba(239, 68, 68, 0.25); display: block; }
+    .status-success { background: rgba(16, 185, 129, 0.12); color: #10b981; border: 1px solid rgba(16, 185, 129, 0.25); display: block; }
+    .status-warning { background: rgba(245, 158, 11, 0.12); color: #f59e0b; border: 1px solid rgba(245, 158, 11, 0.25); display: block; }
 
-			.form-grid-inputs {
-				display: grid;
-				grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
-				gap: 0.85rem;
-				align-items: end;
-			}
+    /* Minimalist Badges */
+    .badge-buy { background: rgba(16, 185, 129, 0.15); color: #10b981; border: 1px solid rgba(16, 185, 129, 0.3); padding: 0.25rem 0.65rem; border-radius: 6px; font-weight: 700; font-size: 0.72rem; display: inline-block; }
+    .badge-sell { background: rgba(239, 68, 68, 0.15); color: #ef4444; border: 1px solid rgba(239, 68, 68, 0.3); padding: 0.25rem 0.65rem; border-radius: 6px; font-weight: 700; font-size: 0.72rem; display: inline-block; }
+    .badge-hold { background: rgba(245, 158, 11, 0.15); color: #f59e0b; border: 1px solid rgba(245, 158, 11, 0.3); padding: 0.25rem 0.65rem; border-radius: 6px; font-weight: 700; font-size: 0.72rem; display: inline-block; }
 
-			.input-group {
-				display: flex;
-				flex-direction: column;
-			}
+    .dgi-score-panel {
+      background: var(--bg-card);
+      border: 1px solid var(--border-card);
+      color: var(--text-main);
+      border-radius: var(--radius-md);
+      padding: 1.5rem;
+      text-align: center;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+    }
 
-			.input-group label {
-				font-size: 0.72rem;
-				font-weight: 700;
-				color: #475569;
-				margin-bottom: 0.35rem;
-				text-transform: uppercase;
-				letter-spacing: 0.05em;
-			}
+    /* Dark Theme Overrides for Elements with Inline Styles */
+    [data-theme="dark"] div[style*="background: #ffffff"],
+    [data-theme="dark"] div[style*="background: #f8fafc"],
+    [data-theme="dark"] div[style*="background:#ffffff"] {
+      background: var(--bg-card) !important;
+      border-color: var(--border-card) !important;
+      color: var(--text-main) !important;
+    }
 
-			.input-group input {
-				font-family: 'Plus Jakarta Sans', sans-serif;
-				font-size: 0.9rem;
-				font-weight: 600;
-				border-radius: 8px;
-				border: 1px solid #cbd5e1;
-				background: #ffffff;
-				padding: 0.6rem 0.85rem;
-				color: #0f172a;
-				transition: border-color 0.2s ease, box-shadow 0.2s ease;
-			}
+    [data-theme="dark"] [style*="color: #0f172a"] {
+      color: var(--text-main) !important;
+    }
 
-			.input-group input:focus {
-				outline: none;
-				border-color: #0f172a;
-				box-shadow: 0 0 0 2px rgba(15, 23, 42, 0.08);
-			}
+    [data-theme="dark"] [style*="color: #334155"],
+    [data-theme="dark"] [style*="color: #475569"] {
+      color: var(--text-secondary) !important;
+    }
 
-			/* Sober Minimalist Buttons */
-			.btn-sober {
-				font-family: 'Plus Jakarta Sans', sans-serif;
-				display: inline-flex;
-				align-items: center;
-				justify-content: center;
-				gap: 0.4rem;
-				padding: 0.6rem 1.25rem;
-				font-size: 0.85rem;
-				font-weight: 700;
-				border-radius: 8px;
-				cursor: pointer;
-				transition: all 0.15s ease-in-out;
-				border: 1px solid transparent;
-				text-decoration: none !important;
-				white-space: nowrap;
-			}
+    [data-theme="dark"] input[style*="background: #ffffff"],
+    [data-theme="dark"] select[style*="background: #ffffff"],
+    [data-theme="dark"] input {
+      background: var(--bg-input) !important;
+      border-color: var(--border-card) !important;
+      color: var(--text-main) !important;
+    }
 
-			.btn-primary {
-				background: #0f172a;
-				color: #ffffff !important;
-			}
-			.btn-primary:hover {
-				background: #1e293b;
-			}
+    [data-theme="dark"] [style*="border: 1px solid #e2e8f0"],
+    [data-theme="dark"] [style*="border: 1px solid #cbd5e1"] {
+      border-color: var(--border-card) !important;
+    }
+  </style>
+</head>
+<body>
 
-			.btn-secondary {
-				background: #f8fafc;
-				color: #334155 !important;
-				border-color: #cbd5e1;
-			}
-			.btn-secondary:hover {
-				background: #e2e8f0;
-				color: #0f172a !important;
-			}
+  <!-- ==========================================================================
+       SITE HEADER / NAVBAR
+       ========================================================================== -->
+  <header class="site-header">
+    <div class="container header-inner">
+      <nav id="nav-links" class="nav-links">
+        <a href="index.html" class="nav-link">Home</a>
+        <a href="index.html#projects" class="nav-link active">Projects</a>
+        <a href="index.html#certifications" class="nav-link">Certifications</a>
+        <a href="index.html#contact" class="nav-link">Contact</a>
+      </nav>
 
-			.btn-green {
-				background: #047857;
-				color: #ffffff !important;
-			}
-			.btn-green:hover {
-				background: #065f46;
-			}
+      <div class="header-actions">
+        <!-- Theme Toggle -->
+        <button id="theme-toggle-btn" class="btn-control" title="Toggle Theme" aria-label="Toggle Theme">
+          <span id="theme-icon">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <circle cx="12" cy="12" r="5"></circle>
+              <line x1="12" y1="1" x2="12" y2="3"></line>
+              <line x1="12" y1="21" x2="12" y2="23"></line>
+              <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+              <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+              <line x1="1" y1="12" x2="3" y2="12"></line>
+              <line x1="21" y1="12" x2="23" y2="12"></line>
+              <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+              <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+            </svg>
+          </span>
+        </button>
 
-			.btn-sm {
-				padding: 0.35rem 0.75rem;
-				font-size: 0.78rem;
-				border-radius: 6px;
-			}
+        <!-- Mobile Hamburger Button -->
+        <button id="hamburger-btn" class="hamburger-btn" aria-label="Mobile Navigation">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <line x1="3" y1="12" x2="21" y2="12"></line>
+            <line x1="3" y1="6" x2="21" y2="6"></line>
+            <line x1="3" y1="18" x2="21" y2="18"></line>
+          </svg>
+        </button>
+      </div>
+    </div>
+  </header>
 
-			/* Status & Notifications */
-			.status-msg {
-				margin-top: 1rem;
-				padding: 0.75rem 1rem;
-				border-radius: 8px;
-				font-size: 0.85rem;
-				font-weight: 600;
-				display: none;
-			}
-			.status-loading { background: #f8fafc; color: #334155; border: 1px solid #cbd5e1; display: block; }
-			.status-error { background: #fef2f2; color: #991b1b; border: 1px solid #fecaca; display: block; }
-			.status-success { background: #f0fdf4; color: #166534; border: 1px solid #bbf7d0; display: block; }
-			.status-warning { background: #fffbeb; color: #92400e; border: 1px solid #fde68a; display: block; }
+  <main>
+    <!-- ==========================================================================
+         HERO SECTION
+         ========================================================================== -->
+    <section class="project-detail-hero wide">
+      <div class="hero-glow-bg"></div>
+      <div class="container">
+        <a href="index.html#projects" class="back-link">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <line x1="19" y1="12" x2="5" y2="12"></line>
+            <polyline points="12 19 5 12 12 5"></polyline>
+          </svg>
+          <span>Back to Projects</span>
+        </a>
 
-			/* Minimalist Badges */
-			.badge-buy { background: #f0fdf4; color: #166534; border: 1px solid #bbf7d0; padding: 0.25rem 0.65rem; border-radius: 6px; font-weight: 700; font-size: 0.72rem; display: inline-block; }
-			.badge-sell { background: #fef2f2; color: #991b1b; border: 1px solid #fecaca; padding: 0.25rem 0.65rem; border-radius: 6px; font-weight: 700; font-size: 0.72rem; display: inline-block; }
-			.badge-hold { background: #fffbeb; color: #92400e; border: 1px solid #fde68a; padding: 0.25rem 0.65rem; border-radius: 6px; font-weight: 700; font-size: 0.72rem; display: inline-block; }
+        <div class="project-badges">
+          <span class="badge badge-year">2026</span>
+          <span class="badge">Python & Cloudflare</span>
+          <span class="badge">Financial Analytics</span>
+          <span class="badge">Telegram Alerts</span>
+        </div>
 
-			/* DGI Pillar Cards */
-			.dgi-pillar-card {
-				background: #ffffff;
-				border: 1px solid #e2e8f0;
-				border-radius: 12px;
-				padding: 1.15rem;
-				box-shadow: 0 1px 3px rgba(0,0,0,0.02);
-			}
+        <h1 class="project-detail-title">DGI Fundamental Screener & Stock Alerts via Telegram</h1>
+        <p class="project-detail-subtitle">
+          Born out of my <a href="financial_investments_2025.html" style="font-weight: 700; color: var(--accent-primary); text-decoration: underline;">2025 Annual Investment Review</a>, where manually tracking 19 individual positions across global markets proved unsustainable. This platform automates rapid fundamental pre-screening, operates a <strong>market radar scanning international indices</strong> (S&amp;P 500, STOXX Europe 600, Euronext Lisbon, and IBEX 35) to detect companies meeting defined DGI score thresholds, and monitors real-time market prices to execute automated buy and sell alerts via Telegram.
+        </p>
 
-			.dgi-score-panel {
-				background: #0f172a;
-				color: #ffffff;
-				border-radius: 12px;
-				padding: 1.75rem;
-				text-align: center;
-				display: flex;
-				flex-direction: column;
-				justify-content: center;
-				align-items: center;
-			}
+        <!-- 4 Navigation Tabs -->
+        <div class="tabs-navigation-wrapper">
+          <div class="tabs-nav-bar">
+            <button type="button" id="tabBtn-screener" onclick="switchAppTab('screener')" class="tab-nav-btn active">
+              <span>📊</span> DGI Fundamental
+            </button>
+            <button type="button" id="tabBtn-radar" onclick="switchAppTab('radar')" class="tab-nav-btn">
+              <span>📡</span> Market Radar
+            </button>
+            <button type="button" id="tabBtn-telegram" onclick="switchAppTab('telegram')" class="tab-nav-btn">
+              <span>📱</span> Telegram Alerts
+            </button>
+            <button type="button" id="tabBtn-technical" onclick="switchAppTab('technical')" class="tab-nav-btn">
+              <span>⚙️</span> Technical Info
+            </button>
+          </div>
+        </div>
+      </div>
+    </section>
 
-			.dgi-progress-bar {
-				background: #f1f5f9;
-				border-radius: 4px;
-				height: 6px;
-				overflow: hidden;
-				margin-top: 0.4rem;
-			}
-			.dgi-progress-fill {
-				height: 100%;
-				border-radius: 4px;
-				background: #0f172a;
-				transition: width 0.4s ease;
-			}
-
-			/* Clean Table & Card Styling */
-			.watchlist-table-card {
-				background: #ffffff;
-				border: 1px solid #e2e8f0;
-				border-radius: 12px;
-				box-shadow: 0 4px 20px -2px rgba(15, 23, 42, 0.06), 0 2px 6px -1px rgba(15, 23, 42, 0.03);
-				overflow: hidden !important;
-				margin-top: 1rem;
-				margin-bottom: 1.5rem;
-				width: 100% !important;
-			}
-
-			.table-wrapper {
-				overflow-x: hidden !important;
-				overflow-y: hidden !important;
-				width: 100% !important;
-				background: #ffffff;
-				margin: 0 !important;
-				padding: 0 !important;
-			}
-
-			.sober-table {
-				width: 100% !important;
-				table-layout: fixed !important;
-				border-collapse: collapse !important;
-				margin: 0 !important;
-				font-size: 0.78rem !important;
-			}
-
-			.sober-table thead th {
-				background: #f8fafc !important;
-				color: #475569 !important;
-				font-size: 0.65rem !important;
-				font-weight: 700 !important;
-				text-transform: uppercase !important;
-				letter-spacing: 0.03em !important;
-				padding: 0.6rem 0.35rem !important;
-				border-bottom: 1px solid #e2e8f0 !important;
-				text-align: left;
-				white-space: nowrap !important;
-				line-height: 1.2 !important;
-			}
-
-			.sober-table tbody td {
-				padding: 0.55rem 0.35rem !important;
-				border-bottom: 1px solid #f1f5f9 !important;
-				vertical-align: middle !important;
-				color: #1e293b !important;
-				font-size: 0.78rem !important;
-				line-height: 1.2 !important;
-			}
-
-			.sober-table tbody tr:last-child td {
-				border-bottom: none !important;
-			}
-
-			.sober-table tbody tr:hover td {
-				background: #f8fafc !important;
-			}
-
-			.input-target-box {
-				display: inline-flex !important;
-				align-items: center !important;
-				gap: 0.15rem !important;
-				justify-content: center !important;
-				background: #ffffff !important;
-				border: 1px solid #cbd5e1 !important;
-				border-radius: 5px !important;
-				padding: 0.1rem 0.25rem !important;
-				box-shadow: 0 1px 2px rgba(0, 0, 0, 0.04) !important;
-				max-width: 75px !important;
-				height: 26px !important;
-				box-sizing: border-box !important;
-			}
-			.input-target-box:focus-within {
-				border-color: #0f172a !important;
-				box-shadow: 0 0 0 2px rgba(15, 23, 42, 0.08) !important;
-			}
-			.input-target-box input {
-				width: 46px !important;
-				height: 22px !important;
-				line-height: 22px !important;
-				border: none !important;
-				outline: none !important;
-				background: transparent !important;
-				font-size: 0.78rem !important;
-				text-align: center !important;
-				font-weight: 600 !important;
-				color: #0f172a !important;
-				padding: 0 !important;
-				margin: 0 !important;
-				box-shadow: none !important;
-				-moz-appearance: textfield !important;
-				appearance: textfield !important;
-			}
-			.input-target-box input::-webkit-outer-spin-button,
-			.input-target-box input::-webkit-inner-spin-button {
-				-webkit-appearance: none !important;
-				margin: 0 !important;
-			}
-			.masked-token-input {
-				-webkit-text-security: disc !important;
-			}
-
-			.sober-table button,
-			.btn-tbl-action,
-			.btn-tbl-del {
-				-webkit-appearance: none !important;
-				-moz-appearance: none !important;
-				appearance: none !important;
-				height: auto !important;
-				min-height: 0 !important;
-				line-height: 1 !important;
-				letter-spacing: normal !important;
-				font-family: inherit !important;
-				box-shadow: none !important;
-				cursor: pointer !important;
-				transition: background 0.15s ease !important;
-			}
-			.btn-tbl-action:hover {
-				background: #e2e8f0 !important;
-				color: #0f172a !important;
-			}
-			.btn-tbl-del:hover {
-				background: #fee2e2 !important;
-				color: #7f1d1d !important;
-			}
-
-			.settings-box {
-				background: #f8fafc;
-				border: 1px solid #e2e8f0;
-				border-radius: 12px;
-				padding: 1.25rem 1.5rem;
-				margin-top: 2rem;
-			}
-		</style>
-	</head>
-	<body class="is-preload">
-
-		<!-- Wrapper -->
-			<div id="wrapper">
-
-				<!-- Header -->
-					<header id="header">
-						<a href="index.html" class="logo">Portfolio</a>
-					</header>
-
-				<!-- Nav -->
-					<nav id="nav">
-						<ul class="links">
-							<li><a href="index.html">Projects</a></li>
-							<li class="active"><a href="company_analysis.html">DGI & Stock Alerts</a></li>
-						</ul>
-					</nav>
-
-				<!-- Main -->
-					<div id="main">
-
-						<!-- Post -->
-							<section class="post">
-								<header class="major">
-									<h1>DGI Fundamental Screener &<br />Stock Alerts via Telegram</h1>
-									<p style="margin: 0 auto; line-height: 1.65; font-size: 0.96rem; color: #475569;">
-										Born out of my <a href="financial_investments_2025.html" style="font-weight: 700; color: #047857; text-decoration: underline;">2025 Annual Investment Review</a>, where manually tracking 19 individual positions across global markets proved unsustainable. This platform automates rapid fundamental pre-screening, operates a <strong>market radar scanning international indices</strong> (S&amp;P 500, STOXX Europe 600, Euronext Lisbon, and IBEX 35) to detect companies meeting defined DGI score thresholds, and monitors real-time market prices to execute automated buy and sell alerts via Telegram.
-									</p>
-								<!-- 4 Navigation Tabs -->
-								<div class="tabs-navigation-wrapper">
-									<div class="tabs-nav-bar">
-										<button type="button" id="tabBtn-screener" onclick="switchAppTab('screener')" class="tab-nav-btn active">
-											<span>📊</span> DGI Fundamental
-										</button>
-										<button type="button" id="tabBtn-radar" onclick="switchAppTab('radar')" class="tab-nav-btn">
-											<span>📡</span> Market Radar
-										</button>
-										<button type="button" id="tabBtn-telegram" onclick="switchAppTab('telegram')" class="tab-nav-btn">
-											<span>📱</span> Telegram Alerts
-										</button>
-										<button type="button" id="tabBtn-technical" onclick="switchAppTab('technical')" class="tab-nav-btn">
-											<span>⚙️</span> Technical Info
-										</button>
-									</div>
-								</div>
-								</header>
-
-								<!-- ==========================================
-								     TAB 1: DGI FUNDAMENTAL SCREENER
-								     ========================================== -->
-								<div id="panel-screener" class="app-tab-panel">
+    <!-- ==========================================================================
+         MAIN APPLICATION PANELS
+         ========================================================================== -->
+    <section class="article-section">
+      <div class="article-container wide">
+        <div id="panel-screener" class="app-tab-panel">
 								<div class="tool-card">
 									
 									<div class="section-header">
@@ -1285,30 +1061,39 @@ payout_label = <span style="color: #86efac;">"FCF"</span> <span style="color: #7
 									</div>
 								</div> <!-- End #panel-technical -->
 
-								<ul class="actions special" style="margin-top: 3rem;">
-									<li><a href="index.html" class="button large">Back to Projects</a></li>
-								</ul>
-							</section>
+          <div class="article-actions-footer">
+            <a href="index.html#projects" class="btn btn-primary">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <line x1="19" y1="12" x2="5" y2="12"></line>
+                <polyline points="12 19 5 12 12 5"></polyline>
+              </svg>
+              <span>Back to Projects</span>
+            </a>
+          </div>
+        </div>
+    </section>
+  </main>
 
-					</div>
+  <!-- ==========================================================================
+       SITE FOOTER
+       ========================================================================== -->
+  <footer class="site-footer">
+    <div class="container footer-inner">
+      <div class="footer-copy">
+        <p>&copy; 2026 Samuel Amorim. All rights reserved.</p>
+      </div>
+      <a href="index.html#projects" class="back-to-top">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <line x1="19" y1="12" x2="5" y2="12"></line>
+          <polyline points="12 19 5 12 12 5"></polyline>
+        </svg>
+        <span>Back to Projects</span>
+      </a>
+    </div>
+  </footer>
 
-
-
-				<!-- Copyright -->
-					<div id="copyright">
-						<ul><li>&copy; Samuel Amorim</li></ul>
-					</div>
-
-			</div>
-
-		<!-- Scripts -->
-			<script src="assets/js/jquery.min.js"></script>
-			<script src="assets/js/jquery.scrollex.min.js"></script>
-			<script src="assets/js/jquery.scrolly.min.js"></script>
-			<script src="assets/js/browser.min.js"></script>
-			<script src="assets/js/breakpoints.min.js"></script>
-			<script src="assets/js/util.js"></script>
-			<script src="assets/js/main.js"></script>
+  <!-- Scripts -->
+  <script src="assets/js/modern.js?v=3"></script>
 			<script>
 				let currentDgiData = null;
 				let radarChartInstance = null;
@@ -1967,7 +1752,12 @@ payout_label = <span style="color: #86efac;">"FCF"</span> <span style="color: #7
 
 					const labels = ['1. Dividend Yield', '2. FCF Coverage', '3. Balance Sheet', '4. Operational Growth', '5. Dividend Growth'];
 					const s = data.scores;
-					const values = [s.p1 || 0, s.p2 || 0, s.p3 || 0, s.p4 || 0, s.p5 || 0];
+					const isDark = document.documentElement.getAttribute('data-theme') !== 'light';
+					const radarBorder = isDark ? '#38bdf8' : '#0284c7';
+					const radarBg = isDark ? 'rgba(56, 189, 248, 0.2)' : 'rgba(2, 132, 199, 0.15)';
+					const radarPoint = isDark ? '#38bdf8' : '#0284c7';
+					const radarLabelColor = isDark ? '#cbd5e1' : '#475569';
+					const radarGridColor = isDark ? 'rgba(255, 255, 255, 0.1)' : '#e2e8f0';
 
 					radarChartInstance = new Chart(ctx, {
 						type: 'radar',
@@ -1976,11 +1766,11 @@ payout_label = <span style="color: #86efac;">"FCF"</span> <span style="color: #7
 							datasets: [{
 								label: data.ticker,
 								data: values,
-								backgroundColor: 'rgba(15, 23, 42, 0.12)',
-								borderColor: '#0f172a',
+								backgroundColor: radarBg,
+								borderColor: radarBorder,
 								borderWidth: 2,
-								pointBackgroundColor: '#0f172a',
-								pointBorderColor: '#ffffff',
+								pointBackgroundColor: radarPoint,
+								pointBorderColor: isDark ? '#0b0f19' : '#ffffff',
 								pointRadius: 4
 							}]
 						},
@@ -1991,8 +1781,10 @@ payout_label = <span style="color: #86efac;">"FCF"</span> <span style="color: #7
 								r: {
 									min: 0,
 									max: 20,
-									ticks: { stepSize: 5, font: { size: 9 } },
-									pointLabels: { font: { size: 10, weight: '700' }, color: '#475569' }
+									ticks: { stepSize: 5, font: { size: 9 }, color: radarLabelColor, backdropColor: 'transparent' },
+									grid: { color: radarGridColor },
+									angleLines: { color: radarGridColor },
+									pointLabels: { font: { size: 10, weight: '700' }, color: radarLabelColor }
 								}
 							},
 							plugins: {
@@ -2020,7 +1812,7 @@ payout_label = <span style="color: #86efac;">"FCF"</span> <span style="color: #7
 						{
 							label: 'Ordinary Dividend',
 							data: ordAmounts,
-							backgroundColor: '#047857',
+							backgroundColor: '#059669',
 							borderRadius: hasSpecial ? 0 : 4,
 							borderSkipped: false,
 							stack: 'div'
@@ -2038,6 +1830,8 @@ payout_label = <span style="color: #86efac;">"FCF"</span> <span style="color: #7
 						});
 					}
 
+					const isDark = document.documentElement.getAttribute('data-theme') !== 'light';
+
 					barChartInstance = new Chart(ctx, {
 						type: 'bar',
 						data: {
@@ -2051,13 +1845,13 @@ payout_label = <span style="color: #86efac;">"FCF"</span> <span style="color: #7
 								x: {
 									stacked: true,
 									grid: { display: false },
-									ticks: { font: { size: 10, weight: '700' } }
+									ticks: { font: { size: 10, weight: '700' }, color: isDark ? '#cbd5e1' : '#475569' }
 								},
 								y: {
 									stacked: true,
 									beginAtZero: true,
-									grid: { color: '#f1f5f9' },
-									ticks: { font: { size: 10 } }
+									grid: { color: isDark ? 'rgba(255, 255, 255, 0.08)' : '#f1f5f9' },
+									ticks: { font: { size: 10 }, color: isDark ? '#cbd5e1' : '#475569' }
 								}
 							},
 							plugins: {
@@ -2082,6 +1876,13 @@ payout_label = <span style="color: #86efac;">"FCF"</span> <span style="color: #7
 						}
 					});
 				}
+
+				window.addEventListener('themeChanged', () => {
+					if (currentDgiData) {
+						renderDgiRadar(currentDgiData);
+						renderDgiDivBar(currentDgiData);
+					}
+				});
 
 				function renderDgiFundamentalsTable(data) {
 					const tbody = document.getElementById('dgiMetricsTableBody');
