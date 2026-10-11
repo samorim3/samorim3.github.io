@@ -314,6 +314,40 @@ img {
   text-align: left;
 }
 
+.hero-certifications {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.6rem;
+  align-items: center;
+  margin-top: 1.25rem;
+}
+
+.cert-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  font-size: 0.82rem;
+  font-weight: 600;
+  color: var(--accent-primary);
+  background: rgba(59, 130, 246, 0.08);
+  border: 1px solid rgba(59, 130, 246, 0.2);
+  padding: 0.35rem 0.8rem;
+  border-radius: var(--radius-full);
+  transition: var(--transition);
+}
+
+.cert-badge:hover {
+  background: rgba(59, 130, 246, 0.15);
+  border-color: var(--accent-primary);
+  transform: translateY(-1px);
+}
+
+[data-theme="light"] .cert-badge {
+  background: rgba(37, 99, 235, 0.08);
+  border-color: rgba(37, 99, 235, 0.2);
+  color: #1d4ed8;
+}
+
 .hero-actions {
   display: flex;
   flex-wrap: wrap;
