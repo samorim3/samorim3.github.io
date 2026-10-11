@@ -13,6 +13,7 @@ document.addEventListener('DOMContentLoaded', () => {
   initStatsCounter();
   initMobileNav();
   initActiveNavSpy();
+  initProjectsCarousel();
 });
 
 /* --------------------------------------------------------------------------
@@ -194,3 +195,43 @@ function initActiveNavSpy() {
     });
   });
 }
+
+/* --------------------------------------------------------------------------
+   PROJECTS CAROUSEL (HORIZONTAL SCROLL)
+   -------------------------------------------------------------------------- */
+function initProjectsCarousel() {
+  const container = document.querySelector('.projects-grid');
+  const prevBtn = document.getElementById('projects-prev-btn');
+  const nextBtn = document.getElementById('projects-next-btn');
+  if (!container || !prevBtn || !nextBtn) return;
+
+  function updateButtons() {
+    const atStart = container.scrollLeft <= 10;
+    const atEnd = container.scrollLeft + container.clientWidth >= container.scrollWidth - 10;
+    prevBtn.disabled = atStart;
+    nextBtn.disabled = atEnd;
+    prevBtn.classList.toggle('disabled', atStart);
+    nextBtn.classList.toggle('disabled', atEnd);
+  }
+
+  function getScrollStep() {
+    const card = container.querySelector('.project-card');
+    if (!card) return container.clientWidth;
+    const style = window.getComputedStyle(container);
+    const gap = parseFloat(style.gap) || 28;
+    return card.offsetWidth + gap;
+  }
+
+  prevBtn.addEventListener('click', () => {
+    container.scrollBy({ left: -getScrollStep(), behavior: 'smooth' });
+  });
+
+  nextBtn.addEventListener('click', () => {
+    container.scrollBy({ left: getScrollStep(), behavior: 'smooth' });
+  });
+
+  container.addEventListener('scroll', updateButtons, { passive: true });
+  window.addEventListener('resize', updateButtons, { passive: true });
+  setTimeout(updateButtons, 150);
+}
+

@@ -551,13 +551,81 @@ img {
   box-shadow: 0 4px 12px var(--accent-glow);
 }
 
+.projects-header-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 2rem;
+}
+
+.carousel-controls {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+}
+
+.carousel-btn {
+  width: 42px;
+  height: 42px;
+  border-radius: var(--radius-md);
+  background: var(--bg-surface);
+  border: 1px solid var(--border-card);
+  color: var(--text-main);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: var(--transition);
+}
+
+.carousel-btn:hover {
+  background: var(--bg-card-hover);
+  border-color: var(--border-focus);
+  color: var(--accent-primary);
+  transform: translateY(-2px);
+}
+
+.carousel-btn:disabled,
+.carousel-btn.disabled {
+  opacity: 0.35;
+  cursor: not-allowed;
+  pointer-events: none;
+  transform: none;
+}
+
 .projects-grid {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
+  display: flex;
+  overflow-x: auto;
+  scroll-snap-type: x mandatory;
+  scroll-behavior: smooth;
   gap: 1.75rem;
+  padding: 0.5rem 0.25rem 1.5rem;
+  -webkit-overflow-scrolling: touch;
+  scrollbar-width: thin;
+  scrollbar-color: var(--border-card) transparent;
+}
+
+.projects-grid::-webkit-scrollbar {
+  height: 6px;
+}
+
+.projects-grid::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.projects-grid::-webkit-scrollbar-thumb {
+  background: var(--border-card);
+  border-radius: 9999px;
+}
+
+.projects-grid::-webkit-scrollbar-thumb:hover {
+  background: var(--accent-primary);
 }
 
 .project-card {
+  flex: 0 0 calc((100% - 2 * 1.75rem) / 3);
+  min-width: 320px;
+  scroll-snap-align: start;
   background: var(--bg-card);
   border: 1px solid var(--border-card);
   border-radius: var(--radius-lg);
@@ -565,6 +633,20 @@ img {
   display: flex;
   flex-direction: column;
   transition: var(--transition);
+}
+
+@media screen and (max-width: 1024px) {
+  .project-card {
+    flex: 0 0 calc((100% - 1.5rem) / 2);
+    min-width: 290px;
+  }
+}
+
+@media screen and (max-width: 640px) {
+  .project-card {
+    flex: 0 0 85%;
+    min-width: 260px;
+  }
 }
 
 .project-card:hover {
@@ -1112,9 +1194,6 @@ img {
   .stats-grid {
     grid-template-columns: repeat(2, 1fr);
   }
-  .projects-grid {
-    grid-template-columns: repeat(2, 1fr);
-  }
   .skills-grid {
     grid-template-columns: repeat(2, 1fr);
   }
@@ -1136,9 +1215,6 @@ img {
     font-size: 1.2rem;
   }
   .stats-grid {
-    grid-template-columns: 1fr;
-  }
-  .projects-grid {
     grid-template-columns: 1fr;
   }
   .pillars-grid {
