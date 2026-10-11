@@ -819,7 +819,7 @@
 											</ul>
 										</div>
 
-										<!-- Features & Methodologies -->
+										<!-- Features & Methodologies Summary Cards -->
 										<div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 1.25rem; margin-bottom: 1.5rem;">
 											<div style="background: #ffffff; border: 1px solid #e2e8f0; border-radius: 12px; padding: 1.25rem;">
 												<h4 style="font-size: 0.95rem; font-weight: 700; color: #0f172a; margin-bottom: 0.5rem;">📊 Institutional-Grade DGI Screener</h4>
@@ -840,16 +840,210 @@
 											</div>
 										</div>
 
+										<!-- 2. Data Engineering & ETL Pipeline (Collection, Transformation & Validation) -->
+										<div style="background: #ffffff; border: 1px solid #e2e8f0; border-radius: 12px; padding: 1.5rem; margin-bottom: 1.5rem;">
+											<div style="display: flex; align-items: center; gap: 0.5rem; margin-bottom: 0.75rem;">
+												<span style="background: #047857; color: #ffffff; font-size: 0.72rem; font-weight: 800; padding: 0.2rem 0.55rem; border-radius: 6px; text-transform: uppercase;">ETL Pipeline</span>
+												<h3 style="font-size: 1.05rem; font-weight: 700; color: #0f172a; margin: 0;">2. Data Collection, Transformation &amp; Validation</h3>
+											</div>
+											<p style="font-size: 0.9rem; line-height: 1.6; color: #334155; margin-bottom: 1rem;">
+												Financial data from public providers is notoriously noisy, unformatted, and prone to exchange-specific quirks. The system implements a robust three-stage ETL pipeline to guarantee clean, comparable metrics across international markets:
+											</p>
+
+											<div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 1rem; margin-bottom: 0.5rem;">
+												<!-- Step 1: Collection -->
+												<div style="background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 10px; padding: 1rem;">
+													<h4 style="font-size: 0.88rem; font-weight: 700; color: #0f172a; margin-bottom: 0.4rem;">📥 Multi-Threaded Ingestion</h4>
+													<ul style="font-size: 0.82rem; color: #475569; line-height: 1.5; padding-left: 1rem; margin: 0;">
+														<li><strong>1,000+ Stock Western Universe:</strong> Concurrent scanner using Python's <code>ThreadPoolExecutor</code> scans S&amp;P 500, STOXX Europe 600, and Euronext Lisbon efficiently without hitting rate limits.</li>
+														<li><strong>Dual Source Ingestion:</strong> Combines fundamental statements (Yahoo Finance) with real-time live quotes scraped via Google Finance DOM parsing.</li>
+													</ul>
+												</div>
+
+												<!-- Step 2: Transformation -->
+												<div style="background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 10px; padding: 1rem;">
+													<h4 style="font-size: 0.88rem; font-weight: 700; color: #0f172a; margin-bottom: 0.4rem;">⚙️ Normalization &amp; Math</h4>
+													<ul style="font-size: 0.82rem; color: #475569; line-height: 1.5; padding-left: 1rem; margin: 0;">
+														<li><strong>Currency &amp; Symbol Mapping:</strong> Normalizes EUR, USD, and GBP prices, aligning ticker suffixes across European exchanges (e.g., <code>.LS</code>, <code>.DE</code>, <code>.PA</code>, <code>.AS</code>).</li>
+														<li><strong>5Y CAGR Calculations:</strong> Strict mathematical compound growth computation for Revenue, Net Income, and Dividends, guarding against negative or zero base periods.</li>
+													</ul>
+												</div>
+
+												<!-- Step 3: Validation -->
+												<div style="background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 10px; padding: 1rem;">
+													<h4 style="font-size: 0.88rem; font-weight: 700; color: #0f172a; margin-bottom: 0.4rem;">🛡️ Data Sanity &amp; Filtering</h4>
+													<ul style="font-size: 0.82rem; color: #475569; line-height: 1.5; padding-left: 1rem; margin: 0;">
+														<li><strong>Dividend Quality Verification:</strong> Distinguishes recurring ordinary dividends from one-off special dividends to prevent artificial yield distortions.</li>
+														<li><strong>Outlier Sanitization:</strong> Filters out non-dividend entities (&lt;0.1% yield) and flags anomalous yields (&gt;25%) as distressed candidates.</li>
+													</ul>
+												</div>
+											</div>
+										</div>
+
+										<!-- 3. Resilience & Fault Tolerance (Missing Values, Stale Data & API Errors) -->
+										<div style="background: #ffffff; border: 1px solid #e2e8f0; border-radius: 12px; padding: 1.5rem; margin-bottom: 1.5rem;">
+											<div style="display: flex; align-items: center; gap: 0.5rem; margin-bottom: 0.75rem;">
+												<span style="background: #2563eb; color: #ffffff; font-size: 0.72rem; font-weight: 800; padding: 0.2rem 0.55rem; border-radius: 6px; text-transform: uppercase;">Fault Tolerance</span>
+												<h3 style="font-size: 1.05rem; font-weight: 700; color: #0f172a; margin: 0;">3. Handling Missing Values, Stale Data &amp; API Errors</h3>
+											</div>
+											<p style="font-size: 0.9rem; line-height: 1.6; color: #334155; margin-bottom: 1rem;">
+												Autonomous background jobs cannot afford to crash midway through execution due to transient HTTP drops or incomplete balance sheets. The system implements layered resilience mechanisms:
+											</p>
+
+											<div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 1.25rem;">
+												<div style="border-left: 3px solid #2563eb; padding-left: 1rem;">
+													<h4 style="font-size: 0.9rem; font-weight: 700; color: #0f172a; margin-bottom: 0.35rem;">🔄 Cascading Price Fallback Engine</h4>
+													<p style="font-size: 0.84rem; color: #475569; line-height: 1.55; margin-bottom: 0.5rem;">
+														When tracking live market prices, failures are gracefully handled through an automatic 4-tier fallback:
+													</p>
+													<ol style="font-size: 0.8rem; color: #334155; line-height: 1.5; padding-left: 1.15rem; margin: 0;">
+														<li><strong>Tier 1:</strong> Primary scrape from Google Finance via HTTP with custom headers &amp; cookies.</li>
+														<li><strong>Tier 2:</strong> If blocked or 404, fallback to Yahoo Finance <code>fast_info.last_price</code>.</li>
+														<li><strong>Tier 3:</strong> If fast info fails, fetch the latest intraday historical close (<code>history(period="1d")</code>).</li>
+														<li><strong>Tier 4:</strong> If all network sources fail, preserve previous cached price in <code>quotes.json</code> with a stale data flag.</li>
+													</ol>
+												</div>
+
+												<div style="border-left: 3px solid #059669; padding-left: 1rem;">
+													<h4 style="font-size: 0.9rem; font-weight: 700; color: #0f172a; margin-bottom: 0.35rem;">🧩 Graceful Degradation on Null Metrics</h4>
+													<p style="font-size: 0.84rem; color: #475569; line-height: 1.55; margin-bottom: 0.5rem;">
+														Financial reports frequently lack specific line items depending on sector accounting conventions:
+													</p>
+													<ul style="font-size: 0.8rem; color: #334155; line-height: 1.5; padding-left: 1.15rem; margin: 0;">
+														<li><strong>FCF vs. EPS Payout Fallback:</strong> If Free Cash Flow is negative or unreported (e.g., REITs/Utilities mid-capex cycle), the engine switches to EPS Payout Ratio and explicitly labels it on the scorecard.</li>
+														<li><strong>Net Cash Solvency:</strong> Companies with more cash than debt have negative Net Debt. Instead of division-by-zero errors, the engine flags <code>"Net Cash"</code> and awards full solvency points.</li>
+														<li><strong>Telegram Formatting Retry:</strong> If a markdown special character triggers an API 400 error, the dispatcher automatically catches the error and resends in plain text.</li>
+													</ul>
+												</div>
+											</div>
+										</div>
+
+										<!-- 4. Architecture, CI/CD Automation & Testing -->
+										<div style="background: #ffffff; border: 1px solid #e2e8f0; border-radius: 12px; padding: 1.5rem; margin-bottom: 1.5rem;">
+											<div style="display: flex; align-items: center; gap: 0.5rem; margin-bottom: 0.75rem;">
+												<span style="background: #7c3aed; color: #ffffff; font-size: 0.72rem; font-weight: 800; padding: 0.2rem 0.55rem; border-radius: 6px; text-transform: uppercase;">System Architecture</span>
+												<h3 style="font-size: 1.05rem; font-weight: 700; color: #0f172a; margin: 0;">4. System Architecture, CI/CD Automation &amp; Testing</h3>
+											</div>
+											<p style="font-size: 0.9rem; line-height: 1.6; color: #334155; margin-bottom: 1rem;">
+												The system operates entirely on a serverless, zero-maintenance operational model with automated CI/CD schedules and comprehensive sanity tests:
+											</p>
+
+											<!-- Architecture Flow Graphic -->
+											<div style="background: #0f172a; border-radius: 10px; padding: 1.25rem; margin-bottom: 1.25rem; color: #f8fafc; font-family: monospace; font-size: 0.8rem; overflow-x: auto;">
+												<div style="display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 0.75rem;">
+													<div style="background: #1e293b; border: 1px solid #334155; border-radius: 8px; padding: 0.65rem 0.9rem; text-align: center;">
+														<span style="color: #38bdf8; font-weight: bold; display: block;">GitHub Actions</span>
+														<span style="color: #94a3b8; font-size: 0.72rem;">Hourly Cron (8-22h) + Sun Weekly</span>
+													</div>
+													<span style="color: #64748b; font-size: 1.2rem;">➔</span>
+													<div style="background: #1e293b; border: 1px solid #334155; border-radius: 8px; padding: 0.65rem 0.9rem; text-align: center;">
+														<span style="color: #34d399; font-weight: bold; display: block;">Python Pipeline</span>
+														<span style="color: #94a3b8; font-size: 0.72rem;">Multi-threaded ETL &amp; 5-Pillar Score</span>
+													</div>
+													<span style="color: #64748b; font-size: 1.2rem;">➔</span>
+													<div style="background: #1e293b; border: 1px solid #334155; border-radius: 8px; padding: 0.65rem 0.9rem; text-align: center;">
+														<span style="color: #f472b6; font-weight: bold; display: block;">Telegram Bot API</span>
+														<span style="color: #94a3b8; font-size: 0.72rem;">Instant Price &amp; Target Alerts</span>
+													</div>
+													<span style="color: #64748b; font-size: 1.2rem;">➔</span>
+													<div style="background: #1e293b; border: 1px solid #334155; border-radius: 8px; padding: 0.65rem 0.9rem; text-align: center;">
+														<span style="color: #fbbf24; font-weight: bold; display: block;">JSON State Store</span>
+														<span style="color: #94a3b8; font-size: 0.72rem;">Git Commit [skip ci]</span>
+													</div>
+													<span style="color: #64748b; font-size: 1.2rem;">➔</span>
+													<div style="background: #1e293b; border: 1px solid #334155; border-radius: 8px; padding: 0.65rem 0.9rem; text-align: center;">
+														<span style="color: #60a5fa; font-weight: bold; display: block;">Web Dashboard</span>
+														<span style="color: #94a3b8; font-size: 0.72rem;">Edge Cached via Cloudflare</span>
+													</div>
+												</div>
+											</div>
+
+											<!-- Testing & Verification Methods -->
+											<div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 1rem;">
+												<div style="background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 8px; padding: 0.9rem;">
+													<h5 style="font-size: 0.85rem; font-weight: 700; color: #0f172a; margin-bottom: 0.35rem;">🧪 Formula &amp; Math Sanity Tests</h5>
+													<p style="font-size: 0.8rem; color: #475569; line-height: 1.5; margin: 0;">
+														Unit validation verifying 5-year CAGR calculations against known test cases, ensuring zero division protection and payout threshold boundaries.
+													</p>
+												</div>
+												<div style="background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 8px; padding: 0.9rem;">
+													<h5 style="font-size: 0.85rem; font-weight: 700; color: #0f172a; margin-bottom: 0.35rem;">🌐 Exchange Integration Testing</h5>
+													<p style="font-size: 0.8rem; color: #475569; line-height: 1.5; margin: 0;">
+														Validation test suite verifying European cross-exchange ticker mapping (Lisbon, Paris, Frankfurt, Copenhagen) to prevent unresolvable symbols.
+													</p>
+												</div>
+												<div style="background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 8px; padding: 0.9rem;">
+													<h5 style="font-size: 0.85rem; font-weight: 700; color: #0f172a; margin-bottom: 0.35rem;">⚡ CI Execution &amp; State Integrity</h5>
+													<p style="font-size: 0.8rem; color: #475569; line-height: 1.5; margin: 0;">
+														Automated verification that output JSON files (<code>quotes.json</code>, <code>dgi_market_ranking.json</code>) are strictly validated schema objects before git commits.
+													</p>
+												</div>
+											</div>
+										</div>
+
+										<!-- 5. Real-World Execution Logs & Telegram Alert Payload -->
+										<div style="background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 12px; padding: 1.5rem; margin-bottom: 1.5rem;">
+											<div style="display: flex; align-items: center; gap: 0.5rem; margin-bottom: 0.75rem;">
+												<span style="background: #0284c7; color: #ffffff; font-size: 0.72rem; font-weight: 800; padding: 0.2rem 0.55rem; border-radius: 6px; text-transform: uppercase;">Live Execution</span>
+												<h3 style="font-size: 1.05rem; font-weight: 700; color: #0f172a; margin: 0;">5. Production Execution &amp; Live Telegram Alert Payload</h3>
+											</div>
+											<p style="font-size: 0.9rem; line-height: 1.6; color: #334155; margin-bottom: 1rem;">
+												Example of a verified real-time execution in GitHub Actions triggering a targeted alert dispatch to Telegram when market conditions hit valuation criteria:
+											</p>
+
+											<div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 1rem;">
+												<!-- Execution Log -->
+												<div style="background: #0f172a; color: #e2e8f0; border-radius: 8px; padding: 1rem; font-family: monospace; font-size: 0.78rem; line-height: 1.5;">
+													<span style="color: #94a3b8;"># GitHub Actions Runner (ubuntu-latest)</span><br/>
+													<span style="color: #38bdf8;">$ python check_alerts.py</span><br/>
+													<span style="color: #a3e635;">[Info] Loading watchlist: 19 tracked assets</span><br/>
+													<span>[Google Finance] GALP (GALP:ELI) -&gt; 17.84 EUR</span><br/>
+													<span>[Google Finance] AD (AD:AMS) -&gt; 31.42 EUR</span><br/>
+													<span>[Warning] Google Finance failed for ADS.DE. Trying yfinance fallback...</span><br/>
+													<span style="color: #facc15;">  [yfinance fallback] ADS.DE -&gt; 224.50 EUR (Success)</span><br/>
+													<span style="color: #34d399;">[Threshold Triggered] GALP dropped below Target Buy (18.00 EUR)</span><br/>
+													<span style="color: #38bdf8;">[Telegram] Alert dispatched successfully to Chat ID: 88712****</span><br/>
+													<span style="color: #94a3b8;">[Git] Committed quotes.json &amp; watchlist.json [skip ci]</span>
+												</div>
+
+												<!-- Telegram Card Preview -->
+												<div style="background: #ffffff; border: 1px solid #cbd5e1; border-radius: 8px; padding: 1rem; font-size: 0.82rem; color: #0f172a; box-shadow: 0 2px 8px rgba(0,0,0,0.04);">
+													<div style="border-bottom: 1px solid #e2e8f0; padding-bottom: 0.4rem; margin-bottom: 0.5rem; display: flex; justify-content: space-between;">
+														<strong style="color: #0369a1;">📱 Telegram Bot Alert</strong>
+														<span style="color: #64748b; font-size: 0.75rem;">17:17 UTC</span>
+													</div>
+													<div style="line-height: 1.5; font-family: sans-serif;">
+														<strong>📊 DGI FUNDAMENTAL ANALYSIS: GALP.LS</strong><br/>
+														🏢 <em>Galp Energia SGPS, S.A.</em> | Price: <code>17.84 €</code><br/>
+														━━━━━━━━━━━━━━━━━━━━━<br/>
+														🏆 <strong>DGI SCORE:</strong> <strong>88/100</strong> 🟢<br/>
+														📌 <strong>Rating:</strong> Strong Buy / Attractive Valuation<br/><br/>
+														🎯 <strong>Core Pillars:</strong><br/>
+														• 1. <strong>Yield:</strong> <code>4.15%</code> (0.74 € / ação) (20/20 pts)<br/>
+														• 2. <strong>FCF Payout:</strong> <code>38.2%</code> (20/20 pts)<br/>
+														• 3. <strong>Debt/EBITDA:</strong> <code>0.82x</code> (20/20 pts)<br/>
+														• 4. <strong>5Y Growth:</strong> Rev <code>11.4%</code> | NI <code>18.2%</code> (16/20 pts)<br/>
+														• 5. <strong>Div Growth (5Y CAGR):</strong> <code>7.8%</code> (12/20 pts)<br/>
+														━━━━━━━━━━━━━━━━━━━━━<br/>
+														💡 <em>Exceptional cash generation with disciplined leverage and safe payout.</em>
+													</div>
+												</div>
+											</div>
+										</div>
+
 										<!-- Tech Stack Box -->
 										<div style="background: #0f172a; color: #f8fafc; border-radius: 12px; padding: 1.25rem 1.5rem;">
-											<h4 style="font-size: 0.88rem; font-weight: 700; color: #38bdf8; text-transform: uppercase; letter-spacing: 0.05em; margin-bottom: 0.6rem;">Technologies Used</h4>
+											<h4 style="font-size: 0.88rem; font-weight: 700; color: #38bdf8; text-transform: uppercase; letter-spacing: 0.05em; margin-bottom: 0.6rem;">6. Complete Technology Stack</h4>
 											<div style="display: flex; flex-wrap: wrap; gap: 0.5rem; font-size: 0.8rem;">
-												<span style="background: #1e293b; padding: 0.35rem 0.75rem; border-radius: 6px; border: 1px solid #334155;">JavaScript (ES6+)</span>
-												<span style="background: #1e293b; padding: 0.35rem 0.75rem; border-radius: 6px; border: 1px solid #334155;">Chart.js (Radar & Stacked Bar)</span>
-												<span style="background: #1e293b; padding: 0.35rem 0.75rem; border-radius: 6px; border: 1px solid #334155;">Cloudflare Workers (Serverless Edge)</span>
-												<span style="background: #1e293b; padding: 0.35rem 0.75rem; border-radius: 6px; border: 1px solid #334155;">Yahoo Finance Institutional API</span>
+												<span style="background: #1e293b; padding: 0.35rem 0.75rem; border-radius: 6px; border: 1px solid #334155;">Python 3.10 / 3.11</span>
+												<span style="background: #1e293b; padding: 0.35rem 0.75rem; border-radius: 6px; border: 1px solid #334155;">ThreadPoolExecutor (Concurrency)</span>
+												<span style="background: #1e293b; padding: 0.35rem 0.75rem; border-radius: 6px; border: 1px solid #334155;">BeautifulSoup &amp; Requests</span>
+												<span style="background: #1e293b; padding: 0.35rem 0.75rem; border-radius: 6px; border: 1px solid #334155;">Yahoo Finance (yfinance)</span>
+												<span style="background: #1e293b; padding: 0.35rem 0.75rem; border-radius: 6px; border: 1px solid #334155;">GitHub Actions (Cron Pipelines)</span>
+												<span style="background: #1e293b; padding: 0.35rem 0.75rem; border-radius: 6px; border: 1px solid #334155;">Cloudflare Workers (Edge Caching)</span>
 												<span style="background: #1e293b; padding: 0.35rem 0.75rem; border-radius: 6px; border: 1px solid #334155;">Telegram Bot API</span>
-												<span style="background: #1e293b; padding: 0.35rem 0.75rem; border-radius: 6px; border: 1px solid #334155;">GitHub Pages</span>
+												<span style="background: #1e293b; padding: 0.35rem 0.75rem; border-radius: 6px; border: 1px solid #334155;">Chart.js (Radar &amp; Stacked Bar)</span>
+												<span style="background: #1e293b; padding: 0.35rem 0.75rem; border-radius: 6px; border: 1px solid #334155;">Vanilla JavaScript (ES6+)</span>
 											</div>
 										</div>
 
