@@ -106,43 +106,63 @@
 				box-shadow: 0 4px 14px rgba(15, 23, 42, 0.04);
 			}
 
-			.tab-nav-btn {
-				border: none;
-				background: transparent;
-				color: #64748b;
-				font-family: inherit;
-				font-size: 0.92rem;
-				font-weight: 700;
-				padding: 0.65rem 1.35rem;
-				border-radius: 9px;
-				cursor: pointer;
-				display: inline-flex;
-				align-items: center;
-				gap: 0.5rem;
-				transition: all 0.2s ease;
-				white-space: nowrap;
+			.tab-nav-btn,
+			button.tab-nav-btn {
+				border: 0 !important;
+				outline: none !important;
+				background: transparent !important;
+				background-color: transparent !important;
+				box-shadow: none !important;
+				color: #475569 !important;
+				font-family: inherit !important;
+				font-size: 0.92rem !important;
+				font-weight: 700 !important;
+				letter-spacing: normal !important;
+				text-transform: none !important;
+				height: auto !important;
+				line-height: 1.4 !important;
+				padding: 0.65rem 1.35rem !important;
+				border-radius: 9px !important;
+				cursor: pointer !important;
+				display: inline-flex !important;
+				align-items: center !important;
+				justify-content: center !important;
+				gap: 0.5rem !important;
+				transition: all 0.2s ease !important;
+				white-space: nowrap !important;
+				-webkit-appearance: none !important;
+				-moz-appearance: none !important;
+				appearance: none !important;
 			}
 
-			.tab-nav-btn:hover {
-				color: #0f172a;
-				background: rgba(255, 255, 255, 0.7);
+			.tab-nav-btn:hover,
+			button.tab-nav-btn:hover {
+				color: #0f172a !important;
+				background: rgba(255, 255, 255, 0.8) !important;
+				background-color: rgba(255, 255, 255, 0.8) !important;
+				box-shadow: none !important;
 			}
 
-			.tab-nav-btn.active {
-				background: #0f172a;
+			.tab-nav-btn.active,
+			button.tab-nav-btn.active,
+			.tab-nav-btn.active:hover,
+			button.tab-nav-btn.active:hover {
+				background: #0f172a !important;
+				background-color: #0f172a !important;
 				color: #38bdf8 !important;
-				box-shadow: 0 4px 12px rgba(15, 23, 42, 0.18);
+				box-shadow: 0 4px 12px rgba(15, 23, 42, 0.25) !important;
 			}
 
 			@media screen and (max-width: 768px) {
 				.tabs-nav-bar {
 					width: 100%;
 				}
-				.tab-nav-btn {
+				.tab-nav-btn,
+				button.tab-nav-btn {
 					flex: 1 1 calc(50% - 0.5rem);
 					justify-content: center;
-					padding: 0.55rem 0.75rem;
-					font-size: 0.82rem;
+					padding: 0.55rem 0.75rem !important;
+					font-size: 0.82rem !important;
 				}
 			}
 
