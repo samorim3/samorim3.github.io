@@ -85,6 +85,71 @@
 				text-align: left !important;
 			}
 
+			/* =========================================================
+			   4-TAB NAVIGATION BAR
+			   ========================================================= */
+			.tabs-navigation-wrapper {
+				margin: 2rem 0 1.5rem 0;
+				display: flex;
+				justify-content: center;
+			}
+
+			.tabs-nav-bar {
+				display: inline-flex;
+				background: #f1f5f9;
+				padding: 0.35rem;
+				border-radius: 12px;
+				border: 1px solid #e2e8f0;
+				gap: 0.35rem;
+				flex-wrap: wrap;
+				justify-content: center;
+				box-shadow: 0 4px 14px rgba(15, 23, 42, 0.04);
+			}
+
+			.tab-nav-btn {
+				border: none;
+				background: transparent;
+				color: #64748b;
+				font-family: inherit;
+				font-size: 0.92rem;
+				font-weight: 700;
+				padding: 0.65rem 1.35rem;
+				border-radius: 9px;
+				cursor: pointer;
+				display: inline-flex;
+				align-items: center;
+				gap: 0.5rem;
+				transition: all 0.2s ease;
+				white-space: nowrap;
+			}
+
+			.tab-nav-btn:hover {
+				color: #0f172a;
+				background: rgba(255, 255, 255, 0.7);
+			}
+
+			.tab-nav-btn.active {
+				background: #0f172a;
+				color: #ffffff;
+				box-shadow: 0 4px 12px rgba(15, 23, 42, 0.18);
+			}
+
+			@media screen and (max-width: 768px) {
+				.tabs-nav-bar {
+					width: 100%;
+				}
+				.tab-nav-btn {
+					flex: 1 1 calc(50% - 0.5rem);
+					justify-content: center;
+					padding: 0.55rem 0.75rem;
+					font-size: 0.82rem;
+				}
+			}
+
+			.app-tab-panel {
+				width: 100%;
+			}
+
 			/* Clean, sober dashboard cards */
 			.tool-card {
 				background: #ffffff;
@@ -448,17 +513,29 @@
 									<p style="margin: 0 auto; line-height: 1.65; font-size: 0.96rem; color: #475569;">
 										Born out of my <a href="financial_investments_2025.html" style="font-weight: 700; color: #047857; text-decoration: underline;">2025 Annual Investment Review</a>, where manually tracking 19 individual positions across global markets proved unsustainable. This platform automates rapid fundamental pre-screening, operates a <strong>market radar scanning international indices</strong> (S&amp;P 500, STOXX Europe 600, Euronext Lisbon, and IBEX 35) to detect companies meeting defined DGI score thresholds, and monitors real-time market prices to execute automated buy and sell alerts via Telegram.
 									</p>
-									<div style="margin-top: 1.1rem; display: flex; gap: 0.75rem; justify-content: center; flex-wrap: wrap;">
-										<button id="toggleDetailsBtnTop" type="button" onclick="toggleProjectDetails()" class="btn-sober btn-secondary btn-sm" style="display: inline-flex; align-items: center; gap: 0.5rem; padding: 0.5rem 1.15rem; font-weight: 700; cursor: pointer; border-radius: 8px;">
-											<span id="toggleDetailsTextTop">📖 View Technical Architecture & Details</span>
-											<span id="toggleIconTop">↓</span>
+								<!-- 4 Navigation Tabs -->
+								<div class="tabs-navigation-wrapper">
+									<div class="tabs-nav-bar">
+										<button type="button" id="tabBtn-screener" onclick="switchAppTab('screener')" class="tab-nav-btn active">
+											<span>📊</span> DGI Fundamental
+										</button>
+										<button type="button" id="tabBtn-radar" onclick="switchAppTab('radar')" class="tab-nav-btn">
+											<span>📡</span> Market Radar
+										</button>
+										<button type="button" id="tabBtn-telegram" onclick="switchAppTab('telegram')" class="tab-nav-btn">
+											<span>📱</span> Telegram Alerts
+										</button>
+										<button type="button" id="tabBtn-technical" onclick="switchAppTab('technical')" class="tab-nav-btn">
+											<span>⚙️</span> Technical Info
 										</button>
 									</div>
+								</div>
 								</header>
 
 								<!-- ==========================================
-								     SECTION 1: DGI FUNDAMENTAL SCREENER
+								     TAB 1: DGI FUNDAMENTAL SCREENER
 								     ========================================== -->
+								<div id="panel-screener" class="app-tab-panel">
 								<div class="tool-card">
 									
 									<div class="section-header">
@@ -652,108 +729,18 @@
 
 									</div>
 								</div>
+								</div> <!-- End #panel-screener -->
 
 
 								<!-- ==========================================
-								     SECTION 2: WATCHLIST & TARGET PRICE ALERTS
+								     TAB 2: GLOBAL DGI MARKET RADAR & SCREENER
 								     ========================================== -->
-								<div class="tool-card">
-									
-									<div class="section-header">
-										<div>
-											<h2 class="section-title">Stock Watchlist & Price Targets</h2>
-											<p class="section-subtitle">Real-time market price monitoring with automated Telegram buy/sell alerts.</p>
-										</div>
-									</div>
-
-
-
-									<!-- Watchlist Table Card (Sober & Shadowed) -->
-									<div class="watchlist-table-card">
-										<div class="table-wrapper">
-											<table class="sober-table">
-												<thead>
-													<tr>
-														<th style="width: 25%;">Company / Ticker</th>
-														<th style="width: 14%; text-align: center;">Min Buy</th>
-														<th style="width: 14%; text-align: center;">Max Sell</th>
-														<th style="width: 14%; text-align: center;">Last Price</th>
-														<th style="width: 20%; text-align: center;">Dividend & Ex-Div</th>
-														<th style="width: 13%; text-align: center;">Actions</th>
-													</tr>
-												</thead>
-												<tbody id="watchlistTableBody">
-													<!-- Dynamically populated -->
-												</tbody>
-											</table>
-										</div>
-									</div>
-
-									<div id="watchlistSummaryBox" class="status-msg"></div>
-
-									<!-- Telegram & GitHub Settings Box (Sober & Compact) -->
-									<div class="settings-box">
-										<div style="font-size: 0.85rem; font-weight: 700; color: #0f172a; margin-bottom: 0.25rem;">Settings & Telegram Integration</div>
-										<p style="font-size: 0.78rem; color: #64748b; margin-bottom: 0.85rem;">Store your Telegram Bot Token and Chat ID locally in your browser to receive instant alerts and DGI summaries.</p>
-										
-										<div class="form-grid-inputs">
-											<div class="input-group">
-												<label for="telegramToken">Telegram Bot Token:</label>
-												<input type="text" id="telegramToken" class="masked-token-input" autocomplete="off" spellcheck="false" data-lpignore="true" placeholder="123456789:ABCdef..." />
-											</div>
-											<div class="input-group">
-												<label for="telegramChatId">Telegram Chat ID:</label>
-												<input type="text" id="telegramChatId" autocomplete="off" placeholder="12345678" />
-											</div>
-											<div class="input-group">
-												<label for="githubToken">GitHub Token (Optional Sync):</label>
-												<input type="text" id="githubToken" class="masked-token-input" autocomplete="off" spellcheck="false" data-lpignore="true" placeholder="ghp_..." />
-											</div>
-											<div style="display: flex; gap: 0.4rem;">
-												<button onclick="saveTelegramCredentials(true)" class="btn-sober btn-secondary btn-sm" style="height: 38px;">Save</button>
-												<button onclick="testTelegramAlert()" class="btn-sober btn-secondary btn-sm" style="height: 38px;">Test Alert</button>
-											</div>
-										</div>
-										<div id="telegramStatusBox" class="status-msg"></div>
-
-										<!-- Live Telegram Alerts Example -->
-										<div style="margin-top: 1.5rem; padding-top: 1.25rem; border-top: 1px solid #e2e8f0;">
-											<div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.85rem; flex-wrap: wrap; gap: 0.5rem;">
-												<div style="font-size: 0.88rem; font-weight: 800; color: #0f172a; display: flex; align-items: center; gap: 0.45rem;">
-													<span>📱 Live Telegram Alerts in Production</span>
-													<span style="font-size: 0.68rem; background: #e0f2fe; color: #0369a1; padding: 0.15rem 0.5rem; border-radius: 4px; font-weight: 700; text-transform: uppercase;">Live Bot</span>
-												</div>
-												<span style="font-size: 0.72rem; color: #64748b;">Automated notifications from the "Alerta Investimentos" bot</span>
-											</div>
-
-											<div style="display: flex; gap: 1.5rem; align-items: center; justify-content: center; flex-wrap: wrap; background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 12px; padding: 1.25rem;">
-												<div style="flex: 0 0 250px; max-width: 100%; text-align: center;">
-													<img src="images/telegram_alerts_sample.png" alt="Real Stock Alerts Received on Telegram" style="width: 100%; max-width: 250px; height: auto; border-radius: 14px; box-shadow: 0 8px 24px rgba(15, 23, 42, 0.16); border: 2px solid #cbd5e1; display: inline-block;" />
-													<span style="font-size: 0.72rem; color: #64748b; display: block; margin-top: 0.5rem;">Actual smartphone screenshot</span>
-												</div>
-												<div style="flex: 1 1 320px;">
-													<h4 style="font-size: 0.95rem; font-weight: 800; color: #0f172a; margin-bottom: 0.6rem;">How real-time alerts work:</h4>
-													<ul style="font-size: 0.84rem; color: #334155; line-height: 1.65; margin: 0; padding-left: 1.15rem;">
-														<li><strong style="color: #15803d;">🟢 Stock Buy Alerts:</strong> Dispatched when a high-quality company with a strong DGI Score hits or drops below the target buy price (e.g. <em>Sanofi</em> @ €69.99 with score 77, <em>EssilorLuxottica</em> @ €143.20 with score 87, <em>LVMH</em> @ €380.00).</li>
-														<li><strong style="color: #dc2626;">🔴 Stock Sell Alerts:</strong> Exit or profit-taking notifications when market price exceeds the target threshold (e.g. <em>Galp Energia</em> @ €22.25 vs €22.00 target).</li>
-														<li><strong style="color: #0369a1;">📊 Instant Scorecard Data:</strong> The bot summarizes the <strong>DGI Score (0–100)</strong>, Dividend Yield, Free Cash Flow Payout, and Ex-Dividend date directly in the chat.</li>
-														<li><strong style="color: #475569;">⚙️ Zero-Maintenance Cloud:</strong> Scheduled hourly checks executed with GitHub Actions cron runners.</li>
-													</ul>
-												</div>
-											</div>
-										</div>
-									</div>
-
-								</div>
-
-									<!-- ==========================================
-									     SECTION 3: GLOBAL DGI MARKET RADAR & RANKINGS
-									     ========================================== -->
-									<div class="tool-card" style="margin-top: 2rem;">
+								<div id="panel-radar" class="app-tab-panel" style="display: none;">
+									<div class="tool-card">
 										<div class="section-header">
 											<div>
 												<h2 class="section-title">Global DGI Market Screener & Radar</h2>
-												<p class="section-subtitle">Automated weekly screening across S&P 500, STOXX Europe 600, and Euronext Lisboa (PSI), ranked by institutional 5-Pillar DGI score.</p>
+												<p class="section-subtitle">Automated weekly screening across S&P 500, STOXX Europe 600, Euronext Lisboa (PSI), and IBEX 35, ranked by institutional 5-Pillar DGI score.</p>
 											</div>
 											<div style="display: flex; gap: 0.5rem; flex-wrap: wrap;">
 												<span style="font-size: 0.72rem; background: #f0fdf4; color: #166534; border: 1px solid #bbf7d0; padding: 0.25rem 0.6rem; border-radius: 6px; font-weight: 700;">Scanned: 973 Assets</span>
@@ -823,21 +810,107 @@
 											</div>
 										</div>
 									</div>
+								</div> <!-- End #panel-radar -->
 
-									<!-- Toggle Button for Project Details -->
-									<div style="text-align: center; margin: 3rem 0 1.5rem 0;">
-										<button id="toggleDetailsBtnMid" type="button" onclick="toggleProjectDetails()" class="btn-sober btn-secondary" style="display: inline-flex; align-items: center; gap: 0.6rem; padding: 0.75rem 1.75rem; font-size: 0.95rem; font-weight: 700; cursor: pointer; border-radius: 10px; background: #ffffff; border: 1.5px solid #cbd5e1; box-shadow: 0 4px 14px rgba(15, 23, 42, 0.06);">
-											<span id="toggleDetailsIconMid">📘</span>
-											<span id="toggleDetailsTextMid">View Technical Architecture & Full Case Study</span>
-											<span id="toggleIconMid">↓</span>
-										</button>
-										<p style="font-size: 0.78rem; color: #64748b; margin-top: 0.4rem;">Click to expand detailed documentation: ETL pipeline, fault tolerance, testing suite, and system architecture.</p>
+
+								<!-- ==========================================
+								     TAB 3: WATCHLIST & TARGET PRICE ALERTS
+								     ========================================== -->
+								<div id="panel-telegram" class="app-tab-panel" style="display: none;">
+									<div class="tool-card">
+										
+										<div class="section-header">
+											<div>
+												<h2 class="section-title">Stock Watchlist & Price Targets</h2>
+												<p class="section-subtitle">Real-time market price monitoring with automated Telegram buy/sell alerts.</p>
+											</div>
+										</div>
+
+										<!-- Watchlist Table Card (Sober & Shadowed) -->
+										<div class="watchlist-table-card">
+											<div class="table-wrapper">
+												<table class="sober-table">
+													<thead>
+														<tr>
+															<th style="width: 25%;">Company / Ticker</th>
+															<th style="width: 14%; text-align: center;">Min Buy</th>
+															<th style="width: 14%; text-align: center;">Max Sell</th>
+															<th style="width: 14%; text-align: center;">Last Price</th>
+															<th style="width: 20%; text-align: center;">Dividend & Ex-Div</th>
+															<th style="width: 13%; text-align: center;">Actions</th>
+														</tr>
+													</thead>
+													<tbody id="watchlistTableBody">
+														<!-- Dynamically populated -->
+													</tbody>
+												</table>
+											</div>
+										</div>
+
+										<div id="watchlistSummaryBox" class="status-msg"></div>
+
+										<!-- Telegram & GitHub Settings Box (Sober & Compact) -->
+										<div class="settings-box">
+											<div style="font-size: 0.85rem; font-weight: 700; color: #0f172a; margin-bottom: 0.25rem;">Settings & Telegram Integration</div>
+											<p style="font-size: 0.78rem; color: #64748b; margin-bottom: 0.85rem;">Store your Telegram Bot Token and Chat ID locally in your browser to receive instant alerts and DGI summaries.</p>
+											
+											<div class="form-grid-inputs">
+												<div class="input-group">
+													<label for="telegramToken">Telegram Bot Token:</label>
+													<input type="text" id="telegramToken" class="masked-token-input" autocomplete="off" spellcheck="false" data-lpignore="true" placeholder="123456789:ABCdef..." />
+												</div>
+												<div class="input-group">
+													<label for="telegramChatId">Telegram Chat ID:</label>
+													<input type="text" id="telegramChatId" autocomplete="off" placeholder="12345678" />
+												</div>
+												<div class="input-group">
+													<label for="githubToken">GitHub Token (Optional Sync):</label>
+													<input type="text" id="githubToken" class="masked-token-input" autocomplete="off" spellcheck="false" data-lpignore="true" placeholder="ghp_..." />
+												</div>
+												<div style="display: flex; gap: 0.4rem;">
+													<button onclick="saveTelegramCredentials(true)" class="btn-sober btn-secondary btn-sm" style="height: 38px;">Save</button>
+													<button onclick="testTelegramAlert()" class="btn-sober btn-secondary btn-sm" style="height: 38px;">Test Alert</button>
+												</div>
+											</div>
+											<div id="telegramStatusBox" class="status-msg"></div>
+
+											<!-- Live Telegram Alerts Example -->
+											<div style="margin-top: 1.5rem; padding-top: 1.25rem; border-top: 1px solid #e2e8f0;">
+												<div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.85rem; flex-wrap: wrap; gap: 0.5rem;">
+													<div style="font-size: 0.88rem; font-weight: 800; color: #0f172a; display: flex; align-items: center; gap: 0.45rem;">
+														<span>📱 Live Telegram Alerts in Production</span>
+														<span style="font-size: 0.68rem; background: #e0f2fe; color: #0369a1; padding: 0.15rem 0.5rem; border-radius: 4px; font-weight: 700; text-transform: uppercase;">Live Bot</span>
+													</div>
+													<span style="font-size: 0.72rem; color: #64748b;">Automated notifications from the "Alerta Investimentos" bot</span>
+												</div>
+
+												<div style="display: flex; gap: 1.5rem; align-items: center; justify-content: center; flex-wrap: wrap; background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 12px; padding: 1.25rem;">
+													<div style="flex: 0 0 250px; max-width: 100%; text-align: center;">
+														<img src="images/telegram_alerts_sample.png" alt="Real Stock Alerts Received on Telegram" style="width: 100%; max-width: 250px; height: auto; border-radius: 14px; box-shadow: 0 8px 24px rgba(15, 23, 42, 0.16); border: 2px solid #cbd5e1; display: inline-block;" />
+														<span style="font-size: 0.72rem; color: #64748b; display: block; margin-top: 0.5rem;">Actual smartphone screenshot</span>
+													</div>
+													<div style="flex: 1 1 320px;">
+														<h4 style="font-size: 0.95rem; font-weight: 800; color: #0f172a; margin-bottom: 0.6rem;">How real-time alerts work:</h4>
+														<ul style="font-size: 0.84rem; color: #334155; line-height: 1.65; margin: 0; padding-left: 1.15rem;">
+															<li><strong style="color: #15803d;">🟢 Stock Buy Alerts:</strong> Dispatched when a high-quality company with a strong DGI Score hits or drops below the target buy price (e.g. <em>Sanofi</em> @ €69.99 with score 77, <em>EssilorLuxottica</em> @ €143.20 with score 87, <em>LVMH</em> @ €380.00).</li>
+															<li><strong style="color: #dc2626;">🔴 Stock Sell Alerts:</strong> Exit or profit-taking notifications when market price exceeds the target threshold (e.g. <em>Galp Energia</em> @ €22.25 vs €22.00 target).</li>
+															<li><strong style="color: #0369a1;">📊 Instant Scorecard Data:</strong> The bot summarizes the <strong>DGI Score (0–100)</strong>, Dividend Yield, Free Cash Flow Payout, and Ex-Dividend date directly in the chat.</li>
+															<li><strong style="color: #475569;">⚙️ Zero-Maintenance Cloud:</strong> Scheduled hourly checks executed with GitHub Actions cron runners.</li>
+														</ul>
+													</div>
+												</div>
+											</div>
+										</div>
+
 									</div>
+								</div> <!-- End #panel-telegram -->
 
-									<!-- ==========================================
-									     PROJECT CASE STUDY & TECHNICAL ARCHITECTURE (HIDDEN BY DEFAULT)
-									     ========================================== -->
-									<div id="project-details" style="display: none; margin-top: 2rem; padding-top: 2rem; border-top: 2px solid #e2e8f0;">
+
+								<!-- ==========================================
+								     TAB 4: TECHNICAL ARCHITECTURE & METHODOLOGY
+								     ========================================== -->
+								<div id="panel-technical" class="app-tab-panel" style="display: none;">
+									<div id="project-details" style="display: block; margin-top: 0; padding-top: 0; border-top: none;">
 										
 										<div style="margin-bottom: 1.5rem;">
 											<span style="font-size: 0.75rem; text-transform: uppercase; letter-spacing: 0.08em; font-weight: 800; color: #047857;">Portfolio Case Study</span>
@@ -1087,14 +1160,15 @@
 											</div>
 										</div>
 
-										<!-- Bottom Collapse Button -->
+										<!-- Return to Screener Button -->
 										<div style="text-align: center; margin-top: 2.5rem; padding-top: 1.5rem; border-top: 1px solid #e2e8f0;">
-											<button type="button" onclick="toggleProjectDetails()" class="btn-sober btn-secondary btn-sm" style="display: inline-flex; align-items: center; gap: 0.5rem; padding: 0.55rem 1.35rem; font-weight: 700; cursor: pointer; border-radius: 8px;">
-												<span>▲ Hide Technical Details</span>
+											<button type="button" onclick="switchAppTab('screener'); window.scrollTo({top: 0, behavior: 'smooth'});" class="btn-sober btn-secondary btn-sm" style="display: inline-flex; align-items: center; gap: 0.5rem; padding: 0.55rem 1.35rem; font-weight: 700; cursor: pointer; border-radius: 8px;">
+												<span>↑ Back to DGI Screener</span>
 											</button>
 										</div>
 
 									</div>
+								</div> <!-- End #panel-technical -->
 
 								<ul class="actions special" style="margin-top: 3rem;">
 									<li><a href="index.html" class="button large">Back to Projects</a></li>
@@ -2606,12 +2680,13 @@
 				}
 
 				function inspectMarketStock(ticker) {
+					switchAppTab('screener');
 					const inputEl = document.getElementById('dgiTickerInput');
 					if (inputEl) {
 						inputEl.value = ticker;
 					}
 					analyzeDgiStock(ticker);
-					const targetSec = document.getElementById('dgiResultSection') || document.getElementById('header');
+					const targetSec = document.getElementById('dgiResultSection') || document.getElementById('panel-screener');
 					if (targetSec) {
 						targetSec.scrollIntoView({ behavior: 'smooth' });
 					}
@@ -2709,49 +2784,48 @@
 
 					renderWatchlistTable();
 
-					if (window.location.hash === '#project-details') {
-						toggleProjectDetails(true);
+					const hash = window.location.hash;
+					if (hash === '#radar' || hash === '#tab-radar') {
+						switchAppTab('radar');
+					} else if (hash === '#telegram' || hash === '#tab-telegram') {
+						switchAppTab('telegram');
+					} else if (hash === '#technical' || hash === '#project-details' || hash === '#tab-technical') {
+						switchAppTab('technical');
+					} else {
+						switchAppTab('screener');
 					}
 				});
 
 				// ==========================================
-				// TOGGLE PROJECT DETAILS & ARCHITECTURE
+				// 4-TAB NAVIGATION SYSTEM
 				// ==========================================
-				function toggleProjectDetails(scroll = true) {
-					const details = document.getElementById('project-details');
-					if (!details) return;
-					const isHidden = details.style.display === 'none' || details.style.display === '';
+				function switchAppTab(tabName) {
+					const tabKeys = ['screener', 'radar', 'telegram', 'technical'];
 					
-					if (isHidden) {
-						details.style.display = 'block';
-						updateToggleButtons(true);
-						if (scroll) {
-							setTimeout(() => {
-								details.scrollIntoView({ behavior: 'smooth', block: 'start' });
-							}, 60);
+					tabKeys.forEach(key => {
+						const panel = document.getElementById('panel-' + key);
+						const btn = document.getElementById('tabBtn-' + key);
+						if (panel) {
+							panel.style.display = (key === tabName) ? 'block' : 'none';
 						}
-					} else {
-						details.style.display = 'none';
-						updateToggleButtons(false);
+						if (btn) {
+							if (key === tabName) {
+								btn.classList.add('active');
+							} else {
+								btn.classList.remove('active');
+							}
+						}
+					});
+
+					if (tabName === 'screener') {
+						if (radarChartInstance) setTimeout(() => radarChartInstance.resize(), 60);
+						if (barChartInstance) setTimeout(() => barChartInstance.resize(), 60);
 					}
-				}
 
-				function updateToggleButtons(isOpen) {
-					const topText = document.getElementById('toggleDetailsTextTop');
-					const topIcon = document.getElementById('toggleIconTop');
-					const midText = document.getElementById('toggleDetailsTextMid');
-					const midIcon = document.getElementById('toggleIconMid');
-
-					if (isOpen) {
-						if (topText) topText.innerText = 'Hide Architecture & Tech Details';
-						if (topIcon) topIcon.innerText = '↑';
-						if (midText) midText.innerText = 'Hide Technical Architecture & Details';
-						if (midIcon) midIcon.innerText = '↑';
-					} else {
-						if (topText) topText.innerText = 'View Technical Architecture & Details';
-						if (topIcon) topIcon.innerText = '↓';
-						if (midText) midText.innerText = 'View Technical Architecture & Full Case Study';
-						if (midIcon) midIcon.innerText = '↓';
+					if (tabName === 'radar') {
+						if (marketRankings && marketRankings.length > 0) {
+							renderMarketRankingsTable();
+						}
 					}
 				}
 			</script>
