@@ -343,6 +343,8 @@ def calculate_dgi_data(ticker_sym):
         icon = "🔴"
         summary = "High leverage or dividend uncovered by free cash flow."
 
+    chowder = (div_yield_pct + (dps_cagr_5y * 100.0)) if (dps_cagr_5y is not None and div_yield_pct > 0) else (div_yield_pct if div_yield_pct > 0 else None)
+
     return {
         'ticker': ticker_sym.upper(),
         'name': info.get('shortName') or info.get('longName') or ticker_sym,
