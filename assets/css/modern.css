@@ -601,7 +601,7 @@ img {
   overflow-y: hidden !important;
   scroll-snap-type: x mandatory;
   scroll-behavior: smooth;
-  gap: 1.75rem;
+  gap: 1.5rem;
   padding: 0.5rem 0.25rem 1.5rem;
   -webkit-overflow-scrolling: touch;
   scrollbar-width: thin;
@@ -627,10 +627,10 @@ img {
 }
 
 .project-card {
-  flex: 0 0 calc((100% - 2 * 1.75rem) / 3) !important;
-  width: calc((100% - 2 * 1.75rem) / 3) !important;
-  min-width: 330px !important;
-  max-width: 390px !important;
+  flex: 0 0 310px !important;
+  width: 310px !important;
+  min-width: 290px !important;
+  max-width: 340px !important;
   flex-shrink: 0 !important;
   flex-grow: 0 !important;
   scroll-snap-align: start;
@@ -645,9 +645,9 @@ img {
 
 @media screen and (max-width: 1024px) {
   .project-card {
-    flex: 0 0 calc((100% - 1.5rem) / 2) !important;
-    width: calc((100% - 1.5rem) / 2) !important;
-    min-width: 290px !important;
+    flex: 0 0 calc((100% - 1.5rem) / 2.25) !important;
+    width: calc((100% - 1.5rem) / 2.25) !important;
+    min-width: 280px !important;
     max-width: none !important;
   }
 }
@@ -659,6 +659,38 @@ img {
     min-width: 260px !important;
     max-width: none !important;
   }
+}
+
+/* Carousel Pagination Dots */
+.carousel-dots {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 0.6rem;
+  margin-top: 1.5rem;
+  margin-bottom: 0.5rem;
+}
+
+.carousel-dot {
+  width: 9px;
+  height: 9px;
+  border-radius: var(--radius-full);
+  background: var(--border-card);
+  border: none;
+  padding: 0;
+  cursor: pointer;
+  transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.carousel-dot:hover {
+  background: var(--text-secondary);
+  transform: scale(1.2);
+}
+
+.carousel-dot.active {
+  width: 28px;
+  background: var(--accent-primary);
+  box-shadow: 0 0 12px var(--accent-glow);
 }
 
 .project-card:hover {

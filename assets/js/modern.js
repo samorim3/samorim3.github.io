@@ -197,15 +197,65 @@ function initActiveNavSpy() {
 }
 
 /* --------------------------------------------------------------------------
-   PROJECTS CAROUSEL (HORIZONTAL SCROLL)
+   PROJECTS CAROUSEL (HORIZONTAL SCROLL & DOTS)
    -------------------------------------------------------------------------- */
 function initProjectsCarousel() {
   const container = document.querySelector('.projects-grid');
   const prevBtn = document.getElementById('projects-prev-btn');
   const nextBtn = document.getElementById('projects-next-btn');
-  if (!container || !prevBtn || !nextBtn) return;
+  const dotsContainer = document.getElementById('projects-carousel-dots');
+  if (!container) return;
+
+  const cards = container.querySelectorAll('.project-card');
+  if (!cards.length) return;
+
+  // Build dots
+  const dots = [];
+  if (dotsContainer) {
+    dotsContainer.innerHTML = '';
+    cards.forEach((card, idx) => {
+      const dot = document.createElement('button');
+      dot.type = 'button';
+      dot.className = 'carousel-dot' + (idx === 0 ? ' active' : '');
+      dot.setAttribute('aria-label', `Go to project ${idx + 1}`);
+      dot.addEventListener('click', () => {
+        if (idx === cards.length - 1) {
+          container.scrollTo({ left: container.scrollWidth - container.clientWidth, behavior: 'smooth' });
+        } else {
+          container.scrollTo({ left: card.offsetLeft - container.offsetLeft, behavior: 'smooth' });
+        }
+      });
+      dotsContainer.appendChild(dot);
+      dots.push(dot);
+    });
+  }
+
+  function updateActiveDot() {
+    if (!dots.length) return;
+    const scrollLeft = container.scrollLeft;
+    const maxScroll = container.scrollWidth - container.clientWidth;
+
+    let activeIdx = 0;
+    if (scrollLeft >= maxScroll - 20) {
+      activeIdx = cards.length - 1;
+    } else {
+      let minDiff = Infinity;
+      cards.forEach((card, idx) => {
+        const diff = Math.abs((card.offsetLeft - container.offsetLeft) - scrollLeft);
+        if (diff < minDiff) {
+          minDiff = diff;
+          activeIdx = idx;
+        }
+      });
+    }
+
+    dots.forEach((dot, idx) => {
+      dot.classList.toggle('active', idx === activeIdx);
+    });
+  }
 
   function updateButtons() {
+    if (!prevBtn || !nextBtn) return;
     const atStart = container.scrollLeft <= 10;
     const atEnd = container.scrollLeft + container.clientWidth >= container.scrollWidth - 10;
     prevBtn.disabled = atStart;
@@ -214,24 +264,33 @@ function initProjectsCarousel() {
     nextBtn.classList.toggle('disabled', atEnd);
   }
 
+  function updateControls() {
+    updateButtons();
+    updateActiveDot();
+  }
+
   function getScrollStep() {
     const card = container.querySelector('.project-card');
     if (!card) return container.clientWidth;
     const style = window.getComputedStyle(container);
-    const gap = parseFloat(style.gap) || 28;
+    const gap = parseFloat(style.gap) || 24;
     return card.offsetWidth + gap;
   }
 
-  prevBtn.addEventListener('click', () => {
-    container.scrollBy({ left: -getScrollStep(), behavior: 'smooth' });
-  });
+  if (prevBtn) {
+    prevBtn.addEventListener('click', () => {
+      container.scrollBy({ left: -getScrollStep(), behavior: 'smooth' });
+    });
+  }
 
-  nextBtn.addEventListener('click', () => {
-    container.scrollBy({ left: getScrollStep(), behavior: 'smooth' });
-  });
+  if (nextBtn) {
+    nextBtn.addEventListener('click', () => {
+      container.scrollBy({ left: getScrollStep(), behavior: 'smooth' });
+    });
+  }
 
-  container.addEventListener('scroll', updateButtons, { passive: true });
-  window.addEventListener('resize', updateButtons, { passive: true });
-  setTimeout(updateButtons, 150);
+  container.addEventListener('scroll', updateControls, { passive: true });
+  window.addEventListener('resize', updateControls, { passive: true });
+  setTimeout(updateControls, 150);
 }
 
