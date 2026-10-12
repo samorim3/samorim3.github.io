@@ -144,7 +144,7 @@ def send_telegram_dgi_alert(data, token=None, chat_id=None):
         f"• 2. *Payout ({s['p2_payout']['metric']}):* `{payout_s}` ({s['p2_payout']['score']:.0f}/20 pts)\n"
         f"• 3. *Dívida/EBITDA:* `{debt_s}` ({s['p3_leverage']['score']:.0f}/20 pts)\n"
         f"• 4. *Cresc. Operac. (5y):* Rev `{rev_s}` | Lucro `{ni_s}` ({s['p4_growth']['score']:.0f}/20 pts)\n"
-        f"• 5. *Cresc. Dividendo (5y):* `{dps_s}` ({s.get('p5_growth', s.get('p5_chowder', {})).get('score', 0):.0f}/20 pts)\n"
+        f"• 5. *Cresc. Dividendo (5y):* `{dps_s}` ({s['p5_growth']['score']:.0f}/20 pts)\n"
         f"━━━━━━━━━━━━━━━━━━━━━\n"
         f"💡 _{data['verdict_summary']}_"
     )
@@ -464,7 +464,6 @@ def analyze_company(ticker_sym):
             'p3_leverage': {'score': p3_score, 'max': 20, 'status': p3_status, 'desc': p3_desc, 'val': net_debt_ebitda},
             'p4_growth': {'score': p4_score, 'max': 20, 'status': p4_status, 'desc': p4_desc, 'rev_cagr': rev_cagr_5y, 'ni_cagr': ni_cagr_5y},
             'p5_growth': {'score': p5_score, 'max': 20, 'status': p5_status, 'desc': p5_desc, 'dps_cagr': dps_cagr_5y},
-            'p5_chowder': {'score': p5_score, 'max': 20, 'status': p5_status, 'desc': p5_desc, 'dps_cagr': dps_cagr_5y},
         },
         'verdict': verdict,
         'verdict_badge': verdict_badge,
@@ -596,7 +595,7 @@ if ticker_input:
             ("2. Sustentabilidade FCF", data['scores']['p2_payout'], "🛡️", f"{data['scores']['p2_payout']['val']:.1f}%" if data['scores']['p2_payout']['val'] is not None else "N/D"),
             ("3. Solidez / Balanço", data['scores']['p3_leverage'], "🏦", f"{data['net_debt_ebitda']:.2f}x" if data['net_debt_ebitda'] is not None else "Caixa Líq."),
             ("4. Cresc. Operacional", data['scores']['p4_growth'], "📈", f"Rev: {data['scores']['p4_growth']['rev_cagr']*100:.1f}%" if data['scores']['p4_growth']['rev_cagr'] else "N/D"),
-            ("5. Crescimento Div.", data['scores'].get('p5_growth', data['scores'].get('p5_chowder')), "👑", f"CAGR: {dps_val*100:.1f}%" if dps_val is not None else "N/D")
+            ("5. Crescimento Div.", data['scores']['p5_growth'], "👑", f"CAGR: {dps_val*100:.1f}%" if dps_val is not None else "N/D")
         ]
 
         for i, (title, p_data, icon, main_metric) in enumerate(pillars_info):
@@ -640,7 +639,7 @@ if ticker_input:
                     data['scores']['p2_payout']['score'],
                     data['scores']['p3_leverage']['score'],
                     data['scores']['p4_growth']['score'],
-                    data['scores'].get('p5_growth', data['scores'].get('p5_chowder'))['score']
+                    data['scores']['p5_growth']['score']
                 ]
                 
                 fig_radar = go.Figure()

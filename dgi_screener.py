@@ -224,7 +224,6 @@ def analyze_company(item):
         "roic": round(roic, 1),
         "margin": round(margin, 1),
         "divCagr5y": div_cagr_5y,
-        "chowder": chowder,
         "pe": pe,
         "forwardPe": fwd_pe,
         "pillars": {
