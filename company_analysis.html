@@ -1328,6 +1328,11 @@ payout_label = <span style="color: #86efac;">"FCF"</span> <span style="color: #7
 					"KBC": "KBC.BR",
 					"UCB": "UCB.BR",
 
+					// Trade Republic / Alemanha / Japão
+					"NINTENDO": "NTO.F",
+					"NTO": "NTO.F",
+					"NTO.F": "NTO.F",
+
 					// Switzerland, Nordics & UK
 					"NESTLE": "NESN.SW",
 					"NESN": "NESN.SW",
@@ -2206,7 +2211,7 @@ payout_label = <span style="color: #86efac;">"FCF"</span> <span style="color: #7
 					if (t.includes('.SW') || t.includes('.VX')) return 'CHF';
 					if (t.includes('.ST')) return 'SEK';
 					if (t.includes('.CO')) return 'DKK';
-					if (t.includes('.LS') || t.includes('.DE') || t.includes('.PA') || t.includes('.AS') || t.includes('.MI') || t.includes('.MC') || t.includes('.BR') || t.includes('GALP') || t.includes('ADS') || t.includes('LVMH') || t.includes('AHOLD') || t.includes('AD.AS') || t.includes('FDJ')) return '€';
+					if (t.includes('.LS') || t.includes('.DE') || t.includes('.PA') || t.includes('.AS') || t.includes('.MI') || t.includes('.MC') || t.includes('.BR') || t.includes('.F') || t.includes('GALP') || t.includes('ADS') || t.includes('LVMH') || t.includes('AHOLD') || t.includes('AD.AS') || t.includes('FDJ') || t.includes('NTO')) return '€';
 					if (t.includes('.SA') || t.includes('PETR') || t.includes('VALE') || t.includes('ITUB')) return 'R$';
 					if (t.includes('.L')) return '£';
 					return '$';
@@ -2998,6 +3003,13 @@ payout_label = <span style="color: #86efac;">"FCF"</span> <span style="color: #7
 						if (t === "LFDJF" || t === "FDJ") {
 							t = "FDJ.PA";
 							n = "La Française des Jeux";
+						}
+						if (t === "NTDOY" || t === "NTO") {
+							t = "NTO.F";
+							n = "Nintendo Co., Ltd.";
+							if (item.minBuy === 12) item.minBuy = 42.0;
+							if (item.maxSell === 14.33) item.maxSell = 52.0;
+							if (item.lastPrice < 20) item.lastPrice = 46.0;
 						}
 						return { ...item, ticker: t, name: n };
 					});

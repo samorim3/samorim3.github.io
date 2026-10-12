@@ -66,6 +66,8 @@ GF_TICKER_MAP = {
     "DG": "DG:EPA",
     "COLO-B.CO": "COLO-B:CPH",
     "COLO-B": "COLO-B:CPH",
+    "NTO.F": "NTO:FRA",
+    "NTO": "NTO:FRA",
     "NFLX": "NFLX:NASDAQ",
     "GOOGL": "GOOGL:NASDAQ"
 }

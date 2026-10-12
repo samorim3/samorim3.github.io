@@ -156,16 +156,16 @@
     "exDividendDate": "2026-05-18"
   },
   {
-    "ticker": "NTDOY",
+    "ticker": "NTO.F",
     "name": "Nintendo Co., Ltd.",
-    "minBuy": 12,
-    "maxSell": 14.33,
-    "lastPrice": 13,
-    "dgiScore": 86,
+    "minBuy": 42.0,
+    "maxSell": 52.0,
+    "lastPrice": 46.0,
+    "dgiScore": 86.0,
     "dgiVerdict": "Top Tier DGI (Aristocrat)",
-    "dividendRate": 0.15,
-    "dividendYield": 2.6,
-    "exDividendDate": "2025-03-31"
+    "dividendRate": 1.24,
+    "dividendYield": 2.7,
+    "exDividendDate": "2026-03-30"
   },
   {
     "ticker": "AD.AS",
