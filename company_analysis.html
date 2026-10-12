@@ -362,8 +362,9 @@
 												<div id="dgiScoreBadge" style="background: #64748b; color: #ffffff; padding: 0.3rem 0.85rem; border-radius: 6px; font-weight: 700; font-size: 0.8rem; display: inline-block;">
 													--
 												</div>
-												<div style="margin-top: 1rem; width: 100%;">
-													<button type="button" onclick="sendCurrentDgiToTelegram()" class="btn-sober btn-green" style="width: 100%; font-size: 0.78rem; padding: 0.45rem 0.85rem;">📱 Send Summary to Telegram</button>
+												<div style="margin-top: 0.85rem; display: flex; flex-direction: column; gap: 0.45rem; width: 100%;">
+													<button type="button" id="btnAddToWatchlist" onclick="addCurrentStockToWatchlist()" class="btn-sober btn-primary" style="width: 100%; font-size: 0.78rem; padding: 0.48rem 0.85rem; font-weight: 700;">⭐ Add to Watchlist</button>
+													<button type="button" onclick="sendCurrentDgiToTelegram()" class="btn-sober btn-green" style="width: 100%; font-size: 0.78rem; padding: 0.48rem 0.85rem;">📱 Send Summary to Telegram</button>
 												</div>
 											</div>
 
@@ -619,6 +620,19 @@
 											<div>
 												<h2 class="section-title">Stock Watchlist & Price Targets</h2>
 												<p class="section-subtitle">Real-time market price monitoring with automated Telegram buy/sell alerts.</p>
+											</div>
+										</div>
+
+										<!-- Quick Add Ticker Bar -->
+										<div style="background: var(--bg-card); border: 1px solid var(--border-card); border-radius: 10px; padding: 0.75rem 1rem; margin-bottom: 1rem; display: flex; flex-wrap: wrap; gap: 0.6rem; align-items: center; justify-content: space-between;">
+											<div style="font-size: 0.82rem; font-weight: 700; color: var(--text-main); display: flex; align-items: center; gap: 0.35rem;">
+												<span>➕ Add Ticker to Watchlist:</span>
+											</div>
+											<div style="display: flex; gap: 0.45rem; flex-wrap: wrap; flex: 1; max-width: 540px; justify-content: flex-end;">
+												<input type="text" id="manualWatchlistTicker" placeholder="Ticker (e.g. QCOM)" style="flex: 1; min-width: 120px; max-width: 180px; height: 35px; padding: 0 0.65rem; font-size: 0.8rem; text-transform: uppercase; border-radius: 6px; border: 1px solid var(--border-card); background: var(--bg-input); color: var(--text-main);" />
+												<input type="number" id="manualWatchlistMin" placeholder="Buy Target" step="0.01" style="width: 105px; height: 35px; padding: 0 0.5rem; font-size: 0.8rem; border-radius: 6px; border: 1px solid var(--border-card); background: var(--bg-input); color: var(--text-main);" />
+												<input type="number" id="manualWatchlistMax" placeholder="Sell Target" step="0.01" style="width: 105px; height: 35px; padding: 0 0.5rem; font-size: 0.8rem; border-radius: 6px; border: 1px solid var(--border-card); background: var(--bg-input); color: var(--text-main);" />
+												<button type="button" onclick="addManualWatchlistEntry()" class="btn-sober btn-primary btn-sm" style="height: 35px; padding: 0 0.85rem; font-size: 0.8rem; font-weight: 700;">+ Add</button>
 											</div>
 										</div>
 
@@ -1139,6 +1153,12 @@ payout_label = <span style="color: #86efac;">"FCF"</span> <span style="color: #7
 					const tbody = document.getElementById('dgiMetricsTableBody');
 					if (tbody) {
 						tbody.innerHTML = '<tr><td colspan="4" style="text-align:center; padding: 1.5rem; color: #94a3b8;">No fundamental data available for ' + (searchedTicker || 'this ticker') + '.</td></tr>';
+					}
+
+					const btnW = document.getElementById('btnAddToWatchlist');
+					if (btnW) {
+						btnW.innerHTML = '<span>⭐ Add to Watchlist</span>';
+						btnW.style.opacity = '1';
 					}
 				}
 
@@ -1685,6 +1705,19 @@ payout_label = <span style="color: #86efac;">"FCF"</span> <span style="color: #7
 								badgeEl.style.background = '#ea580c';
 							} else {
 								badgeEl.style.background = '#dc2626';
+							}
+						}
+
+						// Update Watchlist Button state
+						const btnW = document.getElementById('btnAddToWatchlist');
+						if (btnW) {
+							const inW = (typeof watchlist !== 'undefined' && Array.isArray(watchlist)) && watchlist.some(w => w.ticker.toUpperCase() === (data.ticker || '').toUpperCase());
+							if (inW) {
+								btnW.innerHTML = '<span>✓ In Watchlist</span>';
+								btnW.style.opacity = '0.85';
+							} else {
+								btnW.innerHTML = '<span>⭐ Add to Watchlist</span>';
+								btnW.style.opacity = '1';
 							}
 						}
 
@@ -2636,6 +2669,133 @@ payout_label = <span style="color: #86efac;">"FCF"</span> <span style="color: #7
 					renderWatchlistTable();
 					triggerAutoSyncWatchlist(found.ticker);
 					showWatchlistSummary(`<strong>${found.name} (${found.ticker})</strong> added to your Telegram Watchlist!`, 'success');
+				}
+
+				function addCurrentStockToWatchlist() {
+					if (!currentDgiData) {
+						showWatchlistSummary('Please analyze a company first before adding to Watchlist.', 'warning');
+						return;
+					}
+					const d = currentDgiData;
+					const ticker = (d.ticker || '').toUpperCase();
+					if (!ticker) return;
+
+					const existing = watchlist.find(w => w.ticker.toUpperCase() === ticker);
+					if (existing) {
+						const btn = document.getElementById('btnAddToWatchlist');
+						if (btn) {
+							btn.innerHTML = '<span>⚠️ Already in Watchlist</span>';
+							setTimeout(() => { btn.innerHTML = '<span>✓ In Watchlist</span>'; }, 2000);
+						}
+						showWatchlistSummary(`Ticker <strong>${ticker}</strong> is already in your Watchlist.`, 'warning');
+						return;
+					}
+
+					const p = d.price || 0;
+					const s = d.scores || {};
+					watchlist.push({
+						ticker: d.ticker,
+						name: d.name || d.ticker,
+						minBuy: +(p * 0.95).toFixed(2),
+						maxSell: +(p * 1.15).toFixed(2),
+						lastPrice: p,
+						dgiScore: s.total != null ? +s.total.toFixed(0) : null,
+						dgiVerdict: d.verdict || null,
+						dividendRate: d.divRate != null ? +d.divRate.toFixed(2) : null,
+						dividendYield: d.divYield != null ? +d.divYield.toFixed(2) : null,
+						exDividendDate: d.latestDivDate || null,
+						status: "HOLD"
+					});
+
+					saveWatchlistToStorage();
+					renderWatchlistTable();
+					triggerAutoSyncWatchlist(d.ticker);
+
+					const btn = document.getElementById('btnAddToWatchlist');
+					if (btn) {
+						btn.innerHTML = '<span>✅ Added to Watchlist!</span>';
+						btn.style.background = '#059669';
+						setTimeout(() => {
+							btn.innerHTML = '<span>✓ In Watchlist</span>';
+							btn.style.background = '';
+						}, 2500);
+					}
+					showWatchlistSummary(`<strong>${d.name} (${d.ticker})</strong> added to your Telegram Watchlist!`, 'success');
+				}
+
+				async function addManualWatchlistEntry() {
+					const tickerInput = document.getElementById('manualWatchlistTicker');
+					const minInput = document.getElementById('manualWatchlistMin');
+					const maxInput = document.getElementById('manualWatchlistMax');
+					if (!tickerInput) return;
+
+					const rawTicker = tickerInput.value.trim().toUpperCase();
+					if (!rawTicker) {
+						showWatchlistSummary('Please enter a valid ticker symbol (e.g. QCOM, AAPL, MSFT).', 'warning');
+						return;
+					}
+
+					const existing = watchlist.find(w => w.ticker.toUpperCase() === rawTicker);
+					if (existing) {
+						showWatchlistSummary(`Ticker <strong>${rawTicker}</strong> is already in your Watchlist.`, 'warning');
+						return;
+					}
+
+					showWatchlistSummary(`Fetching market details for <strong>${rawTicker}</strong>...`, 'loading');
+
+					// Check if in marketRankings first
+					const fromRadar = (marketRankings || []).find(m => m.ticker.toUpperCase() === rawTicker);
+					let name = rawTicker;
+					let price = 0;
+					let dgiScore = null;
+					let dgiVerdict = null;
+					let divRate = null;
+					let divYield = null;
+					let exDate = null;
+
+					if (fromRadar) {
+						name = fromRadar.name || rawTicker;
+						price = fromRadar.price || 0;
+						dgiScore = fromRadar.dgiScore || null;
+						dgiVerdict = fromRadar.verdict || null;
+						divRate = fromRadar.divRate || null;
+						divYield = fromRadar.divYield || null;
+					} else {
+						const liveDetails = await fetchLiveStockDetails(rawTicker);
+						if (liveDetails) {
+							price = liveDetails.price || 0;
+							divRate = liveDetails.dividendRate || null;
+							divYield = liveDetails.dividendYield || null;
+							exDate = liveDetails.exDividendDate || null;
+						}
+					}
+
+					const customMin = minInput && minInput.value ? parseFloat(minInput.value) : (price > 0 ? +(price * 0.95).toFixed(2) : 0);
+					const customMax = maxInput && maxInput.value ? parseFloat(maxInput.value) : (price > 0 ? +(price * 1.15).toFixed(2) : 0);
+
+					watchlist.push({
+						ticker: rawTicker,
+						name: name,
+						minBuy: customMin,
+						maxSell: customMax,
+						lastPrice: price,
+						dgiScore: dgiScore,
+						dgiVerdict: dgiVerdict,
+						dividendRate: divRate,
+						dividendYield: divYield,
+						exDividendDate: exDate,
+						status: "HOLD"
+					});
+
+					saveWatchlistToStorage();
+					renderWatchlistTable();
+					triggerAutoSyncWatchlist(rawTicker);
+
+					tickerInput.value = '';
+					if (minInput) minInput.value = '';
+					if (maxInput) maxInput.value = '';
+
+					showWatchlistSummary(`<strong>${name} (${rawTicker})</strong> added to your Telegram Watchlist!`, 'success');
 				}
 
 				window.addEventListener('DOMContentLoaded', async () => {
