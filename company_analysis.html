@@ -1693,7 +1693,7 @@ payout_label = <span style="color: #86efac;">"FCF"</span> <span style="color: #7
 							watchlist[wIdx].dgiScore = p1 + p5;
 							watchlist[wIdx].dgiVerdict = dynamicData.verdict;
 							if (calculatedDivRate != null) watchlist[wIdx].dividendRate = calculatedDivRate;
-							if (realYield > 0) watchlist[wIdx].dividendYield = +(realYield.toFixed(2));
+							if (ordYield > 0) watchlist[wIdx].dividendYield = +(ordYield.toFixed(2));
 							if (latestDivDate) watchlist[wIdx].exDividendDate = latestDivDate;
 							saveWatchlistToStorage();
 							renderWatchlistTable();
