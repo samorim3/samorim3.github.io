@@ -1990,16 +1990,42 @@ payout_label = <span style="color: #86efac;">"FCF"</span> <span style="color: #7
 				}
 
 				async function sendCurrentDgiToTelegram() {
+					const btn = document.querySelector('button[onclick="sendCurrentDgiToTelegram()"]');
+					const originalBtnHtml = '<span>📱 Send Summary to Telegram</span>';
+
 					if (!currentDgiData) {
+						if (btn) {
+							btn.innerHTML = '<span>⚠️ Analyze a company first</span>';
+							setTimeout(() => { btn.innerHTML = originalBtnHtml; }, 2500);
+						}
 						showTelegramStatus('❌ Cannot send: select a valid company with fundamental data first.', 'warning');
 						return;
 					}
-					const token = document.getElementById('telegramToken').value.trim();
-					const chatId = document.getElementById('telegramChatId').value.trim();
+
+					const token = (document.getElementById('telegramToken')?.value || '').trim() || localStorage.getItem('tg_bot_token') || '';
+					const chatId = (document.getElementById('telegramChatId')?.value || '').trim() || localStorage.getItem('tg_chat_id') || '';
 
 					if (!token || !chatId) {
-						showTelegramStatus('Configure your Telegram Bot Token and Chat ID below.', 'warning');
+						if (btn) {
+							btn.innerHTML = '<span>⚙️ Configure Telegram first</span>';
+							btn.style.background = '#d97706';
+							setTimeout(() => {
+								btn.innerHTML = originalBtnHtml;
+								btn.style.background = '';
+							}, 3500);
+						}
+						showTelegramStatus('Please configure your Telegram Bot Token and Chat ID in the Telegram tab below.', 'warning');
+						switchAppTab('telegram');
+						setTimeout(() => {
+							const box = document.getElementById('telegramStatusBox') || document.querySelector('.settings-box');
+							if (box) box.scrollIntoView({ behavior: 'smooth', block: 'center' });
+						}, 150);
 						return;
+					}
+
+					if (btn) {
+						btn.innerHTML = '<span>⏳ Sending to Telegram...</span>';
+						btn.disabled = true;
 					}
 
 					const d = currentDgiData;
@@ -2027,18 +2053,56 @@ payout_label = <span style="color: #86efac;">"FCF"</span> <span style="color: #7
 					showTelegramStatus('Sending DGI Scorecard to Telegram...', 'loading');
 					try {
 						const url = 'https://api.telegram.org/bot' + token + '/sendMessage';
-						const res = await fetch(url, {
+						let res = await fetch(url, {
 							method: 'POST',
 							headers: { 'Content-Type': 'application/json' },
 							body: JSON.stringify({ chat_id: chatId, text: msg, parse_mode: 'Markdown' })
 						});
-						const resData = await res.json();
+						let resData = await res.json();
+
+						// Fallback: If Markdown parsing fails, resend as plain text
+						if (!resData.ok && resData.description && resData.description.toLowerCase().includes('parse')) {
+							res = await fetch(url, {
+								method: 'POST',
+								headers: { 'Content-Type': 'application/json' },
+								body: JSON.stringify({ chat_id: chatId, text: msg })
+							});
+							resData = await res.json();
+						}
+
 						if (resData.ok) {
+							if (btn) {
+								btn.innerHTML = '<span>✅ Sent to Telegram!</span>';
+								btn.style.background = '#059669';
+								setTimeout(() => {
+									btn.innerHTML = originalBtnHtml;
+									btn.style.background = '';
+									btn.disabled = false;
+								}, 3000);
+							}
 							showTelegramStatus('DGI Scorecard for ' + d.ticker + ' sent successfully to Telegram!', 'success');
 						} else {
+							if (btn) {
+								btn.innerHTML = '<span>❌ ' + (resData.description ? resData.description.slice(0, 30) : 'Failed') + '</span>';
+								btn.style.background = '#dc2626';
+								setTimeout(() => {
+									btn.innerHTML = originalBtnHtml;
+									btn.style.background = '';
+									btn.disabled = false;
+								}, 4000);
+							}
 							showTelegramStatus('Telegram API Error: ' + resData.description, 'error');
 						}
 					} catch(e) {
+						if (btn) {
+							btn.innerHTML = '<span>❌ Connection Failed</span>';
+							btn.style.background = '#dc2626';
+							setTimeout(() => {
+								btn.innerHTML = originalBtnHtml;
+								btn.style.background = '';
+								btn.disabled = false;
+							}, 3500);
+						}
 						showTelegramStatus('Connection error: ' + e.message, 'error');
 					}
 				}
@@ -2412,24 +2476,44 @@ payout_label = <span style="color: #86efac;">"FCF"</span> <span style="color: #7
 					const token = document.getElementById('telegramToken').value.trim();
 					const chatId = document.getElementById('telegramChatId').value.trim();
 					if (!token || !chatId) {
-						showTelegramStatus('Please provide Bot Token and Chat ID to test.', 'warning');
+						showTelegramStatus('⚠️ Please enter both Bot Token and Chat ID above, then click Save.', 'warning');
 						return;
 					}
-					showTelegramStatus('Sending test alert to Telegram...', 'loading');
+					showTelegramStatus('⏳ Connecting to Telegram API and sending test message...', 'loading');
 					try {
-						const res = await fetch('https://api.telegram.org/bot' + token + '/sendMessage', {
+						const url = 'https://api.telegram.org/bot' + token + '/sendMessage';
+						let res = await fetch(url, {
 							method: 'POST',
 							headers: { 'Content-Type': 'application/json' },
 							body: JSON.stringify({ chat_id: chatId, text: '🔔 *Telegram Alert Test:* Connected successfully to your Portfolio & DGI system.', parse_mode: 'Markdown' })
 						});
-						const d = await res.json();
+						let d = await res.json();
+						
+						// Fallback if Markdown fails
+						if (!d.ok && d.description && d.description.toLowerCase().includes('parse')) {
+							res = await fetch(url, {
+								method: 'POST',
+								headers: { 'Content-Type': 'application/json' },
+								body: JSON.stringify({ chat_id: chatId, text: '🔔 Telegram Alert Test: Connected successfully to your Portfolio & DGI system.' })
+							});
+							d = await res.json();
+						}
+
 						if (d.ok) {
-							showTelegramStatus('Test alert message delivered successfully. Check your Telegram.', 'success');
+							showTelegramStatus('✅ Test message delivered! Check your Telegram app.', 'success');
 						} else {
-							showTelegramStatus('Error: ' + d.description, 'error');
+							let hint = '';
+							if (d.error_code === 401 || (d.description && d.description.toLowerCase().includes('unauthorized'))) {
+								hint = ' (Check if your Bot Token from @BotFather is correct).';
+							} else if (d.error_code === 400 && d.description && d.description.toLowerCase().includes('chat not found')) {
+								hint = ' (Make sure you opened a chat with your bot in Telegram and clicked START / sent a message first).';
+							} else if (d.error_code === 403) {
+								hint = ' (Bot blocked or conversation not initiated. Send /start to the bot in Telegram).';
+							}
+							showTelegramStatus('❌ Telegram API Error (' + (d.error_code || '') + '): ' + d.description + hint, 'error');
 						}
 					} catch(e) {
-						showTelegramStatus('Connection failed: ' + e.message, 'error');
+						showTelegramStatus('❌ Connection failed: ' + e.message + ' (Check internet connection or CORS).', 'error');
 					}
 				}
 
