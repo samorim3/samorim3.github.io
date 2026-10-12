@@ -229,6 +229,30 @@
     [data-theme="dark"] [style*="border: 1px solid #cbd5e1"] {
       border-color: var(--border-card) !important;
     }
+
+    /* Table Row Selection & Hover Highlights */
+    .sober-table tbody tr.row-selected td,
+    .sober-table tbody tr:active td {
+      background: rgba(59, 130, 246, 0.18) !important;
+      color: #93c5fd !important;
+    }
+    .sober-table tbody tr {
+      cursor: pointer;
+      transition: background-color 0.15s ease;
+    }
+    .sober-table tbody tr:hover td {
+      background: rgba(59, 130, 246, 0.08) !important;
+    }
+    [data-theme="dark"] .sober-table tbody tr:hover td {
+      background: rgba(59, 130, 246, 0.12) !important;
+    }
+    [data-theme="dark"] .sober-table tbody tr.row-selected td {
+      background: rgba(59, 130, 246, 0.22) !important;
+      border-color: rgba(59, 130, 246, 0.35) !important;
+    }
+    [data-theme="dark"] .sober-table tbody tr.row-selected td strong {
+      color: #60a5fa !important;
+    }
   </style>
 </head>
 <body>
@@ -346,6 +370,19 @@
 											<button type="button" onclick="analyzeDgiStock(document.getElementById('dgiTickerInput').value)" class="btn-sober btn-primary">Analyze Stock</button>
 										</div>
 										<div id="dgiLoadingMsg" class="status-msg"></div>
+									</div>
+
+									<!-- Quick Add Ticker Bar -->
+									<div style="background: var(--bg-card); border: 1px solid var(--border-card); border-radius: 10px; padding: 0.75rem 1rem; margin-bottom: 1.15rem; display: flex; flex-wrap: wrap; gap: 0.6rem; align-items: center; justify-content: space-between;">
+										<div style="font-size: 0.82rem; font-weight: 700; color: var(--text-main); display: flex; align-items: center; gap: 0.35rem;">
+											<span>➕ Add Ticker to Watchlist:</span>
+										</div>
+										<div style="display: flex; gap: 0.45rem; flex-wrap: wrap; flex: 1; max-width: 540px; justify-content: flex-end;">
+											<input type="text" id="manualWatchlistTicker-screener" placeholder="Ticker (e.g. QCOM)" style="flex: 1; min-width: 120px; max-width: 180px; height: 35px; padding: 0 0.65rem; font-size: 0.8rem; text-transform: uppercase; border-radius: 6px; border: 1px solid var(--border-card); background: var(--bg-input); color: var(--text-main);" />
+											<input type="number" id="manualWatchlistMin-screener" placeholder="Buy Target" step="0.01" style="width: 105px; height: 35px; padding: 0 0.5rem; font-size: 0.8rem; border-radius: 6px; border: 1px solid var(--border-card); background: var(--bg-input); color: var(--text-main);" />
+											<input type="number" id="manualWatchlistMax-screener" placeholder="Sell Target" step="0.01" style="width: 105px; height: 35px; padding: 0 0.5rem; font-size: 0.8rem; border-radius: 6px; border: 1px solid var(--border-card); background: var(--bg-input); color: var(--text-main);" />
+											<button type="button" onclick="addManualWatchlistEntry('screener')" class="btn-sober btn-primary btn-sm" style="height: 35px; padding: 0 0.85rem; font-size: 0.8rem; font-weight: 700;">+ Add</button>
+										</div>
 									</div>
 
 
@@ -574,6 +611,19 @@
 											</div>
 										</div>
 
+										<!-- Quick Add Ticker Bar -->
+										<div style="background: var(--bg-card); border: 1px solid var(--border-card); border-radius: 10px; padding: 0.75rem 1rem; margin-bottom: 1.15rem; display: flex; flex-wrap: wrap; gap: 0.6rem; align-items: center; justify-content: space-between;">
+											<div style="font-size: 0.82rem; font-weight: 700; color: var(--text-main); display: flex; align-items: center; gap: 0.35rem;">
+												<span>➕ Add Ticker to Watchlist:</span>
+											</div>
+											<div style="display: flex; gap: 0.45rem; flex-wrap: wrap; flex: 1; max-width: 540px; justify-content: flex-end;">
+												<input type="text" id="manualWatchlistTicker-radar" placeholder="Ticker (e.g. QCOM)" style="flex: 1; min-width: 120px; max-width: 180px; height: 35px; padding: 0 0.65rem; font-size: 0.8rem; text-transform: uppercase; border-radius: 6px; border: 1px solid var(--border-card); background: var(--bg-input); color: var(--text-main);" />
+												<input type="number" id="manualWatchlistMin-radar" placeholder="Buy Target" step="0.01" style="width: 105px; height: 35px; padding: 0 0.5rem; font-size: 0.8rem; border-radius: 6px; border: 1px solid var(--border-card); background: var(--bg-input); color: var(--text-main);" />
+												<input type="number" id="manualWatchlistMax-radar" placeholder="Sell Target" step="0.01" style="width: 105px; height: 35px; padding: 0 0.5rem; font-size: 0.8rem; border-radius: 6px; border: 1px solid var(--border-card); background: var(--bg-input); color: var(--text-main);" />
+												<button type="button" onclick="addManualWatchlistEntry('radar')" class="btn-sober btn-primary btn-sm" style="height: 35px; padding: 0 0.85rem; font-size: 0.8rem; font-weight: 700;">+ Add</button>
+											</div>
+										</div>
+
 										<!-- Market Ranking Table -->
 										<div class="table-wrapper" style="overflow-x: auto; margin-bottom: 0.75rem;">
 											<table style="width: 100%; border-collapse: separate; border-spacing: 0; font-size: 0.82rem;">
@@ -616,26 +666,6 @@
 								<div id="panel-telegram" class="app-tab-panel" style="display: none;">
 									<div class="tool-card">
 										
-										<div class="section-header">
-											<div>
-												<h2 class="section-title">Stock Watchlist & Price Targets</h2>
-												<p class="section-subtitle">Real-time market price monitoring with automated Telegram buy/sell alerts.</p>
-											</div>
-										</div>
-
-										<!-- Quick Add Ticker Bar -->
-										<div style="background: var(--bg-card); border: 1px solid var(--border-card); border-radius: 10px; padding: 0.75rem 1rem; margin-bottom: 1rem; display: flex; flex-wrap: wrap; gap: 0.6rem; align-items: center; justify-content: space-between;">
-											<div style="font-size: 0.82rem; font-weight: 700; color: var(--text-main); display: flex; align-items: center; gap: 0.35rem;">
-												<span>➕ Add Ticker to Watchlist:</span>
-											</div>
-											<div style="display: flex; gap: 0.45rem; flex-wrap: wrap; flex: 1; max-width: 540px; justify-content: flex-end;">
-												<input type="text" id="manualWatchlistTicker" placeholder="Ticker (e.g. QCOM)" style="flex: 1; min-width: 120px; max-width: 180px; height: 35px; padding: 0 0.65rem; font-size: 0.8rem; text-transform: uppercase; border-radius: 6px; border: 1px solid var(--border-card); background: var(--bg-input); color: var(--text-main);" />
-												<input type="number" id="manualWatchlistMin" placeholder="Buy Target" step="0.01" style="width: 105px; height: 35px; padding: 0 0.5rem; font-size: 0.8rem; border-radius: 6px; border: 1px solid var(--border-card); background: var(--bg-input); color: var(--text-main);" />
-												<input type="number" id="manualWatchlistMax" placeholder="Sell Target" step="0.01" style="width: 105px; height: 35px; padding: 0 0.5rem; font-size: 0.8rem; border-radius: 6px; border: 1px solid var(--border-card); background: var(--bg-input); color: var(--text-main);" />
-												<button type="button" onclick="addManualWatchlistEntry()" class="btn-sober btn-primary btn-sm" style="height: 35px; padding: 0 0.85rem; font-size: 0.8rem; font-weight: 700;">+ Add</button>
-											</div>
-										</div>
-
 										<!-- Watchlist Table Card (Sober & Shadowed) -->
 										<div class="watchlist-table-card">
 											<div class="table-wrapper">
@@ -2248,6 +2278,12 @@ payout_label = <span style="color: #86efac;">"FCF"</span> <span style="color: #7
 
 					watchlist.forEach((item, index) => {
 						const tr = document.createElement('tr');
+						tr.setAttribute('data-ticker', (item.ticker || '').toUpperCase());
+						tr.onclick = function(e) {
+							if (e.target.tagName === 'INPUT' || e.target.tagName === 'BUTTON') return;
+							document.querySelectorAll('#watchlistTableBody tr').forEach(r => r.classList.remove('row-selected'));
+							tr.classList.add('row-selected');
+						};
 
 						const currSym = getTickerCurrencySymbol(item.ticker);
 						const lastPriceStr = formatPriceWithCurrency(item.lastPrice, currSym);
@@ -2650,6 +2686,11 @@ payout_label = <span style="color: #86efac;">"FCF"</span> <span style="color: #7
 					visibleItems.forEach((item, idx) => {
 						const tr = document.createElement('tr');
 						tr.style.borderBottom = '1px solid #f1f5f9';
+						tr.onclick = function(e) {
+							if (e.target.tagName === 'BUTTON') return;
+							document.querySelectorAll('#marketRankingsTableBody tr').forEach(r => r.classList.remove('row-selected'));
+							tr.classList.add('row-selected');
+						};
 
 						let flag = '🌐';
 						if (item.country === 'USA') flag = '🇺🇸';
@@ -2807,10 +2848,11 @@ payout_label = <span style="color: #86efac;">"FCF"</span> <span style="color: #7
 					showWatchlistSummary(`<strong>${d.name} (${d.ticker})</strong> added to your Telegram Watchlist!`, 'success');
 				}
 
-				async function addManualWatchlistEntry() {
-					const tickerInput = document.getElementById('manualWatchlistTicker');
-					const minInput = document.getElementById('manualWatchlistMin');
-					const maxInput = document.getElementById('manualWatchlistMax');
+				async function addManualWatchlistEntry(source = 'screener') {
+					const suffix = source ? '-' + source : '';
+					const tickerInput = document.getElementById('manualWatchlistTicker' + suffix) || document.getElementById('manualWatchlistTicker-screener') || document.getElementById('manualWatchlistTicker-radar');
+					const minInput = document.getElementById('manualWatchlistMin' + suffix) || document.getElementById('manualWatchlistMin-screener') || document.getElementById('manualWatchlistMin-radar');
+					const maxInput = document.getElementById('manualWatchlistMax' + suffix) || document.getElementById('manualWatchlistMax-screener') || document.getElementById('manualWatchlistMax-radar');
 					if (!tickerInput) return;
 
 					const rawTicker = tickerInput.value.trim().toUpperCase();
@@ -2873,13 +2915,16 @@ payout_label = <span style="color: #86efac;">"FCF"</span> <span style="color: #7
 
 					saveWatchlistToStorage();
 					renderWatchlistTable();
-					triggerAutoSyncWatchlist(rawTicker);
+					['screener', 'radar'].forEach(p => {
+						const tEl = document.getElementById('manualWatchlistTicker-' + p);
+						const minEl = document.getElementById('manualWatchlistMin-' + p);
+						const maxEl = document.getElementById('manualWatchlistMax-' + p);
+						if (tEl) tEl.value = '';
+						if (minEl) minEl.value = '';
+						if (maxEl) maxEl.value = '';
+					});
 
-					tickerInput.value = '';
-					if (minInput) minInput.value = '';
-					if (maxInput) maxInput.value = '';
-
-					showWatchlistSummary(`<strong>${name} (${rawTicker})</strong> added to your Telegram Watchlist!`, 'success');
+					showWatchlistSummary(`<strong>${name} (${rawTicker})</strong> added to your Watchlist!`, 'success');
 				}
 
 				window.addEventListener('DOMContentLoaded', async () => {
@@ -2944,22 +2989,50 @@ payout_label = <span style="color: #86efac;">"FCF"</span> <span style="color: #7
 
 					renderWatchlistTable();
 
+					// Fetch fresh quotes.json immediately to guarantee updated prices on page load
+					try {
+						const qRes = await fetch('./quotes.json?t=' + Date.now());
+						if (qRes.ok) {
+							const qData = await qRes.json();
+							if (qData && qData.quotes) {
+								let updated = false;
+								watchlist.forEach(item => {
+									const p = qData.quotes[item.ticker.toUpperCase()] || (aliasMap[item.ticker.toUpperCase()] ? qData.quotes[aliasMap[item.ticker.toUpperCase()]] : null);
+									if (p && p > 0 && item.lastPrice !== p) {
+										item.lastPrice = p;
+										updated = true;
+									}
+								});
+								if (updated) {
+									saveWatchlistToStorage();
+									renderWatchlistTable();
+								}
+							}
+						}
+					} catch(e) {}
+
+					// Background asynchronous refresh of live quotes & dividends via Cloudflare Worker
+					setTimeout(() => {
+						checkAllWatchlistAlerts().catch(() => {});
+					}, 1200);
+
 					const hash = window.location.hash;
-					if (hash === '#radar' || hash === '#tab-radar') {
-						switchAppTab('radar');
-					} else if (hash === '#telegram' || hash === '#tab-telegram') {
-						switchAppTab('telegram');
-					} else if (hash === '#technical' || hash === '#project-details' || hash === '#tab-technical') {
-						switchAppTab('technical');
+					const savedTab = localStorage.getItem('dgi_active_app_tab');
+					if (hash === '#radar' || hash === '#tab-radar' || (!hash && savedTab === 'radar')) {
+						switchAppTab('radar', false);
+					} else if (hash === '#telegram' || hash === '#tab-telegram' || (!hash && savedTab === 'telegram')) {
+						switchAppTab('telegram', false);
+					} else if (hash === '#technical' || hash === '#project-details' || hash === '#tab-technical' || (!hash && savedTab === 'technical')) {
+						switchAppTab('technical', false);
 					} else {
-						switchAppTab('screener');
+						switchAppTab('screener', false);
 					}
 				});
 
 				// ==========================================
 				// 4-TAB NAVIGATION SYSTEM
 				// ==========================================
-				function switchAppTab(tabName) {
+				function switchAppTab(tabName, updateUrl = true) {
 					const tabKeys = ['screener', 'radar', 'telegram', 'technical'];
 					
 					tabKeys.forEach(key => {
@@ -2976,6 +3049,13 @@ payout_label = <span style="color: #86efac;">"FCF"</span> <span style="color: #7
 							}
 						}
 					});
+
+					try {
+						localStorage.setItem('dgi_active_app_tab', tabName);
+						if (updateUrl && window.history && window.history.replaceState) {
+							window.history.replaceState(null, null, '#' + tabName);
+						}
+					} catch(e) {}
 
 					if (tabName === 'screener') {
 						if (radarChartInstance) setTimeout(() => radarChartInstance.resize(), 60);
