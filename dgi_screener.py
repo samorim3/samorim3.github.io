@@ -265,6 +265,11 @@ def run_screener(limit=None):
             except Exception as e:
                 pass
 
+    # Safety guard: do not overwrite existing rankings with an empty list if API blocked/failed
+    if not results and os.path.exists("dgi_market_ranking.json"):
+        print("⚠️ Warning: Screener returned 0 results. Preserving existing ranking file.")
+        return
+
     # Sort descending by DGI Score, then by 5Y Dividend Growth
     results.sort(key=lambda x: (x["dgiScore"], x.get("divCagr5y") or 0), reverse=True)
 
