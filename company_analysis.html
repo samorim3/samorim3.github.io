@@ -1699,6 +1699,22 @@ payout_label = <span style="color: #86efac;">"FCF"</span> <span style="color: #7
 							renderWatchlistTable();
 						}
 
+						// Auto-fill the Quick Add Watchlist bar with current stock & calculated targets
+						const scTickerInput = document.getElementById('manualWatchlistTicker-screener');
+						const scMinInput = document.getElementById('manualWatchlistMin-screener');
+						const scMaxInput = document.getElementById('manualWatchlistMax-screener');
+						if (scTickerInput) scTickerInput.value = finalTicker;
+						if (scMinInput && price > 0) scMinInput.value = +(price * 0.95).toFixed(2);
+						if (scMaxInput && price > 0) scMaxInput.value = +(price * 1.15).toFixed(2);
+
+						// Also populate radar tab inputs if available
+						const radTickerInput = document.getElementById('manualWatchlistTicker-radar');
+						const radMinInput = document.getElementById('manualWatchlistMin-radar');
+						const radMaxInput = document.getElementById('manualWatchlistMax-radar');
+						if (radTickerInput) radTickerInput.value = finalTicker;
+						if (radMinInput && price > 0) radMinInput.value = +(price * 0.95).toFixed(2);
+						if (radMaxInput && price > 0) radMaxInput.value = +(price * 1.15).toFixed(2);
+
 						if (loadBox) {
 							loadBox.className = 'status-msg status-success';
 							loadBox.innerHTML = '📡 Live data for <strong>' + name + ' (' + finalTicker + ')</strong> loaded successfully!';
