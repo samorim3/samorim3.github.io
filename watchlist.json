@@ -147,7 +147,7 @@
     "ticker": "COLO-B.CO",
     "name": "Coloplast B A/S",
     "minBuy": 390,
-    "maxSell": 477.59,
+    "maxSell": 800,
     "lastPrice": 446.3,
     "dgiScore": 59,
     "dgiVerdict": "Moderate / Neutral",
