@@ -218,11 +218,11 @@
   {
     "ticker": "CTT.LS",
     "name": "CTT - Correios De Portugal, S.A.",
-    "minBuy": 5.6,
+    "minBuy": 5,
     "maxSell": 6.77,
-    "lastPrice": 5.89,
-    "dgiScore": 91,
-    "dgiVerdict": "Elite DGI (Dividend King)",
+    "lastPrice": 5.545,
+    "dgiScore": 40,
+    "dgiVerdict": "Top Tier DGI (Aristocrat)",
     "dividendRate": 0.19,
     "dividendYield": 3.22,
     "exDividendDate": null
