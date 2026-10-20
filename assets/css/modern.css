@@ -1424,6 +1424,8 @@ img {
 .article-content p {
   margin-bottom: 1.4rem;
   color: var(--text-secondary);
+  text-align: justify;
+  text-justify: inter-word;
 }
 
 .article-content strong,
@@ -1473,6 +1475,10 @@ img {
 
 .article-img-box {
   margin: 2.75rem 0;
+  text-align: center;
+}
+
+.article-content .article-img-box p {
   text-align: center;
 }
 
