@@ -1304,7 +1304,7 @@ img {
    PROJECT DETAIL & ARTICLE COMMON STYLES
    ========================================================================== */
 .project-detail-hero {
-  padding: calc(var(--header-height) + 36px) 0 28px;
+  padding: calc(var(--header-height) + 36px) 0 14px;
   position: relative;
   overflow: hidden;
 }
@@ -1375,6 +1375,10 @@ img {
   margin-bottom: 1rem;
 }
 
+.project-detail-title:last-child {
+  margin-bottom: 0;
+}
+
 .project-detail-subtitle {
   font-size: 1.15rem;
   line-height: 1.65;
@@ -1384,7 +1388,7 @@ img {
 
 /* Article Body */
 .article-section {
-  padding: 1.5rem 0 5rem;
+  padding: 0.75rem 0 5rem;
 }
 
 .article-container {
@@ -1410,6 +1414,10 @@ img {
   color: var(--text-main);
   margin: 2.75rem 0 1rem;
   letter-spacing: -0.02em;
+}
+
+.article-content > h2:first-child {
+  margin-top: 0.5rem;
 }
 
 .article-content h3 {
