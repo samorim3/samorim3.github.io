@@ -4,11 +4,11 @@
     "name": "Adidas AG",
     "minBuy": 145,
     "maxSell": 200,
-    "lastPrice": 158.9,
+    "lastPrice": 160.65,
     "dgiScore": 43,
     "dgiVerdict": "Weak / High Risk",
     "dividendRate": 2.8,
-    "dividendYield": 1.76,
+    "dividendYield": 1.74,
     "exDividendDate": "2026-05-08"
   },
   {
@@ -28,11 +28,11 @@
     "name": "Galp Energia",
     "minBuy": 18,
     "maxSell": 25,
-    "lastPrice": 22.32,
+    "lastPrice": 22.54,
     "dgiScore": 60,
     "dgiVerdict": "Moderate / Neutral",
     "dividendRate": 0.68,
-    "dividendYield": 3.05,
+    "dividendYield": 3.02,
     "exDividendDate": "2026-08-19"
   },
   {
@@ -52,11 +52,11 @@
     "name": "LVMH Moët Hennessy Louis Vuitton",
     "minBuy": 380,
     "maxSell": 800,
-    "lastPrice": 385.3,
+    "lastPrice": 386.95,
     "dgiScore": 64,
     "dgiVerdict": "Moderate / Neutral",
     "dividendRate": 13,
-    "dividendYield": 3.37,
+    "dividendYield": 3.36,
     "exDividendDate": "2026-04-28"
   },
   {
@@ -76,11 +76,11 @@
     "name": "Danone S.A.",
     "minBuy": 57,
     "maxSell": 68.49,
-    "lastPrice": 60.72,
+    "lastPrice": 61.06,
     "dgiScore": 66,
     "dgiVerdict": "Moderate / Neutral",
     "dividendRate": 2.25,
-    "dividendYield": 3.71,
+    "dividendYield": 3.68,
     "exDividendDate": "2026-05-04"
   },
   {
@@ -88,7 +88,7 @@
     "name": "EDP, S.A.",
     "minBuy": 4.2,
     "maxSell": 5.56,
-    "lastPrice": 4.699,
+    "lastPrice": 4.707,
     "dgiScore": 44,
     "dgiVerdict": "Weak / High Risk",
     "dividendRate": 0.2,
@@ -99,12 +99,12 @@
     "ticker": "EL.PA",
     "name": "ESSILORLUXOTTICA",
     "minBuy": 145,
-    "maxSell": 180,
-    "lastPrice": 168.4,
+    "maxSell": 500,
+    "lastPrice": 171.85,
     "dgiScore": 87,
     "dgiVerdict": "Top Tier DGI (Aristocrat)",
     "dividendRate": 4,
-    "dividendYield": 2.38,
+    "dividendYield": 2.33,
     "exDividendDate": "2026-05-05"
   },
   {
@@ -112,11 +112,11 @@
     "name": "Sanofi",
     "minBuy": 70,
     "maxSell": 84.06,
-    "lastPrice": 73.15,
+    "lastPrice": 73.5,
     "dgiScore": 75,
     "dgiVerdict": "Solid DGI Quality",
     "dividendRate": 4.12,
-    "dividendYield": 5.63,
+    "dividendYield": 5.61,
     "exDividendDate": "2026-05-05"
   },
   {
@@ -148,11 +148,11 @@
     "name": "Coloplast B A/S",
     "minBuy": 390,
     "maxSell": 800,
-    "lastPrice": 471.9,
+    "lastPrice": 473.5,
     "dgiScore": 59,
     "dgiVerdict": "Moderate / Neutral",
     "dividendRate": 23,
-    "dividendYield": 4.87,
+    "dividendYield": 4.86,
     "exDividendDate": "2026-05-18"
   },
   {
@@ -184,7 +184,7 @@
     "name": "XTB",
     "minBuy": 130,
     "maxSell": 200,
-    "lastPrice": 137.68,
+    "lastPrice": 137.46,
     "dgiScore": 60,
     "dgiVerdict": "Moderate / Neutral",
     "dividendRate": 4.07,
