@@ -4,11 +4,11 @@
     "name": "Adidas AG",
     "minBuy": 145,
     "maxSell": 200,
-    "lastPrice": 158.1,
+    "lastPrice": 158.9,
     "dgiScore": 43,
     "dgiVerdict": "Weak / High Risk",
     "dividendRate": 2.8,
-    "dividendYield": 1.77,
+    "dividendYield": 1.76,
     "exDividendDate": "2026-05-08"
   },
   {
@@ -52,11 +52,11 @@
     "name": "LVMH Moët Hennessy Louis Vuitton",
     "minBuy": 380,
     "maxSell": 800,
-    "lastPrice": 386.75,
+    "lastPrice": 385.3,
     "dgiScore": 64,
     "dgiVerdict": "Moderate / Neutral",
     "dividendRate": 13,
-    "dividendYield": 3.36,
+    "dividendYield": 3.37,
     "exDividendDate": "2026-04-28"
   },
   {
@@ -76,17 +76,17 @@
     "name": "Danone S.A.",
     "minBuy": 57,
     "maxSell": 68.49,
-    "lastPrice": 61.02,
+    "lastPrice": 60.72,
     "dgiScore": 66,
     "dgiVerdict": "Moderate / Neutral",
     "dividendRate": 2.25,
-    "dividendYield": 3.69,
+    "dividendYield": 3.71,
     "exDividendDate": "2026-05-04"
   },
   {
     "ticker": "EDP.LS",
     "name": "EDP, S.A.",
-    "minBuy": 4.7,
+    "minBuy": 4.2,
     "maxSell": 5.56,
     "lastPrice": 4.699,
     "dgiScore": 44,
@@ -100,11 +100,11 @@
     "name": "ESSILORLUXOTTICA",
     "minBuy": 145,
     "maxSell": 180,
-    "lastPrice": 150.5,
+    "lastPrice": 168.4,
     "dgiScore": 87,
     "dgiVerdict": "Top Tier DGI (Aristocrat)",
     "dividendRate": 4,
-    "dividendYield": 2.66,
+    "dividendYield": 2.38,
     "exDividendDate": "2026-05-05"
   },
   {
@@ -112,11 +112,11 @@
     "name": "Sanofi",
     "minBuy": 70,
     "maxSell": 84.06,
-    "lastPrice": 73.58,
+    "lastPrice": 73.15,
     "dgiScore": 75,
     "dgiVerdict": "Solid DGI Quality",
     "dividendRate": 4.12,
-    "dividendYield": 5.6,
+    "dividendYield": 5.63,
     "exDividendDate": "2026-05-05"
   },
   {
@@ -148,11 +148,11 @@
     "name": "Coloplast B A/S",
     "minBuy": 390,
     "maxSell": 800,
-    "lastPrice": 476,
+    "lastPrice": 471.9,
     "dgiScore": 59,
     "dgiVerdict": "Moderate / Neutral",
     "dividendRate": 23,
-    "dividendYield": 4.83,
+    "dividendYield": 4.87,
     "exDividendDate": "2026-05-18"
   },
   {
@@ -160,11 +160,11 @@
     "name": "Koninklijke Ahold Delhaize N.V.",
     "minBuy": 31.5,
     "maxSell": 36.18,
-    "lastPrice": 32.88,
+    "lastPrice": 32.48,
     "dgiScore": 66,
     "dgiVerdict": "Moderate / Neutral",
     "dividendRate": 1.24,
-    "dividendYield": 3.77,
+    "dividendYield": 3.82,
     "exDividendDate": "2026-08-07"
   },
   {
@@ -184,7 +184,7 @@
     "name": "XTB",
     "minBuy": 130,
     "maxSell": 200,
-    "lastPrice": 137.56,
+    "lastPrice": 137.68,
     "dgiScore": 60,
     "dgiVerdict": "Moderate / Neutral",
     "dividendRate": 4.07,
@@ -208,11 +208,11 @@
     "name": "Nintendo Co., Ltd.",
     "minBuy": 42,
     "maxSell": 0,
-    "lastPrice": 48.42,
+    "lastPrice": 48.835,
     "dgiScore": 62,
     "dgiVerdict": "Moderate / Neutral",
     "dividendRate": 1,
-    "dividendYield": 2.06,
+    "dividendYield": 2.04,
     "exDividendDate": "2026-03-30"
   }
 ]
