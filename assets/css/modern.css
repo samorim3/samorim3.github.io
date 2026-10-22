@@ -1,4 +1,4 @@
-/* ==========================================================================
+﻿/* ==========================================================================
    MODERN PORTFOLIO DESIGN SYSTEM - Samuel Amorim
    Inspired by clean, high-tech modern portfolios
    ========================================================================== */
@@ -1734,3 +1734,45 @@ img {
   margin-top: 2rem !important;
 }
 
+
+/* ============================================================
+   KPI Cards - Strava Training Stats
+   ============================================================ */
+.kpi-cards {
+  display: flex;
+  gap: 1rem;
+  margin: 2.75rem 0;
+  flex-wrap: wrap;
+}
+
+.kpi-card {
+  flex: 1;
+  min-width: 140px;
+  background: var(--bg-card, #1a1f2e);
+  border: 1px solid var(--border-card, rgba(255,255,255,0.08));
+  border-radius: var(--radius-md, 12px);
+  padding: 1.25rem 1.5rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.35rem;
+}
+
+.kpi-card .kpi-value {
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: #fc4c02;
+  line-height: 1.1;
+}
+
+.kpi-card .kpi-label {
+  font-size: 0.8rem;
+  color: var(--text-muted, #8892a4);
+  text-transform: lowercase;
+  letter-spacing: 0.01em;
+}
+
+@media (max-width: 600px) {
+  .kpi-cards {
+    flex-direction: column;
+  }
+}
