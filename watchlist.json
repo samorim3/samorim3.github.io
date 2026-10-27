@@ -171,7 +171,7 @@
     "ticker": "IBM",
     "name": "International Business Machines Corporation",
     "minBuy": 200,
-    "maxSell": 253.59,
+    "maxSell": 500,
     "lastPrice": 249.98,
     "dgiScore": 62,
     "dgiVerdict": "Moderate / Neutral",
