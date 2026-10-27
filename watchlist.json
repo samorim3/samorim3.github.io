@@ -26,7 +26,7 @@
   {
     "ticker": "GALP",
     "name": "Galp Energia",
-    "minBuy": 18,
+    "minBuy": 19,
     "maxSell": 25,
     "lastPrice": 20.33,
     "dgiScore": 60,
@@ -41,10 +41,10 @@
     "minBuy": 200,
     "maxSell": 300,
     "lastPrice": 217.65,
-    "dgiScore": 80,
-    "dgiVerdict": "Solid DGI Quality",
-    "dividendRate": 0.52,
-    "dividendYield": 0.24,
+    "dgiScore": 0,
+    "dgiVerdict": "Moderate / Neutral",
+    "dividendRate": 1,
+    "dividendYield": 0.46,
     "exDividendDate": "2026-09-10"
   },
   {
@@ -137,10 +137,10 @@
     "minBuy": 300,
     "maxSell": 388.98,
     "lastPrice": 319.965,
-    "dgiScore": 80,
+    "dgiScore": 12,
     "dgiVerdict": "Solid DGI Quality",
-    "dividendRate": 0.86,
-    "dividendYield": 0.27,
+    "dividendRate": 0.88,
+    "dividendYield": 0.28,
     "exDividendDate": "2026-09-04"
   },
   {
@@ -149,10 +149,10 @@
     "minBuy": 390,
     "maxSell": 800,
     "lastPrice": 475.3,
-    "dgiScore": 59,
+    "dgiScore": 30,
     "dgiVerdict": "Moderate / Neutral",
     "dividendRate": 23,
-    "dividendYield": 4.84,
+    "dividendYield": 4.79,
     "exDividendDate": "2026-05-18"
   },
   {
@@ -161,10 +161,10 @@
     "minBuy": 31,
     "maxSell": 100,
     "lastPrice": 32.89,
-    "dgiScore": 66,
-    "dgiVerdict": "Moderate / Neutral",
+    "dgiScore": 36,
+    "dgiVerdict": "Solid DGI Quality",
     "dividendRate": 1.24,
-    "dividendYield": 3.77,
+    "dividendYield": 3.76,
     "exDividendDate": "2026-08-07"
   },
   {
@@ -173,10 +173,10 @@
     "minBuy": 200,
     "maxSell": 500,
     "lastPrice": 249.98,
-    "dgiScore": 62,
-    "dgiVerdict": "Moderate / Neutral",
-    "dividendRate": 6.74,
-    "dividendYield": 2.7,
+    "dgiScore": 40,
+    "dgiVerdict": "Solid DGI Quality",
+    "dividendRate": 6.76,
+    "dividendYield": 2.67,
     "exDividendDate": "2026-08-10"
   },
   {
@@ -185,10 +185,10 @@
     "minBuy": 130,
     "maxSell": 200,
     "lastPrice": 140.68,
-    "dgiScore": 60,
-    "dgiVerdict": "Moderate / Neutral",
+    "dgiScore": 40,
+    "dgiVerdict": "Top Tier DGI (Aristocrat)",
     "dividendRate": 4.07,
-    "dividendYield": 2.89,
+    "dividendYield": 2.88,
     "exDividendDate": "2026-06-12"
   },
   {
@@ -209,10 +209,10 @@
     "minBuy": 42,
     "maxSell": 0,
     "lastPrice": 47.99,
-    "dgiScore": 66,
+    "dgiScore": 16,
     "dgiVerdict": "Moderate / Neutral",
-    "dividendRate": 1.01,
-    "dividendYield": 2.1,
+    "dividendRate": 1.19,
+    "dividendYield": 2.49,
     "exDividendDate": "2026-03-30"
   },
   {
@@ -221,10 +221,10 @@
     "minBuy": 215,
     "maxSell": 800,
     "lastPrice": 242.45,
-    "dgiScore": null,
-    "dgiVerdict": null,
+    "dgiScore": 30,
+    "dgiVerdict": "Solid DGI Quality",
     "dividendRate": 4.2,
-    "dividendYield": 1.73,
+    "dividendYield": 1.78,
     "exDividendDate": "2026-05-11",
     "status": "HOLD"
   }
