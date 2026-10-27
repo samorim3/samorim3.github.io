@@ -122,7 +122,7 @@
   {
     "ticker": "NFLX",
     "name": "Netflix, Inc.",
-    "minBuy": 0,
+    "minBuy": 60,
     "maxSell": 100,
     "lastPrice": 63.026,
     "dgiScore": 40,
