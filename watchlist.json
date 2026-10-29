@@ -15,7 +15,7 @@
     "ticker": "NKE",
     "name": "Nike, Inc.",
     "minBuy": 30,
-    "maxSell": 95,
+    "maxSell": 0,
     "lastPrice": 37.15,
     "dgiScore": 60,
     "dgiVerdict": "Moderate / Neutral",
