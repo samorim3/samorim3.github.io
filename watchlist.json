@@ -135,7 +135,7 @@
     "ticker": "GOOGL",
     "name": "Alphabet Inc.",
     "minBuy": 300,
-    "maxSell": 388.98,
+    "maxSell": 0,
     "lastPrice": 324.89,
     "dgiScore": 80,
     "dgiVerdict": "Solid DGI Quality",
