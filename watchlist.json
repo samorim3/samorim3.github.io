@@ -244,7 +244,7 @@
   {
     "ticker": "AVGO",
     "name": "Broadcom Inc.",
-    "minBuy": 309.78,
+    "minBuy": 302,
     "maxSell": 374.99,
     "lastPrice": 326.08,
     "dgiScore": 80,
