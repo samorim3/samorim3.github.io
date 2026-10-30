@@ -206,7 +206,7 @@
   {
     "ticker": "NTO.F",
     "name": "Nintendo Co., Ltd.",
-    "minBuy": 42,
+    "minBuy": 40,
     "maxSell": 0,
     "lastPrice": 46.2,
     "dgiScore": 66,
