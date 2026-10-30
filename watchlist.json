@@ -134,7 +134,7 @@
   {
     "ticker": "GOOGL",
     "name": "Alphabet Inc.",
-    "minBuy": 300,
+    "minBuy": 250,
     "maxSell": 0,
     "lastPrice": 279.84,
     "dgiScore": 80,
