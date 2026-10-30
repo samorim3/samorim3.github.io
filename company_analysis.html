@@ -365,7 +365,7 @@
 									<div class="search-container">
 										<div class="search-row">
 											<div style="flex: 1; min-width: 220px;">
-												<input type="text" id="dgiTickerInput" placeholder="Enter stock ticker or company name (e.g. AAPL, Palantir, Coca-Cola, Galp, BMW, EDP)..." style="width: 100%; padding: 0.65rem 1rem; font-size: 0.95rem; font-weight: 600; border-radius: 8px; border: 1px solid #cbd5e1;" onkeypress="if(event.key==='Enter') analyzeDgiStock(this.value)" />
+												<input type="text" id="dgiTickerInput" autocomplete="off" spellcheck="false" data-lpignore="true" data-1p-ignore="true" placeholder="Enter stock ticker or company name (e.g. AAPL, Palantir, Coca-Cola, Galp, BMW, EDP)..." style="width: 100%; padding: 0.65rem 1rem; font-size: 0.95rem; font-weight: 600; border-radius: 8px; border: 1px solid #cbd5e1;" onkeypress="if(event.key==='Enter') analyzeDgiStock(this.value)" />
 											</div>
 											<button type="button" onclick="analyzeDgiStock(document.getElementById('dgiTickerInput').value)" class="btn-sober btn-primary">Analyze Stock</button>
 										</div>
@@ -378,9 +378,9 @@
 											<span>➕ Add Ticker to Watchlist:</span>
 										</div>
 										<div style="display: flex; gap: 0.45rem; flex-wrap: wrap; flex: 1; max-width: 540px; justify-content: flex-end;">
-											<input type="text" id="manualWatchlistTicker-screener" placeholder="Ticker (e.g. QCOM)" style="flex: 1; min-width: 120px; max-width: 180px; height: 35px; padding: 0 0.65rem; font-size: 0.8rem; text-transform: uppercase; border-radius: 6px; border: 1px solid var(--border-card); background: var(--bg-input); color: var(--text-main);" />
-											<input type="number" id="manualWatchlistMin-screener" placeholder="Buy Target" step="0.01" style="width: 105px; height: 35px; padding: 0 0.5rem; font-size: 0.8rem; border-radius: 6px; border: 1px solid var(--border-card); background: var(--bg-input); color: var(--text-main);" />
-											<input type="number" id="manualWatchlistMax-screener" placeholder="Sell Target" step="0.01" style="width: 105px; height: 35px; padding: 0 0.5rem; font-size: 0.8rem; border-radius: 6px; border: 1px solid var(--border-card); background: var(--bg-input); color: var(--text-main);" />
+											<input type="text" id="manualWatchlistTicker-screener" autocomplete="off" spellcheck="false" data-lpignore="true" data-1p-ignore="true" placeholder="Ticker (e.g. QCOM)" style="flex: 1; min-width: 120px; max-width: 180px; height: 35px; padding: 0 0.65rem; font-size: 0.8rem; text-transform: uppercase; border-radius: 6px; border: 1px solid var(--border-card); background: var(--bg-input); color: var(--text-main);" />
+											<input type="number" id="manualWatchlistMin-screener" autocomplete="off" data-lpignore="true" data-1p-ignore="true" placeholder="Buy Target" step="0.01" style="width: 105px; height: 35px; padding: 0 0.5rem; font-size: 0.8rem; border-radius: 6px; border: 1px solid var(--border-card); background: var(--bg-input); color: var(--text-main);" />
+											<input type="number" id="manualWatchlistMax-screener" autocomplete="off" data-lpignore="true" data-1p-ignore="true" placeholder="Sell Target" step="0.01" style="width: 105px; height: 35px; padding: 0 0.5rem; font-size: 0.8rem; border-radius: 6px; border: 1px solid var(--border-card); background: var(--bg-input); color: var(--text-main);" />
 											<button type="button" onclick="addManualWatchlistEntry('screener')" class="btn-sober btn-primary btn-sm" style="height: 35px; padding: 0 0.85rem; font-size: 0.8rem; font-weight: 700;">+ Add</button>
 										</div>
 									</div>
@@ -617,9 +617,9 @@
 												<span>➕ Add Ticker to Watchlist:</span>
 											</div>
 											<div style="display: flex; gap: 0.45rem; flex-wrap: wrap; flex: 1; max-width: 540px; justify-content: flex-end;">
-												<input type="text" id="manualWatchlistTicker-radar" placeholder="Ticker (e.g. QCOM)" style="flex: 1; min-width: 120px; max-width: 180px; height: 35px; padding: 0 0.65rem; font-size: 0.8rem; text-transform: uppercase; border-radius: 6px; border: 1px solid var(--border-card); background: var(--bg-input); color: var(--text-main);" />
-												<input type="number" id="manualWatchlistMin-radar" placeholder="Buy Target" step="0.01" style="width: 105px; height: 35px; padding: 0 0.5rem; font-size: 0.8rem; border-radius: 6px; border: 1px solid var(--border-card); background: var(--bg-input); color: var(--text-main);" />
-												<input type="number" id="manualWatchlistMax-radar" placeholder="Sell Target" step="0.01" style="width: 105px; height: 35px; padding: 0 0.5rem; font-size: 0.8rem; border-radius: 6px; border: 1px solid var(--border-card); background: var(--bg-input); color: var(--text-main);" />
+												<input type="text" id="manualWatchlistTicker-radar" autocomplete="off" spellcheck="false" data-lpignore="true" data-1p-ignore="true" placeholder="Ticker (e.g. QCOM)" style="flex: 1; min-width: 120px; max-width: 180px; height: 35px; padding: 0 0.65rem; font-size: 0.8rem; text-transform: uppercase; border-radius: 6px; border: 1px solid var(--border-card); background: var(--bg-input); color: var(--text-main);" />
+												<input type="number" id="manualWatchlistMin-radar" autocomplete="off" data-lpignore="true" data-1p-ignore="true" placeholder="Buy Target" step="0.01" style="width: 105px; height: 35px; padding: 0 0.5rem; font-size: 0.8rem; border-radius: 6px; border: 1px solid var(--border-card); background: var(--bg-input); color: var(--text-main);" />
+												<input type="number" id="manualWatchlistMax-radar" autocomplete="off" data-lpignore="true" data-1p-ignore="true" placeholder="Sell Target" step="0.01" style="width: 105px; height: 35px; padding: 0 0.5rem; font-size: 0.8rem; border-radius: 6px; border: 1px solid var(--border-card); background: var(--bg-input); color: var(--text-main);" />
 												<button type="button" onclick="addManualWatchlistEntry('radar')" class="btn-sober btn-primary btn-sm" style="height: 35px; padding: 0 0.85rem; font-size: 0.8rem; font-weight: 700;">+ Add</button>
 											</div>
 										</div>
@@ -694,24 +694,26 @@
 											<div style="font-size: 0.85rem; font-weight: 700; color: #0f172a; margin-bottom: 0.25rem;">Settings & Telegram Integration</div>
 											<p style="font-size: 0.78rem; color: #64748b; margin-bottom: 0.85rem;">Store your Telegram Bot Token and Chat ID locally in your browser to receive instant alerts and DGI summaries.</p>
 											
-											<div class="form-grid-inputs">
-												<div class="input-group">
-													<label for="telegramToken">Telegram Bot Token:</label>
-													<input type="text" id="telegramToken" class="masked-token-input" autocomplete="off" spellcheck="false" data-lpignore="true" placeholder="123456789:ABCdef..." />
+											<form autocomplete="off" onsubmit="return false;" data-lpignore="true" data-1p-ignore="true">
+												<div class="form-grid-inputs">
+													<div class="input-group">
+														<label for="telegramToken">Telegram Bot Token:</label>
+														<input type="text" id="telegramToken" class="masked-token-input" autocomplete="off" spellcheck="false" data-lpignore="true" data-1p-ignore="true" placeholder="123456789:ABCdef..." />
+													</div>
+													<div class="input-group">
+														<label for="telegramChatId">Telegram Chat ID:</label>
+														<input type="text" id="telegramChatId" autocomplete="off" spellcheck="false" data-lpignore="true" data-1p-ignore="true" placeholder="Chat ID" />
+													</div>
+													<div class="input-group">
+														<label for="githubToken">GitHub Token (Optional Sync):</label>
+														<input type="text" id="githubToken" class="masked-token-input" autocomplete="off" spellcheck="false" data-lpignore="true" data-1p-ignore="true" placeholder="ghp_..." />
+													</div>
+													<div style="display: flex; gap: 0.4rem;">
+														<button type="button" onclick="saveTelegramCredentials(true)" class="btn-sober btn-secondary btn-sm" style="height: 38px;">Save</button>
+														<button type="button" onclick="testTelegramAlert()" class="btn-sober btn-secondary btn-sm" style="height: 38px;">Test Alert</button>
+													</div>
 												</div>
-												<div class="input-group">
-													<label for="telegramChatId">Telegram Chat ID:</label>
-													<input type="password" id="telegramChatId" autocomplete="off" placeholder="Chat ID" />
-												</div>
-												<div class="input-group">
-													<label for="githubToken">GitHub Token (Optional Sync):</label>
-													<input type="password" id="githubToken" class="masked-token-input" autocomplete="off" spellcheck="false" data-lpignore="true" placeholder="ghp_..." />
-												</div>
-												<div style="display: flex; gap: 0.4rem;">
-													<button onclick="saveTelegramCredentials(true)" class="btn-sober btn-secondary btn-sm" style="height: 38px;">Save</button>
-													<button onclick="testTelegramAlert()" class="btn-sober btn-secondary btn-sm" style="height: 38px;">Test Alert</button>
-												</div>
-											</div>
+											</form>
 											<div id="telegramStatusBox" class="status-msg"></div>
 
 											<!-- Live Telegram Alerts Example -->
@@ -2351,13 +2353,13 @@ payout_label = <span style="color: #86efac;">"FCF"</span> <span style="color: #7
 							'<td style="padding: 0.5rem 0.2rem; text-align: center; white-space:nowrap;">' +
 								'<div class="input-target-box">' +
 									'<span style="font-size:0.68rem; opacity:0.75; font-weight:600;">' + currSym + '</span>' +
-									'<input type="text" inputmode="decimal" autocomplete="off" value="' + (item.minBuy != null ? item.minBuy : '') + '" onchange="updateWatchlistThreshold(' + index + ', \'minBuy\', this.value)" />' +
+									'<input type="text" inputmode="decimal" autocomplete="off" name="stock-alert-min" data-lpignore="true" data-1p-ignore="true" value="' + (item.minBuy != null ? item.minBuy : '') + '" onchange="updateWatchlistThreshold(' + index + ', \'minBuy\', this.value)" />' +
 								'</div>' +
 							'</td>' +
 							'<td style="padding: 0.5rem 0.2rem; text-align: center; white-space:nowrap;">' +
 								'<div class="input-target-box">' +
 									'<span style="font-size:0.68rem; opacity:0.75; font-weight:600;">' + currSym + '</span>' +
-									'<input type="text" inputmode="decimal" autocomplete="off" value="' + (item.maxSell != null ? item.maxSell : '') + '" onchange="updateWatchlistThreshold(' + index + ', \'maxSell\', this.value)" />' +
+									'<input type="text" inputmode="decimal" autocomplete="off" name="stock-alert-max" data-lpignore="true" data-1p-ignore="true" value="' + (item.maxSell != null ? item.maxSell : '') + '" onchange="updateWatchlistThreshold(' + index + ', \'maxSell\', this.value)" />' +
 								'</div>' +
 							'</td>' +
 							'<td style="padding: 0.5rem 0.2rem; text-align: center; font-weight: 700; font-size:0.82rem; white-space:nowrap;">' +

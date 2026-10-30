@@ -1734,6 +1734,10 @@ img {
   margin-top: 2rem !important;
 }
 
+.masked-token-input {
+  -webkit-text-security: disc !important;
+}
+
 
 /* ============================================================
    KPI Cards - Strava Training Stats
