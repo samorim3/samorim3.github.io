@@ -232,7 +232,7 @@
     "ticker": "CAT",
     "name": "Caterpillar Inc.",
     "minBuy": 600,
-    "maxSell": 716.16,
+    "maxSell": 0,
     "lastPrice": 687,
     "dgiScore": 52,
     "dgiVerdict": "Weak / Caution",
