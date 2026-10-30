@@ -240,5 +240,17 @@
     "dividendYield": 0.95,
     "exDividendDate": null,
     "status": "HOLD"
+  },
+  {
+    "ticker": "AVGO",
+    "name": "Broadcom Inc.",
+    "minBuy": 309.78,
+    "maxSell": 374.99,
+    "lastPrice": 326.08,
+    "dgiScore": 80,
+    "dgiVerdict": "Solid DGI Quality",
+    "dividendRate": 2.6,
+    "dividendYield": 0.75,
+    "exDividendDate": "2026-09-21"
   }
 ]
