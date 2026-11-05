@@ -129,7 +129,7 @@ export default {
     try {
       const crumbInfo = await getCrumb();
       if (crumbInfo && crumbInfo.crumb && crumbInfo.cookie) {
-        const modules = "financialData,defaultKeyStatistics,summaryDetail,incomeStatementHistory";
+        const modules = "financialData,defaultKeyStatistics,summaryDetail,incomeStatementHistory,calendarEvents";
         const qsUrl = `https://query2.finance.yahoo.com/v10/finance/quoteSummary/${encodeURIComponent(targetTicker)}?modules=${modules}&crumb=${encodeURIComponent(crumbInfo.crumb)}`;
         
         const nowSec = Math.floor(Date.now() / 1000);
@@ -250,9 +250,14 @@ function parseFundamentals(qs, tsResult) {
   const fd = qs.financialData || {};
   const ks = qs.defaultKeyStatistics || {};
   const sd = qs.summaryDetail || {};
+  const cal = qs.calendarEvents || {};
   const inc = qs.incomeStatementHistory?.incomeStatementHistory || [];
 
   const raw = (obj) => (obj && typeof obj.raw === 'number') ? obj.raw : null;
+
+  // Next / Upcoming Ex-Dividend Date
+  const rawExDiv = raw(cal.exDividendDate) || raw(sd.exDividendDate);
+  const exDividendDate = cal.exDividendDate?.fmt || sd.exDividendDate?.fmt || (rawExDiv ? new Date(rawExDiv * 1000).toISOString().split('T')[0] : null);
 
   // 1. Valuation & Profitability
   const pe = raw(sd.trailingPE) || raw(ks.trailingPE) || raw(sd.forwardPE) || raw(ks.forwardPE);
@@ -417,6 +422,7 @@ function parseFundamentals(qs, tsResult) {
     niCagr5y,
     sharesChange5y,
     sharesCagr5y,
+    exDividendDate,
     mcap
   };
 }
