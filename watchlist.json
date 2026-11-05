@@ -39,7 +39,7 @@
     "ticker": "NVDA",
     "name": "NVIDIA Corporation",
     "minBuy": 180,
-    "maxSell": 300,
+    "maxSell": 0,
     "lastPrice": 200.13,
     "dgiScore": 80,
     "dgiVerdict": "Solid DGI Quality",
