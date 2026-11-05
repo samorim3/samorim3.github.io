@@ -49,7 +49,7 @@
   },
   {
     "ticker": "MC.PA",
-    "name": "LVMH Moët Hennessy Louis Vuitton",
+    "name": "LVMH Mo\u00ebt Hennessy Louis Vuitton",
     "minBuy": 350,
     "maxSell": 0,
     "lastPrice": 420.4,
@@ -57,7 +57,7 @@
     "dgiVerdict": "Moderate / Neutral",
     "dividendRate": 13,
     "dividendYield": 3.09,
-    "exDividendDate": "2026-04-28"
+    "exDividendDate": "2026-12-01"
   },
   {
     "ticker": "MCD",
@@ -69,7 +69,7 @@
     "dgiVerdict": "Moderate / Neutral",
     "dividendRate": 7.44,
     "dividendYield": 2.66,
-    "exDividendDate": "2026-09-01"
+    "exDividendDate": "2026-12-01"
   },
   {
     "ticker": "BN.PA",
@@ -141,7 +141,7 @@
     "dgiVerdict": "Solid DGI Quality",
     "dividendRate": 0.86,
     "dividendYield": 0.3,
-    "exDividendDate": "2026-09-04"
+    "exDividendDate": "2026-12-14"
   },
   {
     "ticker": "COLO-B.CO",
@@ -177,7 +177,7 @@
     "dgiVerdict": "Moderate / Neutral",
     "dividendRate": 6.74,
     "dividendYield": 2.65,
-    "exDividendDate": "2026-08-10"
+    "exDividendDate": "2026-11-10"
   },
   {
     "ticker": "XTB.WA",
@@ -238,7 +238,7 @@
     "dgiVerdict": "Solid DGI Quality",
     "dividendRate": 6.28,
     "dividendYield": 1.06,
-    "exDividendDate": "2026-10-26",
+    "exDividendDate": "2026-11-19",
     "status": "HOLD"
   },
   {

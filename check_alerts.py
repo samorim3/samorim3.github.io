@@ -298,18 +298,37 @@ def calculate_dgi_data(ticker_sym):
     else:
         p5_score = 0.0
 
-    # Ex-Dividend Date
+    # Ex-Dividend / Payment Date
+    today_dt = datetime.now().date()
     ex_div_timestamp = info.get('exDividendDate')
     ex_div_date_str = None
 
     try:
         cal = getattr(stock, 'calendar', None)
-        if isinstance(cal, dict) and 'Ex-Dividend Date' in cal:
-            ex_val = cal['Ex-Dividend Date']
+        if isinstance(cal, dict):
+            ex_val = cal.get('Ex-Dividend Date')
+            pay_val = cal.get('Dividend Date')
             if ex_val:
-                ex_div_date_str = str(ex_val)
-        elif isinstance(cal, pd.DataFrame) and 'Ex-Dividend Date' in cal.index:
-            ex_div_date_str = str(cal.loc['Ex-Dividend Date'].iloc[0])
+                try:
+                    ex_d = ex_val if hasattr(ex_val, 'strftime') else datetime.strptime(str(ex_val)[:10], '%Y-%m-%d').date()
+                    if ex_d >= today_dt:
+                        ex_div_date_str = ex_d.strftime('%Y-%m-%d')
+                except Exception:
+                    pass
+            if not ex_div_date_str and pay_val:
+                try:
+                    p_d = pay_val if hasattr(pay_val, 'strftime') else datetime.strptime(str(pay_val)[:10], '%Y-%m-%d').date()
+                    if p_d >= today_dt:
+                        ex_div_date_str = p_d.strftime('%Y-%m-%d')
+                except Exception:
+                    pass
+            if not ex_div_date_str and ex_val:
+                ex_div_date_str = str(ex_val)[:10]
+        elif isinstance(cal, pd.DataFrame):
+            if 'Ex-Dividend Date' in cal.index:
+                ex_div_date_str = str(cal.loc['Ex-Dividend Date'].iloc[0])[:10]
+            elif 'Dividend Date' in cal.index:
+                ex_div_date_str = str(cal.loc['Dividend Date'].iloc[0])[:10]
     except Exception:
         pass
 
@@ -318,7 +337,7 @@ def calculate_dgi_data(ticker_sym):
             if isinstance(ex_div_timestamp, (int, float)):
                 ex_div_date_str = datetime.fromtimestamp(ex_div_timestamp).strftime('%Y-%m-%d')
             else:
-                ex_div_date_str = str(ex_div_timestamp)
+                ex_div_date_str = str(ex_div_timestamp)[:10]
         except Exception:
             pass
 
