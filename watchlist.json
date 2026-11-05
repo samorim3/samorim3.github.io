@@ -183,7 +183,7 @@
     "ticker": "XTB.WA",
     "name": "XTB",
     "minBuy": 120,
-    "maxSell": 200,
+    "maxSell": 0,
     "lastPrice": 130.4,
     "dgiScore": 60,
     "dgiVerdict": "Moderate / Neutral",
