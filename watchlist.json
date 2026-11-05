@@ -51,7 +51,7 @@
     "ticker": "MC.PA",
     "name": "LVMH Moët Hennessy Louis Vuitton",
     "minBuy": 350,
-    "maxSell": 800,
+    "maxSell": 0,
     "lastPrice": 420.4,
     "dgiScore": 64,
     "dgiVerdict": "Moderate / Neutral",
