@@ -51,7 +51,7 @@ export default {
 
     // Helper to fetch chart
     async function fetchChart(sym) {
-      const chartUrl = `https://query1.finance.yahoo.com/v8/finance/chart/${encodeURIComponent(sym)}?interval=1mo&range=5y&events=div`;
+      const chartUrl = `https://query1.finance.yahoo.com/v8/finance/chart/${encodeURIComponent(sym)}?interval=1mo&range=5y&events=div,split`;
       const chartRes = await fetch(chartUrl, { headers: { "User-Agent": USER_AGENT } });
       if (chartRes.ok) {
         const json = await chartRes.json();
@@ -134,7 +134,7 @@ export default {
         
         const nowSec = Math.floor(Date.now() / 1000);
         const fiveYearsAgoSec = nowSec - (5 * 365 * 86400);
-        const tsUrl = `https://query2.finance.yahoo.com/ws/fundamentals-timeseries/v1/finance/timeseries/${encodeURIComponent(targetTicker)}?symbol=${encodeURIComponent(targetTicker)}&type=annualInvestedCapital,annualOperatingIncome,shares_out&period1=${fiveYearsAgoSec}&period2=${nowSec}&crumb=${encodeURIComponent(crumbInfo.crumb)}`;
+        const tsUrl = `https://query2.finance.yahoo.com/ws/fundamentals-timeseries/v1/finance/timeseries/${encodeURIComponent(targetTicker)}?symbol=${encodeURIComponent(targetTicker)}&type=annualInvestedCapital,annualOperatingIncome,annualDilutedAverageShares,annualBasicAverageShares,shares_out&period1=${fiveYearsAgoSec}&period2=${nowSec}&crumb=${encodeURIComponent(crumbInfo.crumb)}`;
 
         const [qsRes, tsRes] = await Promise.all([
           fetch(qsUrl, { headers: { "User-Agent": USER_AGENT, "Cookie": crumbInfo.cookie } }).catch(() => null),
@@ -342,6 +342,8 @@ function parseFundamentals(qs, tsResult) {
   let roic = null;
   let annualOpInc = null;
   let annualInvCap = null;
+  let annualDilutedSharesArr = null;
+  let annualBasicSharesArr = null;
   let sharesArr = null;
 
   if (Array.isArray(tsResult)) {
@@ -351,6 +353,12 @@ function parseFundamentals(qs, tsResult) {
       }
       if (item.annualInvestedCapital && Array.isArray(item.annualInvestedCapital) && item.annualInvestedCapital.length > 0) {
         annualInvCap = item.annualInvestedCapital[item.annualInvestedCapital.length - 1]?.reportedValue?.raw;
+      }
+      if (item.annualDilutedAverageShares && Array.isArray(item.annualDilutedAverageShares) && item.annualDilutedAverageShares.length >= 2) {
+        annualDilutedSharesArr = item.annualDilutedAverageShares;
+      }
+      if (item.annualBasicAverageShares && Array.isArray(item.annualBasicAverageShares) && item.annualBasicAverageShares.length >= 2) {
+        annualBasicSharesArr = item.annualBasicAverageShares;
       }
       if (item.shares_out && Array.isArray(item.shares_out)) {
         sharesArr = item.shares_out;
@@ -377,14 +385,54 @@ function parseFundamentals(qs, tsResult) {
   }
 
   // 6. Share Count Evolution (5Y Share buybacks / Dilution)
+  // Split-adjusted so stock splits (e.g. NVDA 10:1 in 2024 and 4:1 in 2021) do not cause false dilution!
   let sharesChange5y = null;
   let sharesCagr5y = null;
-  if (sharesArr && sharesArr.length >= 2) {
-    const first = sharesArr[0];
-    const last = sharesArr[sharesArr.length - 1];
-    if (first > 0 && last > 0) {
+
+  // Primary: annualDilutedAverageShares or annualBasicAverageShares (officially split-adjusted by Yahoo)
+  const annualShares = annualDilutedSharesArr || annualBasicSharesArr;
+  if (annualShares && annualShares.length >= 2) {
+    const validShares = annualShares
+      .map(entry => entry?.reportedValue?.raw)
+      .filter(v => v != null && v > 0);
+    
+    if (validShares.length >= 2) {
+      const first = validShares[0];
+      const last = validShares[validShares.length - 1];
+      const periods = Math.max(1, validShares.length - 1);
       sharesChange5y = +(((last - first) / first) * 100).toFixed(1);
-      sharesCagr5y = +((Math.pow(last / first, 1 / 5) - 1) * 100).toFixed(1);
+      sharesCagr5y = +((Math.pow(last / first, 1 / periods) - 1) * 100).toFixed(1);
+    }
+  }
+
+  // Fallback: sharesArr (raw point-in-time shares_out) with split-adjustment
+  if (sharesChange5y == null && sharesArr && sharesArr.length >= 2) {
+    const adjusted = sharesArr.slice().map(v => Number(v)).filter(v => !isNaN(v) && v > 0);
+    if (adjusted.length >= 2) {
+      // Detect splits across consecutive reports
+      for (let i = 1; i < adjusted.length; i++) {
+        const prev = adjusted[i - 1];
+        const curr = adjusted[i];
+        const ratio = curr / prev;
+
+        for (const split of [50, 20, 15, 10, 9, 8, 7, 6, 5, 4, 3, 2]) {
+          if (Math.abs(ratio - split) / split < 0.08) {
+            for (let j = 0; j < i; j++) adjusted[j] *= split;
+            break;
+          }
+          if (Math.abs(ratio - (1 / split)) / (1 / split) < 0.08) {
+            for (let j = 0; j < i; j++) adjusted[j] /= split;
+            break;
+          }
+        }
+      }
+
+      const first = adjusted[0];
+      const last = adjusted[adjusted.length - 1];
+      if (first > 0 && last > 0) {
+        sharesChange5y = +(((last - first) / first) * 100).toFixed(1);
+        sharesCagr5y = +((Math.pow(last / first, 1 / 5) - 1) * 100).toFixed(1);
+      }
     }
   }
 

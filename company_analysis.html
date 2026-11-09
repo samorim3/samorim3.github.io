@@ -1685,7 +1685,19 @@ payout_label = <span style="color: #86efac;">"FCF"</span> <span style="color: #7
 							netDebtEbitda: fund.netDebtEbitda !== undefined ? fund.netDebtEbitda : null,
 							revCagr5y: fund.revCagr5y !== undefined ? fund.revCagr5y : null,
 							niCagr5y: fund.niCagr5y !== undefined ? fund.niCagr5y : null,
-							sharesChange5y: fund.sharesChange5y !== undefined ? fund.sharesChange5y : null,
+							sharesChange5y: (() => {
+								let sc = fund.sharesChange5y !== undefined ? fund.sharesChange5y : null;
+								if (sc != null && sc > 40.0) {
+									for (const split of [50, 20, 10, 8, 5, 4, 3, 2]) {
+										const testRatio = (1 + (sc / 100)) / split;
+										const testChange = (testRatio - 1) * 100;
+										if (testChange >= -35 && testChange <= 35) {
+											return +(testChange.toFixed(1));
+										}
+									}
+								}
+								return sc;
+							})(),
 							divCagr5y: divCagr5yOrd,
 							divHistory: divHistory,
 							scores: { p1: p1, p2: hasFund ? p2 : null, p3: hasFund ? p3 : null, p4: hasFund ? p4 : null, p5: p5, total: totalScore },
