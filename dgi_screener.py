@@ -38,30 +38,54 @@ def analyze_company(item):
     index_name = item.get("index", "")
     sector = item.get("sector", "")
 
-    try:
-        stock = yf.Ticker(ticker)
-        info = stock.info or {}
-    except Exception:
+    info = None
+    stock = None
+    for attempt in range(2):
+        try:
+            stock = yf.Ticker(ticker)
+            info = stock.info
+            if info and len(info) > 5:
+                break
+        except Exception:
+            if attempt == 0:
+                time.sleep(0.5)
+
+    if not info:
         return None
 
     # Price and Currency
-    price = info.get("regularMarketPrice") or info.get("currentPrice") or info.get("previousClose")
-    if not price or price <= 0:
+    raw_price = info.get("regularMarketPrice") or info.get("currentPrice") or info.get("previousClose")
+    if not raw_price or raw_price <= 0:
         return None
 
     currency = info.get("currency", "USD")
+    price = float(raw_price)
+
+    # Handle UK pence (GBp) where price is in pence and dividends/financials are in pounds (GBP)
+    is_uk_pence = (currency == "GBp") or (ticker.endswith(".L") and currency in ["GBP", "GBp"] and price > 100)
+    if is_uk_pence:
+        price = price / 100.0
+        currency = "GBP"
+
     sym_char = "€" if currency == "EUR" else ("$" if currency == "USD" else ("£" if currency == "GBP" else f"{currency} "))
 
     # 1. Dividend Yield & Rate
     div_rate = info.get("dividendRate") or info.get("trailingAnnualDividendRate")
-    div_yield_raw = info.get("dividendYield") or info.get("trailingAnnualDividendYield") or 0.0
+    div_yield_raw = info.get("dividendYield") or info.get("trailingAnnualDividendYield")
 
     if div_rate and price > 0:
         div_yield_pct = (float(div_rate) / float(price)) * 100.0
-    elif div_yield_raw:
-        div_yield_pct = (div_yield_raw * 100.0) if (div_yield_raw < 0.25) else float(div_yield_raw)
+    elif div_yield_raw is not None:
+        div_yield_raw = float(div_yield_raw)
+        div_yield_pct = (div_yield_raw * 100.0) if (div_yield_raw < 0.25) else div_yield_raw
     else:
         div_yield_pct = 0.0
+
+    # Fallback: if div_yield_pct is unrealistically tiny (<0.1%) but div_yield_raw exists, use div_yield_raw
+    if div_yield_pct < 0.1 and div_yield_raw:
+        raw_pct = (float(div_yield_raw) * 100.0) if (float(div_yield_raw) < 0.25) else float(div_yield_raw)
+        if raw_pct >= 0.1:
+            div_yield_pct = raw_pct
 
     # Skip pure non-dividend companies (< 0.1% yield) for DGI ranking
     if div_yield_pct < 0.1:
@@ -235,13 +259,27 @@ def analyze_company(item):
         }
     }
 
-def run_screener(limit=None):
+def run_screener(limit=None, market=None, tickers=None):
     if not os.path.exists("dgi_universe.json"):
         import generate_dgi_universe
         generate_dgi_universe.get_universe()
 
     with open("dgi_universe.json", "r", encoding="utf-8") as f:
         universe = json.load(f)
+
+    # Filter by market/index or country if requested
+    if market:
+        market_lower = market.strip().lower()
+        universe = [
+            u for u in universe 
+            if market_lower in (u.get("index") or "").lower() 
+            or market_lower in (u.get("country") or "").lower()
+        ]
+
+    # Filter by specific tickers if requested
+    if tickers:
+        ticker_set = {t.strip().upper() for t in tickers}
+        universe = [u for u in universe if u.get("ticker", "").upper() in ticker_set]
 
     if limit:
         universe = universe[:limit]
@@ -250,7 +288,8 @@ def run_screener(limit=None):
     t0 = time.time()
     results = []
 
-    with ThreadPoolExecutor(max_workers=10) as executor:
+    # Use max_workers=5 for safe rate-limiting on yfinance
+    with ThreadPoolExecutor(max_workers=5) as executor:
         future_to_item = {executor.submit(analyze_company, item): item for item in universe}
         count = 0
         for future in as_completed(future_to_item):
@@ -262,7 +301,7 @@ def run_screener(limit=None):
                 res = future.result()
                 if res and res["dgiScore"] > 0:
                     results.append(res)
-            except Exception as e:
+            except Exception:
                 pass
 
     # Safety guard: do not overwrite existing rankings with an empty list if API blocked/failed
@@ -270,32 +309,49 @@ def run_screener(limit=None):
         print("⚠️ Warning: Screener returned 0 results. Preserving existing ranking file.")
         return
 
+    # Merge newly scanned results into existing rankings to preserve historical data
+    merged = {}
+    if os.path.exists("dgi_market_ranking.json"):
+        try:
+            with open("dgi_market_ranking.json", "r", encoding="utf-8") as f:
+                old_data = json.load(f)
+                for item in old_data.get("rankings", []):
+                    merged[item["ticker"]] = item
+        except Exception:
+            pass
+
+    for r in results:
+        merged[r["ticker"]] = r
+
+    final_results = list(merged.values())
     # Sort descending by DGI Score, then by 5Y Dividend Growth
-    results.sort(key=lambda x: (x["dgiScore"], x.get("divCagr5y") or 0), reverse=True)
+    final_results.sort(key=lambda x: (x["dgiScore"], x.get("divCagr5y") or 0), reverse=True)
 
     output_data = {
         "updatedAt": time.strftime("%Y-%m-%d %H:%M:%S UTC", time.gmtime()),
         "totalScanned": len(universe),
-        "totalRanked": len(results),
-        "eliteCount": len([r for r in results if r["dgiScore"] >= 85]),
-        "solidCount": len([r for r in results if 70 <= r["dgiScore"] < 85]),
-        "rankings": results
+        "totalRanked": len(final_results),
+        "eliteCount": len([r for r in final_results if r["dgiScore"] >= 85]),
+        "solidCount": len([r for r in final_results if 70 <= r["dgiScore"] < 85]),
+        "rankings": final_results
     }
 
     with open("dgi_market_ranking.json", "w", encoding="utf-8") as f:
         json.dump(output_data, f, indent=2, ensure_ascii=False)
 
     print(f"\n✅ Completed DGI Screener in {time.time()-t0:.1f}s!")
-    print(f"Total Ranked Dividend Companies: {len(results)}")
+    print(f"Total Ranked Dividend Companies: {len(final_results)} (Newly processed: {len(results)})")
     print(f"🏆 Elite DGI (Score >= 85): {output_data['eliteCount']}")
     print(f"🟢 Solid DGI (Score 70-84): {output_data['solidCount']}")
-    if results:
+    if final_results:
         print("\nTop 5 DGI Leaders:")
-        for r in results[:5]:
+        for r in final_results[:5]:
             print(f" - {r['name']} ({r['ticker']}): Score {r['dgiScore']}/100 | Yield {r['divYield']}% | 5Y Div CAGR {r.get('divCagr5y')}%")
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(description="Run Western DGI Screener")
     parser.add_argument("--limit", type=int, default=None, help="Limit number of tickers to test")
+    parser.add_argument("--market", type=str, default=None, help="Filter by market name (e.g. Amsterdam, PSI, STOXX)")
+    parser.add_argument("--tickers", type=str, nargs="+", default=None, help="Specific tickers to scan")
     args = parser.parse_args()
-    run_screener(limit=args.limit)
+    run_screener(limit=args.limit, market=args.market, tickers=args.tickers)

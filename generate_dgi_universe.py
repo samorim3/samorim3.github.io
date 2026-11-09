@@ -39,11 +39,42 @@ SPAIN_EXTRA = [
     {"ticker": "COL.MC", "name": "Colonial", "country": "Spain", "index": "IBEX 35", "sector": "Real Estate"}
 ]
 
+NETHERLANDS_AMX_ASCX = [
+    {"ticker": "HEIJM.AS", "name": "Koninklijke Heijmans", "country": "Netherlands", "index": "Euronext Amsterdam", "sector": "Industrials"},
+    {"ticker": "BAMNB.AS", "name": "Koninklijke BAM Groep", "country": "Netherlands", "index": "Euronext Amsterdam", "sector": "Industrials"},
+    {"ticker": "ARCAD.AS", "name": "Arcadis", "country": "Netherlands", "index": "Euronext Amsterdam", "sector": "Industrials"},
+    {"ticker": "AALB.AS", "name": "Aalberts", "country": "Netherlands", "index": "Euronext Amsterdam", "sector": "Industrials"},
+    {"ticker": "ASRNL.AS", "name": "ASR Nederland", "country": "Netherlands", "index": "Euronext Amsterdam", "sector": "Financials"},
+    {"ticker": "RAND.AS", "name": "Randstad", "country": "Netherlands", "index": "Euronext Amsterdam", "sector": "Industrials"},
+    {"ticker": "CRBN.AS", "name": "Corbion", "country": "Netherlands", "index": "Euronext Amsterdam", "sector": "Consumer Defensive"},
+    {"ticker": "SBMO.AS", "name": "SBM Offshore", "country": "Netherlands", "index": "Euronext Amsterdam", "sector": "Energy"},
+    {"ticker": "FUR.AS", "name": "Fugro", "country": "Netherlands", "index": "Euronext Amsterdam", "sector": "Energy"},
+    {"ticker": "TWEKA.AS", "name": "TKH Group", "country": "Netherlands", "index": "Euronext Amsterdam", "sector": "Technology"},
+    {"ticker": "VLK.AS", "name": "Van Lanschot Kempen", "country": "Netherlands", "index": "Euronext Amsterdam", "sector": "Financials"},
+    {"ticker": "NEDAP.AS", "name": "Nedap", "country": "Netherlands", "index": "Euronext Amsterdam", "sector": "Technology"},
+    {"ticker": "KENDR.AS", "name": "Kendrion", "country": "Netherlands", "index": "Euronext Amsterdam", "sector": "Industrials"},
+    {"ticker": "ECMPA.AS", "name": "Eurocommercial Properties", "country": "Netherlands", "index": "Euronext Amsterdam", "sector": "Real Estate"},
+    {"ticker": "CTPNV.AS", "name": "CTP NV", "country": "Netherlands", "index": "Euronext Amsterdam", "sector": "Real Estate"},
+    {"ticker": "WHA.AS", "name": "Wereldhave", "country": "Netherlands", "index": "Euronext Amsterdam", "sector": "Real Estate"},
+    {"ticker": "NSI.AS", "name": "NSI N.V.", "country": "Netherlands", "index": "Euronext Amsterdam", "sector": "Real Estate"},
+    {"ticker": "SLIGR.AS", "name": "Sligro Food Group", "country": "Netherlands", "index": "Euronext Amsterdam", "sector": "Consumer Defensive"},
+    {"ticker": "FFARM.AS", "name": "ForFarmers", "country": "Netherlands", "index": "Euronext Amsterdam", "sector": "Consumer Defensive"},
+    {"ticker": "BRNL.AS", "name": "Brunel International", "country": "Netherlands", "index": "Euronext Amsterdam", "sector": "Industrials"},
+    {"ticker": "APAM.AS", "name": "Aperam", "country": "Netherlands", "index": "Euronext Amsterdam", "sector": "Basic Materials"},
+    {"ticker": "AMG.AS", "name": "AMG Critical Materials", "country": "Netherlands", "index": "Euronext Amsterdam", "sector": "Basic Materials"},
+    {"ticker": "ALLFG.AS", "name": "Allfunds Group", "country": "Netherlands", "index": "Euronext Amsterdam", "sector": "Financials"},
+    {"ticker": "ALFEN.AS", "name": "Alfen", "country": "Netherlands", "index": "Euronext Amsterdam", "sector": "Industrials"},
+    {"ticker": "BFIT.AS", "name": "Basic-Fit", "country": "Netherlands", "index": "Euronext Amsterdam", "sector": "Consumer Cyclical"},
+    {"ticker": "INPST.AS", "name": "InPost", "country": "Netherlands", "index": "Euronext Amsterdam", "sector": "Industrials"},
+    {"ticker": "ACOMO.AS", "name": "Acomo N.V.", "country": "Netherlands", "index": "Euronext Amsterdam", "sector": "Consumer Defensive"}
+]
+
 COUNTRY_MAP = {
     'Switzerland': '.SW', 'United Kingdom': '.L', 'Netherlands': '.AS',
     'France': '.PA', 'Germany': '.DE', 'Spain': '.MC', 'Italy': '.MI',
     'Sweden': '.ST', 'Denmark': '.CO', 'Finland': '.HE', 'Norway': '.OL',
-    'Portugal': '.LS', 'Belgium': '.BR', 'Austria': '.VI', 'Ireland': '.IR'
+    'Portugal': '.LS', 'Belgium': '.BR', 'Austria': '.VI', 'Ireland': '.IR',
+    'Poland': '.WA', 'Luxembourg': '.LU'
 }
 
 def get_universe():
@@ -56,6 +87,10 @@ def get_universe():
     # 2. Spain Extra
     for s in SPAIN_EXTRA:
         universe[s["ticker"]] = s
+
+    # 3. Netherlands Euronext AMX / AScX (Mid-Caps & Small-Caps)
+    for nl in NETHERLANDS_AMX_ASCX:
+        universe[nl["ticker"]] = nl
 
     # 3. S&P 500
     try:
@@ -84,24 +119,33 @@ def get_universe():
         url = "https://en.wikipedia.org/wiki/STOXX_Europe_600"
         req = urllib.request.Request(url, headers={"User-Agent": "Mozilla/5.0"})
         html = urllib.request.urlopen(req, timeout=15).read().decode('utf-8')
-        stoxx_df = pd.read_html(io.StringIO(html))[3]
-        for _, row in stoxx_df.iterrows():
-            raw_ticker = str(row['Ticker']).strip()
-            name = str(row['Company']).strip()
-            country = str(row['Country']).strip()
-            sector = str(row.get('ICB Sector', 'General')).strip()
-            suffix = COUNTRY_MAP.get(country, '')
-            if raw_ticker and suffix:
-                full_ticker = raw_ticker + suffix
-                if full_ticker not in universe:
-                    universe[full_ticker] = {
-                        "ticker": full_ticker,
-                        "name": name,
-                        "country": country,
-                        "index": "STOXX Europe 600",
-                        "sector": sector
-                    }
-        print(f"Loaded STOXX Europe 600 companies")
+        dfs = pd.read_html(io.StringIO(html))
+        stoxx_df = None
+        for df in dfs:
+            if 'Ticker' in df.columns and 'Country' in df.columns and len(df) >= 300:
+                stoxx_df = df
+                break
+
+        if stoxx_df is not None:
+            for _, row in stoxx_df.iterrows():
+                raw_ticker = str(row['Ticker']).strip()
+                name = str(row['Company']).strip()
+                country = str(row['Country']).strip()
+                sector = str(row.get('Supersector', row.get('ICB Sector', 'General'))).strip()
+                suffix = COUNTRY_MAP.get(country, '')
+                if raw_ticker and suffix:
+                    full_ticker = raw_ticker + suffix
+                    if full_ticker not in universe:
+                        universe[full_ticker] = {
+                            "ticker": full_ticker,
+                            "name": name,
+                            "country": country,
+                            "index": "STOXX Europe 600",
+                            "sector": sector
+                        }
+            print(f"Loaded STOXX Europe 600 companies")
+        else:
+            print("Warning: Could not find STOXX 600 constituent table on Wikipedia.")
     except Exception as e:
         print(f"Error loading STOXX 600: {e}")
 

@@ -570,10 +570,10 @@
 										<div class="section-header">
 											<div>
 												<h2 class="section-title">Global DGI Market Screener & Radar</h2>
-												<p class="section-subtitle">Automated weekly screening across S&P 500, STOXX Europe 600, Euronext Lisboa (PSI), and IBEX 35, ranked by institutional 5-Pillar DGI score.</p>
+												<p class="section-subtitle">Automated weekly screening across S&P 500, STOXX Europe 600, Euronext Amsterdam (AEX/AMX), Euronext Lisboa (PSI), and IBEX 35, ranked by institutional 5-Pillar DGI score.</p>
 											</div>
 											<div style="display: flex; gap: 0.5rem; flex-wrap: wrap;">
-												<span style="font-size: 0.72rem; background: #f0fdf4; color: #166534; border: 1px solid #bbf7d0; padding: 0.25rem 0.6rem; border-radius: 6px; font-weight: 700;">Scanned: 973 Assets</span>
+												<span style="font-size: 0.72rem; background: #f0fdf4; color: #166534; border: 1px solid #bbf7d0; padding: 0.25rem 0.6rem; border-radius: 6px; font-weight: 700;">Scanned: 1,125 Assets</span>
 												<span id="rankingsEliteCount" style="font-size: 0.72rem; background: #0f172a; color: #ffffff; padding: 0.25rem 0.6rem; border-radius: 6px; font-weight: 700;">🏆 Elite DGI (≥85): 25</span>
 												<span style="font-size: 0.72rem; background: #f1f5f9; color: #475569; border: 1px solid #e2e8f0; padding: 0.25rem 0.6rem; border-radius: 6px; font-weight: 600;">Updated: Weekly</span>
 											</div>
@@ -597,6 +597,7 @@
 													<option value="all">All Markets</option>
 													<option value="S&P 500">🇺🇸 S&P 500</option>
 													<option value="STOXX Europe 600">🇪🇺 STOXX Europe 600</option>
+													<option value="Euronext Amsterdam">🇳🇱 Euronext Amsterdam (AEX / AMX)</option>
 													<option value="PSI Lisboa">🇵🇹 Euronext Lisboa (PSI)</option>
 													<option value="IBEX 35">🇪🇸 IBEX 35</option>
 												</select>
@@ -2706,7 +2707,11 @@ payout_label = <span style="color: #86efac;">"FCF"</span> <span style="color: #7
 						}
 
 						if (indexVal !== 'all') {
-							if (item.index !== indexVal) return false;
+							if (indexVal === 'Euronext Amsterdam') {
+								if (item.index !== 'Euronext Amsterdam' && item.country !== 'Netherlands') return false;
+							} else {
+								if (item.index !== indexVal) return false;
+							}
 						}
 
 						return true;

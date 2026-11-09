@@ -147,6 +147,195 @@
     "sector": "Real Estate"
   },
   {
+    "ticker": "HEIJM.AS",
+    "name": "Koninklijke Heijmans",
+    "country": "Netherlands",
+    "index": "Euronext Amsterdam",
+    "sector": "Industrials"
+  },
+  {
+    "ticker": "BAMNB.AS",
+    "name": "Koninklijke BAM Groep",
+    "country": "Netherlands",
+    "index": "Euronext Amsterdam",
+    "sector": "Industrials"
+  },
+  {
+    "ticker": "ARCAD.AS",
+    "name": "Arcadis",
+    "country": "Netherlands",
+    "index": "Euronext Amsterdam",
+    "sector": "Industrials"
+  },
+  {
+    "ticker": "AALB.AS",
+    "name": "Aalberts",
+    "country": "Netherlands",
+    "index": "Euronext Amsterdam",
+    "sector": "Industrials"
+  },
+  {
+    "ticker": "ASRNL.AS",
+    "name": "ASR Nederland",
+    "country": "Netherlands",
+    "index": "Euronext Amsterdam",
+    "sector": "Financials"
+  },
+  {
+    "ticker": "RAND.AS",
+    "name": "Randstad",
+    "country": "Netherlands",
+    "index": "Euronext Amsterdam",
+    "sector": "Industrials"
+  },
+  {
+    "ticker": "CRBN.AS",
+    "name": "Corbion",
+    "country": "Netherlands",
+    "index": "Euronext Amsterdam",
+    "sector": "Consumer Defensive"
+  },
+  {
+    "ticker": "SBMO.AS",
+    "name": "SBM Offshore",
+    "country": "Netherlands",
+    "index": "Euronext Amsterdam",
+    "sector": "Energy"
+  },
+  {
+    "ticker": "FUR.AS",
+    "name": "Fugro",
+    "country": "Netherlands",
+    "index": "Euronext Amsterdam",
+    "sector": "Energy"
+  },
+  {
+    "ticker": "TWEKA.AS",
+    "name": "TKH Group",
+    "country": "Netherlands",
+    "index": "Euronext Amsterdam",
+    "sector": "Technology"
+  },
+  {
+    "ticker": "VLK.AS",
+    "name": "Van Lanschot Kempen",
+    "country": "Netherlands",
+    "index": "Euronext Amsterdam",
+    "sector": "Financials"
+  },
+  {
+    "ticker": "NEDAP.AS",
+    "name": "Nedap",
+    "country": "Netherlands",
+    "index": "Euronext Amsterdam",
+    "sector": "Technology"
+  },
+  {
+    "ticker": "KENDR.AS",
+    "name": "Kendrion",
+    "country": "Netherlands",
+    "index": "Euronext Amsterdam",
+    "sector": "Industrials"
+  },
+  {
+    "ticker": "ECMPA.AS",
+    "name": "Eurocommercial Properties",
+    "country": "Netherlands",
+    "index": "Euronext Amsterdam",
+    "sector": "Real Estate"
+  },
+  {
+    "ticker": "CTPNV.AS",
+    "name": "CTP NV",
+    "country": "Netherlands",
+    "index": "Euronext Amsterdam",
+    "sector": "Real Estate"
+  },
+  {
+    "ticker": "WHA.AS",
+    "name": "Wereldhave",
+    "country": "Netherlands",
+    "index": "Euronext Amsterdam",
+    "sector": "Real Estate"
+  },
+  {
+    "ticker": "NSI.AS",
+    "name": "NSI N.V.",
+    "country": "Netherlands",
+    "index": "Euronext Amsterdam",
+    "sector": "Real Estate"
+  },
+  {
+    "ticker": "SLIGR.AS",
+    "name": "Sligro Food Group",
+    "country": "Netherlands",
+    "index": "Euronext Amsterdam",
+    "sector": "Consumer Defensive"
+  },
+  {
+    "ticker": "FFARM.AS",
+    "name": "ForFarmers",
+    "country": "Netherlands",
+    "index": "Euronext Amsterdam",
+    "sector": "Consumer Defensive"
+  },
+  {
+    "ticker": "BRNL.AS",
+    "name": "Brunel International",
+    "country": "Netherlands",
+    "index": "Euronext Amsterdam",
+    "sector": "Industrials"
+  },
+  {
+    "ticker": "APAM.AS",
+    "name": "Aperam",
+    "country": "Netherlands",
+    "index": "Euronext Amsterdam",
+    "sector": "Basic Materials"
+  },
+  {
+    "ticker": "AMG.AS",
+    "name": "AMG Critical Materials",
+    "country": "Netherlands",
+    "index": "Euronext Amsterdam",
+    "sector": "Basic Materials"
+  },
+  {
+    "ticker": "ALLFG.AS",
+    "name": "Allfunds Group",
+    "country": "Netherlands",
+    "index": "Euronext Amsterdam",
+    "sector": "Financials"
+  },
+  {
+    "ticker": "ALFEN.AS",
+    "name": "Alfen",
+    "country": "Netherlands",
+    "index": "Euronext Amsterdam",
+    "sector": "Industrials"
+  },
+  {
+    "ticker": "BFIT.AS",
+    "name": "Basic-Fit",
+    "country": "Netherlands",
+    "index": "Euronext Amsterdam",
+    "sector": "Consumer Cyclical"
+  },
+  {
+    "ticker": "INPST.AS",
+    "name": "InPost",
+    "country": "Netherlands",
+    "index": "Euronext Amsterdam",
+    "sector": "Industrials"
+  },
+  {
+    "ticker": "ACOMO.AS",
+    "name": "Acomo N.V.",
+    "country": "Netherlands",
+    "index": "Euronext Amsterdam",
+    "sector": "Consumer Defensive"
+  },
+  {
     "ticker": "MMM",
     "name": "3M",
     "country": "USA",
@@ -1041,13 +1230,6 @@
     "country": "USA",
     "index": "S&P 500",
     "sector": "Financials"
-  },
-  {
-    "ticker": "CTVA",
-    "name": "Corteva",
-    "country": "USA",
-    "index": "S&P 500",
-    "sector": "Materials"
   },
   {
     "ticker": "CSGP",
@@ -2037,13 +2219,6 @@
     "sector": "Financials"
   },
   {
-    "ticker": "KVUE",
-    "name": "Kenvue",
-    "country": "USA",
-    "index": "S&P 500",
-    "sector": "Consumer Staples"
-  },
-  {
     "ticker": "KDP",
     "name": "Keurig Dr Pepper",
     "country": "USA",
@@ -2297,7 +2472,7 @@
   },
   {
     "ticker": "MCK",
-    "name": "McKesson Corporation",
+    "name": "McKesson",
     "country": "USA",
     "index": "S&P 500",
     "sector": "Health Care"
@@ -2583,6 +2758,13 @@
     "sector": "Energy"
   },
   {
+    "ticker": "OKTA",
+    "name": "Okta, Inc.",
+    "country": "USA",
+    "index": "S&P 500",
+    "sector": "Information Technology"
+  },
+  {
     "ticker": "ODFL",
     "name": "Old Dominion",
     "country": "USA",
@@ -2651,13 +2833,6 @@
     "country": "USA",
     "index": "S&P 500",
     "sector": "Information Technology"
-  },
-  {
-    "ticker": "PSKY",
-    "name": "Paramount Skydance Corporation",
-    "country": "USA",
-    "index": "S&P 500",
-    "sector": "Communication Services"
   },
   {
     "ticker": "PH",
@@ -2786,18 +2961,18 @@
     "sector": "Financials"
   },
   {
-    "ticker": "PEG",
-    "name": "Public Service Enterprise Group",
-    "country": "USA",
-    "index": "S&P 500",
-    "sector": "Utilities"
-  },
-  {
     "ticker": "PTC",
     "name": "PTC Inc.",
     "country": "USA",
     "index": "S&P 500",
     "sector": "Information Technology"
+  },
+  {
+    "ticker": "PEG",
+    "name": "Public Service Enterprise Group",
+    "country": "USA",
+    "index": "S&P 500",
+    "sector": "Utilities"
   },
   {
     "ticker": "PSA",
@@ -2814,11 +2989,11 @@
     "sector": "Consumer Discretionary"
   },
   {
-    "ticker": "PWR",
-    "name": "Quanta Services",
+    "ticker": "Q",
+    "name": "Qnity Electronics",
     "country": "USA",
     "index": "S&P 500",
-    "sector": "Industrials"
+    "sector": "Information Technology"
   },
   {
     "ticker": "QCOM",
@@ -2828,18 +3003,18 @@
     "sector": "Information Technology"
   },
   {
+    "ticker": "PWR",
+    "name": "Quanta Services",
+    "country": "USA",
+    "index": "S&P 500",
+    "sector": "Industrials"
+  },
+  {
     "ticker": "DGX",
     "name": "Quest Diagnostics",
     "country": "USA",
     "index": "S&P 500",
     "sector": "Health Care"
-  },
-  {
-    "ticker": "Q",
-    "name": "Qnity Electronics",
-    "country": "USA",
-    "index": "S&P 500",
-    "sector": "Information Technology"
   },
   {
     "ticker": "RL",
@@ -2861,13 +3036,6 @@
     "country": "USA",
     "index": "S&P 500",
     "sector": "Communication Services"
-  },
-  {
-    "ticker": "RTX",
-    "name": "RTX Corporation",
-    "country": "USA",
-    "index": "S&P 500",
-    "sector": "Industrials"
   },
   {
     "ticker": "O",
@@ -2906,7 +3074,7 @@
   },
   {
     "ticker": "RMD",
-    "name": "ResMed|",
+    "name": "ResMed",
     "country": "USA",
     "index": "S&P 500",
     "sector": "Health Care"
@@ -2959,6 +3127,13 @@
     "country": "USA",
     "index": "S&P 500",
     "sector": "Consumer Discretionary"
+  },
+  {
+    "ticker": "RTX",
+    "name": "RTX Corporation",
+    "country": "USA",
+    "index": "S&P 500",
+    "sector": "Industrials"
   },
   {
     "ticker": "SPGI",
@@ -3029,6 +3204,13 @@
     "country": "USA",
     "index": "S&P 500",
     "sector": "Real Estate"
+  },
+  {
+    "ticker": "SKYD",
+    "name": "Skydance",
+    "country": "USA",
+    "index": "S&P 500",
+    "sector": "Communication Services"
   },
   {
     "ticker": "SWKS",
@@ -3304,6 +3486,13 @@
     "sector": "Financials"
   },
   {
+    "ticker": "TWLO",
+    "name": "Twilio",
+    "country": "USA",
+    "index": "S&P 500",
+    "sector": "Information Technology"
+  },
+  {
     "ticker": "TYL",
     "name": "Tyler Technologies",
     "country": "USA",
@@ -3493,6 +3682,13 @@
     "sector": "Materials"
   },
   {
+    "ticker": "VYLR",
+    "name": "Vylor",
+    "country": "USA",
+    "index": "S&P 500",
+    "sector": "Consumer Staples"
+  },
+  {
     "ticker": "WRB",
     "name": "W. R. Berkley Corporation",
     "country": "USA",
@@ -3523,13 +3719,6 @@
   {
     "ticker": "DIS",
     "name": "Walt Disney Company (The)",
-    "country": "USA",
-    "index": "S&P 500",
-    "sector": "Communication Services"
-  },
-  {
-    "ticker": "WBD",
-    "name": "Warner Bros. Discovery",
     "country": "USA",
     "index": "S&P 500",
     "sector": "Communication Services"
@@ -3668,286 +3857,6 @@
     "sector": "Health Care"
   },
   {
-    "ticker": "ZURN.SW",
-    "name": "Zurich Insurance Group",
-    "country": "Switzerland",
-    "index": "STOXX Europe 600",
-    "sector": "Insurance"
-  },
-  {
-    "ticker": "GSK.L",
-    "name": "GSK plc",
-    "country": "United Kingdom",
-    "index": "STOXX Europe 600",
-    "sector": "Health Care"
-  },
-  {
-    "ticker": "RIO.L",
-    "name": "Rio Tinto Group",
-    "country": "United Kingdom",
-    "index": "STOXX Europe 600",
-    "sector": "Basic Resources"
-  },
-  {
-    "ticker": "INGA.AS",
-    "name": "ING Group",
-    "country": "Netherlands",
-    "index": "STOXX Europe 600",
-    "sector": "Banks"
-  },
-  {
-    "ticker": "UBSG.SW",
-    "name": "UBS Group",
-    "country": "Switzerland",
-    "index": "STOXX Europe 600",
-    "sector": "Banks"
-  },
-  {
-    "ticker": "SAF.PA",
-    "name": "Safran",
-    "country": "France",
-    "index": "STOXX Europe 600",
-    "sector": "Industrial Goods and Services"
-  },
-  {
-    "ticker": "DG.PA",
-    "name": "Vinci",
-    "country": "France",
-    "index": "STOXX Europe 600",
-    "sector": "Construction and Materials"
-  },
-  {
-    "ticker": "PRU.L",
-    "name": "Prudential plc",
-    "country": "United Kingdom",
-    "index": "STOXX Europe 600",
-    "sector": "Insurance"
-  },
-  {
-    "ticker": "BATS.L",
-    "name": "British American Tobacco",
-    "country": "United Kingdom",
-    "index": "STOXX Europe 600",
-    "sector": "Food, Beverage and Tobacco"
-  },
-  {
-    "ticker": "MBG.DE",
-    "name": "Mercedes-Benz Group",
-    "country": "Germany",
-    "index": "STOXX Europe 600",
-    "sector": "Automobiles and Parts"
-  },
-  {
-    "ticker": "HLI.L",
-    "name": "Haleon",
-    "country": "United Kingdom",
-    "index": "STOXX Europe 600",
-    "sector": "Consumer Products and Services"
-  },
-  {
-    "ticker": "FERR.MI",
-    "name": "Ferrari",
-    "country": "Italy",
-    "index": "STOXX Europe 600",
-    "sector": "Automobiles and Parts"
-  },
-  {
-    "ticker": "RMS.PA",
-    "name": "Hermès",
-    "country": "France",
-    "index": "STOXX Europe 600",
-    "sector": "Consumer Products and Services"
-  },
-  {
-    "ticker": "ISP.MI",
-    "name": "Intesa Sanpaolo",
-    "country": "Italy",
-    "index": "STOXX Europe 600",
-    "sector": "Banks"
-  },
-  {
-    "ticker": "HMB.ST",
-    "name": "H&M",
-    "country": "Sweden",
-    "index": "STOXX Europe 600",
-    "sector": "Retail"
-  },
-  {
-    "ticker": "PERP.PA",
-    "name": "Pernod Ricard",
-    "country": "France",
-    "index": "STOXX Europe 600",
-    "sector": "Food, Beverage and Tobacco"
-  },
-  {
-    "ticker": "MICP.PA",
-    "name": "Michelin",
-    "country": "France",
-    "index": "STOXX Europe 600",
-    "sector": "Automobiles and Parts"
-  },
-  {
-    "ticker": "BKT.MC",
-    "name": "Bankinter",
-    "country": "Spain",
-    "index": "STOXX Europe 600",
-    "sector": "Banks"
-  },
-  {
-    "ticker": "CABK.MC",
-    "name": "CaixaBank",
-    "country": "Spain",
-    "index": "STOXX Europe 600",
-    "sector": "Banks"
-  },
-  {
-    "ticker": "NTGY.MC",
-    "name": "Naturgy",
-    "country": "Spain",
-    "index": "STOXX Europe 600",
-    "sector": "Utilities"
-  },
-  {
-    "ticker": "FER.AS",
-    "name": "Ferrovial",
-    "country": "Netherlands",
-    "index": "STOXX Europe 600",
-    "sector": "Construction and Materials"
-  },
-  {
-    "ticker": "RED.MC",
-    "name": "Redeia",
-    "country": "Spain",
-    "index": "STOXX Europe 600",
-    "sector": "Utilities"
-  },
-  {
-    "ticker": "ITX.MC",
-    "name": "Inditex",
-    "country": "Spain",
-    "index": "STOXX Europe 600",
-    "sector": "Retail"
-  },
-  {
-    "ticker": "REP.MC",
-    "name": "Repsol",
-    "country": "Spain",
-    "index": "STOXX Europe 600",
-    "sector": "Energy"
-  },
-  {
-    "ticker": "SAB.MC",
-    "name": "Banco Sabadell",
-    "country": "Spain",
-    "index": "STOXX Europe 600",
-    "sector": "Banks"
-  },
-  {
-    "ticker": "ATCOa.ST",
-    "name": "Atlas Copco",
-    "country": "Sweden",
-    "index": "STOXX Europe 600",
-    "sector": "Industrial Goods and Services"
-  },
-  {
-    "ticker": "ERICb.ST",
-    "name": "Ericsson",
-    "country": "Sweden",
-    "index": "STOXX Europe 600",
-    "sector": "Telecommunications"
-  },
-  {
-    "ticker": "ALFA.ST",
-    "name": "Alfa Laval",
-    "country": "Sweden",
-    "index": "STOXX Europe 600",
-    "sector": "Industrial Goods and Services"
-  },
-  {
-    "ticker": "SAND.ST",
-    "name": "Sandvik AB",
-    "country": "Sweden",
-    "index": "STOXX Europe 600",
-    "sector": "Industrial Goods and Services"
-  },
-  {
-    "ticker": "FORTUM.HE",
-    "name": "Fortum",
-    "country": "Finland",
-    "index": "STOXX Europe 600",
-    "sector": "Utilities"
-  },
-  {
-    "ticker": "GLEN.L",
-    "name": "Glencore",
-    "country": "United Kingdom",
-    "index": "STOXX Europe 600",
-    "sector": "Basic Resources"
-  },
-  {
-    "ticker": "NG.L",
-    "name": "National Grid",
-    "country": "United Kingdom",
-    "index": "STOXX Europe 600",
-    "sector": "Utilities"
-  },
-  {
-    "ticker": "LLOY.L",
-    "name": "Lloyds Banking Group",
-    "country": "United Kingdom",
-    "index": "STOXX Europe 600",
-    "sector": "Banks"
-  },
-  {
-    "ticker": "CPG.L",
-    "name": "Compass Group",
-    "country": "United Kingdom",
-    "index": "STOXX Europe 600",
-    "sector": "Travel and Leisure"
-  },
-  {
-    "ticker": "RKT.L",
-    "name": "Reckitt",
-    "country": "United Kingdom",
-    "index": "STOXX Europe 600",
-    "sector": "Personal Care, Drug and Grocery Stores"
-  },
-  {
-    "ticker": "EXPN.L",
-    "name": "Experian",
-    "country": "United Kingdom",
-    "index": "STOXX Europe 600",
-    "sector": "Industrial Goods and Services"
-  },
-  {
-    "ticker": "IMB.L",
-    "name": "Imperial Brands",
-    "country": "United Kingdom",
-    "index": "STOXX Europe 600",
-    "sector": "Food, Beverage and Tobacco"
-  },
-  {
-    "ticker": "RR.L",
-    "name": "Rolls-Royce Holdings",
-    "country": "United Kingdom",
-    "index": "STOXX Europe 600",
-    "sector": "Industrial Goods and Services"
-  },
-  {
-    "ticker": "LSEG.L",
-    "name": "London Stock Exchange Group",
-    "country": "United Kingdom",
-    "index": "STOXX Europe 600",
-    "sector": "Financial Services"
-  },
-  {
-    "ticker": "IAG.L",
-    "name": "International Airlines Group",
-    "country": "United Kingdom",
-    "index": "STOXX Europe 600",
-    "sector": "Travel and Leisure"
-  },
-  {
     "ticker": "III.L",
     "name": "3i",
     "country": "United Kingdom",
@@ -3955,207 +3864,46 @@
     "sector": "Financial Services"
   },
   {
-    "ticker": "HLMA.L",
-    "name": "Halma plc",
-    "country": "United Kingdom",
+    "ticker": "A2A.MI",
+    "name": "A2A",
+    "country": "Italy",
     "index": "STOXX Europe 600",
-    "sector": "Industrial Goods and Services"
+    "sector": "Utilities"
   },
   {
-    "ticker": "SMT.L",
-    "name": "Scottish Mortgage Investment Trust",
-    "country": "United Kingdom",
-    "index": "STOXX Europe 600",
-    "sector": "Financial Services"
-  },
-  {
-    "ticker": "MNG.L",
-    "name": "M&G",
-    "country": "United Kingdom",
-    "index": "STOXX Europe 600",
-    "sector": "Financial Services"
-  },
-  {
-    "ticker": "SMIN.L",
-    "name": "Smiths Group",
-    "country": "United Kingdom",
-    "index": "STOXX Europe 600",
-    "sector": "Industrial Goods and Services"
-  },
-  {
-    "ticker": "CRDA.L",
-    "name": "Croda International",
-    "country": "United Kingdom",
-    "index": "STOXX Europe 600",
-    "sector": "Chemicals"
-  },
-  {
-    "ticker": "SDLF.L",
-    "name": "Standard Life plc",
-    "country": "United Kingdom",
-    "index": "STOXX Europe 600",
-    "sector": "Insurance"
-  },
-  {
-    "ticker": "UTG.L",
-    "name": "Unite Group",
-    "country": "United Kingdom",
-    "index": "STOXX Europe 600",
-    "sector": "Real Estate"
-  },
-  {
-    "ticker": "SGRO.L",
-    "name": "Segro",
-    "country": "United Kingdom",
-    "index": "STOXX Europe 600",
-    "sector": "Real Estate"
-  },
-  {
-    "ticker": "BTRW.L",
-    "name": "Barratt Redrow",
-    "country": "United Kingdom",
-    "index": "STOXX Europe 600",
-    "sector": "Consumer Products and Services"
-  },
-  {
-    "ticker": "PSN.L",
-    "name": "Persimmon plc",
-    "country": "United Kingdom",
-    "index": "STOXX Europe 600",
-    "sector": "Consumer Products and Services"
-  },
-  {
-    "ticker": "NXT.L",
-    "name": "Next plc",
-    "country": "United Kingdom",
-    "index": "STOXX Europe 600",
-    "sector": "Retail"
-  },
-  {
-    "ticker": "KGF.L",
-    "name": "Kingfisher plc",
-    "country": "United Kingdom",
-    "index": "STOXX Europe 600",
-    "sector": "Retail"
-  },
-  {
-    "ticker": "HOLN.SW",
-    "name": "Holcim",
-    "country": "Switzerland",
-    "index": "STOXX Europe 600",
-    "sector": "Construction and Materials"
-  },
-  {
-    "ticker": "SRENH.SW",
-    "name": "Swiss Re",
-    "country": "Switzerland",
-    "index": "STOXX Europe 600",
-    "sector": "Insurance"
-  },
-  {
-    "ticker": "LONN.SW",
-    "name": "Lonza Group",
-    "country": "Switzerland",
-    "index": "STOXX Europe 600",
-    "sector": "Health Care"
-  },
-  {
-    "ticker": "GIVN.SW",
-    "name": "Givaudan",
-    "country": "Switzerland",
-    "index": "STOXX Europe 600",
-    "sector": "Chemicals"
-  },
-  {
-    "ticker": "SIKA.SW",
-    "name": "Sika",
-    "country": "Switzerland",
-    "index": "STOXX Europe 600",
-    "sector": "Construction and Materials"
-  },
-  {
-    "ticker": "STMN.SW",
-    "name": "Straumann",
-    "country": "Switzerland",
-    "index": "STOXX Europe 600",
-    "sector": "Health Care"
-  },
-  {
-    "ticker": "PGHN.SW",
-    "name": "Partners Group",
-    "country": "Switzerland",
-    "index": "STOXX Europe 600",
-    "sector": "Financial Services"
-  },
-  {
-    "ticker": "SOON.SW",
-    "name": "Sonova",
-    "country": "Switzerland",
-    "index": "STOXX Europe 600",
-    "sector": "Health Care"
-  },
-  {
-    "ticker": "LISN.SW",
-    "name": "Lindt & Sprüngli",
-    "country": "Switzerland",
+    "ticker": "AAK.ST",
+    "name": "AAK",
+    "country": "Sweden",
     "index": "STOXX Europe 600",
     "sector": "Food, Beverage and Tobacco"
   },
   {
-    "ticker": "SCHP.SW",
-    "name": "Schindler Group",
-    "country": "Switzerland",
+    "ticker": "ABI.BR",
+    "name": "AB InBev",
+    "country": "Belgium",
     "index": "STOXX Europe 600",
-    "sector": "Industrial Goods and Services"
-  },
-  {
-    "ticker": "UHR.SW",
-    "name": "Swatch Group",
-    "country": "Switzerland",
-    "index": "STOXX Europe 600",
-    "sector": "Consumer Products and Services"
-  },
-  {
-    "ticker": "LOGN.SW",
-    "name": "Logitech",
-    "country": "Switzerland",
-    "index": "STOXX Europe 600",
-    "sector": "Technology"
-  },
-  {
-    "ticker": "HELN.SW",
-    "name": "Helvetia Insurance",
-    "country": "Switzerland",
-    "index": "STOXX Europe 600",
-    "sector": "Insurance"
-  },
-  {
-    "ticker": "BALN.SW",
-    "name": "Baloise",
-    "country": "Switzerland",
-    "index": "STOXX Europe 600",
-    "sector": "Insurance"
-  },
-  {
-    "ticker": "GALE.SW",
-    "name": "Galenica",
-    "country": "Switzerland",
-    "index": "STOXX Europe 600",
-    "sector": "Health Care"
-  },
-  {
-    "ticker": "EMSN.SW",
-    "name": "Ems-Chemie",
-    "country": "Switzerland",
-    "index": "STOXX Europe 600",
-    "sector": "Chemicals"
+    "sector": "Food, Beverage and Tobacco"
   },
   {
     "ticker": "ABBN.SW",
-    "name": "ABB Ltd",
+    "name": "ABB",
     "country": "Switzerland",
     "index": "STOXX Europe 600",
     "sector": "Industrial Goods and Services"
+  },
+  {
+    "ticker": "ABDN.L",
+    "name": "Aberdeen Group",
+    "country": "United Kingdom",
+    "index": "STOXX Europe 600",
+    "sector": "Financial Services"
+  },
+  {
+    "ticker": "ABVX.PA",
+    "name": "Abivax",
+    "country": "France",
+    "index": "STOXX Europe 600",
+    "sector": "Healthcare"
   },
   {
     "ticker": "ABN.AS",
@@ -4165,11 +3913,46 @@
     "sector": "Banks"
   },
   {
+    "ticker": "ACLN.SW",
+    "name": "Accelleron Industries AG",
+    "country": "Switzerland",
+    "index": "STOXX Europe 600",
+    "sector": "Industrial Goods and Services"
+  },
+  {
+    "ticker": "ANA.MC",
+    "name": "Acciona",
+    "country": "Spain",
+    "index": "STOXX Europe 600",
+    "sector": "Construction and Materials"
+  },
+  {
     "ticker": "AC.PA",
     "name": "Accor",
     "country": "France",
     "index": "STOXX Europe 600",
     "sector": "Travel and Leisure"
+  },
+  {
+    "ticker": "ACX.MC",
+    "name": "Acerinox",
+    "country": "Spain",
+    "index": "STOXX Europe 600",
+    "sector": "Basic Resources"
+  },
+  {
+    "ticker": "ACKB.BR",
+    "name": "Ackermans & van Haaren",
+    "country": "Belgium",
+    "index": "STOXX Europe 600",
+    "sector": "Construction and Materials"
+  },
+  {
+    "ticker": "ADDT B.ST",
+    "name": "Addtech",
+    "country": "Sweden",
+    "index": "STOXX Europe 600",
+    "sector": "Industrial Goods and Services"
   },
   {
     "ticker": "ADEN.SW",
@@ -4200,11 +3983,25 @@
     "sector": "Industrial Goods and Services"
   },
   {
+    "ticker": "AED.BR",
+    "name": "Aedifica",
+    "country": "Belgium",
+    "index": "STOXX Europe 600",
+    "sector": "Real Estate"
+  },
+  {
+    "ticker": "AGN.AS",
+    "name": "Aegon",
+    "country": "Netherlands",
+    "index": "STOXX Europe 600",
+    "sector": "Insurance"
+  },
+  {
     "ticker": "AENA.MC",
     "name": "Aena",
     "country": "Spain",
     "index": "STOXX Europe 600",
-    "sector": "Travel and Leisure"
+    "sector": "Industrial Goods and Services"
   },
   {
     "ticker": "AGS.BR",
@@ -4214,7 +4011,14 @@
     "sector": "Insurance"
   },
   {
-    "ticker": "AIRP.PA",
+    "ticker": "AD.AS",
+    "name": "Ahold Delhaize",
+    "country": "Netherlands",
+    "index": "STOXX Europe 600",
+    "sector": "Personal Care, Drug and Grocery Stores"
+  },
+  {
+    "ticker": "AI.PA",
     "name": "Air Liquide",
     "country": "France",
     "index": "STOXX Europe 600",
@@ -4228,11 +4032,67 @@
     "sector": "Industrial Goods and Services"
   },
   {
-    "ticker": "AKERBP.OL",
+    "ticker": "AAF.L",
+    "name": "Airtel Africa",
+    "country": "United Kingdom",
+    "index": "STOXX Europe 600",
+    "sector": "Telecommunications"
+  },
+  {
+    "ticker": "AIXA.DE",
+    "name": "Aixtron",
+    "country": "Germany",
+    "index": "STOXX Europe 600",
+    "sector": "Technology"
+  },
+  {
+    "ticker": "AKER.OL",
+    "name": "Aker ASA",
+    "country": "Norway",
+    "index": "STOXX Europe 600",
+    "sector": "Financial Services"
+  },
+  {
+    "ticker": "AKRBP.OL",
     "name": "Aker BP",
     "country": "Norway",
     "index": "STOXX Europe 600",
     "sector": "Energy"
+  },
+  {
+    "ticker": "AKZA.AS",
+    "name": "AkzoNobel",
+    "country": "Netherlands",
+    "index": "STOXX Europe 600",
+    "sector": "Chemicals"
+  },
+  {
+    "ticker": "ALC.SW",
+    "name": "Alcon",
+    "country": "Switzerland",
+    "index": "STOXX Europe 600",
+    "sector": "Healthcare"
+  },
+  {
+    "ticker": "ALFA.ST",
+    "name": "Alfa Laval",
+    "country": "Sweden",
+    "index": "STOXX Europe 600",
+    "sector": "Industrial Goods and Services"
+  },
+  {
+    "ticker": "ALK B.CO",
+    "name": "ALK-Abelló",
+    "country": "Denmark",
+    "index": "STOXX Europe 600",
+    "sector": "Healthcare"
+  },
+  {
+    "ticker": "ALE.WA",
+    "name": "Allegro SA",
+    "country": "Poland",
+    "index": "STOXX Europe 600",
+    "sector": "Consumer Products and Services"
   },
   {
     "ticker": "ALV.DE",
@@ -4242,6 +4102,20 @@
     "sector": "Insurance"
   },
   {
+    "ticker": "A5G.IR",
+    "name": "Allied Irish Banks",
+    "country": "Ireland",
+    "index": "STOXX Europe 600",
+    "sector": "Banks"
+  },
+  {
+    "ticker": "ALLN.SW",
+    "name": "Allreal Holding AG",
+    "country": "Switzerland",
+    "index": "STOXX Europe 600",
+    "sector": "Real Estate"
+  },
+  {
     "ticker": "ALO.PA",
     "name": "Alstom",
     "country": "France",
@@ -4249,25 +4123,25 @@
     "sector": "Industrial Goods and Services"
   },
   {
-    "ticker": "AIXA.DE",
-    "name": "AIXTRON",
-    "country": "Germany",
+    "ticker": "AMS.MC",
+    "name": "Amadeus IT Group",
+    "country": "Spain",
     "index": "STOXX Europe 600",
     "sector": "Technology"
   },
   {
-    "ticker": "ALC.SW",
-    "name": "Alcon",
-    "country": "Switzerland",
+    "ticker": "AMUN.PA",
+    "name": "Amundi",
+    "country": "France",
     "index": "STOXX Europe 600",
-    "sector": "Health Care"
+    "sector": "Financial Services"
   },
   {
-    "ticker": "AMBU B.CO",
-    "name": "Ambu",
-    "country": "Denmark",
+    "ticker": "ANDR.VI",
+    "name": "Andritz AG",
+    "country": "Austria",
     "index": "STOXX Europe 600",
-    "sector": "Health Care"
+    "sector": "Industrial Goods and Services"
   },
   {
     "ticker": "AAL.L",
@@ -4277,18 +4151,25 @@
     "sector": "Basic Resources"
   },
   {
-    "ticker": "ABI.BR",
-    "name": "Anheuser-Busch InBev",
-    "country": "Belgium",
-    "index": "STOXX Europe 600",
-    "sector": "Food, Beverage and Tobacco"
-  },
-  {
     "ticker": "ANTO.L",
     "name": "Antofagasta plc",
     "country": "United Kingdom",
     "index": "STOXX Europe 600",
     "sector": "Basic Resources"
+  },
+  {
+    "ticker": "MT.PA",
+    "name": "ArcelorMittal",
+    "country": "France",
+    "index": "STOXX Europe 600",
+    "sector": "Basic Resources"
+  },
+  {
+    "ticker": "ARGX.BR",
+    "name": "Argenx",
+    "country": "Belgium",
+    "index": "STOXX Europe 600",
+    "sector": "Healthcare"
   },
   {
     "ticker": "AKE.PA",
@@ -4298,14 +4179,7 @@
     "sector": "Chemicals"
   },
   {
-    "ticker": "SUNB.L",
-    "name": "Sunbelt Rentals",
-    "country": "United Kingdom",
-    "index": "STOXX Europe 600",
-    "sector": "Industrial Goods and Services"
-  },
-  {
-    "ticker": "ASMI.AS",
+    "ticker": "ASM.AS",
     "name": "ASM International",
     "country": "Netherlands",
     "index": "STOXX Europe 600",
@@ -4313,7 +4187,7 @@
   },
   {
     "ticker": "ASML.AS",
-    "name": "ASML Holding",
+    "name": "ASML",
     "country": "Netherlands",
     "index": "STOXX Europe 600",
     "sector": "Technology"
@@ -4324,6 +4198,20 @@
     "country": "Sweden",
     "index": "STOXX Europe 600",
     "sector": "Construction and Materials"
+  },
+  {
+    "ticker": "ACP.WA",
+    "name": "Asseco",
+    "country": "Poland",
+    "index": "STOXX Europe 600",
+    "sector": "Technology"
+  },
+  {
+    "ticker": "G.MI",
+    "name": "Assicurazioni Generali",
+    "country": "Italy",
+    "index": "STOXX Europe 600",
+    "sector": "Insurance"
   },
   {
     "ticker": "ABF.L",
@@ -4337,45 +4225,108 @@
     "name": "AstraZeneca",
     "country": "United Kingdom",
     "index": "STOXX Europe 600",
-    "sector": "Health Care"
+    "sector": "Healthcare"
+  },
+  {
+    "ticker": "ATS.VI",
+    "name": "AT&S",
+    "country": "Austria",
+    "index": "STOXX Europe 600",
+    "sector": "Technology"
+  },
+  {
+    "ticker": "ATCO A.ST",
+    "name": "Atlas Copco",
+    "country": "Sweden",
+    "index": "STOXX Europe 600",
+    "sector": "Industrial Goods and Services"
+  },
+  {
+    "ticker": "NDA.DE",
+    "name": "Aurubis",
+    "country": "Germany",
+    "index": "STOXX Europe 600",
+    "sector": "Basic Resources"
+  },
+  {
+    "ticker": "AG1.DE",
+    "name": "AUTO1 Group",
+    "country": "Germany",
+    "index": "STOXX Europe 600",
+    "sector": "Retail"
   },
   {
     "ticker": "AUTO.L",
-    "name": "Auto Trader Group",
+    "name": "Autotrader Group",
     "country": "United Kingdom",
     "index": "STOXX Europe 600",
-    "sector": "Media"
+    "sector": "Technology"
   },
   {
-    "ticker": "AV.L",
+    "ticker": "AZA.ST",
+    "name": "Avanza",
+    "country": "Sweden",
+    "index": "STOXX Europe 600",
+    "sector": "Banks"
+  },
+  {
+    "ticker": "AV..L",
     "name": "Aviva",
     "country": "United Kingdom",
     "index": "STOXX Europe 600",
     "sector": "Insurance"
   },
   {
+    "ticker": "AVOL.SW",
+    "name": "Avolta",
+    "country": "Switzerland",
+    "index": "STOXX Europe 600",
+    "sector": "Retail"
+  },
+  {
     "ticker": "CS.PA",
-    "name": "AXA",
+    "name": "Axa",
     "country": "France",
     "index": "STOXX Europe 600",
     "sector": "Insurance"
   },
   {
-    "ticker": "AZE.BR",
-    "name": "Azelis Group",
-    "country": "Belgium",
+    "ticker": "AXFO.ST",
+    "name": "Axfood",
+    "country": "Sweden",
     "index": "STOXX Europe 600",
-    "sector": "Industrial Goods and Services"
+    "sector": "Personal Care, Drug and Grocery Stores"
+  },
+  {
+    "ticker": "AYV.PA",
+    "name": "Ayvens",
+    "country": "France",
+    "index": "STOXX Europe 600",
+    "sector": "Consumer Products and Services"
+  },
+  {
+    "ticker": "AZM.MI",
+    "name": "Azimut Holding",
+    "country": "Italy",
+    "index": "STOXX Europe 600",
+    "sector": "Financial Services"
   },
   {
     "ticker": "BME.L",
-    "name": "B&M European Value Retail",
+    "name": "B&M",
     "country": "United Kingdom",
     "index": "STOXX Europe 600",
     "sector": "Retail"
   },
   {
-    "ticker": "BA.L",
+    "ticker": "BAB.L",
+    "name": "Babcock International",
+    "country": "United Kingdom",
+    "index": "STOXX Europe 600",
+    "sector": "Industrial Goods and Services"
+  },
+  {
+    "ticker": "BA..L",
     "name": "BAE Systems",
     "country": "United Kingdom",
     "index": "STOXX Europe 600",
@@ -4396,22 +4347,43 @@
     "sector": "Construction and Materials"
   },
   {
-    "ticker": "BARC.L",
-    "name": "Barclays",
-    "country": "United Kingdom",
+    "ticker": "BGN.MI",
+    "name": "Banca Generali",
+    "country": "Italy",
     "index": "STOXX Europe 600",
     "sector": "Banks"
   },
   {
-    "ticker": "BOL.ST",
-    "name": "Boliden AB",
-    "country": "Sweden",
+    "ticker": "BMED.MI",
+    "name": "Banca Mediolanum",
+    "country": "Italy",
     "index": "STOXX Europe 600",
-    "sector": "Basic Resources"
+    "sector": "Financial Services"
+  },
+  {
+    "ticker": "BMPS.MI",
+    "name": "Banca Monte dei Paschi di Siena",
+    "country": "Italy",
+    "index": "STOXX Europe 600",
+    "sector": "Banks"
   },
   {
     "ticker": "BBVA.MC",
     "name": "Banco Bilbao Vizcaya Argentaria",
+    "country": "Spain",
+    "index": "STOXX Europe 600",
+    "sector": "Banks"
+  },
+  {
+    "ticker": "BAMI.MI",
+    "name": "Banco BPM",
+    "country": "Italy",
+    "index": "STOXX Europe 600",
+    "sector": "Banks"
+  },
+  {
+    "ticker": "SAB.MC",
+    "name": "Banco Sabadell",
     "country": "Spain",
     "index": "STOXX Europe 600",
     "sector": "Banks"
@@ -4422,6 +4394,55 @@
     "country": "Spain",
     "index": "STOXX Europe 600",
     "sector": "Banks"
+  },
+  {
+    "ticker": "MIL.WA",
+    "name": "Bank Millennium",
+    "country": "Poland",
+    "index": "STOXX Europe 600",
+    "sector": "Banks"
+  },
+  {
+    "ticker": "BIRG.IR",
+    "name": "Bank of Ireland",
+    "country": "Ireland",
+    "index": "STOXX Europe 600",
+    "sector": "Banks"
+  },
+  {
+    "ticker": "PEO.WA",
+    "name": "Bank Polska Kasa Opieki",
+    "country": "Poland",
+    "index": "STOXX Europe 600",
+    "sector": "Banks"
+  },
+  {
+    "ticker": "BKT.MC",
+    "name": "Bankinter",
+    "country": "Spain",
+    "index": "STOXX Europe 600",
+    "sector": "Banks"
+  },
+  {
+    "ticker": "BCVN.SW",
+    "name": "Banque Cantonale Vaudoise",
+    "country": "Switzerland",
+    "index": "STOXX Europe 600",
+    "sector": "Banks"
+  },
+  {
+    "ticker": "BARC.L",
+    "name": "Barclays",
+    "country": "United Kingdom",
+    "index": "STOXX Europe 600",
+    "sector": "Banks"
+  },
+  {
+    "ticker": "BTRW.L",
+    "name": "Barratt Redrow",
+    "country": "United Kingdom",
+    "index": "STOXX Europe 600",
+    "sector": "Consumer Products and Services"
   },
   {
     "ticker": "BARN.SW",
@@ -4438,32 +4459,60 @@
     "sector": "Chemicals"
   },
   {
+    "ticker": "BG.VI",
+    "name": "BAWAG PSK",
+    "country": "Austria",
+    "index": "STOXX Europe 600",
+    "sector": "Banks"
+  },
+  {
     "ticker": "BAYN.DE",
     "name": "Bayer",
     "country": "Germany",
     "index": "STOXX Europe 600",
-    "sector": "Health Care"
+    "sector": "Healthcare"
   },
   {
-    "ticker": "BEZ.L",
-    "name": "Beazley",
-    "country": "United Kingdom",
+    "ticker": "BC8.DE",
+    "name": "Bechtle",
+    "country": "Germany",
     "index": "STOXX Europe 600",
-    "sector": "Insurance"
+    "sector": "Technology"
   },
   {
     "ticker": "BEI.DE",
     "name": "Beiersdorf",
     "country": "Germany",
     "index": "STOXX Europe 600",
-    "sector": "Consumer Products and Services"
+    "sector": "Personal Care, Drug and Grocery Stores"
   },
   {
-    "ticker": "BEB.SW",
-    "name": "Belimo",
+    "ticker": "BEIJ B.ST",
+    "name": "Beijer Ref",
+    "country": "Sweden",
+    "index": "STOXX Europe 600",
+    "sector": "Construction and Materials"
+  },
+  {
+    "ticker": "BEAN.SW",
+    "name": "BELIMO Holding",
     "country": "Switzerland",
     "index": "STOXX Europe 600",
     "sector": "Construction and Materials"
+  },
+  {
+    "ticker": "BWY.L",
+    "name": "Bellway",
+    "country": "United Kingdom",
+    "index": "STOXX Europe 600",
+    "sector": "Consumer Products and Services"
+  },
+  {
+    "ticker": "BFT.WA",
+    "name": "Benefit Systems",
+    "country": "Poland",
+    "index": "STOXX Europe 600",
+    "sector": "Industrial Goods and Services"
   },
   {
     "ticker": "BKG.L",
@@ -4473,6 +4522,34 @@
     "sector": "Consumer Products and Services"
   },
   {
+    "ticker": "BESI.AS",
+    "name": "Besi",
+    "country": "Netherlands",
+    "index": "STOXX Europe 600",
+    "sector": "Technology"
+  },
+  {
+    "ticker": "GBF.DE",
+    "name": "Bilfinger",
+    "country": "Germany",
+    "index": "STOXX Europe 600",
+    "sector": "Construction and Materials"
+  },
+  {
+    "ticker": "BIM.PA",
+    "name": "BioMérieux",
+    "country": "France",
+    "index": "STOXX Europe 600",
+    "sector": "Healthcare"
+  },
+  {
+    "ticker": "BKW.SW",
+    "name": "BKW Energie",
+    "country": "Switzerland",
+    "index": "STOXX Europe 600",
+    "sector": "Utilities"
+  },
+  {
     "ticker": "BMW.DE",
     "name": "BMW",
     "country": "Germany",
@@ -4480,25 +4557,46 @@
     "sector": "Automobiles and Parts"
   },
   {
-    "ticker": "BNPP.PA",
+    "ticker": "BNP.PA",
     "name": "BNP Paribas",
     "country": "France",
     "index": "STOXX Europe 600",
     "sector": "Banks"
   },
   {
+    "ticker": "BOL.ST",
+    "name": "Boliden AB",
+    "country": "Sweden",
+    "index": "STOXX Europe 600",
+    "sector": "Basic Resources"
+  },
+  {
     "ticker": "BOL.PA",
     "name": "Bolloré",
     "country": "France",
     "index": "STOXX Europe 600",
-    "sector": "Industrial Goods and Services"
+    "sector": "Media"
   },
   {
-    "ticker": "BP.L",
+    "ticker": "EN.PA",
+    "name": "Bouygues",
+    "country": "France",
+    "index": "STOXX Europe 600",
+    "sector": "Construction and Materials"
+  },
+  {
+    "ticker": "BP..L",
     "name": "BP",
     "country": "United Kingdom",
     "index": "STOXX Europe 600",
     "sector": "Energy"
+  },
+  {
+    "ticker": "BPE.MI",
+    "name": "BPER Banca",
+    "country": "Italy",
+    "index": "STOXX Europe 600",
+    "sector": "Banks"
   },
   {
     "ticker": "BNR.DE",
@@ -4506,6 +4604,34 @@
     "country": "Germany",
     "index": "STOXX Europe 600",
     "sector": "Chemicals"
+  },
+  {
+    "ticker": "BPT.L",
+    "name": "Bridgepoint Group",
+    "country": "United Kingdom",
+    "index": "STOXX Europe 600",
+    "sector": "Financial Services"
+  },
+  {
+    "ticker": "BATS.L",
+    "name": "British American Tobacco",
+    "country": "United Kingdom",
+    "index": "STOXX Europe 600",
+    "sector": "Food, Beverage and Tobacco"
+  },
+  {
+    "ticker": "BLND.L",
+    "name": "British Land",
+    "country": "United Kingdom",
+    "index": "STOXX Europe 600",
+    "sector": "Real Estate"
+  },
+  {
+    "ticker": "BC.MI",
+    "name": "Brunello Cucinelli",
+    "country": "Italy",
+    "index": "STOXX Europe 600",
+    "sector": "Consumer Products and Services"
   },
   {
     "ticker": "BT.A.L",
@@ -4536,25 +4662,39 @@
     "sector": "Industrial Goods and Services"
   },
   {
-    "ticker": "AFX.DE",
-    "name": "Carl Zeiss Meditec",
-    "country": "Germany",
+    "ticker": "BZU.MI",
+    "name": "Buzzi Unicem",
+    "country": "Italy",
     "index": "STOXX Europe 600",
-    "sector": "Health Care"
+    "sector": "Construction and Materials"
   },
   {
-    "ticker": "CAPP.PA",
+    "ticker": "CABK.MC",
+    "name": "CaixaBank",
+    "country": "Spain",
+    "index": "STOXX Europe 600",
+    "sector": "Banks"
+  },
+  {
+    "ticker": "CPR.MI",
+    "name": "Campari Group",
+    "country": "Italy",
+    "index": "STOXX Europe 600",
+    "sector": "Food, Beverage and Tobacco"
+  },
+  {
+    "ticker": "CAP.PA",
     "name": "Capgemini",
     "country": "France",
     "index": "STOXX Europe 600",
     "sector": "Technology"
   },
   {
-    "ticker": "CARR.PA",
-    "name": "Carrefour",
-    "country": "France",
+    "ticker": "CARL B.CO",
+    "name": "Carlsberg Group",
+    "country": "Denmark",
     "index": "STOXX Europe 600",
-    "sector": "Retail"
+    "sector": "Food, Beverage and Tobacco"
   },
   {
     "ticker": "CAST.ST",
@@ -4564,6 +4704,27 @@
     "sector": "Real Estate"
   },
   {
+    "ticker": "CDR.WA",
+    "name": "CD Projekt Red",
+    "country": "Poland",
+    "index": "STOXX Europe 600",
+    "sector": "Consumer Products and Services"
+  },
+  {
+    "ticker": "CLNX.MC",
+    "name": "Cellnex",
+    "country": "Spain",
+    "index": "STOXX Europe 600",
+    "sector": "Telecommunications"
+  },
+  {
+    "ticker": "CMBN.SW",
+    "name": "Cembra Money Bank",
+    "country": "Switzerland",
+    "index": "STOXX Europe 600",
+    "sector": "Banks"
+  },
+  {
     "ticker": "CNA.L",
     "name": "Centrica",
     "country": "United Kingdom",
@@ -4571,18 +4732,25 @@
     "sector": "Utilities"
   },
   {
-    "ticker": "CCH.SW",
+    "ticker": "CCH.L",
     "name": "Coca-Cola HBC",
-    "country": "Switzerland",
+    "country": "United Kingdom",
     "index": "STOXX Europe 600",
     "sector": "Food, Beverage and Tobacco"
   },
   {
-    "ticker": "COLR.BR",
-    "name": "Colruyt",
-    "country": "Belgium",
+    "ticker": "COLO B.CO",
+    "name": "Coloplast",
+    "country": "Denmark",
     "index": "STOXX Europe 600",
-    "sector": "Personal Care, Drug and Grocery Stores"
+    "sector": "Healthcare"
+  },
+  {
+    "ticker": "COTN.SW",
+    "name": "Comet Holding AG",
+    "country": "Switzerland",
+    "index": "STOXX Europe 600",
+    "sector": "Technology"
   },
   {
     "ticker": "CBK.DE",
@@ -4592,60 +4760,151 @@
     "sector": "Banks"
   },
   {
+    "ticker": "CPG.L",
+    "name": "Compass Group",
+    "country": "United Kingdom",
+    "index": "STOXX Europe 600",
+    "sector": "Consumer Products and Services"
+  },
+  {
+    "ticker": "CCC.L",
+    "name": "Computacenter",
+    "country": "United Kingdom",
+    "index": "STOXX Europe 600",
+    "sector": "Technology"
+  },
+  {
     "ticker": "CON.DE",
-    "name": "Continental",
+    "name": "Continental AG",
     "country": "Germany",
     "index": "STOXX Europe 600",
     "sector": "Automobiles and Parts"
   },
   {
     "ticker": "CTEC.L",
-    "name": "ConvaTec",
+    "name": "Convatec",
     "country": "United Kingdom",
     "index": "STOXX Europe 600",
-    "sector": "Health Care"
+    "sector": "Healthcare"
   },
   {
-    "ticker": "1COV.DE",
-    "name": "Covestro",
-    "country": "Germany",
+    "ticker": "COV.PA",
+    "name": "Covivio",
+    "country": "France",
     "index": "STOXX Europe 600",
-    "sector": "Chemicals"
+    "sector": "Real Estate"
   },
   {
-    "ticker": "CAGR.PA",
+    "ticker": "CWK.L",
+    "name": "Cranswick plc",
+    "country": "United Kingdom",
+    "index": "STOXX Europe 600",
+    "sector": "Food, Beverage and Tobacco"
+  },
+  {
+    "ticker": "ACA.PA",
     "name": "Crédit Agricole",
     "country": "France",
     "index": "STOXX Europe 600",
     "sector": "Banks"
   },
   {
-    "ticker": "CPR.MI",
-    "name": "Davide Campari-Milano",
-    "country": "Italy",
+    "ticker": "CRDA.L",
+    "name": "Croda International",
+    "country": "United Kingdom",
     "index": "STOXX Europe 600",
-    "sector": "Food, Beverage and Tobacco"
+    "sector": "Chemicals"
   },
   {
-    "ticker": "DANO.PA",
+    "ticker": "CSG.AS",
+    "name": "CSG",
+    "country": "Netherlands",
+    "index": "STOXX Europe 600",
+    "sector": "Industrial Goods and Services"
+  },
+  {
+    "ticker": "EVD.DE",
+    "name": "CTS Eventim",
+    "country": "Germany",
+    "index": "STOXX Europe 600",
+    "sector": "Media"
+  },
+  {
+    "ticker": "CVC.AS",
+    "name": "CVC Capital Partners",
+    "country": "Netherlands",
+    "index": "STOXX Europe 600",
+    "sector": "Financial Services"
+  },
+  {
+    "ticker": "DIE.BR",
+    "name": "D'Ieteren Group",
+    "country": "Belgium",
+    "index": "STOXX Europe 600",
+    "sector": "Automobiles and Parts"
+  },
+  {
+    "ticker": "DTG.DE",
+    "name": "Daimler Truck",
+    "country": "Germany",
+    "index": "STOXX Europe 600",
+    "sector": "Industrial Goods and Services"
+  },
+  {
+    "ticker": "BN.PA",
     "name": "Danone",
     "country": "France",
     "index": "STOXX Europe 600",
     "sector": "Food, Beverage and Tobacco"
   },
   {
+    "ticker": "DANSKE.CO",
+    "name": "Danske Bank",
+    "country": "Denmark",
+    "index": "STOXX Europe 600",
+    "sector": "Banks"
+  },
+  {
+    "ticker": "AM.PA",
+    "name": "Dassault Aviation",
+    "country": "France",
+    "index": "STOXX Europe 600",
+    "sector": "Industrial Goods and Services"
+  },
+  {
+    "ticker": "DSY.PA",
+    "name": "Dassault Systèmes",
+    "country": "France",
+    "index": "STOXX Europe 600",
+    "sector": "Technology"
+  },
+  {
+    "ticker": "DCC.L",
+    "name": "DCC Energy",
+    "country": "United Kingdom",
+    "index": "STOXX Europe 600",
+    "sector": "Industrial Goods and Services"
+  },
+  {
+    "ticker": "DLG.MI",
+    "name": "De' Longhi",
+    "country": "Italy",
+    "index": "STOXX Europe 600",
+    "sector": "Consumer Products and Services"
+  },
+  {
     "ticker": "DHER.DE",
     "name": "Delivery Hero",
     "country": "Germany",
     "index": "STOXX Europe 600",
-    "sector": "Retail"
+    "sector": "Consumer Products and Services"
   },
   {
     "ticker": "DEMANT.CO",
     "name": "Demant",
     "country": "Denmark",
     "index": "STOXX Europe 600",
-    "sector": "Health Care"
+    "sector": "Healthcare"
   },
   {
     "ticker": "DLN.L",
@@ -4653,6 +4912,13 @@
     "country": "United Kingdom",
     "index": "STOXX Europe 600",
     "sector": "Real Estate"
+  },
+  {
+    "ticker": "DBK.DE",
+    "name": "Deutsche Bank",
+    "country": "Germany",
+    "index": "STOXX Europe 600",
+    "sector": "Banks"
   },
   {
     "ticker": "DB1.DE",
@@ -4683,32 +4949,60 @@
     "sector": "Food, Beverage and Tobacco"
   },
   {
+    "ticker": "DNP.WA",
+    "name": "Dino Polska",
+    "country": "Poland",
+    "index": "STOXX Europe 600",
+    "sector": "Personal Care, Drug and Grocery Stores"
+  },
+  {
     "ticker": "DPLM.L",
-    "name": "Diploma",
+    "name": "Diploma plc",
     "country": "United Kingdom",
     "index": "STOXX Europe 600",
     "sector": "Industrial Goods and Services"
   },
   {
-    "ticker": "DLG.L",
-    "name": "Direct Line",
-    "country": "United Kingdom",
-    "index": "STOXX Europe 600",
-    "sector": "Insurance"
-  },
-  {
-    "ticker": "DOCM.SW",
-    "name": "DocMorris",
+    "ticker": "DKSH.SW",
+    "name": "DKSH",
     "country": "Switzerland",
     "index": "STOXX Europe 600",
-    "sector": "Health Care"
+    "sector": "Industrial Goods and Services"
   },
   {
-    "ticker": "SMDS.L",
-    "name": "DS Smith",
+    "ticker": "DNB.OL",
+    "name": "DNB Bank",
+    "country": "Norway",
+    "index": "STOXX Europe 600",
+    "sector": "Banks"
+  },
+  {
+    "ticker": "DRX.L",
+    "name": "Drax Group",
     "country": "United Kingdom",
     "index": "STOXX Europe 600",
+    "sector": "Utilities"
+  },
+  {
+    "ticker": "DSFIR.AS",
+    "name": "DSM-Firmenich",
+    "country": "Netherlands",
+    "index": "STOXX Europe 600",
+    "sector": "Food, Beverage and Tobacco"
+  },
+  {
+    "ticker": "DSV.CO",
+    "name": "DSV",
+    "country": "Denmark",
+    "index": "STOXX Europe 600",
     "sector": "Industrial Goods and Services"
+  },
+  {
+    "ticker": "EOAN.DE",
+    "name": "E.ON",
+    "country": "Germany",
+    "index": "STOXX Europe 600",
+    "sector": "Utilities"
   },
   {
     "ticker": "EZJ.L",
@@ -4725,18 +5019,25 @@
     "sector": "Industrial Goods and Services"
   },
   {
-    "ticker": "EFGI.PA",
+    "ticker": "FGR.PA",
     "name": "Eiffage",
     "country": "France",
     "index": "STOXX Europe 600",
     "sector": "Construction and Materials"
   },
   {
-    "ticker": "ELUX-B.ST",
-    "name": "Electrolux",
-    "country": "Sweden",
+    "ticker": "ELI.BR",
+    "name": "Elia Transmission Belgium",
+    "country": "Belgium",
     "index": "STOXX Europe 600",
-    "sector": "Consumer Products and Services"
+    "sector": "Utilities"
+  },
+  {
+    "ticker": "ELIS.PA",
+    "name": "Elis",
+    "country": "France",
+    "index": "STOXX Europe 600",
+    "sector": "Industrial Goods and Services"
   },
   {
     "ticker": "ELISA.HE",
@@ -4746,18 +5047,18 @@
     "sector": "Telecommunications"
   },
   {
+    "ticker": "EMSN.SW",
+    "name": "Ems-Chemie",
+    "country": "Switzerland",
+    "index": "STOXX Europe 600",
+    "sector": "Chemicals"
+  },
+  {
     "ticker": "EDV.L",
     "name": "Endeavour Mining",
     "country": "United Kingdom",
     "index": "STOXX Europe 600",
     "sector": "Basic Resources"
-  },
-  {
-    "ticker": "ENI.MI",
-    "name": "Eni",
-    "country": "Italy",
-    "index": "STOXX Europe 600",
-    "sector": "Energy"
   },
   {
     "ticker": "ENEL.MI",
@@ -4767,18 +5068,25 @@
     "sector": "Utilities"
   },
   {
+    "ticker": "ENGI.PA",
+    "name": "Engie",
+    "country": "France",
+    "index": "STOXX Europe 600",
+    "sector": "Utilities"
+  },
+  {
+    "ticker": "ENI.MI",
+    "name": "Eni",
+    "country": "Italy",
+    "index": "STOXX Europe 600",
+    "sector": "Energy"
+  },
+  {
     "ticker": "ENT.L",
     "name": "Entain",
     "country": "United Kingdom",
     "index": "STOXX Europe 600",
     "sector": "Travel and Leisure"
-  },
-  {
-    "ticker": "EOAN.DE",
-    "name": "E.ON",
-    "country": "Germany",
-    "index": "STOXX Europe 600",
-    "sector": "Utilities"
   },
   {
     "ticker": "EPI A.ST",
@@ -4788,6 +5096,34 @@
     "sector": "Industrial Goods and Services"
   },
   {
+    "ticker": "EQT.ST",
+    "name": "EQT AB",
+    "country": "Sweden",
+    "index": "STOXX Europe 600",
+    "sector": "Financial Services"
+  },
+  {
+    "ticker": "EQNR.OL",
+    "name": "Equinor",
+    "country": "Norway",
+    "index": "STOXX Europe 600",
+    "sector": "Energy"
+  },
+  {
+    "ticker": "ERIC B.ST",
+    "name": "Ericsson",
+    "country": "Sweden",
+    "index": "STOXX Europe 600",
+    "sector": "Telecommunications"
+  },
+  {
+    "ticker": "EBP.WA",
+    "name": "Erste Bank Polska",
+    "country": "Poland",
+    "index": "STOXX Europe 600",
+    "sector": "Banks"
+  },
+  {
     "ticker": "EBS.VI",
     "name": "Erste Group",
     "country": "Austria",
@@ -4795,18 +5131,39 @@
     "sector": "Banks"
   },
   {
-    "ticker": "ESLX.PA",
+    "ticker": "EL.PA",
     "name": "EssilorLuxottica",
     "country": "France",
     "index": "STOXX Europe 600",
-    "sector": "Health Care"
+    "sector": "Healthcare"
   },
   {
-    "ticker": "ENX.AS",
+    "ticker": "ESSITY B.ST",
+    "name": "Essity",
+    "country": "Sweden",
+    "index": "STOXX Europe 600",
+    "sector": "Personal Care, Drug and Grocery Stores"
+  },
+  {
+    "ticker": "ERF.PA",
+    "name": "Eurofins Scientific",
+    "country": "France",
+    "index": "STOXX Europe 600",
+    "sector": "Healthcare"
+  },
+  {
+    "ticker": "ENX.PA",
     "name": "Euronext",
-    "country": "Netherlands",
+    "country": "France",
     "index": "STOXX Europe 600",
     "sector": "Financial Services"
+  },
+  {
+    "ticker": "EVO.ST",
+    "name": "Evolution AB",
+    "country": "Sweden",
+    "index": "STOXX Europe 600",
+    "sector": "Travel and Leisure"
   },
   {
     "ticker": "EVK.DE",
@@ -4816,13 +5173,6 @@
     "sector": "Chemicals"
   },
   {
-    "ticker": "EVT.DE",
-    "name": "Evotec",
-    "country": "Germany",
-    "index": "STOXX Europe 600",
-    "sector": "Health Care"
-  },
-  {
     "ticker": "EXO.AS",
     "name": "Exor",
     "country": "Netherlands",
@@ -4830,25 +5180,130 @@
     "sector": "Financial Services"
   },
   {
-    "ticker": "FRVIA.PA",
-    "name": "Forvia",
+    "ticker": "EXPN.L",
+    "name": "Experian",
+    "country": "United Kingdom",
+    "index": "STOXX Europe 600",
+    "sector": "Industrial Goods and Services"
+  },
+  {
+    "ticker": "FDJU.PA",
+    "name": "FDJ United",
     "country": "France",
+    "index": "STOXX Europe 600",
+    "sector": "Travel and Leisure"
+  },
+  {
+    "ticker": "RACE.MI",
+    "name": "Ferrari",
+    "country": "Italy",
     "index": "STOXX Europe 600",
     "sector": "Automobiles and Parts"
   },
   {
+    "ticker": "FER.MC",
+    "name": "Ferrovial",
+    "country": "Spain",
+    "index": "STOXX Europe 600",
+    "sector": "Construction and Materials"
+  },
+  {
+    "ticker": "TUB.BR",
+    "name": "Financière de Tubize",
+    "country": "Belgium",
+    "index": "STOXX Europe 600",
+    "sector": "Healthcare"
+  },
+  {
+    "ticker": "FBK.MI",
+    "name": "FinecoBank",
+    "country": "Italy",
+    "index": "STOXX Europe 600",
+    "sector": "Banks"
+  },
+  {
+    "ticker": "FTK.DE",
+    "name": "Flatexdegiro",
+    "country": "Germany",
+    "index": "STOXX Europe 600",
+    "sector": "Financial Services"
+  },
+  {
+    "ticker": "FLS.CO",
+    "name": "FLSmidth",
+    "country": "Denmark",
+    "index": "STOXX Europe 600",
+    "sector": "Construction and Materials"
+  },
+  {
+    "ticker": "FHZN.SW",
+    "name": "Flughafen Zürich AG",
+    "country": "Switzerland",
+    "index": "STOXX Europe 600",
+    "sector": "Industrial Goods and Services"
+  },
+  {
+    "ticker": "FORTUM.HE",
+    "name": "Fortum",
+    "country": "Finland",
+    "index": "STOXX Europe 600",
+    "sector": "Utilities"
+  },
+  {
     "ticker": "FNTN.DE",
-    "name": "Freenet",
+    "name": "Freenet AG",
     "country": "Germany",
     "index": "STOXX Europe 600",
     "sector": "Telecommunications"
+  },
+  {
+    "ticker": "FRE.DE",
+    "name": "Fresenius",
+    "country": "Germany",
+    "index": "STOXX Europe 600",
+    "sector": "Healthcare"
   },
   {
     "ticker": "FME.DE",
     "name": "Fresenius Medical Care",
     "country": "Germany",
     "index": "STOXX Europe 600",
-    "sector": "Health Care"
+    "sector": "Healthcare"
+  },
+  {
+    "ticker": "FRES.L",
+    "name": "Fresnillo plc",
+    "country": "United Kingdom",
+    "index": "STOXX Europe 600",
+    "sector": "Basic Resources"
+  },
+  {
+    "ticker": "FRO.OL",
+    "name": "Frontline Ltd.",
+    "country": "Norway",
+    "index": "STOXX Europe 600",
+    "sector": "Industrial Goods and Services"
+  },
+  {
+    "ticker": "FPE3.DE",
+    "name": "Fuchs SE (preferred shares)",
+    "country": "Germany",
+    "index": "STOXX Europe 600",
+    "sector": "Chemicals"
+  },
+  {
+    "ticker": "GALD.SW",
+    "name": "Galderma",
+    "country": "Switzerland",
+    "index": "STOXX Europe 600",
+    "sector": "Healthcare"
+  },
+  {
+    "ticker": "GALE.SW",
+    "name": "Galenica",
+    "country": "Switzerland",
+    "index": "STOXX Europe 600",
+    "sector": "Personal Care, Drug and Grocery Stores"
   },
   {
     "ticker": "GAW.L",
@@ -4856,6 +5311,13 @@
     "country": "United Kingdom",
     "index": "STOXX Europe 600",
     "sector": "Consumer Products and Services"
+  },
+  {
+    "ticker": "GTT.PA",
+    "name": "Gaztransport & Technigaz",
+    "country": "France",
+    "index": "STOXX Europe 600",
+    "sector": "Energy"
   },
   {
     "ticker": "G1A.DE",
@@ -4879,11 +5341,25 @@
     "sector": "Real Estate"
   },
   {
+    "ticker": "GMAB.CO",
+    "name": "Genmab",
+    "country": "Denmark",
+    "index": "STOXX Europe 600",
+    "sector": "Healthcare"
+  },
+  {
     "ticker": "GF.SW",
     "name": "Georg Fischer",
     "country": "Switzerland",
     "index": "STOXX Europe 600",
-    "sector": "Industrial Goods and Services"
+    "sector": "Construction and Materials"
+  },
+  {
+    "ticker": "GETI B.ST",
+    "name": "Getinge Group",
+    "country": "Sweden",
+    "index": "STOXX Europe 600",
+    "sector": "Healthcare"
   },
   {
     "ticker": "GET.PA",
@@ -4893,46 +5369,109 @@
     "sector": "Industrial Goods and Services"
   },
   {
-    "ticker": "GLB.IR",
+    "ticker": "GIVN.SW",
+    "name": "Givaudan",
+    "country": "Switzerland",
+    "index": "STOXX Europe 600",
+    "sector": "Chemicals"
+  },
+  {
+    "ticker": "GJF.OL",
+    "name": "Gjensidige",
+    "country": "Norway",
+    "index": "STOXX Europe 600",
+    "sector": "Insurance"
+  },
+  {
+    "ticker": "GL9.IR",
     "name": "Glanbia",
     "country": "Ireland",
     "index": "STOXX Europe 600",
     "sector": "Food, Beverage and Tobacco"
   },
   {
-    "ticker": "GN.CO",
-    "name": "GN Store Nord",
-    "country": "Denmark",
+    "ticker": "GLEN.L",
+    "name": "Glencore",
+    "country": "United Kingdom",
     "index": "STOXX Europe 600",
-    "sector": "Health Care"
-  },
-  {
-    "ticker": "GFT.IR",
-    "name": "Grafton Group",
-    "country": "Ireland",
-    "index": "STOXX Europe 600",
-    "sector": "Industrial Goods and Services"
+    "sector": "Basic Resources"
   },
   {
     "ticker": "GRF.MC",
     "name": "Grifols",
     "country": "Spain",
     "index": "STOXX Europe 600",
-    "sector": "Health Care"
+    "sector": "Healthcare"
   },
   {
-    "ticker": "HNR.DE",
+    "ticker": "ADP.PA",
+    "name": "Groupe ADP",
+    "country": "France",
+    "index": "STOXX Europe 600",
+    "sector": "Industrial Goods and Services"
+  },
+  {
+    "ticker": "GBLB.BR",
+    "name": "Groupe Bruxelles Lambert",
+    "country": "Belgium",
+    "index": "STOXX Europe 600",
+    "sector": "Financial Services"
+  },
+  {
+    "ticker": "CA.PA",
+    "name": "Groupe Carrefour",
+    "country": "France",
+    "index": "STOXX Europe 600",
+    "sector": "Personal Care, Drug and Grocery Stores"
+  },
+  {
+    "ticker": "KTY.WA",
+    "name": "Grupa Kęty",
+    "country": "Poland",
+    "index": "STOXX Europe 600",
+    "sector": "Basic Resources"
+  },
+  {
+    "ticker": "GSK.L",
+    "name": "GSK plc",
+    "country": "United Kingdom",
+    "index": "STOXX Europe 600",
+    "sector": "Healthcare"
+  },
+  {
+    "ticker": "HM B.ST",
+    "name": "H&M",
+    "country": "Sweden",
+    "index": "STOXX Europe 600",
+    "sector": "Retail"
+  },
+  {
+    "ticker": "HLN.L",
+    "name": "Haleon",
+    "country": "United Kingdom",
+    "index": "STOXX Europe 600",
+    "sector": "Healthcare"
+  },
+  {
+    "ticker": "HLMA.L",
+    "name": "Halma plc",
+    "country": "United Kingdom",
+    "index": "STOXX Europe 600",
+    "sector": "Industrial Goods and Services"
+  },
+  {
+    "ticker": "SHB A.ST",
+    "name": "Handelsbanken",
+    "country": "Sweden",
+    "index": "STOXX Europe 600",
+    "sector": "Banks"
+  },
+  {
+    "ticker": "HNR1.DE",
     "name": "Hannover Re",
     "country": "Germany",
     "index": "STOXX Europe 600",
     "sector": "Insurance"
-  },
-  {
-    "ticker": "HAS.L",
-    "name": "Hays",
-    "country": "United Kingdom",
-    "index": "STOXX Europe 600",
-    "sector": "Industrial Goods and Services"
   },
   {
     "ticker": "HEI.DE",
@@ -4942,22 +5481,113 @@
     "sector": "Construction and Materials"
   },
   {
+    "ticker": "HEIO.AS",
+    "name": "Heineken Holding",
+    "country": "Netherlands",
+    "index": "STOXX Europe 600",
+    "sector": "Food, Beverage and Tobacco"
+  },
+  {
+    "ticker": "HEIA.AS",
+    "name": "Heineken N.V.",
+    "country": "Netherlands",
+    "index": "STOXX Europe 600",
+    "sector": "Food, Beverage and Tobacco"
+  },
+  {
+    "ticker": "HBAN.SW",
+    "name": "Helvetia Insurance",
+    "country": "Switzerland",
+    "index": "STOXX Europe 600",
+    "sector": "Insurance"
+  },
+  {
     "ticker": "HEN3.DE",
-    "name": "Henkel",
+    "name": "Henkel (preferred shares)",
     "country": "Germany",
     "index": "STOXX Europe 600",
+    "sector": "Chemicals"
+  },
+  {
+    "ticker": "HAG.DE",
+    "name": "Hensoldt",
+    "country": "Germany",
+    "index": "STOXX Europe 600",
+    "sector": "Industrial Goods and Services"
+  },
+  {
+    "ticker": "HER.MI",
+    "name": "Hera",
+    "country": "Italy",
+    "index": "STOXX Europe 600",
+    "sector": "Utilities"
+  },
+  {
+    "ticker": "RMS.PA",
+    "name": "Hermès",
+    "country": "France",
+    "index": "STOXX Europe 600",
     "sector": "Consumer Products and Services"
+  },
+  {
+    "ticker": "HEXA B.ST",
+    "name": "Hexagon AB",
+    "country": "Sweden",
+    "index": "STOXX Europe 600",
+    "sector": "Technology"
   },
   {
     "ticker": "HIK.L",
     "name": "Hikma Pharmaceuticals",
     "country": "United Kingdom",
     "index": "STOXX Europe 600",
-    "sector": "Health Care"
+    "sector": "Healthcare"
+  },
+  {
+    "ticker": "HILS.L",
+    "name": "Hill & Smith",
+    "country": "United Kingdom",
+    "index": "STOXX Europe 600",
+    "sector": "Industrial Goods and Services"
+  },
+  {
+    "ticker": "HSX.L",
+    "name": "Hiscox",
+    "country": "United Kingdom",
+    "index": "STOXX Europe 600",
+    "sector": "Insurance"
+  },
+  {
+    "ticker": "HOC.L",
+    "name": "Hochschild Mining",
+    "country": "United Kingdom",
+    "index": "STOXX Europe 600",
+    "sector": "Basic Resources"
+  },
+  {
+    "ticker": "HOT.DE",
+    "name": "Hochtief",
+    "country": "Germany",
+    "index": "STOXX Europe 600",
+    "sector": "Construction and Materials"
+  },
+  {
+    "ticker": "HOLN.SW",
+    "name": "Holcim Group",
+    "country": "Switzerland",
+    "index": "STOXX Europe 600",
+    "sector": "Construction and Materials"
+  },
+  {
+    "ticker": "HOLM B.ST",
+    "name": "Holmen",
+    "country": "Sweden",
+    "index": "STOXX Europe 600",
+    "sector": "Basic Resources"
   },
   {
     "ticker": "HWDN.L",
-    "name": "Howden Joinery",
+    "name": "Howdens Joinery",
     "country": "United Kingdom",
     "index": "STOXX Europe 600",
     "sector": "Retail"
@@ -4970,18 +5600,25 @@
     "sector": "Banks"
   },
   {
-    "ticker": "BOSS.DE",
-    "name": "Hugo Boss",
-    "country": "Germany",
+    "ticker": "HUBN.SW",
+    "name": "Huber + Suhner",
+    "country": "Switzerland",
     "index": "STOXX Europe 600",
-    "sector": "Consumer Products and Services"
+    "sector": "Telecommunications"
   },
   {
-    "ticker": "HUSQ B.ST",
-    "name": "Husqvarna",
-    "country": "Sweden",
+    "ticker": "HUH1V.HE",
+    "name": "Huhtamäki",
+    "country": "Finland",
     "index": "STOXX Europe 600",
-    "sector": "Consumer Products and Services"
+    "sector": "Industrial Goods and Services"
+  },
+  {
+    "ticker": "HIAB.HE",
+    "name": "Hydrauliska Industri AB",
+    "country": "Finland",
+    "index": "STOXX Europe 600",
+    "sector": "Industrial Goods and Services"
   },
   {
     "ticker": "IBE.MC",
@@ -4991,16 +5628,86 @@
     "sector": "Utilities"
   },
   {
+    "ticker": "ICG.L",
+    "name": "ICG plc",
+    "country": "United Kingdom",
+    "index": "STOXX Europe 600",
+    "sector": "Financial Services"
+  },
+  {
+    "ticker": "IGG.L",
+    "name": "IG Group",
+    "country": "United Kingdom",
+    "index": "STOXX Europe 600",
+    "sector": "Financial Services"
+  },
+  {
+    "ticker": "IHG.L",
+    "name": "IHG Hotels & Resorts",
+    "country": "United Kingdom",
+    "index": "STOXX Europe 600",
+    "sector": "Travel and Leisure"
+  },
+  {
+    "ticker": "IMCD.AS",
+    "name": "IMCD NV",
+    "country": "Netherlands",
+    "index": "STOXX Europe 600",
+    "sector": "Chemicals"
+  },
+  {
+    "ticker": "IMI.L",
+    "name": "IMI plc",
+    "country": "United Kingdom",
+    "index": "STOXX Europe 600",
+    "sector": "Industrial Goods and Services"
+  },
+  {
+    "ticker": "IMB.L",
+    "name": "Imperial Brands",
+    "country": "United Kingdom",
+    "index": "STOXX Europe 600",
+    "sector": "Food, Beverage and Tobacco"
+  },
+  {
     "ticker": "INCH.L",
-    "name": "Inchcape",
+    "name": "Inchcape plc",
     "country": "United Kingdom",
     "index": "STOXX Europe 600",
     "sector": "Retail"
   },
   {
+    "ticker": "ITX.MC",
+    "name": "Inditex",
+    "country": "Spain",
+    "index": "STOXX Europe 600",
+    "sector": "Retail"
+  },
+  {
+    "ticker": "IDR.MC",
+    "name": "Indra Sistemas",
+    "country": "Spain",
+    "index": "STOXX Europe 600",
+    "sector": "Technology"
+  },
+  {
+    "ticker": "INDU C.ST",
+    "name": "Industrivärden",
+    "country": "Sweden",
+    "index": "STOXX Europe 600",
+    "sector": "Financial Services"
+  },
+  {
     "ticker": "INDT.ST",
     "name": "Indutrade",
     "country": "Sweden",
+    "index": "STOXX Europe 600",
+    "sector": "Industrial Goods and Services"
+  },
+  {
+    "ticker": "IFCN.SW",
+    "name": "INFICON",
+    "country": "Switzerland",
     "index": "STOXX Europe 600",
     "sector": "Industrial Goods and Services"
   },
@@ -5012,18 +5719,39 @@
     "sector": "Technology"
   },
   {
-    "ticker": "IHG.L",
-    "name": "InterContinental Hotels Group",
+    "ticker": "INF.L",
+    "name": "Informa",
+    "country": "United Kingdom",
+    "index": "STOXX Europe 600",
+    "sector": "Media"
+  },
+  {
+    "ticker": "ING.WA",
+    "name": "ING Bank Śląski",
+    "country": "Poland",
+    "index": "STOXX Europe 600",
+    "sector": "Banks"
+  },
+  {
+    "ticker": "INGA.AS",
+    "name": "ING Group",
+    "country": "Netherlands",
+    "index": "STOXX Europe 600",
+    "sector": "Banks"
+  },
+  {
+    "ticker": "IAG.L",
+    "name": "International Airlines Group",
     "country": "United Kingdom",
     "index": "STOXX Europe 600",
     "sector": "Travel and Leisure"
   },
   {
-    "ticker": "ICP.L",
-    "name": "Intermediate Capital Group",
-    "country": "United Kingdom",
+    "ticker": "IP.MI",
+    "name": "Interpump Group",
+    "country": "Italy",
     "index": "STOXX Europe 600",
-    "sector": "Financial Services"
+    "sector": "Industrial Goods and Services"
   },
   {
     "ticker": "ITRK.L",
@@ -5033,37 +5761,100 @@
     "sector": "Industrial Goods and Services"
   },
   {
+    "ticker": "ISP.MI",
+    "name": "Intesa Sanpaolo",
+    "country": "Italy",
+    "index": "STOXX Europe 600",
+    "sector": "Banks"
+  },
+  {
+    "ticker": "INVP.L",
+    "name": "Investec",
+    "country": "United Kingdom",
+    "index": "STOXX Europe 600",
+    "sector": "Banks"
+  },
+  {
+    "ticker": "LATO B.ST",
+    "name": "Investment AB Latour",
+    "country": "Sweden",
+    "index": "STOXX Europe 600",
+    "sector": "Industrial Goods and Services"
+  },
+  {
+    "ticker": "INVE B.ST",
+    "name": "Investor AB",
+    "country": "Sweden",
+    "index": "STOXX Europe 600",
+    "sector": "Financial Services"
+  },
+  {
     "ticker": "IPN.PA",
     "name": "Ipsen",
     "country": "France",
     "index": "STOXX Europe 600",
-    "sector": "Health Care"
+    "sector": "Healthcare"
+  },
+  {
+    "ticker": "ISS.CO",
+    "name": "ISS A/S",
+    "country": "Denmark",
+    "index": "STOXX Europe 600",
+    "sector": "Industrial Goods and Services"
+  },
+  {
+    "ticker": "IG.MI",
+    "name": "Italgas",
+    "country": "Italy",
+    "index": "STOXX Europe 600",
+    "sector": "Utilities"
   },
   {
     "ticker": "ITV.L",
-    "name": "ITV",
+    "name": "ITV plc",
     "country": "United Kingdom",
     "index": "STOXX Europe 600",
     "sector": "Media"
   },
   {
-    "ticker": "SBRY.L",
-    "name": "Sainsbury's",
-    "country": "United Kingdom",
+    "ticker": "IVG.MI",
+    "name": "Iveco Group",
+    "country": "Italy",
     "index": "STOXX Europe 600",
-    "sector": "Personal Care, Drug and Grocery Stores"
+    "sector": "Industrial Goods and Services"
   },
   {
-    "ticker": "JD.L",
-    "name": "JD Sports",
+    "ticker": "JMAT.L",
+    "name": "Johnson Matthey",
     "country": "United Kingdom",
     "index": "STOXX Europe 600",
-    "sector": "Retail"
+    "sector": "Chemicals"
   },
   {
     "ticker": "BAER.SW",
-    "name": "Julius Baer",
+    "name": "Julius Baer Group",
     "country": "Switzerland",
+    "index": "STOXX Europe 600",
+    "sector": "Financial Services"
+  },
+  {
+    "ticker": "JYSK.CO",
+    "name": "Jyske Bank",
+    "country": "Denmark",
+    "index": "STOXX Europe 600",
+    "sector": "Banks"
+  },
+  {
+    "ticker": "SDF.DE",
+    "name": "K+S",
+    "country": "Germany",
+    "index": "STOXX Europe 600",
+    "sector": "Chemicals"
+  },
+  {
+    "ticker": "KBCA.BR",
+    "name": "KBC Ancora NV",
+    "country": "Belgium",
     "index": "STOXX Europe 600",
     "sector": "Banks"
   },
@@ -5082,9 +5873,79 @@
     "sector": "Consumer Products and Services"
   },
   {
+    "ticker": "KRZ.IR",
+    "name": "Kerry Group",
+    "country": "Ireland",
+    "index": "STOXX Europe 600",
+    "sector": "Food, Beverage and Tobacco"
+  },
+  {
+    "ticker": "KESKOB.HE",
+    "name": "Kesko",
+    "country": "Finland",
+    "index": "STOXX Europe 600",
+    "sector": "Personal Care, Drug and Grocery Stores"
+  },
+  {
+    "ticker": "KGH.WA",
+    "name": "KGHM Polska Miedź",
+    "country": "Poland",
+    "index": "STOXX Europe 600",
+    "sector": "Basic Resources"
+  },
+  {
+    "ticker": "KGF.L",
+    "name": "Kingfisher plc",
+    "country": "United Kingdom",
+    "index": "STOXX Europe 600",
+    "sector": "Retail"
+  },
+  {
+    "ticker": "KRX.IR",
+    "name": "Kingspan Group",
+    "country": "Ireland",
+    "index": "STOXX Europe 600",
+    "sector": "Construction and Materials"
+  },
+  {
+    "ticker": "KGX.DE",
+    "name": "KION Group",
+    "country": "Germany",
+    "index": "STOXX Europe 600",
+    "sector": "Industrial Goods and Services"
+  },
+  {
+    "ticker": "LI.PA",
+    "name": "Klépierre",
+    "country": "France",
+    "index": "STOXX Europe 600",
+    "sector": "Real Estate"
+  },
+  {
+    "ticker": "KBX.DE",
+    "name": "Knorr-Bremse",
+    "country": "Germany",
+    "index": "STOXX Europe 600",
+    "sector": "Industrial Goods and Services"
+  },
+  {
     "ticker": "KNEBV.HE",
     "name": "Kone",
     "country": "Finland",
+    "index": "STOXX Europe 600",
+    "sector": "Industrial Goods and Services"
+  },
+  {
+    "ticker": "KCR.HE",
+    "name": "Konecranes",
+    "country": "Finland",
+    "index": "STOXX Europe 600",
+    "sector": "Industrial Goods and Services"
+  },
+  {
+    "ticker": "KOG.OL",
+    "name": "Kongsberg Gruppen",
+    "country": "Norway",
     "index": "STOXX Europe 600",
     "sector": "Industrial Goods and Services"
   },
@@ -5096,18 +5957,39 @@
     "sector": "Telecommunications"
   },
   {
+    "ticker": "KNIN.SW",
+    "name": "Kuehne + Nagel",
+    "country": "Switzerland",
+    "index": "STOXX Europe 600",
+    "sector": "Industrial Goods and Services"
+  },
+  {
+    "ticker": "LUND B.ST",
+    "name": "L E Lundbergföretagen",
+    "country": "Sweden",
+    "index": "STOXX Europe 600",
+    "sector": "Financial Services"
+  },
+  {
+    "ticker": "OR.PA",
+    "name": "L'Oréal",
+    "country": "France",
+    "index": "STOXX Europe 600",
+    "sector": "Consumer Products and Services"
+  },
+  {
+    "ticker": "LAGR B.ST",
+    "name": "Lagercrantz Group",
+    "country": "Sweden",
+    "index": "STOXX Europe 600",
+    "sector": "Technology"
+  },
+  {
     "ticker": "LAND.L",
-    "name": "Land Securities",
+    "name": "Landsec",
     "country": "United Kingdom",
     "index": "STOXX Europe 600",
     "sector": "Real Estate"
-  },
-  {
-    "ticker": "LXS.DE",
-    "name": "Lanxess",
-    "country": "Germany",
-    "index": "STOXX Europe 600",
-    "sector": "Chemicals"
   },
   {
     "ticker": "LEG.DE",
@@ -5117,60 +5999,116 @@
     "sector": "Real Estate"
   },
   {
+    "ticker": "LGEN.L",
+    "name": "Legal & General",
+    "country": "United Kingdom",
+    "index": "STOXX Europe 600",
+    "sector": "Insurance"
+  },
+  {
+    "ticker": "LR.PA",
+    "name": "Legrand",
+    "country": "France",
+    "index": "STOXX Europe 600",
+    "sector": "Industrial Goods and Services"
+  },
+  {
     "ticker": "LDO.MI",
-    "name": "Leonardo",
+    "name": "Leonardo S.p.A.",
     "country": "Italy",
     "index": "STOXX Europe 600",
     "sector": "Industrial Goods and Services"
   },
   {
-    "ticker": "LSG.OL",
-    "name": "Lerøy Seafood",
-    "country": "Norway",
+    "ticker": "LIFCO B.ST",
+    "name": "Lifco",
+    "country": "Sweden",
+    "index": "STOXX Europe 600",
+    "sector": "Industrial Goods and Services"
+  },
+  {
+    "ticker": "LISP.SW",
+    "name": "Lindt",
+    "country": "Switzerland",
     "index": "STOXX Europe 600",
     "sector": "Food, Beverage and Tobacco"
   },
   {
-    "ticker": "LII.L",
-    "name": "Liberty Global",
+    "ticker": "BGEO.L",
+    "name": "Lion Finance Group",
     "country": "United Kingdom",
     "index": "STOXX Europe 600",
-    "sector": "Telecommunications"
+    "sector": "Banks"
   },
   {
-    "ticker": "LIF.IR",
-    "name": "LifeCo",
-    "country": "Ireland",
-    "index": "STOXX Europe 600",
-    "sector": "Insurance"
-  },
-  {
-    "ticker": "LIN.L",
-    "name": "Linde plc",
+    "ticker": "LLOY.L",
+    "name": "Lloyds Banking Group",
     "country": "United Kingdom",
     "index": "STOXX Europe 600",
-    "sector": "Chemicals"
+    "sector": "Banks"
   },
   {
-    "ticker": "OR.PA",
-    "name": "L'Oréal",
-    "country": "France",
+    "ticker": "LOGN.SW",
+    "name": "Logitech",
+    "country": "Switzerland",
     "index": "STOXX Europe 600",
-    "sector": "Personal Care, Drug and Grocery Stores"
+    "sector": "Technology"
   },
   {
-    "ticker": "LHA.DE",
-    "name": "Lufthansa",
-    "country": "Germany",
+    "ticker": "LSEG.L",
+    "name": "London Stock Exchange",
+    "country": "United Kingdom",
+    "index": "STOXX Europe 600",
+    "sector": "Financial Services"
+  },
+  {
+    "ticker": "LMP.L",
+    "name": "LondonMetric Property",
+    "country": "United Kingdom",
+    "index": "STOXX Europe 600",
+    "sector": "Real Estate"
+  },
+  {
+    "ticker": "LONN.SW",
+    "name": "Lonza Group",
+    "country": "Switzerland",
+    "index": "STOXX Europe 600",
+    "sector": "Healthcare"
+  },
+  {
+    "ticker": "LOOMIS.ST",
+    "name": "Loomis",
+    "country": "Sweden",
+    "index": "STOXX Europe 600",
+    "sector": "Industrial Goods and Services"
+  },
+  {
+    "ticker": "LTMC.MI",
+    "name": "Lottomatica",
+    "country": "Italy",
     "index": "STOXX Europe 600",
     "sector": "Travel and Leisure"
   },
   {
-    "ticker": "LUMI.PA",
-    "name": "Lumibird",
-    "country": "France",
+    "ticker": "LOTB.BR",
+    "name": "Lotus Bakeries",
+    "country": "Belgium",
     "index": "STOXX Europe 600",
-    "sector": "Technology"
+    "sector": "Food, Beverage and Tobacco"
+  },
+  {
+    "ticker": "LPP.WA",
+    "name": "LPP",
+    "country": "Poland",
+    "index": "STOXX Europe 600",
+    "sector": "Consumer Products and Services"
+  },
+  {
+    "ticker": "LHA.DE",
+    "name": "Lufthansa Group",
+    "country": "Germany",
+    "index": "STOXX Europe 600",
+    "sector": "Travel and Leisure"
   },
   {
     "ticker": "MC.PA",
@@ -5180,6 +6118,13 @@
     "sector": "Consumer Products and Services"
   },
   {
+    "ticker": "MNG.L",
+    "name": "M&G",
+    "country": "United Kingdom",
+    "index": "STOXX Europe 600",
+    "sector": "Financial Services"
+  },
+  {
     "ticker": "MAERSK B.CO",
     "name": "Maersk",
     "country": "Denmark",
@@ -5187,32 +6132,53 @@
     "sector": "Industrial Goods and Services"
   },
   {
-    "ticker": "MAN.DE",
-    "name": "MAN SE",
-    "country": "Germany",
-    "index": "STOXX Europe 600",
-    "sector": "Industrial Goods and Services"
-  },
-  {
-    "ticker": "MB.MI",
-    "name": "Mediobanca",
-    "country": "Italy",
+    "ticker": "EMG.L",
+    "name": "Man Group",
+    "country": "United Kingdom",
     "index": "STOXX Europe 600",
     "sector": "Financial Services"
   },
   {
-    "ticker": "MELE.BR",
-    "name": "Melexis",
-    "country": "Belgium",
+    "ticker": "MANTA.HE",
+    "name": "Mandatum",
+    "country": "Finland",
     "index": "STOXX Europe 600",
-    "sector": "Technology"
+    "sector": "Financial Services"
   },
   {
-    "ticker": "MEL.MC",
-    "name": "Meliá Hotels",
-    "country": "Spain",
+    "ticker": "MKS.L",
+    "name": "Marks & Spencer",
+    "country": "United Kingdom",
     "index": "STOXX Europe 600",
-    "sector": "Travel and Leisure"
+    "sector": "Personal Care, Drug and Grocery Stores"
+  },
+  {
+    "ticker": "MBK.WA",
+    "name": "MBank",
+    "country": "Poland",
+    "index": "STOXX Europe 600",
+    "sector": "Banks"
+  },
+  {
+    "ticker": "MRO.L",
+    "name": "Melrose Industries",
+    "country": "United Kingdom",
+    "index": "STOXX Europe 600",
+    "sector": "Industrial Goods and Services"
+  },
+  {
+    "ticker": "MBG.DE",
+    "name": "Mercedes-Benz Group",
+    "country": "Germany",
+    "index": "STOXX Europe 600",
+    "sector": "Automobiles and Parts"
+  },
+  {
+    "ticker": "MRK.DE",
+    "name": "Merck Group",
+    "country": "Germany",
+    "index": "STOXX Europe 600",
+    "sector": "Healthcare"
   },
   {
     "ticker": "MRL.MC",
@@ -5229,18 +6195,25 @@
     "sector": "Industrial Goods and Services"
   },
   {
-    "ticker": "TIGO.ST",
-    "name": "Millicom",
-    "country": "Sweden",
+    "ticker": "ML.PA",
+    "name": "Michelin",
+    "country": "France",
     "index": "STOXX Europe 600",
-    "sector": "Telecommunications"
+    "sector": "Automobiles and Parts"
   },
   {
-    "ticker": "MCG.L",
-    "name": "Mobico Group",
+    "ticker": "MTO.L",
+    "name": "Mitie",
     "country": "United Kingdom",
     "index": "STOXX Europe 600",
-    "sector": "Travel and Leisure"
+    "sector": "Industrial Goods and Services"
+  },
+  {
+    "ticker": "MOBN.SW",
+    "name": "Mobimo Holding AG",
+    "country": "Switzerland",
+    "index": "STOXX Europe 600",
+    "sector": "Real Estate"
   },
   {
     "ticker": "MONC.MI",
@@ -5257,11 +6230,18 @@
     "sector": "Industrial Goods and Services"
   },
   {
-    "ticker": "MOR.DE",
-    "name": "MorphoSys",
+    "ticker": "MOWI.OL",
+    "name": "Mowi",
+    "country": "Norway",
+    "index": "STOXX Europe 600",
+    "sector": "Food, Beverage and Tobacco"
+  },
+  {
+    "ticker": "MTX.DE",
+    "name": "MTU Aero Engines",
     "country": "Germany",
     "index": "STOXX Europe 600",
-    "sector": "Health Care"
+    "sector": "Industrial Goods and Services"
   },
   {
     "ticker": "MUV2.DE",
@@ -5271,11 +6251,25 @@
     "sector": "Insurance"
   },
   {
-    "ticker": "MTX.DE",
-    "name": "MTU Aero Engines",
-    "country": "Germany",
+    "ticker": "MYCR.ST",
+    "name": "Mycronic",
+    "country": "Sweden",
     "index": "STOXX Europe 600",
-    "sector": "Industrial Goods and Services"
+    "sector": "Technology"
+  },
+  {
+    "ticker": "NG..L",
+    "name": "National Grid plc",
+    "country": "United Kingdom",
+    "index": "STOXX Europe 600",
+    "sector": "Utilities"
+  },
+  {
+    "ticker": "NTGY.MC",
+    "name": "Naturgy",
+    "country": "Spain",
+    "index": "STOXX Europe 600",
+    "sector": "Utilities"
   },
   {
     "ticker": "NWG.L",
@@ -5292,14 +6286,7 @@
     "sector": "Technology"
   },
   {
-    "ticker": "NEOEN.PA",
-    "name": "Neoen",
-    "country": "France",
-    "index": "STOXX Europe 600",
-    "sector": "Utilities"
-  },
-  {
-    "ticker": "NSN.HE",
+    "ticker": "NESTE.HE",
     "name": "Neste",
     "country": "Finland",
     "index": "STOXX Europe 600",
@@ -5327,11 +6314,25 @@
     "sector": "Industrial Goods and Services"
   },
   {
+    "ticker": "NXT.L",
+    "name": "Next plc",
+    "country": "United Kingdom",
+    "index": "STOXX Europe 600",
+    "sector": "Retail"
+  },
+  {
     "ticker": "NIBE B.ST",
     "name": "Nibe Industrier",
     "country": "Sweden",
     "index": "STOXX Europe 600",
     "sector": "Construction and Materials"
+  },
+  {
+    "ticker": "NKT.CO",
+    "name": "NKT A/S",
+    "country": "Denmark",
+    "index": "STOXX Europe 600",
+    "sector": "Industrial Goods and Services"
   },
   {
     "ticker": "NN.AS",
@@ -5345,7 +6346,7 @@
     "name": "Nokia",
     "country": "Finland",
     "index": "STOXX Europe 600",
-    "sector": "Technology"
+    "sector": "Telecommunications"
   },
   {
     "ticker": "NDA FI.HE",
@@ -5355,6 +6356,27 @@
     "sector": "Banks"
   },
   {
+    "ticker": "NDX1.DE",
+    "name": "Nordex",
+    "country": "Germany",
+    "index": "STOXX Europe 600",
+    "sector": "Energy"
+  },
+  {
+    "ticker": "NOD.OL",
+    "name": "Nordic Semiconductor",
+    "country": "Norway",
+    "index": "STOXX Europe 600",
+    "sector": "Technology"
+  },
+  {
+    "ticker": "SAVE.ST",
+    "name": "Nordnet",
+    "country": "Sweden",
+    "index": "STOXX Europe 600",
+    "sector": "Financial Services"
+  },
+  {
     "ticker": "NHY.OL",
     "name": "Norsk Hydro",
     "country": "Norway",
@@ -5362,39 +6384,32 @@
     "sector": "Basic Resources"
   },
   {
-    "ticker": "NOV N.SW",
+    "ticker": "NOVN.SW",
     "name": "Novartis",
     "country": "Switzerland",
     "index": "STOXX Europe 600",
-    "sector": "Health Care"
+    "sector": "Healthcare"
   },
   {
     "ticker": "NOVO B.CO",
     "name": "Novo Nordisk",
     "country": "Denmark",
     "index": "STOXX Europe 600",
-    "sector": "Health Care"
+    "sector": "Healthcare"
   },
   {
-    "ticker": "OCDO.L",
-    "name": "Ocado",
-    "country": "United Kingdom",
+    "ticker": "NSIS B.CO",
+    "name": "Novonesis",
+    "country": "Denmark",
     "index": "STOXX Europe 600",
-    "sector": "Retail"
+    "sector": "Healthcare"
   },
   {
-    "ticker": "OCI.AS",
-    "name": "OCI",
-    "country": "Netherlands",
+    "ticker": "OCTV SDB.ST",
+    "name": "Octave Intelligence Sdr PLC",
+    "country": "Sweden",
     "index": "STOXX Europe 600",
-    "sector": "Chemicals"
-  },
-  {
-    "ticker": "OERL.SW",
-    "name": "Oerlikon",
-    "country": "Switzerland",
-    "index": "STOXX Europe 600",
-    "sector": "Industrial Goods and Services"
+    "sector": "Technology"
   },
   {
     "ticker": "OMV.VI",
@@ -5404,18 +6419,18 @@
     "sector": "Energy"
   },
   {
-    "ticker": "ONT.BR",
-    "name": "Ontex",
-    "country": "Belgium",
-    "index": "STOXX Europe 600",
-    "sector": "Personal Care, Drug and Grocery Stores"
-  },
-  {
     "ticker": "ORA.PA",
-    "name": "Orange S.A.",
+    "name": "Orange Group",
     "country": "France",
     "index": "STOXX Europe 600",
     "sector": "Telecommunications"
+  },
+  {
+    "ticker": "ORNBV.HE",
+    "name": "Orion Corporation",
+    "country": "Finland",
+    "index": "STOXX Europe 600",
+    "sector": "Healthcare"
   },
   {
     "ticker": "ORK.OL",
@@ -5425,6 +6440,13 @@
     "sector": "Food, Beverage and Tobacco"
   },
   {
+    "ticker": "PKN.WA",
+    "name": "Orlen",
+    "country": "Poland",
+    "index": "STOXX Europe 600",
+    "sector": "Energy"
+  },
+  {
     "ticker": "ORSTED.CO",
     "name": "Ørsted",
     "country": "Denmark",
@@ -5432,39 +6454,158 @@
     "sector": "Utilities"
   },
   {
-    "ticker": "PANDORA.CO",
+    "ticker": "PAF.L",
+    "name": "Pan African Resources",
+    "country": "United Kingdom",
+    "index": "STOXX Europe 600",
+    "sector": "Basic Resources"
+  },
+  {
+    "ticker": "PNDORA.CO",
     "name": "Pandora",
     "country": "Denmark",
     "index": "STOXX Europe 600",
     "sector": "Consumer Products and Services"
   },
   {
-    "ticker": "PBB.DE",
-    "name": "Deutsche Pfandbriefbank",
-    "country": "Germany",
+    "ticker": "PGHN.SW",
+    "name": "Partners Group",
+    "country": "Switzerland",
+    "index": "STOXX Europe 600",
+    "sector": "Financial Services"
+  },
+  {
+    "ticker": "PSON.L",
+    "name": "Pearson plc",
+    "country": "United Kingdom",
+    "index": "STOXX Europe 600",
+    "sector": "Media"
+  },
+  {
+    "ticker": "PNN.L",
+    "name": "Pennon Group",
+    "country": "United Kingdom",
+    "index": "STOXX Europe 600",
+    "sector": "Utilities"
+  },
+  {
+    "ticker": "RI.PA",
+    "name": "Pernod Ricard",
+    "country": "France",
+    "index": "STOXX Europe 600",
+    "sector": "Food, Beverage and Tobacco"
+  },
+  {
+    "ticker": "PSN.L",
+    "name": "Persimmon plc",
+    "country": "United Kingdom",
+    "index": "STOXX Europe 600",
+    "sector": "Consumer Products and Services"
+  },
+  {
+    "ticker": "PHIA.AS",
+    "name": "Philips",
+    "country": "Netherlands",
+    "index": "STOXX Europe 600",
+    "sector": "Healthcare"
+  },
+  {
+    "ticker": "PIRC.MI",
+    "name": "Pirelli",
+    "country": "Italy",
+    "index": "STOXX Europe 600",
+    "sector": "Automobiles and Parts"
+  },
+  {
+    "ticker": "PKO.WA",
+    "name": "PKO Bank Polski",
+    "country": "Poland",
     "index": "STOXX Europe 600",
     "sector": "Banks"
   },
   {
+    "ticker": "PLUS.L",
+    "name": "Plus500",
+    "country": "United Kingdom",
+    "index": "STOXX Europe 600",
+    "sector": "Financial Services"
+  },
+  {
     "ticker": "P911.DE",
-    "name": "Porsche",
+    "name": "Porsche (preferred shares)",
     "country": "Germany",
     "index": "STOXX Europe 600",
     "sector": "Automobiles and Parts"
   },
   {
-    "ticker": "PNL.AS",
-    "name": "PostNL",
+    "ticker": "PAH3.DE",
+    "name": "Porsche SE (preferred shares)",
+    "country": "Germany",
+    "index": "STOXX Europe 600",
+    "sector": "Automobiles and Parts"
+  },
+  {
+    "ticker": "PST.MI",
+    "name": "Poste Italiane",
+    "country": "Italy",
+    "index": "STOXX Europe 600",
+    "sector": "Financial Services"
+  },
+  {
+    "ticker": "PZU.WA",
+    "name": "Powszechny Zakład Ubezpieczeń",
+    "country": "Poland",
+    "index": "STOXX Europe 600",
+    "sector": "Insurance"
+  },
+  {
+    "ticker": "PHP.L",
+    "name": "Primary Health Properties",
+    "country": "United Kingdom",
+    "index": "STOXX Europe 600",
+    "sector": "Real Estate"
+  },
+  {
+    "ticker": "PRX.AS",
+    "name": "Prosus",
     "country": "Netherlands",
+    "index": "STOXX Europe 600",
+    "sector": "Technology"
+  },
+  {
+    "ticker": "PRU.L",
+    "name": "Prudential plc",
+    "country": "United Kingdom",
+    "index": "STOXX Europe 600",
+    "sector": "Insurance"
+  },
+  {
+    "ticker": "PRY.MI",
+    "name": "Prysmian Group",
+    "country": "Italy",
     "index": "STOXX Europe 600",
     "sector": "Industrial Goods and Services"
   },
   {
-    "ticker": "PSN.PA",
+    "ticker": "PSPN.SW",
+    "name": "PSP Swiss Property",
+    "country": "Switzerland",
+    "index": "STOXX Europe 600",
+    "sector": "Real Estate"
+  },
+  {
+    "ticker": "PUB.PA",
     "name": "Publicis",
     "country": "France",
     "index": "STOXX Europe 600",
     "sector": "Media"
+  },
+  {
+    "ticker": "PUIG.MC",
+    "name": "Puig",
+    "country": "Spain",
+    "index": "STOXX Europe 600",
+    "sector": "Consumer Products and Services"
   },
   {
     "ticker": "PUM.DE",
@@ -5474,11 +6615,25 @@
     "sector": "Consumer Products and Services"
   },
   {
-    "ticker": "QIA.AS",
+    "ticker": "QIA.DE",
     "name": "Qiagen",
-    "country": "Netherlands",
+    "country": "Germany",
     "index": "STOXX Europe 600",
-    "sector": "Health Care"
+    "sector": "Healthcare"
+  },
+  {
+    "ticker": "QQ..L",
+    "name": "Qinetiq",
+    "country": "United Kingdom",
+    "index": "STOXX Europe 600",
+    "sector": "Industrial Goods and Services"
+  },
+  {
+    "ticker": "QLT.L",
+    "name": "Quilter plc",
+    "country": "United Kingdom",
+    "index": "STOXX Europe 600",
+    "sector": "Financial Services"
   },
   {
     "ticker": "RBI.VI",
@@ -5488,11 +6643,81 @@
     "sector": "Banks"
   },
   {
+    "ticker": "RAA.DE",
+    "name": "Rational AG",
+    "country": "Germany",
+    "index": "STOXX Europe 600",
+    "sector": "Consumer Products and Services"
+  },
+  {
+    "ticker": "RKT.L",
+    "name": "Reckitt",
+    "country": "United Kingdom",
+    "index": "STOXX Europe 600",
+    "sector": "Personal Care, Drug and Grocery Stores"
+  },
+  {
     "ticker": "REC.MI",
     "name": "Recordati",
     "country": "Italy",
     "index": "STOXX Europe 600",
-    "sector": "Health Care"
+    "sector": "Healthcare"
+  },
+  {
+    "ticker": "RED.MC",
+    "name": "Red Eléctrica de España",
+    "country": "Spain",
+    "index": "STOXX Europe 600",
+    "sector": "Utilities"
+  },
+  {
+    "ticker": "REL.L",
+    "name": "RELX",
+    "country": "United Kingdom",
+    "index": "STOXX Europe 600",
+    "sector": "Technology"
+  },
+  {
+    "ticker": "RNO.PA",
+    "name": "Renault",
+    "country": "France",
+    "index": "STOXX Europe 600",
+    "sector": "Automobiles and Parts"
+  },
+  {
+    "ticker": "R3NK.DE",
+    "name": "Renk",
+    "country": "Germany",
+    "index": "STOXX Europe 600",
+    "sector": "Industrial Goods and Services"
+  },
+  {
+    "ticker": "RTO.L",
+    "name": "Rentokil Initial",
+    "country": "United Kingdom",
+    "index": "STOXX Europe 600",
+    "sector": "Industrial Goods and Services"
+  },
+  {
+    "ticker": "REY.MI",
+    "name": "Reply",
+    "country": "Italy",
+    "index": "STOXX Europe 600",
+    "sector": "Technology"
+  },
+  {
+    "ticker": "REP.MC",
+    "name": "Repsol",
+    "country": "Spain",
+    "index": "STOXX Europe 600",
+    "sector": "Energy"
+  },
+  {
+    "ticker": "RXL.PA",
+    "name": "Rexel",
+    "country": "France",
+    "index": "STOXX Europe 600",
+    "sector": "Industrial Goods and Services"
   },
   {
     "ticker": "RHM.DE",
@@ -5502,13 +6727,6 @@
     "sector": "Industrial Goods and Services"
   },
   {
-    "ticker": "RIGN.SW",
-    "name": "Transocean",
-    "country": "Switzerland",
-    "index": "STOXX Europe 600",
-    "sector": "Energy"
-  },
-  {
     "ticker": "CFR.SW",
     "name": "Richemont",
     "country": "Switzerland",
@@ -5516,18 +6734,81 @@
     "sector": "Consumer Products and Services"
   },
   {
-    "ticker": "ROG.SW",
-    "name": "Roche Holding",
-    "country": "Switzerland",
+    "ticker": "RMV.L",
+    "name": "Rightmove",
+    "country": "United Kingdom",
     "index": "STOXX Europe 600",
-    "sector": "Health Care"
+    "sector": "Real Estate"
   },
   {
-    "ticker": "ROL.L",
-    "name": "Royal Mail",
+    "ticker": "RILBA.CO",
+    "name": "Ringkjobing Landbobank",
+    "country": "Denmark",
+    "index": "STOXX Europe 600",
+    "sector": "Banks"
+  },
+  {
+    "ticker": "RIO.L",
+    "name": "Rio Tinto",
+    "country": "United Kingdom",
+    "index": "STOXX Europe 600",
+    "sector": "Basic Resources"
+  },
+  {
+    "ticker": "ROP.SW",
+    "name": "Roche",
+    "country": "Switzerland",
+    "index": "STOXX Europe 600",
+    "sector": "Healthcare"
+  },
+  {
+    "ticker": "ROCK B.CO",
+    "name": "Rockwool International",
+    "country": "Denmark",
+    "index": "STOXX Europe 600",
+    "sector": "Construction and Materials"
+  },
+  {
+    "ticker": "RR..L",
+    "name": "Rolls-Royce Holdings",
     "country": "United Kingdom",
     "index": "STOXX Europe 600",
     "sector": "Industrial Goods and Services"
+  },
+  {
+    "ticker": "ROSE.L",
+    "name": "Rosebank Industries",
+    "country": "United Kingdom",
+    "index": "STOXX Europe 600",
+    "sector": "Industrial Goods and Services"
+  },
+  {
+    "ticker": "ROR.L",
+    "name": "Rotork",
+    "country": "United Kingdom",
+    "index": "STOXX Europe 600",
+    "sector": "Industrial Goods and Services"
+  },
+  {
+    "ticker": "RBREW.CO",
+    "name": "Royal Unibrew",
+    "country": "Denmark",
+    "index": "STOXX Europe 600",
+    "sector": "Food, Beverage and Tobacco"
+  },
+  {
+    "ticker": "RS1.L",
+    "name": "RS Group plc",
+    "country": "United Kingdom",
+    "index": "STOXX Europe 600",
+    "sector": "Industrial Goods and Services"
+  },
+  {
+    "ticker": "RUI.PA",
+    "name": "Rubis",
+    "country": "France",
+    "index": "STOXX Europe 600",
+    "sector": "Retail"
   },
   {
     "ticker": "RWE.DE",
@@ -5537,6 +6818,41 @@
     "sector": "Utilities"
   },
   {
+    "ticker": "RYA.IR",
+    "name": "Ryanair",
+    "country": "Ireland",
+    "index": "STOXX Europe 600",
+    "sector": "Travel and Leisure"
+  },
+  {
+    "ticker": "SAAB B.ST",
+    "name": "Saab AB",
+    "country": "Sweden",
+    "index": "STOXX Europe 600",
+    "sector": "Industrial Goods and Services"
+  },
+  {
+    "ticker": "SCYR.MC",
+    "name": "Sacyr",
+    "country": "Spain",
+    "index": "STOXX Europe 600",
+    "sector": "Construction and Materials"
+  },
+  {
+    "ticker": "SAF.PA",
+    "name": "Safran",
+    "country": "France",
+    "index": "STOXX Europe 600",
+    "sector": "Industrial Goods and Services"
+  },
+  {
+    "ticker": "SAGA B.ST",
+    "name": "Sagax",
+    "country": "Sweden",
+    "index": "STOXX Europe 600",
+    "sector": "Real Estate"
+  },
+  {
     "ticker": "SGE.L",
     "name": "Sage Group",
     "country": "United Kingdom",
@@ -5544,11 +6860,25 @@
     "sector": "Technology"
   },
   {
+    "ticker": "SBRY.L",
+    "name": "Sainsbury's",
+    "country": "United Kingdom",
+    "index": "STOXX Europe 600",
+    "sector": "Personal Care, Drug and Grocery Stores"
+  },
+  {
     "ticker": "SGO.PA",
     "name": "Saint-Gobain",
     "country": "France",
     "index": "STOXX Europe 600",
     "sector": "Construction and Materials"
+  },
+  {
+    "ticker": "SPM.MI",
+    "name": "Saipem",
+    "country": "Italy",
+    "index": "STOXX Europe 600",
+    "sector": "Energy"
   },
   {
     "ticker": "SALM.OL",
@@ -5565,18 +6895,25 @@
     "sector": "Insurance"
   },
   {
+    "ticker": "SDZ.SW",
+    "name": "Sandoz",
+    "country": "Switzerland",
+    "index": "STOXX Europe 600",
+    "sector": "Healthcare"
+  },
+  {
+    "ticker": "SAND.ST",
+    "name": "Sandvik",
+    "country": "Sweden",
+    "index": "STOXX Europe 600",
+    "sector": "Industrial Goods and Services"
+  },
+  {
     "ticker": "SAN.PA",
     "name": "Sanofi",
     "country": "France",
     "index": "STOXX Europe 600",
-    "sector": "Health Care"
-  },
-  {
-    "ticker": "SANO.HE",
-    "name": "Sanoma",
-    "country": "Finland",
-    "index": "STOXX Europe 600",
-    "sector": "Media"
+    "sector": "Healthcare"
   },
   {
     "ticker": "SAP.DE",
@@ -5586,9 +6923,30 @@
     "sector": "Technology"
   },
   {
-    "ticker": "SECU B.ST",
-    "name": "Securitas AB",
+    "ticker": "SRT3.DE",
+    "name": "Sartorius AG (preferred shares)",
+    "country": "Germany",
+    "index": "STOXX Europe 600",
+    "sector": "Healthcare"
+  },
+  {
+    "ticker": "DIM.PA",
+    "name": "Sartorius Stedim Biotech SA",
+    "country": "France",
+    "index": "STOXX Europe 600",
+    "sector": "Healthcare"
+  },
+  {
+    "ticker": "SCA B.ST",
+    "name": "SCA",
     "country": "Sweden",
+    "index": "STOXX Europe 600",
+    "sector": "Basic Resources"
+  },
+  {
+    "ticker": "SCHP.SW",
+    "name": "Schindler Group",
+    "country": "Switzerland",
     "index": "STOXX Europe 600",
     "sector": "Industrial Goods and Services"
   },
@@ -5607,494 +6965,46 @@
     "sector": "Insurance"
   },
   {
-    "ticker": "SGSN.SW",
-    "name": "SGS S.A.",
-    "country": "Switzerland",
-    "index": "STOXX Europe 600",
-    "sector": "Industrial Goods and Services"
-  },
-  {
-    "ticker": "SHEL.L",
-    "name": "Shell plc",
-    "country": "United Kingdom",
-    "index": "STOXX Europe 600",
-    "sector": "Energy"
-  },
-  {
-    "ticker": "SIE.DE",
-    "name": "Siemens",
-    "country": "Germany",
-    "index": "STOXX Europe 600",
-    "sector": "Industrial Goods and Services"
-  },
-  {
-    "ticker": "SIG.SW",
-    "name": "SIG Group",
-    "country": "Switzerland",
-    "index": "STOXX Europe 600",
-    "sector": "Industrial Goods and Services"
-  },
-  {
-    "ticker": "SEB.ST",
-    "name": "Skandinaviska Enskilda Banken",
-    "country": "Sweden",
-    "index": "STOXX Europe 600",
-    "sector": "Banks"
-  },
-  {
-    "ticker": "SKA B.ST",
-    "name": "Skanska",
-    "country": "Sweden",
-    "index": "STOXX Europe 600",
-    "sector": "Construction and Materials"
-  },
-  {
-    "ticker": "SKF-B.ST",
-    "name": "SKF",
-    "country": "Sweden",
-    "index": "STOXX Europe 600",
-    "sector": "Industrial Goods and Services"
-  },
-  {
-    "ticker": "SKY.L",
-    "name": "Sky Group",
-    "country": "United Kingdom",
-    "index": "STOXX Europe 600",
-    "sector": "Media"
-  },
-  {
-    "ticker": "SN.L",
-    "name": "Smith & Nephew",
-    "country": "United Kingdom",
-    "index": "STOXX Europe 600",
-    "sector": "Health Care"
-  },
-  {
-    "ticker": "SOLB.BR",
-    "name": "Solvay",
-    "country": "Belgium",
-    "index": "STOXX Europe 600",
-    "sector": "Chemicals"
-  },
-  {
-    "ticker": "SSE.L",
-    "name": "SSE plc",
-    "country": "United Kingdom",
-    "index": "STOXX Europe 600",
-    "sector": "Utilities"
-  },
-  {
-    "ticker": "SRB.OL",
-    "name": "Storebrand",
-    "country": "Norway",
-    "index": "STOXX Europe 600",
-    "sector": "Insurance"
-  },
-  {
-    "ticker": "STER.HE",
-    "name": "Stora Enso",
-    "country": "Finland",
-    "index": "STOXX Europe 600",
-    "sector": "Basic Resources"
-  },
-  {
-    "ticker": "STMPA.SW",
-    "name": "STMicroelectronics",
-    "country": "Switzerland",
-    "index": "STOXX Europe 600",
-    "sector": "Technology"
-  },
-  {
-    "ticker": "SWED A.ST",
-    "name": "Swedbank",
-    "country": "Sweden",
-    "index": "STOXX Europe 600",
-    "sector": "Banks"
-  },
-  {
-    "ticker": "SWMA.ST",
-    "name": "Swedish Match",
-    "country": "Sweden",
-    "index": "STOXX Europe 600",
-    "sector": "Food, Beverage and Tobacco"
-  },
-  {
-    "ticker": "SCMN.SW",
-    "name": "Swisscom",
-    "country": "Switzerland",
-    "index": "STOXX Europe 600",
-    "sector": "Telecommunications"
-  },
-  {
-    "ticker": "SHB B.ST",
-    "name": "Svenska Handelsbanken",
-    "country": "Sweden",
-    "index": "STOXX Europe 600",
-    "sector": "Banks"
-  },
-  {
-    "ticker": "SY1.DE",
-    "name": "Symrise",
-    "country": "Germany",
-    "index": "STOXX Europe 600",
-    "sector": "Chemicals"
-  },
-  {
-    "ticker": "TATE.L",
-    "name": "Tate & Lyle",
-    "country": "United Kingdom",
-    "index": "STOXX Europe 600",
-    "sector": "Food, Beverage and Tobacco"
-  },
-  {
-    "ticker": "TJW.L",
-    "name": "Taylor Wimpey",
-    "country": "United Kingdom",
-    "index": "STOXX Europe 600",
-    "sector": "Consumer Products and Services"
-  },
-  {
-    "ticker": "TELIA.ST",
-    "name": "Telia Company",
-    "country": "Sweden",
-    "index": "STOXX Europe 600",
-    "sector": "Telecommunications"
-  },
-  {
-    "ticker": "TIT.MI",
-    "name": "Telecom Italia",
-    "country": "Italy",
-    "index": "STOXX Europe 600",
-    "sector": "Telecommunications"
-  },
-  {
-    "ticker": "TEL2-B.ST",
-    "name": "Tele2",
-    "country": "Sweden",
-    "index": "STOXX Europe 600",
-    "sector": "Telecommunications"
-  },
-  {
-    "ticker": "TEL.OL",
-    "name": "Telenor",
-    "country": "Norway",
-    "index": "STOXX Europe 600",
-    "sector": "Telecommunications"
-  },
-  {
-    "ticker": "TEMN.SW",
-    "name": "Temenos Group",
-    "country": "Switzerland",
-    "index": "STOXX Europe 600",
-    "sector": "Technology"
-  },
-  {
-    "ticker": "TRN.MI",
-    "name": "Terna",
-    "country": "Italy",
-    "index": "STOXX Europe 600",
-    "sector": "Utilities"
-  },
-  {
-    "ticker": "TSCO.L",
-    "name": "Tesco",
-    "country": "United Kingdom",
-    "index": "STOXX Europe 600",
-    "sector": "Retail"
-  },
-  {
-    "ticker": "TKA.DE",
-    "name": "ThyssenKrupp",
-    "country": "Germany",
-    "index": "STOXX Europe 600",
-    "sector": "Industrial Goods and Services"
-  },
-  {
-    "ticker": "TOM.AS",
-    "name": "TomTom",
-    "country": "Netherlands",
-    "index": "STOXX Europe 600",
-    "sector": "Technology"
-  },
-  {
-    "ticker": "TTE.PA",
-    "name": "TotalEnergies",
-    "country": "France",
-    "index": "STOXX Europe 600",
-    "sector": "Energy"
-  },
-  {
-    "ticker": "TRYG.CO",
-    "name": "Tryg",
-    "country": "Denmark",
-    "index": "STOXX Europe 600",
-    "sector": "Insurance"
-  },
-  {
-    "ticker": "TUI.DE",
-    "name": "TUI Group",
-    "country": "Germany",
-    "index": "STOXX Europe 600",
-    "sector": "Travel and Leisure"
-  },
-  {
-    "ticker": "UMI.BR",
-    "name": "Umicore",
-    "country": "Belgium",
-    "index": "STOXX Europe 600",
-    "sector": "Chemicals"
-  },
-  {
-    "ticker": "UC.MI",
-    "name": "UniCredit",
-    "country": "Italy",
-    "index": "STOXX Europe 600",
-    "sector": "Banks"
-  },
-  {
-    "ticker": "ULVR.L",
-    "name": "Unilever",
-    "country": "United Kingdom",
-    "index": "STOXX Europe 600",
-    "sector": "Personal Care, Drug and Grocery Stores"
-  },
-  {
-    "ticker": "UPW.L",
-    "name": "United Utilities",
-    "country": "United Kingdom",
-    "index": "STOXX Europe 600",
-    "sector": "Utilities"
-  },
-  {
-    "ticker": "UMG.AS",
-    "name": "Universal Music Group",
-    "country": "Netherlands",
-    "index": "STOXX Europe 600",
-    "sector": "Media"
-  },
-  {
-    "ticker": "VALMT.HE",
-    "name": "Valmet",
-    "country": "Finland",
-    "index": "STOXX Europe 600",
-    "sector": "Industrial Goods and Services"
-  },
-  {
-    "ticker": "VACN.SW",
-    "name": "VAT Group",
-    "country": "Switzerland",
-    "index": "STOXX Europe 600",
-    "sector": "Industrial Goods and Services"
-  },
-  {
-    "ticker": "VESTAS.CO",
-    "name": "Vestas",
-    "country": "Denmark",
-    "index": "STOXX Europe 600",
-    "sector": "Energy"
-  },
-  {
-    "ticker": "VIV.PA",
-    "name": "Vivendi",
-    "country": "France",
-    "index": "STOXX Europe 600",
-    "sector": "Media"
-  },
-  {
-    "ticker": "VOD.L",
-    "name": "Vodafone",
-    "country": "United Kingdom",
-    "index": "STOXX Europe 600",
-    "sector": "Telecommunications"
-  },
-  {
-    "ticker": "VOLV B.ST",
-    "name": "Volvo Group",
-    "country": "Sweden",
-    "index": "STOXX Europe 600",
-    "sector": "Industrial Goods and Services"
-  },
-  {
-    "ticker": "VNA.DE",
-    "name": "Vonovia",
-    "country": "Germany",
-    "index": "STOXX Europe 600",
-    "sector": "Real Estate"
-  },
-  {
-    "ticker": "WTB.L",
-    "name": "Whitbread",
-    "country": "United Kingdom",
-    "index": "STOXX Europe 600",
-    "sector": "Travel and Leisure"
-  },
-  {
-    "ticker": "WKL.AS",
-    "name": "Wolters Kluwer",
-    "country": "Netherlands",
-    "index": "STOXX Europe 600",
-    "sector": "Media"
-  },
-  {
-    "ticker": "WPP.L",
-    "name": "WPP",
-    "country": "United Kingdom",
-    "index": "STOXX Europe 600",
-    "sector": "Media"
-  },
-  {
-    "ticker": "PSON.L",
-    "name": "Pearson",
-    "country": "United Kingdom",
-    "index": "STOXX Europe 600",
-    "sector": "Media"
-  },
-  {
-    "ticker": "PNN.L",
-    "name": "Pennon Group",
-    "country": "United Kingdom",
-    "index": "STOXX Europe 600",
-    "sector": "Utilities"
-  },
-  {
-    "ticker": "PIRC.MI",
-    "name": "Pirelli",
-    "country": "Italy",
-    "index": "STOXX Europe 600",
-    "sector": "Automobiles and Parts"
-  },
-  {
-    "ticker": "PLPH.SW",
-    "name": "PolyPeptide",
-    "country": "Switzerland",
-    "index": "STOXX Europe 600",
-    "sector": "Health Care"
-  },
-  {
-    "ticker": "PAH3.DE",
-    "name": "Porsche SE",
-    "country": "Germany",
-    "index": "STOXX Europe 600",
-    "sector": "Automobiles and Parts"
-  },
-  {
-    "ticker": "PST.MI",
-    "name": "Poste Italiane",
-    "country": "Italy",
-    "index": "STOXX Europe 600",
-    "sector": "Insurance"
-  },
-  {
-    "ticker": "PROX.BR",
-    "name": "Proximus",
-    "country": "Belgium",
-    "index": "STOXX Europe 600",
-    "sector": "Telecommunications"
-  },
-  {
-    "ticker": "PRY.MI",
-    "name": "Prysmian",
-    "country": "Italy",
-    "index": "STOXX Europe 600",
-    "sector": "Industrial Goods and Services"
-  },
-  {
-    "ticker": "QLT.L",
-    "name": "Quilter",
-    "country": "United Kingdom",
-    "index": "STOXX Europe 600",
-    "sector": "Financial Services"
-  },
-  {
-    "ticker": "FRA.DE",
-    "name": "Rational",
-    "country": "Germany",
-    "index": "STOXX Europe 600",
-    "sector": "Industrial Goods and Services"
-  },
-  {
-    "ticker": "REL.L",
-    "name": "RELX",
-    "country": "United Kingdom",
-    "index": "STOXX Europe 600",
-    "sector": "Media"
-  },
-  {
-    "ticker": "RCO.PA",
-    "name": "Rémy Cointreau",
-    "country": "France",
-    "index": "STOXX Europe 600",
-    "sector": "Food, Beverage and Tobacco"
-  },
-  {
-    "ticker": "RNO.PA",
-    "name": "Renault",
-    "country": "France",
-    "index": "STOXX Europe 600",
-    "sector": "Automobiles and Parts"
-  },
-  {
-    "ticker": "RTO.L",
-    "name": "Rentokil Initial",
-    "country": "United Kingdom",
-    "index": "STOXX Europe 600",
-    "sector": "Industrial Goods and Services"
-  },
-  {
-    "ticker": "RXL.PA",
-    "name": "Rexel",
-    "country": "France",
-    "index": "STOXX Europe 600",
-    "sector": "Industrial Goods and Services"
-  },
-  {
-    "ticker": "RMV.L",
-    "name": "Rightmove",
-    "country": "United Kingdom",
-    "index": "STOXX Europe 600",
-    "sector": "Real Estate"
-  },
-  {
-    "ticker": "S4.L",
-    "name": "S4 Capital",
-    "country": "United Kingdom",
-    "index": "STOXX Europe 600",
-    "sector": "Media"
-  },
-  {
-    "ticker": "SDZ.SW",
-    "name": "Sandoz",
-    "country": "Switzerland",
-    "index": "STOXX Europe 600",
-    "sector": "Health Care"
-  },
-  {
-    "ticker": "SRT3.DE",
-    "name": "Sartorius",
-    "country": "Germany",
-    "index": "STOXX Europe 600",
-    "sector": "Health Care"
-  },
-  {
-    "ticker": "SCHA.OL",
-    "name": "Schibsted",
-    "country": "Norway",
-    "index": "STOXX Europe 600",
-    "sector": "Media"
-  },
-  {
-    "ticker": "SDR.L",
-    "name": "Schroders",
-    "country": "United Kingdom",
-    "index": "STOXX Europe 600",
-    "sector": "Financial Services"
-  },
-  {
     "ticker": "G24.DE",
     "name": "Scout24",
     "country": "Germany",
     "index": "STOXX Europe 600",
     "sector": "Technology"
+  },
+  {
+    "ticker": "SEB A.ST",
+    "name": "SEB Group",
+    "country": "Sweden",
+    "index": "STOXX Europe 600",
+    "sector": "Banks"
+  },
+  {
+    "ticker": "SECT B.ST",
+    "name": "Sectra AB",
+    "country": "Sweden",
+    "index": "STOXX Europe 600",
+    "sector": "Healthcare"
+  },
+  {
+    "ticker": "SECU B.ST",
+    "name": "Securitas AB",
+    "country": "Sweden",
+    "index": "STOXX Europe 600",
+    "sector": "Industrial Goods and Services"
+  },
+  {
+    "ticker": "SGRO.L",
+    "name": "Segro",
+    "country": "United Kingdom",
+    "index": "STOXX Europe 600",
+    "sector": "Real Estate"
+  },
+  {
+    "ticker": "SRP.L",
+    "name": "Serco",
+    "country": "United Kingdom",
+    "index": "STOXX Europe 600",
+    "sector": "Industrial Goods and Services"
   },
   {
     "ticker": "SVT.L",
@@ -6104,23 +7014,100 @@
     "sector": "Utilities"
   },
   {
-    "ticker": "LIGHT.AS",
-    "name": "Signify",
-    "country": "Netherlands",
+    "ticker": "SFSN.SW",
+    "name": "SFS Group",
+    "country": "Switzerland",
+    "index": "STOXX Europe 600",
+    "sector": "Industrial Goods and Services"
+  },
+  {
+    "ticker": "SGSN.SW",
+    "name": "SGS S.A.",
+    "country": "Switzerland",
+    "index": "STOXX Europe 600",
+    "sector": "Industrial Goods and Services"
+  },
+  {
+    "ticker": "SHC.L",
+    "name": "Shaftesbury Capital",
+    "country": "United Kingdom",
+    "index": "STOXX Europe 600",
+    "sector": "Real Estate"
+  },
+  {
+    "ticker": "SHEL.L",
+    "name": "Shell plc",
+    "country": "United Kingdom",
+    "index": "STOXX Europe 600",
+    "sector": "Energy"
+  },
+  {
+    "ticker": "SFZN.SW",
+    "name": "Siegfried Holding AG",
+    "country": "Switzerland",
+    "index": "STOXX Europe 600",
+    "sector": "Healthcare"
+  },
+  {
+    "ticker": "SIE.DE",
+    "name": "Siemens",
+    "country": "Germany",
+    "index": "STOXX Europe 600",
+    "sector": "Industrial Goods and Services"
+  },
+  {
+    "ticker": "ENR.DE",
+    "name": "Siemens Energy",
+    "country": "Germany",
+    "index": "STOXX Europe 600",
+    "sector": "Energy"
+  },
+  {
+    "ticker": "SHL.DE",
+    "name": "Siemens Healthineers",
+    "country": "Germany",
+    "index": "STOXX Europe 600",
+    "sector": "Healthcare"
+  },
+  {
+    "ticker": "SIGN.SW",
+    "name": "SIG Group",
+    "country": "Switzerland",
+    "index": "STOXX Europe 600",
+    "sector": "Industrial Goods and Services"
+  },
+  {
+    "ticker": "SIKA.SW",
+    "name": "Sika AG",
+    "country": "Switzerland",
     "index": "STOXX Europe 600",
     "sector": "Construction and Materials"
   },
   {
-    "ticker": "SIX2.DE",
-    "name": "Sixt",
-    "country": "Germany",
+    "ticker": "SKA B.ST",
+    "name": "Skanska",
+    "country": "Sweden",
     "index": "STOXX Europe 600",
-    "sector": "Consumer Products and Services"
+    "sector": "Construction and Materials"
   },
   {
-    "ticker": "SKG.IR",
-    "name": "Smurfit Kappa",
-    "country": "Ireland",
+    "ticker": "SKF B.ST",
+    "name": "SKF",
+    "country": "Sweden",
+    "index": "STOXX Europe 600",
+    "sector": "Basic Resources"
+  },
+  {
+    "ticker": "SN..L",
+    "name": "Smith & Nephew",
+    "country": "United Kingdom",
+    "index": "STOXX Europe 600",
+    "sector": "Healthcare"
+  },
+  {
+    "ticker": "SMIN.L",
+    "name": "Smiths Group",
+    "country": "United Kingdom",
     "index": "STOXX Europe 600",
     "sector": "Industrial Goods and Services"
   },
@@ -6146,6 +7133,13 @@
     "sector": "Travel and Leisure"
   },
   {
+    "ticker": "SOF.BR",
+    "name": "Sofina",
+    "country": "Belgium",
+    "index": "STOXX Europe 600",
+    "sector": "Financial Services"
+  },
+  {
     "ticker": "SCT.L",
     "name": "Softcat",
     "country": "United Kingdom",
@@ -6153,29 +7147,71 @@
     "sector": "Technology"
   },
   {
-    "ticker": "SOW.DE",
-    "name": "Software",
-    "country": "Germany",
+    "ticker": "SOI.PA",
+    "name": "Soitec",
+    "country": "France",
     "index": "STOXX Europe 600",
     "sector": "Technology"
   },
   {
-    "ticker": "SXS.L",
-    "name": "Spectris",
-    "country": "United Kingdom",
+    "ticker": "SOON.SW",
+    "name": "Sonova",
+    "country": "Switzerland",
     "index": "STOXX Europe 600",
-    "sector": "Industrial Goods and Services"
+    "sector": "Healthcare"
+  },
+  {
+    "ticker": "SOP.PA",
+    "name": "Sopra Steria",
+    "country": "France",
+    "index": "STOXX Europe 600",
+    "sector": "Technology"
+  },
+  {
+    "ticker": "SB1NO.OL",
+    "name": "SpareBank 1 Sør-Norge",
+    "country": "Norway",
+    "index": "STOXX Europe 600",
+    "sector": "Banks"
+  },
+  {
+    "ticker": "SBNOR.OL",
+    "name": "Sparebanken Vest",
+    "country": "Norway",
+    "index": "STOXX Europe 600",
+    "sector": "Banks"
+  },
+  {
+    "ticker": "SPIE.PA",
+    "name": "SPIE",
+    "country": "France",
+    "index": "STOXX Europe 600",
+    "sector": "Construction and Materials"
   },
   {
     "ticker": "SPX.L",
-    "name": "Spirax-Sarco Engineering",
+    "name": "Spirax Group",
     "country": "United Kingdom",
     "index": "STOXX Europe 600",
     "sector": "Industrial Goods and Services"
   },
   {
+    "ticker": "SSAB B.ST",
+    "name": "SSAB",
+    "country": "Sweden",
+    "index": "STOXX Europe 600",
+    "sector": "Basic Resources"
+  },
+  {
+    "ticker": "SSE.L",
+    "name": "SSE plc",
+    "country": "United Kingdom",
+    "index": "STOXX Europe 600",
+    "sector": "Utilities"
+  },
+  {
     "ticker": "STJ.L",
-    "name": "St. James's Place",
+    "name": "St. James's Place plc",
     "country": "United Kingdom",
     "index": "STOXX Europe 600",
     "sector": "Financial Services"
@@ -6188,18 +7224,88 @@
     "sector": "Banks"
   },
   {
-    "ticker": "STLAM.AS",
+    "ticker": "SDLF.L",
+    "name": "Standard Life plc",
+    "country": "United Kingdom",
+    "index": "STOXX Europe 600",
+    "sector": "Insurance"
+  },
+  {
+    "ticker": "STLAM.MI",
     "name": "Stellantis",
-    "country": "Netherlands",
+    "country": "Italy",
     "index": "STOXX Europe 600",
     "sector": "Automobiles and Parts"
   },
   {
-    "ticker": "SWECO B.ST",
+    "ticker": "STMMI.MI",
+    "name": "STMicroelectronics",
+    "country": "Italy",
+    "index": "STOXX Europe 600",
+    "sector": "Technology"
+  },
+  {
+    "ticker": "STERV.HE",
+    "name": "Stora Enso",
+    "country": "Finland",
+    "index": "STOXX Europe 600",
+    "sector": "Industrial Goods and Services"
+  },
+  {
+    "ticker": "STB.OL",
+    "name": "Storebrand",
+    "country": "Norway",
+    "index": "STOXX Europe 600",
+    "sector": "Insurance"
+  },
+  {
+    "ticker": "STMN.SW",
+    "name": "Straumann",
+    "country": "Switzerland",
+    "index": "STOXX Europe 600",
+    "sector": "Healthcare"
+  },
+  {
+    "ticker": "SUBC.OL",
+    "name": "Subsea 7",
+    "country": "Norway",
+    "index": "STOXX Europe 600",
+    "sector": "Energy"
+  },
+  {
+    "ticker": "SUN.SW",
+    "name": "Sulzer",
+    "country": "Switzerland",
+    "index": "STOXX Europe 600",
+    "sector": "Industrial Goods and Services"
+  },
+  {
+    "ticker": "SUNN.SW",
+    "name": "Sunrise",
+    "country": "Switzerland",
+    "index": "STOXX Europe 600",
+    "sector": "Telecommunications"
+  },
+  {
+    "ticker": "SWEC B.ST",
     "name": "Sweco",
     "country": "Sweden",
     "index": "STOXX Europe 600",
     "sector": "Construction and Materials"
+  },
+  {
+    "ticker": "SWED A.ST",
+    "name": "Swedbank",
+    "country": "Sweden",
+    "index": "STOXX Europe 600",
+    "sector": "Banks"
+  },
+  {
+    "ticker": "SOBI.ST",
+    "name": "Swedish Orphan Biovitrum",
+    "country": "Sweden",
+    "index": "STOXX Europe 600",
+    "sector": "Healthcare"
   },
   {
     "ticker": "SLHN.SW",
@@ -6216,6 +7322,55 @@
     "sector": "Real Estate"
   },
   {
+    "ticker": "SREN.SW",
+    "name": "Swiss Re",
+    "country": "Switzerland",
+    "index": "STOXX Europe 600",
+    "sector": "Insurance"
+  },
+  {
+    "ticker": "SCMN.SW",
+    "name": "Swisscom",
+    "country": "Switzerland",
+    "index": "STOXX Europe 600",
+    "sector": "Telecommunications"
+  },
+  {
+    "ticker": "SQN.SW",
+    "name": "Swissquote",
+    "country": "Switzerland",
+    "index": "STOXX Europe 600",
+    "sector": "Financial Services"
+  },
+  {
+    "ticker": "ALSYDB.CO",
+    "name": "Sydbank",
+    "country": "Denmark",
+    "index": "STOXX Europe 600",
+    "sector": "Banks"
+  },
+  {
+    "ticker": "SYENS.BR",
+    "name": "Syensqo",
+    "country": "Belgium",
+    "index": "STOXX Europe 600",
+    "sector": "Basic Resources"
+  },
+  {
+    "ticker": "SY1.DE",
+    "name": "Symrise",
+    "country": "Germany",
+    "index": "STOXX Europe 600",
+    "sector": "Chemicals"
+  },
+  {
+    "ticker": "TEG.DE",
+    "name": "TAG Tegernsee Immobilien und Beteiligung",
+    "country": "Germany",
+    "index": "STOXX Europe 600",
+    "sector": "Real Estate"
+  },
+  {
     "ticker": "TLX.DE",
     "name": "Talanx",
     "country": "Germany",
@@ -6223,23 +7378,51 @@
     "sector": "Insurance"
   },
   {
-    "ticker": "TMV.DE",
-    "name": "TeamViewer",
-    "country": "Germany",
+    "ticker": "TW..L",
+    "name": "Taylor Wimpey",
+    "country": "United Kingdom",
+    "index": "STOXX Europe 600",
+    "sector": "Consumer Products and Services"
+  },
+  {
+    "ticker": "TBCG.L",
+    "name": "TBC Bank",
+    "country": "United Kingdom",
+    "index": "STOXX Europe 600",
+    "sector": "Banks"
+  },
+  {
+    "ticker": "TE.PA",
+    "name": "Technip Energies",
+    "country": "France",
+    "index": "STOXX Europe 600",
+    "sector": "Energy"
+  },
+  {
+    "ticker": "TPRO.MI",
+    "name": "Technoprobe",
+    "country": "Italy",
     "index": "STOXX Europe 600",
     "sector": "Technology"
   },
   {
-    "ticker": "FTI.L",
-    "name": "TechnipFMC",
-    "country": "United Kingdom",
+    "ticker": "TEL2 B.ST",
+    "name": "Tele2",
+    "country": "Sweden",
     "index": "STOXX Europe 600",
-    "sector": "Energy"
+    "sector": "Telecommunications"
   },
   {
     "ticker": "TEF.MC",
     "name": "Telefónica",
     "country": "Spain",
+    "index": "STOXX Europe 600",
+    "sector": "Telecommunications"
+  },
+  {
+    "ticker": "TEL.OL",
+    "name": "Telenor",
+    "country": "Norway",
     "index": "STOXX Europe 600",
     "sector": "Telecommunications"
   },
@@ -6251,23 +7434,72 @@
     "sector": "Industrial Goods and Services"
   },
   {
-    "ticker": "TPG.L",
-    "name": "Telecom Plus",
-    "country": "United Kingdom",
+    "ticker": "TELIA.ST",
+    "name": "Telia Company",
+    "country": "Sweden",
     "index": "STOXX Europe 600",
     "sector": "Telecommunications"
   },
   {
+    "ticker": "TEMN.SW",
+    "name": "Temenos AG",
+    "country": "Switzerland",
+    "index": "STOXX Europe 600",
+    "sector": "Technology"
+  },
+  {
+    "ticker": "TEN.MI",
+    "name": "Tenaris",
+    "country": "Italy",
+    "index": "STOXX Europe 600",
+    "sector": "Energy"
+  },
+  {
+    "ticker": "TRN.MI",
+    "name": "Terna Group",
+    "country": "Italy",
+    "index": "STOXX Europe 600",
+    "sector": "Utilities"
+  },
+  {
+    "ticker": "TSCO.L",
+    "name": "Tesco",
+    "country": "United Kingdom",
+    "index": "STOXX Europe 600",
+    "sector": "Personal Care, Drug and Grocery Stores"
+  },
+  {
     "ticker": "TGS.OL",
-    "name": "TGS",
+    "name": "TGS-NOPEC Geophysical Company",
     "country": "Norway",
     "index": "STOXX Europe 600",
     "sector": "Energy"
   },
   {
-    "ticker": "THL.PA",
-    "name": "Thales",
+    "ticker": "HO.PA",
+    "name": "Thales Group",
     "country": "France",
+    "index": "STOXX Europe 600",
+    "sector": "Industrial Goods and Services"
+  },
+  {
+    "ticker": "MICC.AS",
+    "name": "The Magnum Ice Cream Company",
+    "country": "Netherlands",
+    "index": "STOXX Europe 600",
+    "sector": "Food, Beverage and Tobacco"
+  },
+  {
+    "ticker": "UHR.SW",
+    "name": "The Swatch Group",
+    "country": "Switzerland",
+    "index": "STOXX Europe 600",
+    "sector": "Consumer Products and Services"
+  },
+  {
+    "ticker": "TKA.DE",
+    "name": "ThyssenKrupp",
+    "country": "Germany",
     "index": "STOXX Europe 600",
     "sector": "Industrial Goods and Services"
   },
@@ -6279,11 +7511,18 @@
     "sector": "Industrial Goods and Services"
   },
   {
-    "ticker": "TPK.L",
-    "name": "Travis Perkins",
+    "ticker": "TTE.PA",
+    "name": "TotalEnergies",
+    "country": "France",
+    "index": "STOXX Europe 600",
+    "sector": "Energy"
+  },
+  {
+    "ticker": "TCAP.L",
+    "name": "TP ICAP",
     "country": "United Kingdom",
     "index": "STOXX Europe 600",
-    "sector": "Retail"
+    "sector": "Financial Services"
   },
   {
     "ticker": "TREL B.ST",
@@ -6293,18 +7532,46 @@
     "sector": "Industrial Goods and Services"
   },
   {
-    "ticker": "8TRA.DE",
-    "name": "Traton",
-    "country": "Germany",
+    "ticker": "BBOX.L",
+    "name": "Tritax Big Box REIT",
+    "country": "United Kingdom",
     "index": "STOXX Europe 600",
-    "sector": "Industrial Goods and Services"
+    "sector": "Real Estate"
   },
   {
-    "ticker": "UBI.PA",
-    "name": "Ubisoft",
-    "country": "France",
+    "ticker": "TRYG.CO",
+    "name": "Tryg",
+    "country": "Denmark",
     "index": "STOXX Europe 600",
-    "sector": "Consumer Products and Services"
+    "sector": "Insurance"
+  },
+  {
+    "ticker": "TUI1.DE",
+    "name": "TUI Group",
+    "country": "Germany",
+    "index": "STOXX Europe 600",
+    "sector": "Travel and Leisure"
+  },
+  {
+    "ticker": "UBSG.SW",
+    "name": "UBS",
+    "country": "Switzerland",
+    "index": "STOXX Europe 600",
+    "sector": "Financial Services"
+  },
+  {
+    "ticker": "UCB.BR",
+    "name": "UCB",
+    "country": "Belgium",
+    "index": "STOXX Europe 600",
+    "sector": "Healthcare"
+  },
+  {
+    "ticker": "UMI.BR",
+    "name": "Umicore",
+    "country": "Belgium",
+    "index": "STOXX Europe 600",
+    "sector": "Chemicals"
   },
   {
     "ticker": "URW.PA",
@@ -6314,15 +7581,57 @@
     "sector": "Real Estate"
   },
   {
-    "ticker": "UN01.DE",
-    "name": "Uniper",
-    "country": "Germany",
+    "ticker": "UNI.MC",
+    "name": "Unicaja Banco",
+    "country": "Spain",
+    "index": "STOXX Europe 600",
+    "sector": "Banks"
+  },
+  {
+    "ticker": "UCG.MI",
+    "name": "UniCredit",
+    "country": "Italy",
+    "index": "STOXX Europe 600",
+    "sector": "Banks"
+  },
+  {
+    "ticker": "ULVR.L",
+    "name": "Unilever",
+    "country": "United Kingdom",
+    "index": "STOXX Europe 600",
+    "sector": "Personal Care, Drug and Grocery Stores"
+  },
+  {
+    "ticker": "UNI.MI",
+    "name": "Unipol",
+    "country": "Italy",
+    "index": "STOXX Europe 600",
+    "sector": "Insurance"
+  },
+  {
+    "ticker": "UTG.L",
+    "name": "Unite Students",
+    "country": "United Kingdom",
+    "index": "STOXX Europe 600",
+    "sector": "Real Estate"
+  },
+  {
+    "ticker": "UU..L",
+    "name": "United Utilities",
+    "country": "United Kingdom",
     "index": "STOXX Europe 600",
     "sector": "Utilities"
   },
   {
+    "ticker": "UMG.AS",
+    "name": "Universal Music Group",
+    "country": "Netherlands",
+    "index": "STOXX Europe 600",
+    "sector": "Media"
+  },
+  {
     "ticker": "UPM.HE",
-    "name": "UPM-Kymmene",
+    "name": "UPM",
     "country": "Finland",
     "index": "STOXX Europe 600",
     "sector": "Basic Resources"
@@ -6335,18 +7644,46 @@
     "sector": "Automobiles and Parts"
   },
   {
+    "ticker": "VATN.SW",
+    "name": "Valiant Bank",
+    "country": "Switzerland",
+    "index": "STOXX Europe 600",
+    "sector": "Banks"
+  },
+  {
     "ticker": "VK.PA",
     "name": "Vallourec",
     "country": "France",
     "index": "STOXX Europe 600",
-    "sector": "Basic Resources"
+    "sector": "Energy"
   },
   {
-    "ticker": "VAR1.DE",
-    "name": "Varta",
-    "country": "Germany",
+    "ticker": "VALMT.HE",
+    "name": "Valmet",
+    "country": "Finland",
     "index": "STOXX Europe 600",
     "sector": "Industrial Goods and Services"
+  },
+  {
+    "ticker": "VAR.OL",
+    "name": "Vår Energi",
+    "country": "Norway",
+    "index": "STOXX Europe 600",
+    "sector": "Energy"
+  },
+  {
+    "ticker": "VACN.SW",
+    "name": "VAT Group",
+    "country": "Switzerland",
+    "index": "STOXX Europe 600",
+    "sector": "Industrial Goods and Services"
+  },
+  {
+    "ticker": "VEND.OL",
+    "name": "Vend Marketplaces ASA",
+    "country": "Norway",
+    "index": "STOXX Europe 600",
+    "sector": "Technology"
   },
   {
     "ticker": "VIE.PA",
@@ -6363,32 +7700,32 @@
     "sector": "Utilities"
   },
   {
-    "ticker": "VPLAY B.ST",
-    "name": "Viaplay",
+    "ticker": "VSURE.ST",
+    "name": "Verisure",
     "country": "Sweden",
     "index": "STOXX Europe 600",
-    "sector": "Media"
+    "sector": "Industrial Goods and Services"
   },
   {
-    "ticker": "VCT.PA",
-    "name": "Vicat",
+    "ticker": "VWS.CO",
+    "name": "Vestas",
+    "country": "Denmark",
+    "index": "STOXX Europe 600",
+    "sector": "Energy"
+  },
+  {
+    "ticker": "DG.PA",
+    "name": "Vinci SA",
     "country": "France",
     "index": "STOXX Europe 600",
     "sector": "Construction and Materials"
   },
   {
-    "ticker": "VIG.VI",
-    "name": "Vienna Insurance Group",
-    "country": "Austria",
+    "ticker": "VOD.L",
+    "name": "Vodafone",
+    "country": "United Kingdom",
     "index": "STOXX Europe 600",
-    "sector": "Insurance"
-  },
-  {
-    "ticker": "VITR.ST",
-    "name": "Vitrolife",
-    "country": "Sweden",
-    "index": "STOXX Europe 600",
-    "sector": "Health Care"
+    "sector": "Telecommunications"
   },
   {
     "ticker": "VOE.VI",
@@ -6398,11 +7735,46 @@
     "sector": "Basic Resources"
   },
   {
+    "ticker": "VOW3.DE",
+    "name": "Volkswagen Group (preferred shares)",
+    "country": "Germany",
+    "index": "STOXX Europe 600",
+    "sector": "Automobiles and Parts"
+  },
+  {
+    "ticker": "VOLV B.ST",
+    "name": "Volvo",
+    "country": "Sweden",
+    "index": "STOXX Europe 600",
+    "sector": "Industrial Goods and Services"
+  },
+  {
+    "ticker": "VNA.DE",
+    "name": "Vonovia",
+    "country": "Germany",
+    "index": "STOXX Europe 600",
+    "sector": "Real Estate"
+  },
+  {
+    "ticker": "VONN.SW",
+    "name": "Vontobel",
+    "country": "Switzerland",
+    "index": "STOXX Europe 600",
+    "sector": "Financial Services"
+  },
+  {
     "ticker": "VPK.AS",
     "name": "Vopak",
     "country": "Netherlands",
     "index": "STOXX Europe 600",
-    "sector": "Industrial Goods and Services"
+    "sector": "Energy"
+  },
+  {
+    "ticker": "VZN.SW",
+    "name": "VZ Holding",
+    "country": "Switzerland",
+    "index": "STOXX Europe 600",
+    "sector": "Financial Services"
   },
   {
     "ticker": "WDP.BR",
@@ -6412,46 +7784,53 @@
     "sector": "Real Estate"
   },
   {
+    "ticker": "WRT1V.HE",
+    "name": "Wärtsilä",
+    "country": "Finland",
+    "index": "STOXX Europe 600",
+    "sector": "Industrial Goods and Services"
+  },
+  {
     "ticker": "WEIR.L",
-    "name": "Weir Group",
+    "name": "Weir plc",
     "country": "United Kingdom",
     "index": "STOXX Europe 600",
     "sector": "Industrial Goods and Services"
   },
   {
-    "ticker": "WEND.PA",
-    "name": "Wendel",
-    "country": "France",
+    "ticker": "WTB.L",
+    "name": "Whitbread",
+    "country": "United Kingdom",
     "index": "STOXX Europe 600",
-    "sector": "Financial Services"
-  },
-  {
-    "ticker": "WIE.VI",
-    "name": "Wienerberger",
-    "country": "Austria",
-    "index": "STOXX Europe 600",
-    "sector": "Construction and Materials"
-  },
-  {
-    "ticker": "WIHL.ST",
-    "name": "Wihlborgs Fastigheter",
-    "country": "Sweden",
-    "index": "STOXX Europe 600",
-    "sector": "Real Estate"
+    "sector": "Travel and Leisure"
   },
   {
     "ticker": "WISE.L",
     "name": "Wise",
     "country": "United Kingdom",
     "index": "STOXX Europe 600",
-    "sector": "Financial Services"
+    "sector": "Industrial Goods and Services"
   },
   {
-    "ticker": "WLN.PA",
-    "name": "Worldline",
-    "country": "France",
+    "ticker": "WKL.AS",
+    "name": "Wolters Kluwer",
+    "country": "Netherlands",
     "index": "STOXX Europe 600",
     "sector": "Industrial Goods and Services"
+  },
+  {
+    "ticker": "WPP.L",
+    "name": "WPP plc",
+    "country": "United Kingdom",
+    "index": "STOXX Europe 600",
+    "sector": "Media"
+  },
+  {
+    "ticker": "XTB.WA",
+    "name": "XTB S.A.",
+    "country": "Poland",
+    "index": "STOXX Europe 600",
+    "sector": "Financial Services"
   },
   {
     "ticker": "YAR.OL",
@@ -6461,6 +7840,13 @@
     "sector": "Chemicals"
   },
   {
+    "ticker": "ZAB.WA",
+    "name": "Żabka",
+    "country": "Poland",
+    "index": "STOXX Europe 600",
+    "sector": "Personal Care, Drug and Grocery Stores"
+  },
+  {
     "ticker": "ZAL.DE",
     "name": "Zalando",
     "country": "Germany",
@@ -6468,346 +7854,24 @@
     "sector": "Retail"
   },
   {
-    "ticker": "ANA.MC",
-    "name": "Acciona",
-    "country": "Spain",
-    "index": "STOXX Europe 600",
-    "sector": "Construction and Materials"
-  },
-  {
-    "ticker": "ANE.MC",
-    "name": "Acciona Energía",
-    "country": "Spain",
-    "index": "STOXX Europe 600",
-    "sector": "Utilities"
-  },
-  {
-    "ticker": "ACX.MC",
-    "name": "Acerinox",
-    "country": "Spain",
-    "index": "STOXX Europe 600",
-    "sector": "Basic Resources"
-  },
-  {
-    "ticker": "ADH.OL",
-    "name": "Adevinta",
-    "country": "Norway",
-    "index": "STOXX Europe 600",
-    "sector": "Consumer Products and Services"
-  },
-  {
-    "ticker": "AF.PA",
-    "name": "Air France-KLM",
-    "country": "France",
-    "index": "STOXX Europe 600",
-    "sector": "Travel and Leisure"
-  },
-  {
-    "ticker": "AKZA.AS",
-    "name": "AkzoNobel",
-    "country": "Netherlands",
-    "index": "STOXX Europe 600",
-    "sector": "Chemicals"
-  },
-  {
-    "ticker": "ALLFG.MC",
-    "name": "Allfunds Group",
-    "country": "Spain",
-    "index": "STOXX Europe 600",
-    "sector": "Financial Services"
-  },
-  {
-    "ticker": "AML.L",
-    "name": "Aston Martin",
-    "country": "United Kingdom",
-    "index": "STOXX Europe 600",
-    "sector": "Automobiles and Parts"
-  },
-  {
-    "ticker": "AMS.VI",
-    "name": "ams OSRAM",
-    "country": "Austria",
-    "index": "STOXX Europe 600",
-    "sector": "Technology"
-  },
-  {
-    "ticker": "ARGX.AS",
-    "name": "Argenx",
-    "country": "Netherlands",
-    "index": "STOXX Europe 600",
-    "sector": "Health Care"
-  },
-  {
-    "ticker": "ARND.DE",
-    "name": "Aroundtown",
-    "country": "Germany",
-    "index": "STOXX Europe 600",
-    "sector": "Real Estate"
-  },
-  {
-    "ticker": "ATOS.PA",
-    "name": "Atos",
-    "country": "France",
-    "index": "STOXX Europe 600",
-    "sector": "Technology"
-  },
-  {
-    "ticker": "BPOST.BR",
-    "name": "Bpost",
-    "country": "Belgium",
-    "index": "STOXX Europe 600",
-    "sector": "Industrial Goods and Services"
-  },
-  {
-    "ticker": "BRNW.MI",
-    "name": "Brunello Cucinelli",
-    "country": "Italy",
-    "index": "STOXX Europe 600",
-    "sector": "Consumer Products and Services"
-  },
-  {
-    "ticker": "BYG.L",
-    "name": "Big Yellow Group",
-    "country": "United Kingdom",
-    "index": "STOXX Europe 600",
-    "sector": "Real Estate"
-  },
-  {
-    "ticker": "CASP.ST",
-    "name": "Castellum",
-    "country": "Sweden",
-    "index": "STOXX Europe 600",
-    "sector": "Real Estate"
-  },
-  {
-    "ticker": "CLN.SW",
-    "name": "Clariant",
-    "country": "Switzerland",
-    "index": "STOXX Europe 600",
-    "sector": "Chemicals"
-  },
-  {
-    "ticker": "CTG.L",
-    "name": "Computer Center",
-    "country": "United Kingdom",
-    "index": "STOXX Europe 600",
-    "sector": "Technology"
-  },
-  {
-    "ticker": "CTS.DE",
-    "name": "CTS Eventim",
-    "country": "Germany",
-    "index": "STOXX Europe 600",
-    "sector": "Media"
-  },
-  {
-    "ticker": "DIA.MC",
-    "name": "Dia",
-    "country": "Spain",
-    "index": "STOXX Europe 600",
-    "sector": "Personal Care, Drug and Grocery Stores"
-  },
-  {
-    "ticker": "DIE.BR",
-    "name": "DIETEREN Group",
-    "country": "Belgium",
-    "index": "STOXX Europe 600",
-    "sector": "Automobiles and Parts"
-  },
-  {
-    "ticker": "DSM.SW",
-    "name": "DSM-Firmenich",
-    "country": "Switzerland",
-    "index": "STOXX Europe 600",
-    "sector": "Chemicals"
-  },
-  {
-    "ticker": "DTG.DE",
-    "name": "Daimler Truck",
-    "country": "Germany",
-    "index": "STOXX Europe 600",
-    "sector": "Industrial Goods and Services"
-  },
-  {
-    "ticker": "EN.PA",
-    "name": "Bouygues",
-    "country": "France",
-    "index": "STOXX Europe 600",
-    "sector": "Construction and Materials"
-  },
-  {
-    "ticker": "ENGI.PA",
-    "name": "Engie",
-    "country": "France",
-    "index": "STOXX Europe 600",
-    "sector": "Utilities"
-  },
-  {
-    "ticker": "EVR.L",
-    "name": "Evraz",
-    "country": "United Kingdom",
-    "index": "STOXX Europe 600",
-    "sector": "Basic Resources"
-  },
-  {
-    "ticker": "FALK.CO",
-    "name": "Falck",
+    "ticker": "ZEAL.CO",
+    "name": "Zealand Pharma",
     "country": "Denmark",
     "index": "STOXX Europe 600",
-    "sector": "Health Care"
+    "sector": "Healthcare"
   },
   {
-    "ticker": "FLOW.AS",
-    "name": "Flow Traders",
-    "country": "Netherlands",
-    "index": "STOXX Europe 600",
-    "sector": "Financial Services"
-  },
-  {
-    "ticker": "FLTR.IR",
-    "name": "Flutter Entertainment",
-    "country": "Ireland",
-    "index": "STOXX Europe 600",
-    "sector": "Travel and Leisure"
-  },
-  {
-    "ticker": "FOR.MC",
-    "name": "FCC",
-    "country": "Spain",
-    "index": "STOXX Europe 600",
-    "sector": "Construction and Materials"
-  },
-  {
-    "ticker": "GREG.L",
-    "name": "Greggs",
+    "ticker": "ZEG.L",
+    "name": "Zegona Communications",
     "country": "United Kingdom",
     "index": "STOXX Europe 600",
-    "sector": "Retail"
+    "sector": "Telecommunications"
   },
   {
-    "ticker": "GWI.MI",
-    "name": "Gruppo Campari",
-    "country": "Italy",
-    "index": "STOXX Europe 600",
-    "sector": "Food, Beverage and Tobacco"
-  },
-  {
-    "ticker": "IDP.MI",
-    "name": "Interpump Group",
-    "country": "Italy",
-    "index": "STOXX Europe 600",
-    "sector": "Industrial Goods and Services"
-  },
-  {
-    "ticker": "IGGI.L",
-    "name": "IG Group",
-    "country": "United Kingdom",
-    "index": "STOXX Europe 600",
-    "sector": "Financial Services"
-  },
-  {
-    "ticker": "IMI.L",
-    "name": "IMI",
-    "country": "United Kingdom",
-    "index": "STOXX Europe 600",
-    "sector": "Industrial Goods and Services"
-  },
-  {
-    "ticker": "INDV.L",
-    "name": "Indivior",
-    "country": "United Kingdom",
-    "index": "STOXX Europe 600",
-    "sector": "Health Care"
-  },
-  {
-    "ticker": "INF.L",
-    "name": "Informa",
-    "country": "United Kingdom",
-    "index": "STOXX Europe 600",
-    "sector": "Media"
-  },
-  {
-    "ticker": "INP.L",
-    "name": "Investec",
-    "country": "United Kingdom",
-    "index": "STOXX Europe 600",
-    "sector": "Financial Services"
-  },
-  {
-    "ticker": "IPX.PA",
-    "name": "Ipsos",
-    "country": "France",
-    "index": "STOXX Europe 600",
-    "sector": "Media"
-  },
-  {
-    "ticker": "JMAT.L",
-    "name": "Johnson Matthey",
-    "country": "United Kingdom",
-    "index": "STOXX Europe 600",
-    "sector": "Chemicals"
-  },
-  {
-    "ticker": "JUST.AS",
-    "name": "Just Eat Takeaway",
-    "country": "Netherlands",
-    "index": "STOXX Europe 600",
-    "sector": "Retail"
-  },
-  {
-    "ticker": "KNIN.SW",
-    "name": "Kuehne + Nagel",
+    "ticker": "ZURN.SW",
+    "name": "Zurich Insurance Group",
     "country": "Switzerland",
     "index": "STOXX Europe 600",
-    "sector": "Industrial Goods and Services"
-  },
-  {
-    "ticker": "LANV.PA",
-    "name": "Lanvin Group",
-    "country": "France",
-    "index": "STOXX Europe 600",
-    "sector": "Consumer Products and Services"
-  },
-  {
-    "ticker": "LGEN.L",
-    "name": "Legal & General",
-    "country": "United Kingdom",
-    "index": "STOXX Europe 600",
     "sector": "Insurance"
-  },
-  {
-    "ticker": "LUN.ST",
-    "name": "Lundin Energy",
-    "country": "Sweden",
-    "index": "STOXX Europe 600",
-    "sector": "Energy"
-  },
-  {
-    "ticker": "MKS.L",
-    "name": "Marks & Spencer",
-    "country": "United Kingdom",
-    "index": "STOXX Europe 600",
-    "sector": "Retail"
-  },
-  {
-    "ticker": "MONY.L",
-    "name": "Moneysupermarket.com",
-    "country": "United Kingdom",
-    "index": "STOXX Europe 600",
-    "sector": "Media"
-  },
-  {
-    "ticker": "MRW.L",
-    "name": "Morrisons",
-    "country": "United Kingdom",
-    "index": "STOXX Europe 600",
-    "sector": "Retail"
-  },
-  {
-    "ticker": "NGG.L",
-    "name": "National Grid",
-    "country": "United Kingdom",
-    "index": "STOXX Europe 600",
-    "sector": "Utilities"
   }
 ]
