@@ -134,7 +134,8 @@ def get_universe():
                 sector = str(row.get('Supersector', row.get('ICB Sector', 'General'))).strip()
                 suffix = COUNTRY_MAP.get(country, '')
                 if raw_ticker and suffix:
-                    full_ticker = raw_ticker + suffix
+                    clean_ticker = raw_ticker.rstrip('.').replace(' ', '-').replace('.', '-')
+                    full_ticker = clean_ticker + suffix
                     if full_ticker not in universe:
                         universe[full_ticker] = {
                             "ticker": full_ticker,

@@ -270,11 +270,14 @@ def run_screener(limit=None, market=None, tickers=None):
     # Filter by market/index or country if requested
     if market:
         market_lower = market.strip().lower()
-        universe = [
-            u for u in universe 
-            if market_lower in (u.get("index") or "").lower() 
-            or market_lower in (u.get("country") or "").lower()
-        ]
+        if market_lower in ["europe", "europa"]:
+            universe = [u for u in universe if u.get("country") != "USA"]
+        else:
+            universe = [
+                u for u in universe 
+                if market_lower in (u.get("index") or "").lower() 
+                or market_lower in (u.get("country") or "").lower()
+            ]
 
     # Filter by specific tickers if requested
     if tickers:
@@ -288,8 +291,8 @@ def run_screener(limit=None, market=None, tickers=None):
     t0 = time.time()
     results = []
 
-    # Use max_workers=5 for safe rate-limiting on yfinance
-    with ThreadPoolExecutor(max_workers=5) as executor:
+    # Use max_workers=8 for safe rate-limiting on yfinance
+    with ThreadPoolExecutor(max_workers=8) as executor:
         future_to_item = {executor.submit(analyze_company, item): item for item in universe}
         count = 0
         for future in as_completed(future_to_item):

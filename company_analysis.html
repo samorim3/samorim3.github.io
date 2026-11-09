@@ -1,7 +1,10 @@
 <!DOCTYPE html>
 <html lang="en" data-theme="dark">
 <head>
-  <meta charset="UTF-8" />
+    <meta charset="UTF-8" />
+  <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate" />
+  <meta http-equiv="Pragma" content="no-cache" />
+  <meta http-equiv="Expires" content="0" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>DGI Fundamental Screener & Stock Alerts via Telegram | Samuel Amorim</title>
   <meta name="description" content="Automated DGI fundamental analysis screener, international market radar, and real-time Telegram alerts by Samuel Amorim." />
@@ -596,7 +599,7 @@
 												<select id="marketIndexFilter" onchange="onMarketFilterChange()" style="padding: 0.45rem 0.75rem; font-size: 0.8rem; font-weight: 600; border-radius: 6px; border: 1px solid #cbd5e1; background: #ffffff; color: #0f172a;">
 													<option value="all">All Markets</option>
 													<option value="S&P 500">🇺🇸 S&P 500</option>
-													<option value="STOXX Europe 600">🇪🇺 STOXX Europe 600</option>
+													<option value="STOXX Europe 600">🇪🇺 Europa (STOXX 600, AEX, PSI, IBEX)</option>
 													<option value="Euronext Amsterdam">🇳🇱 Euronext Amsterdam (AEX / AMX)</option>
 													<option value="PSI Lisboa">🇵🇹 Euronext Lisboa (PSI)</option>
 													<option value="IBEX 35">🇪🇸 IBEX 35</option>
@@ -2707,8 +2710,16 @@ payout_label = <span style="color: #86efac;">"FCF"</span> <span style="color: #7
 						}
 
 						if (indexVal !== 'all') {
-							if (indexVal === 'Euronext Amsterdam') {
+							if (indexVal === 'STOXX Europe 600') {
+								if (item.country === 'USA') return false;
+							} else if (indexVal === 'Euronext Amsterdam') {
 								if (item.index !== 'Euronext Amsterdam' && item.country !== 'Netherlands') return false;
+							} else if (indexVal === 'PSI Lisboa') {
+								if (item.index !== 'PSI Lisboa' && item.country !== 'Portugal') return false;
+							} else if (indexVal === 'IBEX 35') {
+								if (item.index !== 'IBEX 35' && item.country !== 'Spain') return false;
+							} else if (indexVal === 'S&P 500') {
+								if (item.index !== 'S&P 500' && item.country !== 'USA') return false;
 							} else {
 								if (item.index !== indexVal) return false;
 							}
