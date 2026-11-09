@@ -4,11 +4,11 @@
     "name": "Adidas AG",
     "minBuy": 145,
     "maxSell": 0,
-    "lastPrice": 174.55,
-    "dgiScore": 43.0,
+    "lastPrice": 178.45,
+    "dgiScore": 47.0,
     "dgiVerdict": "Weak / High Risk",
     "dividendRate": 2.8,
-    "dividendYield": 1.6,
+    "dividendYield": 1.57,
     "exDividendDate": "2026-05-08"
   },
   {
@@ -16,11 +16,11 @@
     "name": "Nike, Inc.",
     "minBuy": 30,
     "maxSell": 0,
-    "lastPrice": 38.59,
+    "lastPrice": 39.78,
     "dgiScore": 60.0,
     "dgiVerdict": "Moderate / Neutral",
     "dividendRate": 1.64,
-    "dividendYield": 4.25,
+    "dividendYield": 4.12,
     "exDividendDate": "2026-09-01"
   },
   {
@@ -28,11 +28,11 @@
     "name": "Galp Energia",
     "minBuy": 19,
     "maxSell": 25,
-    "lastPrice": 19.08,
+    "lastPrice": 18.98,
     "dgiScore": 60.0,
     "dgiVerdict": "Moderate / Neutral",
     "dividendRate": 0.68,
-    "dividendYield": 3.56,
+    "dividendYield": 3.58,
     "exDividendDate": "2026-08-19"
   },
   {
@@ -40,11 +40,11 @@
     "name": "NVIDIA Corporation",
     "minBuy": 180,
     "maxSell": 0,
-    "lastPrice": 186.64,
+    "lastPrice": 177.65,
     "dgiScore": 80.0,
     "dgiVerdict": "Solid DGI Quality",
     "dividendRate": 1.0,
-    "dividendYield": 0.54,
+    "dividendYield": 0.56,
     "exDividendDate": "2026-09-10"
   },
   {
@@ -52,11 +52,11 @@
     "name": "LVMH Mo\u00ebt Hennessy Louis Vuitton",
     "minBuy": 350,
     "maxSell": 0,
-    "lastPrice": 408.75,
+    "lastPrice": 402.45,
     "dgiScore": 64.0,
     "dgiVerdict": "Moderate / Neutral",
     "dividendRate": 13.0,
-    "dividendYield": 3.18,
+    "dividendYield": 3.23,
     "exDividendDate": "2026-12-01"
   },
   {
@@ -64,11 +64,11 @@
     "name": "McDonald's Corporation",
     "minBuy": 230,
     "maxSell": 0,
-    "lastPrice": 276.52,
+    "lastPrice": 282.01,
     "dgiScore": 68.0,
     "dgiVerdict": "Moderate / Neutral",
     "dividendRate": 7.72,
-    "dividendYield": 2.79,
+    "dividendYield": 2.74,
     "exDividendDate": "2026-12-01"
   },
   {
@@ -76,11 +76,11 @@
     "name": "Danone S.A.",
     "minBuy": 57,
     "maxSell": 100,
-    "lastPrice": 67.12,
+    "lastPrice": 67.66,
     "dgiScore": 66.0,
     "dgiVerdict": "Moderate / Neutral",
     "dividendRate": 2.25,
-    "dividendYield": 3.35,
+    "dividendYield": 3.33,
     "exDividendDate": "2026-05-04"
   },
   {
@@ -88,11 +88,11 @@
     "name": "EDP, S.A.",
     "minBuy": 4.2,
     "maxSell": 10,
-    "lastPrice": 5.0,
-    "dgiScore": 44.0,
-    "dgiVerdict": "Weak / High Risk",
+    "lastPrice": 5.07,
+    "dgiScore": 50.0,
+    "dgiVerdict": "Moderate / Neutral",
     "dividendRate": 0.21,
-    "dividendYield": 4.2,
+    "dividendYield": 4.14,
     "exDividendDate": "2026-05-05"
   },
   {
@@ -100,11 +100,11 @@
     "name": "ESSILORLUXOTTICA",
     "minBuy": 145,
     "maxSell": 500,
-    "lastPrice": 193.8,
+    "lastPrice": 190.6,
     "dgiScore": 83.0,
     "dgiVerdict": "Solid DGI Quality",
     "dividendRate": 4.0,
-    "dividendYield": 2.06,
+    "dividendYield": 2.1,
     "exDividendDate": "2026-05-05"
   },
   {
@@ -112,11 +112,11 @@
     "name": "Sanofi",
     "minBuy": 70,
     "maxSell": 100,
-    "lastPrice": 83.74,
+    "lastPrice": 85.76,
     "dgiScore": 75.0,
     "dgiVerdict": "Solid DGI Quality",
     "dividendRate": 4.12,
-    "dividendYield": 4.92,
+    "dividendYield": 4.8,
     "exDividendDate": "2026-05-05"
   },
   {
@@ -124,7 +124,7 @@
     "name": "Netflix, Inc.",
     "minBuy": 50,
     "maxSell": 100,
-    "lastPrice": 63.41,
+    "lastPrice": 63.86,
     "dgiScore": 40.0,
     "dgiVerdict": "Weak / High Risk",
     "dividendRate": 0.0,
@@ -136,23 +136,23 @@
     "name": "Alphabet Inc.",
     "minBuy": 250,
     "maxSell": 0,
-    "lastPrice": 284.78,
+    "lastPrice": 291.64,
     "dgiScore": 80.0,
     "dgiVerdict": "Solid DGI Quality",
     "dividendRate": 0.88,
-    "dividendYield": 0.31,
-    "exDividendDate": "2026-12-14"
+    "dividendYield": 0.3,
+    "exDividendDate": "2026-12-07"
   },
   {
     "ticker": "COLO-B.CO",
     "name": "Coloplast B A/S",
     "minBuy": 390,
     "maxSell": 1000,
-    "lastPrice": 508.2,
+    "lastPrice": 496.7,
     "dgiScore": 58.0,
     "dgiVerdict": "Moderate / Neutral",
     "dividendRate": 23.0,
-    "dividendYield": 4.53,
+    "dividendYield": 4.63,
     "exDividendDate": "2026-05-18"
   },
   {
@@ -160,11 +160,11 @@
     "name": "Koninklijke Ahold Delhaize N.V.",
     "minBuy": 30,
     "maxSell": 100,
-    "lastPrice": 34.22,
+    "lastPrice": 34.19,
     "dgiScore": 66.0,
     "dgiVerdict": "Moderate / Neutral",
     "dividendRate": 1.24,
-    "dividendYield": 3.62,
+    "dividendYield": 3.63,
     "exDividendDate": "2026-08-07"
   },
   {
@@ -172,11 +172,11 @@
     "name": "International Business Machines Corporation",
     "minBuy": 200,
     "maxSell": 0,
-    "lastPrice": 245.0,
+    "lastPrice": 248.28,
     "dgiScore": 62.0,
     "dgiVerdict": "Moderate / Neutral",
     "dividendRate": 6.76,
-    "dividendYield": 2.76,
+    "dividendYield": 2.72,
     "exDividendDate": "2026-11-10"
   },
   {
@@ -184,11 +184,11 @@
     "name": "XTB",
     "minBuy": 120,
     "maxSell": 0,
-    "lastPrice": 132.54,
+    "lastPrice": 132.94000244140625,
     "dgiScore": 60.0,
     "dgiVerdict": "Moderate / Neutral",
     "dividendRate": 4.07,
-    "dividendYield": 3.07,
+    "dividendYield": 3.06,
     "exDividendDate": "2026-06-12"
   },
   {
@@ -196,7 +196,7 @@
     "name": "Advanced Micro Devices, Inc.",
     "minBuy": 200,
     "maxSell": 700,
-    "lastPrice": 449.04,
+    "lastPrice": 502.14,
     "dgiScore": 40.0,
     "dgiVerdict": "Weak / High Risk",
     "dividendRate": 0.0,
@@ -208,23 +208,23 @@
     "name": "Nintendo Co., Ltd.",
     "minBuy": 40,
     "maxSell": 0,
-    "lastPrice": 46.47,
+    "lastPrice": 48.6,
     "dgiScore": 66.0,
     "dgiVerdict": "Moderate / Neutral",
-    "dividendRate": 1.19,
-    "dividendYield": 2.56,
-    "exDividendDate": "2026-03-30"
+    "dividendRate": 1.39,
+    "dividendYield": 2.86,
+    "exDividendDate": "2027-03-30"
   },
   {
     "ticker": "SU.PA",
     "name": "SU.PA",
     "minBuy": 215,
     "maxSell": 800,
-    "lastPrice": 228.65,
+    "lastPrice": 234.4,
     "dgiScore": 80.0,
     "dgiVerdict": "Solid DGI Quality",
     "dividendRate": 4.2,
-    "dividendYield": 1.84,
+    "dividendYield": 1.79,
     "exDividendDate": "2026-05-11",
     "status": "HOLD"
   },
@@ -233,11 +233,11 @@
     "name": "Caterpillar Inc.",
     "minBuy": 500,
     "maxSell": 0,
-    "lastPrice": 558.63,
+    "lastPrice": 594.98,
     "dgiScore": 74.0,
     "dgiVerdict": "Solid DGI Quality",
     "dividendRate": 6.52,
-    "dividendYield": 1.17,
+    "dividendYield": 1.1,
     "exDividendDate": "2026-11-19",
     "status": "HOLD"
   },
@@ -246,11 +246,11 @@
     "name": "Broadcom Inc.",
     "minBuy": 302,
     "maxSell": 0,
-    "lastPrice": 293.69,
+    "lastPrice": 320.62,
     "dgiScore": 80.0,
     "dgiVerdict": "Solid DGI Quality",
     "dividendRate": 2.6,
-    "dividendYield": 0.89,
+    "dividendYield": 0.81,
     "exDividendDate": "2026-09-21"
   }
 ]
