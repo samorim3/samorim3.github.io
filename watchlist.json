@@ -74,7 +74,7 @@
   {
     "ticker": "BN.PA",
     "name": "Danone S.A.",
-    "minBuy": 57,
+    "minBuy": 55,
     "maxSell": 100,
     "lastPrice": 68.14,
     "dgiScore": 66,
