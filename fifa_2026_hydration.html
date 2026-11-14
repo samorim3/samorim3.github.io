@@ -130,6 +130,10 @@
             This data includes game state snapshots (every 30 seconds): score evolution, statistics, and match phases over time; live positional data (every 5 seconds): ball coordinates and ongoing game situations; and discrete events: specific records of goals, cards, and substitutions.
           </p>
 
+          <p>
+            During the data analysis, although there was no direct reference to hydration break timestamps, the following iteration was performed on each match to identify those moments: between minutes 20–30 and minutes 65–75, check whether a stoppage lasting longer than 2 minutes occurred (<a href="https://inside.fifa.com/organisation/news/hydration-breaks-world-cup-2026-player-welfare" target="_blank" rel="noopener noreferrer">breaks were scheduled around the 22nd minute of each half with an expected duration of 3 minutes</a>). If only a single result was returned within that window, it was identified as the hydration break; otherwise, another prolonged interruption might have occurred—such as a player injury—requiring cross-referencing with other sources.
+          </p>
+
           <!-- Under Construction Box -->
           <div style="background: var(--bg-surface); border: 1px solid var(--border-card); border-radius: var(--radius-lg); padding: 3rem 2rem; margin: 2rem 0 3rem; text-align: center; box-shadow: var(--shadow-sm);">
             <div style="font-size: 3rem; margin-bottom: 1rem; line-height: 1;">🚧</div>
