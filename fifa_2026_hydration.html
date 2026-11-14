@@ -134,6 +134,35 @@
             During the data analysis, although there was no direct reference to hydration break timestamps, the following iteration was performed on each match to identify those moments: between minutes 20–30 and minutes 65–75, check whether a stoppage lasting longer than 2 minutes occurred (<a href="https://inside.fifa.com/organisation/news/hydration-breaks-world-cup-2026-player-welfare" target="_blank" rel="noopener noreferrer">breaks were scheduled around the 22nd minute of each half with an expected duration of 3 minutes</a>). If only a single result was returned within that window, it was identified as the hydration break; otherwise, another prolonged interruption might have occurred—such as a player injury—requiring cross-referencing with other sources.
           </p>
 
+          <p>
+            Out of a total of 104 matches, one game lacked recorded data (Brazil vs. Norway). Across the remaining 103 matches, hydration breaks meeting the previously described criteria were identified in both halves, and each pause was adjusted to its actual duration along with its start and end minutes. Exceptions and uncertainties arose only in the following fixtures:
+          </p>
+
+          <ul style="margin: 0 0 1.4rem 1.5rem; list-style: disc; color: var(--text-secondary); line-height: 1.8;">
+            <li style="margin-bottom: 0.5rem;"><strong>Mexico vs. South Africa:</strong> the second-half break lasted only 1:35 (69:01&ndash;70:36).</li>
+            <li style="margin-bottom: 0.5rem;"><strong>France vs. Iraq:</strong> there were no break markers and no stoppage exceeding 83 seconds.</li>
+            <li style="margin-bottom: 0.5rem;"><strong>Spain vs. Cape Verde:</strong> the feed contained no events between 17:30 and 26:46, recording only the &ldquo;gameon&rdquo; event at 26:46.</li>
+          </ul>
+
+          <div class="article-img-box">
+            <img src="images/fifa_2026_hydration_breaks_table.jpg" alt="Sample dataset of FIFA 2026 matches with identified hydration break intervals and duration" style="max-width: 100%; width: 100%;" />
+            <p style="margin-top: 0.75rem; font-size: 0.875rem; color: var(--text-muted); font-style: italic;">
+              Sample of the analyzed matches with identified hydration break start, end, and duration timestamps.
+            </p>
+          </div>
+
+          <p>
+            In the <strong>Mexico vs. South Africa</strong> match, external information revealed that the second-half hydration break took place immediately following a goal, <a href="https://www.theguardian.com/football/2026/jun/14/fox-hydration-break-rules-ads-world-cup-fifa-sanction" target="_blank" rel="noopener noreferrer">which curiously sparked controversy as broadcast commercials ran longer than expected</a>.
+          </p>
+
+          <p>
+            In the <strong>France vs. Iraq</strong> match, a kickoff delay occurred before the game, and <a href="https://www.si.com/soccer/why-fifa-canceled-hydration-break-france-iraq" target="_blank" rel="noopener noreferrer">it was decided that the second half would not feature a hydration break</a>.
+          </p>
+
+          <p>
+            In the <strong>Spain vs. Cape Verde</strong> match, consulting detailed match commentary was required to confirm that the first-half hydration break began at minute 23.
+          </p>
+
           <!-- Under Construction Box -->
           <div style="background: var(--bg-surface); border: 1px solid var(--border-card); border-radius: var(--radius-lg); padding: 3rem 2rem; margin: 2rem 0 3rem; text-align: center; box-shadow: var(--shadow-sm);">
             <div style="font-size: 3rem; margin-bottom: 1rem; line-height: 1;">🚧</div>
