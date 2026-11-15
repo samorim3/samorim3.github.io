@@ -2,7 +2,7 @@
 check_health_contests.py
 ========================
 Agente automatizado de monitorização de concursos públicos de saúde (ULS e SPMS).
-Verifica semanalmente (ao domingo às 13h) os links oficiais à procura de concursos
+Verifica semanalmente (ao domingo às 13h15) os links oficiais à procura de concursos
 em vigor contendo os termos: "nutrição", "informática", "informação".
 
 Caso haja concursos relevantes ou ocorra algum erro no acesso aos links,
@@ -15,12 +15,15 @@ import io
 import json
 import re
 import socket
+import ssl
+import subprocess
 import unicodedata
 import argparse
 import html
 from datetime import datetime
 from urllib.parse import urljoin
 import requests
+from requests.adapters import HTTPAdapter
 from bs4 import BeautifulSoup
 import urllib3
 
@@ -28,20 +31,48 @@ import urllib3
 if hasattr(sys.stdout, 'buffer'):
     sys.stdout = io.TextIOWrapper(sys.stdout.buffer, encoding='utf-8', errors='replace')
 
-# Suppress insecure request warnings for hospital servers with incomplete cert chains
+# Suppress insecure request warnings
 urllib3.disable_warnings()
 
 # Default socket timeout
-socket.setdefaulttimeout(20)
+socket.setdefaulttimeout(25)
 
 TELEGRAM_BOT_TOKEN = os.environ.get("TELEGRAM_BOT_TOKEN")
 TELEGRAM_CHAT_ID = os.environ.get("TELEGRAM_CHAT_ID")
 
 HTTP_HEADERS = {
     'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/124.0.0.0 Safari/537.36',
-    'Accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8',
-    'Accept-Language': 'pt-PT,pt;q=0.9,en;q=0.8'
+    'Accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8',
+    'Accept-Language': 'pt-PT,pt;q=0.9,en;q=0.8',
+    'Sec-Ch-Ua': '"Chromium";v="124", "Google Chrome";v="124", "Not-A.Brand";v="99"',
+    'Sec-Ch-Ua-Mobile': '?0',
+    'Sec-Ch-Ua-Platform': '"Windows"',
+    'Sec-Fetch-Dest': 'document',
+    'Sec-Fetch-Mode': 'navigate',
+    'Sec-Fetch-Site': 'none',
+    'Sec-Fetch-User': '?1',
+    'Upgrade-Insecure-Requests': '1'
 }
+
+# Configuração de sessão com suporte a cifras legadas (compatibilidade OpenSSL 3 no Linux / Ubuntu)
+class LegacySSLAdapter(HTTPAdapter):
+    def init_poolmanager(self, *args, **kwargs):
+        try:
+            from urllib3.util.ssl_ import create_urllib3_context
+            ctx = create_urllib3_context()
+            ctx.set_ciphers('DEFAULT@SECLEVEL=1')
+            ctx.check_hostname = False
+            ctx.verify_mode = ssl.CERT_NONE
+            kwargs['ssl_context'] = ctx
+        except Exception:
+            pass
+        return super().init_poolmanager(*args, **kwargs)
+
+SESSION = requests.Session()
+adapter = LegacySSLAdapter()
+SESSION.mount('https://', adapter)
+SESSION.mount('http://', adapter)
+SESSION.headers.update(HTTP_HEADERS)
 
 FALSE_POSITIVE_PHRASES = [
     "informacao legal",
@@ -64,26 +95,56 @@ def normalize(text):
 def check_keyword_match(text):
     norm = normalize(text)
     
-    # Exclude common navigational false positives
     for fp in FALSE_POSITIVE_PHRASES:
         if fp in norm and len(norm) < 65:
             return False, None
             
-    # Check for nutrition
     if "nutri" in norm:
         return True, "Nutrição"
-    # Check for IT / informática
     if "informatic" in norm:
         return True, "Informática"
-    # Check for information systems / informação
     if any(k in norm for k in ["sistemas de informacao", "tecnologias de informacao", "gestao de informacao", "informacao"]):
-        # Check context
         if any(w in norm for w in ["tecnico", "especialista", "assistente", "diretor", "reserva", "concurso", "recrutamento", "procedimento", "bolsa", "estagio", "carreira", "funcoes", "vagas", "area"]):
             return True, "Informação"
         elif "informacao" in norm and not any(fp in norm for fp in FALSE_POSITIVE_PHRASES):
             return True, "Informação"
 
     return False, None
+
+def robust_fetch(url, is_json=False):
+    """
+    Tenta efetuar pedido com requests.Session (com cifras compatíveis e headers completos).
+    Em caso de bloqueio (403/reset de conexão), faz fallback automático para o curl do sistema com HTTP/2.
+    """
+    last_error = None
+    
+    # Tentativa 1: requests com Session configurada
+    try:
+        r = SESSION.get(url, verify=False, timeout=18)
+        if r.status_code == 200 and len(r.text) > 100:
+            return r.json() if is_json else r.text
+        if r.status_code != 200:
+            last_error = f"Status {r.status_code}"
+    except Exception as e:
+        last_error = str(e)
+
+    # Tentativa 2: fallback para curl (suporta HTTP/2 nativo e ignora restrições do Azure Front Door WAF)
+    try:
+        curl_bin = 'curl.exe' if sys.platform == 'win32' else 'curl'
+        cmd = [
+            curl_bin, '-s', '-L', '-k', '--http2',
+            '-H', f"User-Agent: {HTTP_HEADERS['User-Agent']}",
+            '-H', f"Accept: {HTTP_HEADERS['Accept']}",
+            '-H', f"Accept-Language: {HTTP_HEADERS['Accept-Language']}",
+            url
+        ]
+        res = subprocess.run(cmd, capture_output=True, text=True, timeout=20)
+        if res.returncode == 0 and len(res.stdout) > 100:
+            return json.loads(res.stdout) if is_json else res.stdout
+    except Exception as e:
+        last_error = f"requests: {last_error}; curl: {e}"
+
+    raise Exception(last_error or f"Falha ao aceder a {url}")
 
 def send_telegram_raw(text):
     token = os.environ.get("TELEGRAM_BOT_TOKEN", TELEGRAM_BOT_TOKEN)
@@ -141,11 +202,8 @@ def fetch_portal_engine(base_domain, entity_name, sections=None):
         while page <= max_pages:
             url = f"{base_domain}/{section}" if page == 1 else f"{base_domain}/{section}?recruitment_processes_list_3_page={page}"
             try:
-                resp = requests.get(url, headers=HTTP_HEADERS, verify=False, timeout=15)
-                if resp.status_code != 200:
-                    break
-
-                soup = BeautifulSoup(resp.text, 'html.parser')
+                html_text = robust_fetch(url)
+                soup = BeautifulSoup(html_text, 'html.parser')
                 links = soup.find_all('a', href=re.compile(r'recruitment_process_id=(\d+)'))
                 if not links:
                     break
@@ -184,73 +242,111 @@ def fetch_portal_engine(base_domain, entity_name, sections=None):
 
     return contests
 
-def parse_ulsam():
-    url = "https://www.ulsam.min-saude.pt/category/profissional/concursos/"
-    r = requests.get(url, headers=HTTP_HEADERS, verify=False, timeout=15)
-    r.raise_for_status()
-    soup = BeautifulSoup(r.text, 'html.parser')
+def parse_wordpress_api(base_domain, category_slug=None):
+    """
+    Fallback universal para portais WordPress do SNS (utiliza a API REST oficial /wp-json/wp/v2/posts)
+    """
+    url = f"{base_domain}/wp-json/wp/v2/posts?per_page=35"
+    data = robust_fetch(url, is_json=True)
     contests = []
     
-    for a in soup.find_all('a', href=True):
-        href = a['href']
-        if '/profissional/' in href and not any(skip in href.lower() for skip in ['/category/', '/tag/', 'page/']):
-            title = a.get_text(' ', strip=True)
-            if len(title) > 15 and not any(skip in title.lower() for skip in ['limpar filtros', 'área do profissional', 'concursos / recrutamento']):
-                full_url = urljoin(url, href)
-                parent = a.find_parent(['article', 'div', 'li']) or a
-                contests.append({
-                    'id': full_url,
-                    'title': title,
-                    'details': parent.get_text(' ', strip=True)[:300],
-                    'url': full_url
-                })
+    if isinstance(data, list):
+        for post in data:
+            title_rendered = post.get('title', {}).get('rendered', '')
+            # Decode HTML entities
+            title = html.unescape(BeautifulSoup(title_rendered, 'html.parser').get_text())
+            link = post.get('link', '')
+            excerpt_rendered = post.get('excerpt', {}).get('rendered', '')
+            excerpt = html.unescape(BeautifulSoup(excerpt_rendered, 'html.parser').get_text())
+            
+            contests.append({
+                'id': link or f"{base_domain}_{post.get('id')}",
+                'title': title,
+                'details': excerpt[:300],
+                'url': link
+            })
     return contests
+
+def parse_ulsam():
+    url = "https://www.ulsam.min-saude.pt/category/profissional/concursos/"
+    try:
+        html_text = robust_fetch(url)
+        soup = BeautifulSoup(html_text, 'html.parser')
+        contests = []
+        
+        for a in soup.find_all('a', href=True):
+            href = a['href']
+            if '/profissional/' in href and not any(skip in href.lower() for skip in ['/category/', '/tag/', 'page/']):
+                title = a.get_text(' ', strip=True)
+                if len(title) > 15 and not any(skip in title.lower() for skip in ['limpar filtros', 'área do profissional', 'concursos / recrutamento']):
+                    full_url = urljoin(url, href)
+                    parent = a.find_parent(['article', 'div', 'li']) or a
+                    contests.append({
+                        'id': full_url,
+                        'title': title,
+                        'details': parent.get_text(' ', strip=True)[:300],
+                        'url': full_url
+                    })
+        if contests:
+            return contests
+    except Exception:
+        pass
+    # Fallback para WP REST API
+    return parse_wordpress_api("https://www.ulsam.min-saude.pt")
 
 def parse_uls_braga():
     return fetch_portal_engine("https://recrutamento.hospitaldebraga.pt", "Braga")
 
 def parse_ulsbe():
     url = "https://www.ulsbe.min-saude.pt/2018/01/16/concursos-institucionais/"
-    r = requests.get(url, headers=HTTP_HEADERS, verify=False, timeout=18)
-    r.raise_for_status()
-    soup = BeautifulSoup(r.text, 'html.parser')
-    contests = []
-    
-    content = soup.find('div', class_=re.compile(r'entry-content|post-content')) or soup
-    for el in content.find_all(['p', 'li', 'h4', 'h5', 'h3']):
-        text = el.get_text(' ', strip=True)
-        if any(w in text.lower() for w in ['procedimento', 'concurso', 'reserva', 'manifestação', 'aviso', 'recrutamento']):
-            if len(text) > 20 and not any(skip in text.lower() for skip in ['cookies', 'informação clínica', 'informação legal']):
-                a = el.find('a', href=True)
-                link = urljoin(url, a['href']) if a else url
-                contests.append({
-                    'id': f"ULSBE_{hash(text[:80])}",
-                    'title': text[:200],
-                    'details': text[:350],
-                    'url': link
-                })
-    return contests
+    try:
+        html_text = robust_fetch(url)
+        soup = BeautifulSoup(html_text, 'html.parser')
+        contests = []
+        
+        content = soup.find('div', class_=re.compile(r'entry-content|post-content')) or soup
+        for el in content.find_all(['p', 'li', 'h4', 'h5', 'h3']):
+            text = el.get_text(' ', strip=True)
+            if any(w in text.lower() for w in ['procedimento', 'concurso', 'reserva', 'manifestação', 'aviso', 'recrutamento']):
+                if len(text) > 20 and not any(skip in text.lower() for skip in ['cookies', 'informação clínica', 'informação legal']):
+                    a = el.find('a', href=True)
+                    link = urljoin(url, a['href']) if a else url
+                    contests.append({
+                        'id': f"ULSBE_{hash(text[:80])}",
+                        'title': text[:200],
+                        'details': text[:350],
+                        'url': link
+                    })
+        if contests:
+            return contests
+    except Exception:
+        pass
+    return parse_wordpress_api("https://www.ulsbe.min-saude.pt")
 
 def parse_uls_alto_ave():
     url = "https://www.ulsaave.min-saude.pt/category/recrutamento/"
-    r = requests.get(url, headers=HTTP_HEADERS, verify=False, timeout=15)
-    r.raise_for_status()
-    soup = BeautifulSoup(r.text, 'html.parser')
-    contests = []
-    
-    for a in soup.find_all('a', href=True):
-        href = a['href']
-        if re.search(r'/\d{4}/\d{2}/', href):
-            title = a.get_text(' ', strip=True)
-            if len(title) > 10:
-                parent = a.find_parent(['article', 'div', 'li']) or a
-                contests.append({
-                    'id': href,
-                    'title': title,
-                    'details': parent.get_text(' ', strip=True)[:300],
-                    'url': urljoin(url, href)
-                })
-    return contests
+    try:
+        html_text = robust_fetch(url)
+        soup = BeautifulSoup(html_text, 'html.parser')
+        contests = []
+        
+        for a in soup.find_all('a', href=True):
+            href = a['href']
+            if re.search(r'/\d{4}/\d{2}/', href):
+                title = a.get_text(' ', strip=True)
+                if len(title) > 10:
+                    parent = a.find_parent(['article', 'div', 'li']) or a
+                    contests.append({
+                        'id': href,
+                        'title': title,
+                        'details': parent.get_text(' ', strip=True)[:300],
+                        'url': urljoin(url, href)
+                    })
+        if contests:
+            return contests
+    except Exception:
+        pass
+    return parse_wordpress_api("https://www.ulsaave.min-saude.pt")
 
 def parse_uls_medio_ave():
     return fetch_portal_engine("https://recrutamento.chma.min-saude.pt", "CHMA")
@@ -263,9 +359,8 @@ def parse_uls_sao_joao():
 
 def parse_uls_santo_antonio():
     url = "https://www.ulssa.pt/recrutamento/tecnicos-superiores"
-    r = requests.get(url, headers=HTTP_HEADERS, verify=False, timeout=15)
-    r.raise_for_status()
-    soup = BeautifulSoup(r.text, 'html.parser')
+    html_text = robust_fetch(url)
+    soup = BeautifulSoup(html_text, 'html.parser')
     contests = []
     
     cards = soup.find_all('div', class_='card')
@@ -289,47 +384,67 @@ def parse_uls_santo_antonio():
 
 def parse_uls_matosinhos():
     url = "https://www.ulsm.min-saude.pt/category/profissional/concursos/"
-    r = requests.get(url, headers=HTTP_HEADERS, verify=False, timeout=15)
-    r.raise_for_status()
-    soup = BeautifulSoup(r.text, 'html.parser')
-    contests = []
-    
-    for a in soup.find_all('a', href=True):
-        href = a['href']
-        if '/profissional/concursos/' in href and href.rstrip('/') != url.rstrip('/'):
-            title = a.get_text(' ', strip=True)
-            if len(title) > 10 and not any(skip in title.lower() for skip in ['limpar filtros', 'concursos / recrutamento']):
-                parent = a.find_parent(['article', 'div', 'li']) or a
-                contests.append({
-                    'id': href,
-                    'title': title,
-                    'details': parent.get_text(' ', strip=True)[:300],
-                    'url': urljoin(url, href)
-                })
-    return contests
+    try:
+        html_text = robust_fetch(url)
+        soup = BeautifulSoup(html_text, 'html.parser')
+        contests = []
+        
+        for a in soup.find_all('a', href=True):
+            href = a['href']
+            if '/profissional/concursos/' in href and href.rstrip('/') != url.rstrip('/'):
+                title = a.get_text(' ', strip=True)
+                if len(title) > 10 and not any(skip in title.lower() for skip in ['limpar filtros', 'concursos / recrutamento']):
+                    parent = a.find_parent(['article', 'div', 'li']) or a
+                    contests.append({
+                        'id': href,
+                        'title': title,
+                        'details': parent.get_text(' ', strip=True)[:300],
+                        'url': urljoin(url, href)
+                    })
+        if contests:
+            return contests
+    except Exception:
+        pass
+    return parse_wordpress_api("https://www.ulsm.min-saude.pt")
 
 def parse_uls_gaia_espinho():
     return fetch_portal_engine("https://recrutamento.ulsge.min-saude.pt", "ULSGE")
 
 def parse_spms():
     api_url = "https://webrhv.min-saude.pt/recrutamento/api/v1/anuncios/instituicoes/MTMzMA"
-    r = requests.get(api_url, headers=HTTP_HEADERS, verify=False, timeout=15)
-    r.raise_for_status()
-    data = r.json()
     contests = []
     
-    for item in data:
-        ref = item.get('REFERENCIA', '')
-        tit = item.get('TITULO', '')
-        dt_fim = item.get('DAT_FIM', '')
-        anuncio_id = item.get('ID_ANUNCIOS', '')
+    try:
+        data = robust_fetch(api_url, is_json=True)
+        if isinstance(data, list):
+            for item in data:
+                ref = item.get('REFERENCIA', '')
+                tit = item.get('TITULO', '')
+                dt_fim = item.get('DAT_FIM', '')
+                anuncio_id = item.get('ID_ANUNCIOS', '')
+                
+                contests.append({
+                    'id': f"SPMS_{anuncio_id}_{ref}",
+                    'title': f"[{ref}] {tit}" if ref else tit,
+                    'details': f"Data limite candidatura: {dt_fim}",
+                    'url': "https://www.spms.min-saude.pt/recrutamento/"
+                })
+            return contests
+    except Exception:
+        pass
         
-        contests.append({
-            'id': f"SPMS_{anuncio_id}_{ref}",
-            'title': f"[{ref}] {tit}" if ref else tit,
-            'details': f"Data limite candidatura: {dt_fim}",
-            'url': "https://www.spms.min-saude.pt/recrutamento/"
-        })
+    # Fallback para raspagem direta da página oficial SPMS
+    html_spms = robust_fetch("https://www.spms.min-saude.pt/recrutamento/")
+    soup = BeautifulSoup(html_spms, 'html.parser')
+    for a in soup.find_all('a', href=True):
+        t = a.get_text(' ', strip=True)
+        if any(w in t.lower() for w in ['concurso', 'recrutamento', 'procedimento', 'vaga']):
+            contests.append({
+                'id': f"SPMS_{hash(t)}",
+                'title': t,
+                'details': t,
+                'url': urljoin("https://www.spms.min-saude.pt", a['href'])
+            })
     return contests
 
 ENTITIES = [
@@ -435,7 +550,6 @@ def build_telegram_chunks(matches_by_entity):
             
         block_text = "\n".join(block) + "\n"
         
-        # Telegram character limit is 4096. Keep under 3800 for safety.
         if len(current_chunk) + len(block_text) > 3800:
             chunks.append(current_chunk)
             current_chunk = block_text
@@ -557,7 +671,7 @@ def run_check(dry_run=False, force_alert=False, send_summary=False):
             f"ℹ️ <b>TESTE DO AGENTE DE CONCURSOS</b>\n\n"
             f"O agente foi executado com sucesso.\n"
             f"Concursos ativos em vigor: {total_found}.\n"
-            f"Próxima verificação automática: Domingo às 13:00."
+            f"Próxima verificação automática: Domingo às 13:15."
         )
         if not dry_run:
             send_telegram_raw(test_msg)
@@ -575,7 +689,6 @@ if __name__ == "__main__":
     parser.add_argument("--schedule-check", action="store_true", help="Verifica se a hora local em Lisboa é 13h antes de executar")
     args = parser.parse_args()
     
-    # Se chamado com --schedule-check (no GitHub Actions agendado a 12:00 e 13:00 UTC)
     if args.schedule_check:
         try:
             from zoneinfo import ZoneInfo
@@ -587,6 +700,5 @@ if __name__ == "__main__":
         except Exception as e:
             print(f"[Agendamento] Aviso no cálculo de fuso horário: {e}. Prosseguindo com a verificação.")
 
-    # Para execução de domingo, enviamos o resumo dos concursos em vigor
     send_summary = True if args.summary or not (args.dry_run or args.force_alert) else False
     run_check(dry_run=args.dry_run, force_alert=args.force_alert, send_summary=send_summary)
