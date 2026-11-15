@@ -671,7 +671,7 @@ def run_check(dry_run=False, force_alert=False, send_summary=False):
             f"ℹ️ <b>TESTE DO AGENTE DE CONCURSOS</b>\n\n"
             f"O agente foi executado com sucesso.\n"
             f"Concursos ativos em vigor: {total_found}.\n"
-            f"Próxima verificação automática: Domingo às 13:15."
+            f"Próxima verificação automática: Domingo às 14:44."
         )
         if not dry_run:
             send_telegram_raw(test_msg)
@@ -693,8 +693,8 @@ if __name__ == "__main__":
         try:
             from zoneinfo import ZoneInfo
             lisbon_hour = datetime.now(ZoneInfo("Europe/Lisbon")).hour
-            if lisbon_hour != 13:
-                print(f"[Agendamento] Hora em Lisboa é {lisbon_hour}h (não é 13h). A ignorar esta passagem.")
+            if lisbon_hour != 14:
+                print(f"[Agendamento] Hora em Lisboa é {lisbon_hour}h (não é 14h). A ignorar esta passagem.")
                 sys.exit(0)
             print(f"[Agendamento] Confirmada hora de Lisboa: {lisbon_hour}h. A iniciar verificação...")
         except Exception as e:
