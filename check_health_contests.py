@@ -128,53 +128,59 @@ def send_telegram_messages(chunks):
 # PARSERS DAS ENTIDADES DE SAÚDE
 # ==============================================================================
 
-def fetch_portal_engine(base_domain, entity_name):
+def fetch_portal_engine(base_domain, entity_name, sections=None):
+    if sections is None:
+        sections = ["processos-a-decorrer", "processos-ativos", "processos-abertos"]
+        
     contests = []
     seen_ids = set()
 
-    for section in ["processos-a-decorrer", "processos-ativos"]:
+    for section in sections:
         page = 1
         max_pages = 8
         while page <= max_pages:
             url = f"{base_domain}/{section}" if page == 1 else f"{base_domain}/{section}?recruitment_processes_list_3_page={page}"
-            resp = requests.get(url, headers=HTTP_HEADERS, verify=False, timeout=15)
-            if resp.status_code != 200:
+            try:
+                resp = requests.get(url, headers=HTTP_HEADERS, verify=False, timeout=15)
+                if resp.status_code != 200:
+                    break
+
+                soup = BeautifulSoup(resp.text, 'html.parser')
+                links = soup.find_all('a', href=re.compile(r'recruitment_process_id=(\d+)'))
+                if not links:
+                    break
+
+                new_on_page = 0
+                for a in links:
+                    href = a['href']
+                    m = re.search(r'recruitment_process_id=(\d+)', href)
+                    proc_id = m.group(1) if m else href
+
+                    if proc_id in seen_ids:
+                        continue
+                    seen_ids.add(proc_id)
+
+                    title = a.get_text(' ', strip=True)
+                    full_url = urljoin(base_domain, href)
+
+                    parent = a.find_parent(['div', 'tr', 'li']) or a
+                    details = parent.get_text(' ', strip=True)
+
+                    contests.append({
+                        'id': f"{entity_name}_{proc_id}",
+                        'title': title,
+                        'details': details[:300],
+                        'url': full_url,
+                        'section': section
+                    })
+                    new_on_page += 1
+
+                next_page = soup.find('a', href=re.compile(rf'page={page+1}'))
+                if not next_page or new_on_page == 0:
+                    break
+                page += 1
+            except Exception:
                 break
-
-            soup = BeautifulSoup(resp.text, 'html.parser')
-            links = soup.find_all('a', href=re.compile(r'recruitment_process_id=(\d+)'))
-            if not links:
-                break
-
-            new_on_page = 0
-            for a in links:
-                href = a['href']
-                m = re.search(r'recruitment_process_id=(\d+)', href)
-                proc_id = m.group(1) if m else href
-
-                if proc_id in seen_ids:
-                    continue
-                seen_ids.add(proc_id)
-
-                title = a.get_text(' ', strip=True)
-                full_url = urljoin(base_domain, href)
-
-                parent = a.find_parent(['div', 'tr', 'li']) or a
-                details = parent.get_text(' ', strip=True)
-
-                contests.append({
-                    'id': f"{entity_name}_{proc_id}",
-                    'title': title,
-                    'details': details[:300],
-                    'url': full_url,
-                    'section': section
-                })
-                new_on_page += 1
-
-            next_page = soup.find('a', href=re.compile(rf'page={page+1}'))
-            if not next_page or new_on_page == 0:
-                break
-            page += 1
 
     return contests
 
@@ -253,7 +259,7 @@ def parse_uls_povoa_vila_conde():
     return fetch_portal_engine("https://recrutamento.ulspvvc.min-saude.pt", "PVVC")
 
 def parse_uls_sao_joao():
-    return fetch_portal_engine("https://concursosrh-ulssjoao.min-saude.pt", "SaoJoao")
+    return fetch_portal_engine("https://concursosrh-ulssjoao.min-saude.pt", "SaoJoao", sections=["processos-abertos", "processos-a-decorrer"])
 
 def parse_uls_santo_antonio():
     url = "https://www.ulssa.pt/recrutamento/tecnicos-superiores"
@@ -359,7 +365,7 @@ ENTITIES = [
     },
     {
         "name": "ULS de São João (Porto e Valongo)",
-        "url": "https://portal-chsj.min-saude.pt/media/concursos",
+        "url": "https://concursosrh-ulssjoao.min-saude.pt/processos-abertos",
         "parser": parse_uls_sao_joao
     },
     {
