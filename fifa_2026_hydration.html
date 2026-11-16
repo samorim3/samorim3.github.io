@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>FIFA 2026: Hydration Breaks & Match Performance | Samuel Amorim</title>
+  <title>FIFA 2026: Hydration Breaks &amp; Match Performance | Samuel Amorim</title>
   <meta name="description" content="Data analysis study on FIFA 2026 hydration breaks and match performance by Samuel Amorim." />
 
   <!-- Google Analytics (GA4) -->
@@ -87,7 +87,7 @@
           
         </div>
 
-        <h1 class="project-detail-title">FIFA 2026: Hydration Breaks & Match Performance</h1>
+        <h1 class="project-detail-title">FIFA 2026: Hydration Breaks &amp; Match Performance</h1>
         
       </div>
     </section>
@@ -98,40 +98,41 @@
     <section class="article-section">
       <div class="article-container">
         <article class="article-content">
-          
-          <h2>Project Overview</h2>
-          <p>
-            <a href="https://inside.fifa.com/organisation/media-releases/world-cup-2026-numbers-unprecedented-operation-behind-biggest-sporting-event-history" target="_blank" rel="noopener noreferrer">The FIFA World Cup is the biggest sporting event on the planet</a>, breaking viewership and social engagement records.
-          </p>
-          <p>
-            During its latest edition in June and July 2026, controversy arose over the use of hydration breaks for commercial advertising. While companies found a new window to advertise their products, <a href="https://www.dw.com/en/hydration-breaks-the-most-controversial-issue-at-the-world-cup/a-77783435" target="_blank" rel="noopener noreferrer">fans strongly resented the pauses that disrupted the flow of the game</a>, with audible boos heard in several matches whenever hydration breaks were whistled. For coaching staffs, these intervals were capitalized on to deliver tactical adjustments. As for the players—the primary reason for the breaks—they took advantage of the moments to rehydrate and restore energy while taking in tactical instructions.
-          </p>
 
-          <div class="article-img-box">
-            <img src="images/fifa_2026_hydration_break.jpg" alt="Portugal v Uzbekistan, played in an air-conditioned stadium, is paused for a hydration break" style="max-width: 500px; width: 100%;" />
-            <p style="margin-top: 0.75rem; font-size: 0.875rem; color: var(--text-muted); font-style: italic; max-width: 500px; margin-left: auto; margin-right: auto;">
-              Portugal v Uzbekistan, played in an air-conditioned stadium, is paused for a hydration break. Photograph: Chris Brunskill/Fantasista/Getty Images
-            </p>
+          <h2>Project Overview</h2>
+
+          <div style="display: flex; gap: 2rem; align-items: flex-start; flex-wrap: wrap; margin-bottom: 1.5rem;">
+            <div style="flex: 1; min-width: 280px;">
+              <p>
+                <a href="https://inside.fifa.com/organisation/media-releases/world-cup-2026-numbers-unprecedented-operation-behind-biggest-sporting-event-history" target="_blank" rel="noopener noreferrer">The FIFA World Cup is the biggest sporting event on the planet</a>, breaking viewership and social engagement records.
+              </p>
+              <p>
+                During its latest edition in June and July 2026, controversy arose over the use of hydration breaks for commercial advertising. While companies found a new window to advertise their products, <a href="https://www.dw.com/en/hydration-breaks-the-most-controversial-issue-at-the-world-cup/a-77783435" target="_blank" rel="noopener noreferrer">fans strongly resented the pauses that disrupted the flow of the game</a>, with audible boos heard in several matches whenever hydration breaks were whistled. For coaching staffs, these intervals were capitalized on to deliver tactical adjustments. As for the players&mdash;the primary reason for the breaks&mdash;they took advantage of the moments to rehydrate and restore energy while taking in tactical instructions.
+              </p>
+              <p>
+                As a football fan who followed the tournament closely, a recurring theme began to emerge: goals being scored in the minutes immediately following hydration breaks (e.g., USA vs. Paraguay, Australia vs. Turkey, or Germany vs. Cura&ccedil;ao). This pattern raised the central question of this project: <em>what is the actual impact of hydration breaks on match dynamics?</em>
+              </p>
+            </div>
+            <div style="flex: 0 0 auto; max-width: 400px; width: 100%;">
+              <img src="images/fifa_2026_hydration_break.jpg" alt="Portugal v Uzbekistan, played in an air-conditioned stadium, is paused for a hydration break" style="width: 100%; border-radius: 0.75rem;" />
+              <p style="margin-top: 0.75rem; font-size: 0.875rem; color: var(--text-muted); font-style: italic;">
+                Portugal v Uzbekistan, played in an air-conditioned stadium, is paused for a hydration break. Photograph: Chris Brunskill/Fantasista/Getty Images
+              </p>
+            </div>
           </div>
 
+          <h2>Data Collection</h2>
+
           <p>
-            As a football fan, I followed the tournament closely, and the fact that goals were scored immediately after hydration breaks (e.g., USA vs. Paraguay, Australia vs. Turkey, or Germany vs. Curaçao) sparked debate. This prompted questions about whether the breaks truly altered the game's dynamics, which motivated me to seek answers through statistical analysis of the competition’s data.
+            Gathering the right data proved to be one of the main challenges of this project. The official data published by FIFA was limited to key match events and contained no information about hydration break timestamps, making it impossible to directly identify when breaks occurred or how long they lasted.
           </p>
 
           <p>
-            This curiosity led me to investigate whether any differences existed in match variables following hydration breaks. To that end, gathering relevant data was essential. However, the data collection phase was challenging, as the data officially published by FIFA was limited to key match events.
+            Fortunately, I found a project developed by <a href="https://www.kaggle.com/datasets/jodach/fifa-world-cup-2026-dataset/data" target="_blank" rel="noopener noreferrer">Jose David Chiquillo</a>, who collected a real-time dataset across the entire competition, creating a detailed chronological record of each match. This data includes game state snapshots collected at regular intervals, capturing a wide range of match variables over time, as well as discrete events throughout each game.
           </p>
 
           <p>
-            Fortunately, I found a project developed by <a href="https://www.kaggle.com/datasets/jodach/fifa-world-cup-2026-dataset/data" target="_blank" rel="noopener noreferrer">Jose David Chiquillo</a>, who collected a real-time dataset across the entire competition, creating a detailed chronological record of each match.
-          </p>
-
-          <p>
-            This data includes game state snapshots (every 30 seconds): score evolution, statistics, and match phases over time; live positional data (every 5 seconds): ball coordinates and ongoing game situations; and discrete events: specific records of goals, cards, and substitutions.
-          </p>
-
-          <p>
-            During the data analysis, although there was no direct reference to hydration break timestamps, the following iteration was performed on each match to identify those moments: between minutes 20–30 and minutes 65–75, check whether a stoppage lasting longer than 2 minutes occurred (<a href="https://inside.fifa.com/organisation/news/hydration-breaks-world-cup-2026-player-welfare" target="_blank" rel="noopener noreferrer">breaks were scheduled around the 22nd minute of each half with an expected duration of 3 minutes</a>). If only a single result was returned within that window, it was identified as the hydration break; otherwise, another prolonged interruption might have occurred—such as a player injury—requiring cross-referencing with other sources.
+            During the data analysis, although there was no direct reference to hydration break timestamps, the following <strong>algorithm</strong> was applied to each match to identify those moments: between minutes 20&ndash;30 and minutes 65&ndash;75, check whether a stoppage lasting longer than 2 minutes occurred (<a href="https://inside.fifa.com/organisation/news/hydration-breaks-world-cup-2026-player-welfare" target="_blank" rel="noopener noreferrer">breaks were scheduled around the 22nd minute of each half with an expected duration of 3 minutes</a>). If only a single result was returned within that window, it was identified as the hydration break; otherwise, another prolonged interruption might have occurred&mdash;such as a player injury&mdash;requiring cross-referencing with other sources.
           </p>
 
           <p>
@@ -141,7 +142,7 @@
           <ul style="margin: 0 0 1.4rem 1.5rem; list-style: disc; color: var(--text-secondary); line-height: 1.8;">
             <li style="margin-bottom: 0.5rem;"><strong>Mexico vs. South Africa:</strong> the second-half break lasted only 1:35 (69:01&ndash;70:36).</li>
             <li style="margin-bottom: 0.5rem;"><strong>France vs. Iraq:</strong> there were no break markers and no stoppage exceeding 83 seconds.</li>
-            <li style="margin-bottom: 0.5rem;"><strong>Spain vs. Cape Verde:</strong> the feed contained no events between 17:30 and 26:46, recording only the &ldquo;gameon&rdquo; event at 26:46.</li>
+            <li style="margin-bottom: 0.5rem;"><strong>Spain vs. Cape Verde:</strong> the feed contained no events between 17:30 and 26:46, recording only the &ldquo;gameon&rdquo; event at 26:46. As a result, the first-half hydration break could not be accounted for and was excluded from the analysis.</li>
           </ul>
 
           <div class="article-img-box">
@@ -159,25 +160,11 @@
             In the <strong>France vs. Iraq</strong> match, a kickoff delay occurred before the game, and <a href="https://www.si.com/soccer/why-fifa-canceled-hydration-break-france-iraq" target="_blank" rel="noopener noreferrer">it was decided that the second half would not feature a hydration break</a>.
           </p>
 
-          <p>
-            In the <strong>Spain vs. Cape Verde</strong> match, consulting detailed match commentary was required to confirm that the first-half hydration break began at minute 23.
-          </p>
+          <h2>Statistical Analysis</h2>
 
-          <!-- Under Construction Box -->
-          <div style="background: var(--bg-surface); border: 1px solid var(--border-card); border-radius: var(--radius-lg); padding: 3rem 2rem; margin: 2rem 0 3rem; text-align: center; box-shadow: var(--shadow-sm);">
-            <div style="font-size: 3rem; margin-bottom: 1rem; line-height: 1;">🚧</div>
-            <h2 style="margin: 0 0 0.75rem; font-size: 1.5rem; font-weight: 800; color: var(--text-main);">Under Construction</h2>
-            <p style="max-width: 540px; margin: 0 auto 2rem; color: var(--text-secondary); line-height: 1.6; font-size: 1rem;">
-              This project is currently under construction. Data pipelines, metrics modeling, and interactive dashboards will be published here once ready.
-            </p>
-            <a href="index.html#projects" class="btn btn-primary" style="display: inline-flex;">
-              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                <line x1="19" y1="12" x2="5" y2="12"></line>
-                <polyline points="12 19 5 12 12 5"></polyline>
-              </svg>
-              <span>Back to Projects</span>
-            </a>
-          </div>
+          <p>
+            <em>This section is currently being developed. Statistical results, visualizations, and insights will be published here once the analysis is complete.</em>
+          </p>
 
         </article>
       </div>
