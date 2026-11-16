@@ -84,11 +84,9 @@
 
         <div class="project-badges">
           <span class="badge badge-year">2026</span>
-          
         </div>
 
         <h1 class="project-detail-title">FIFA 2026: Hydration Breaks &amp; Match Performance</h1>
-        
       </div>
     </section>
 
@@ -132,7 +130,7 @@
           </p>
 
           <p>
-            During the data analysis, although there was no direct reference to hydration break timestamps, the following <strong>algorithm</strong> was applied to each match to identify those moments: between minutes 20&ndash;30 and minutes 65&ndash;75, check whether a stoppage lasting longer than 2 minutes occurred (<a href="https://inside.fifa.com/organisation/news/hydration-breaks-world-cup-2026-player-welfare" target="_blank" rel="noopener noreferrer">breaks were scheduled around the 22nd minute of each half with an expected duration of 3 minutes</a>). If only a single result was returned within that window, it was identified as the hydration break; otherwise, another prolonged interruption might have occurred&mdash;such as a player injury&mdash;requiring cross-referencing with other sources.
+            During the data analysis, although there was no direct reference to hydration break timestamps, the following algorithm was applied to each match to identify those moments: between minutes 20&ndash;30 and minutes 65&ndash;75, check whether a stoppage lasting longer than 2 minutes occurred (<a href="https://inside.fifa.com/organisation/news/hydration-breaks-world-cup-2026-player-welfare" target="_blank" rel="noopener noreferrer">breaks were scheduled around the 22nd minute of each half with an expected duration of 3 minutes</a>). If only a single result was returned within that window, it was identified as the hydration break; otherwise, another prolonged interruption might have occurred&mdash;such as a player injury&mdash;requiring cross-referencing with other sources.
           </p>
 
           <p>
@@ -157,13 +155,38 @@
           </p>
 
           <p>
-            In the <strong>France vs. Iraq</strong> match, a kickoff delay occurred before the game, and <a href="https://www.si.com/soccer/why-fifa-canceled-hydration-break-france-iraq" target="_blank" rel="noopener noreferrer">it was decided that the second half would not feature a hydration break</a>.
+            In the <strong>France vs. Iraq</strong> match, a kickoff delay occurred before the game, and <a href="https://www.si.com/soccer/why-fifa-canceled-hydration-break-france-iraq" target="_blank" rel="noopener noreferrer">it was decided that the second half would not feature a hydration break</a>. As a result, the second half of this match was not included in the analysis.
           </p>
 
           <h2>Statistical Analysis</h2>
 
           <p>
-            <em>This section is currently being developed. Statistical results, visualizations, and insights will be published here once the analysis is complete.</em>
+            A total of 102 first and second halves were analyzed out of a potential of 104 matches. 46 variables were compared across each half. A comparison window of 5 and 10 minutes before and after each hydration break was defined to analyze differences in match variables. The statistical test used was the Wilcoxon signed-rank test with p &lt; 0.05.
+          </p>
+
+          <p>The results obtained are presented below:</p>
+
+          <p><strong>Results with statistical significance.</strong></p>
+
+          <div class="article-img-box">
+            <img src="images/fifa_2026_chart_significant.png" alt="Chart showing statistically significant results of hydration break impact on match variables" style="max-width: 100%; width: 100%;" />
+          </div>
+
+          <p>
+            At 5 minutes after vs. 5 minutes before: match intensity drops 18% (p = 0.0002) and pass accuracy drops 2.9% (p = 0.0004). Aerial duels increase by 30% (p = 0.0003) and goal kicks by 51% (p = 0.004). Fouls also rise (+25%, p = 0.04). Accurate passes decrease by 10% (p = 0.015).
+          </p>
+          <p>
+            At 10 minutes after vs. 10 minutes before: corners decrease by 31% (p = 0.0001), pass accuracy drops 2.1% (p = 0.0003), and throw-ins increase by 19% (p = 0.004). Match intensity drops 10.5% (p = 0.014) and aerial duels increase by 16% (p = 0.010).
+          </p>
+
+          <p><strong>Results for indicators related to offensive dynamics, with no statistically significant differences.</strong></p>
+
+          <div class="article-img-box">
+            <img src="images/fifa_2026_chart_offensive.png" alt="Chart showing offensive dynamics indicators with no statistically significant differences after hydration breaks" style="max-width: 100%; width: 100%;" />
+          </div>
+
+          <p>
+            None of the goal or chance-creation variables shows a significant change after the break, at 5 or at 10 minutes (all p &ge; 0.05). The closest is touches in the box at 5 minutes (&minus;16%, p = 0.083).
           </p>
 
         </article>
