@@ -20,6 +20,9 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
 
+  <!-- Chart.js -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.js"></script>
+
   <!-- Stylesheet -->
   <link rel="stylesheet" href="assets/css/modern.css?v=21" />
 </head>
@@ -168,44 +171,30 @@
 
           <p><strong>Results with statistical significance.</strong></p>
 
-          <!doctype html>
-<html lang="pt">
-<head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.js"></script>
-  <style>
-    body { font-family: system-ui, -apple-system, sans-serif; padding: 16px; background: #f9f9f7; color: #111; }
-    #vis-container { width: 100%; position: relative; }
-  </style>
-</head>
-<body>
-  <div id="vis-container">
-    <h2 class="sr-only">Variação percentual do xG, remates, remates enquadrados, ataques perigosos e golos aos 5 e 10 minutos depois da pausa; nenhuma é estatisticamente significativa.</h2>
-    <div style="display:flex;flex-wrap:wrap;gap:16px;margin-bottom:8px;font-size:12px;color:#52514e;">
-      <span style="display:flex;align-items:center;gap:4px;"><span style="width:10px;height:10px;border-radius:2px;background:#2a78d6;opacity:.35;"></span>5 min</span>
-      <span style="display:flex;align-items:center;gap:4px;"><span style="width:10px;height:10px;border-radius:2px;background:#eb6834;opacity:.35;"></span>10 min</span>
-      <span style="display:flex;align-items:center;gap:4px;">todas com p ≥ 0,05</span>
-    </div>
-    <div style="position:relative;width:100%;height:360px;">
-      <canvas id="c3" role="img" aria-label="Barras horizontais com variações pequenas e não significativas de xG, remates, remates enquadrados, ataques perigosos e golos, aos 5 e 10 minutos depois da pausa.">Variáveis de perigo sem alteração significativa.</canvas>
-    </div>
-    <script>
-      const L=['xG','Remates','Remates enquadrados','Ataques perigosos','Golos'];
-      const d5=[4.0,5.5,-2.9,4.2,2.6],p5=[0.80,0.52,0.70,0.52,0.89];
-      const d10=[-5.2,0.6,-8.4,2.4,-14.7],p10=[0.25,0.80,0.34,0.69,0.30];
-      const fp=p=>'p='+p.toFixed(2).replace('.',',');
-      const lab={id:'lab',afterDatasetsDraw(ch){const x=ch.ctx;x.save();x.font='11px sans-serif';x.fillStyle='#52514e';
-      [p5,p10].forEach((P,i)=>{ch.getDatasetMeta(i).data.forEach((b,j)=>{const v=ch.data.datasets[i].data[j];x.textAlign=v<0?'right':'left';x.fillText(fp(P[j]),b.x+(v<0?-6:6),b.y+4);});});x.restore();}};
-      new Chart(document.getElementById('c3'),{type:'bar',plugins:[lab],data:{labels:L,datasets:[
-      {data:d5,backgroundColor:'#2a78d659',borderRadius:4,barThickness:16},
-      {data:d10,backgroundColor:'#eb683459',borderRadius:4,barThickness:16}]},
-      options:{indexAxis:'y',responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false},tooltip:{callbacks:{label:c=>(c.datasetIndex?'10 min: ':'5 min: ')+c.parsed.x.toFixed(1).replace('.',',')+'%  ('+fp((c.datasetIndex?p10:p5)[c.dataIndex])+')'}}},
-      scales:{x:{min:-30,max:25,title:{display:true,text:'Variação % (depois face a antes)'},grid:{color:'rgba(137,135,129,.2)'},ticks:{callback:v=>v+'%'}},y:{grid:{display:false}}}}});
-    </script>
-  </div>
-</body>
-</html>
+          <div id="vis-container" style="margin: 1.5rem 0;">
+            <h2 class="sr-only">Variação percentual do xG, remates, remates enquadrados, ataques perigosos e golos aos 5 e 10 minutos depois da pausa; nenhuma é estatisticamente significativa.</h2>
+            <div style="display:flex;flex-wrap:wrap;gap:16px;margin-bottom:8px;font-size:12px;color:var(--text-secondary);">
+              <span style="display:flex;align-items:center;gap:4px;"><span style="width:10px;height:10px;border-radius:2px;background:#2a78d6;opacity:.35;"></span>5 min</span>
+              <span style="display:flex;align-items:center;gap:4px;"><span style="width:10px;height:10px;border-radius:2px;background:#eb6834;opacity:.35;"></span>10 min</span>
+              <span style="display:flex;align-items:center;gap:4px;">todas com p ≥ 0,05</span>
+            </div>
+            <div style="position:relative;width:100%;height:360px;">
+              <canvas id="c3" role="img" aria-label="Barras horizontais com variações pequenas e não significativas de xG, remates, remates enquadrados, ataques perigosos e golos, aos 5 e 10 minutos depois da pausa.">Variáveis de perigo sem alteração significativa.</canvas>
+            </div>
+            <script>
+              const L3=['xG','Remates','Remates enquadrados','Ataques perigosos','Golos'];
+              const d5_3=[4.0,5.5,-2.9,4.2,2.6],p5_3=[0.80,0.52,0.70,0.52,0.89];
+              const d10_3=[-5.2,0.6,-8.4,2.4,-14.7],p10_3=[0.25,0.80,0.34,0.69,0.30];
+              const fp3=p=>'p='+p.toFixed(2).replace('.',',');
+              const lab3={id:'lab3',afterDatasetsDraw(ch){const x=ch.ctx;x.save();x.font='11px sans-serif';x.fillStyle=getComputedStyle(document.documentElement).getPropertyValue('--text-secondary')||'#898781';
+              [p5_3,p10_3].forEach((P,i)=>{ch.getDatasetMeta(i).data.forEach((b,j)=>{const v=ch.data.datasets[i].data[j];x.textAlign=v<0?'right':'left';x.fillText(fp3(P[j]),b.x+(v<0?-6:6),b.y+4);});});x.restore();}};
+              new Chart(document.getElementById('c3'),{type:'bar',plugins:[lab3],data:{labels:L3,datasets:[
+              {data:d5_3,backgroundColor:'#2a78d659',borderRadius:4,barThickness:16},
+              {data:d10_3,backgroundColor:'#eb683459',borderRadius:4,barThickness:16}]},
+              options:{indexAxis:'y',responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false},tooltip:{callbacks:{label:c=>(c.datasetIndex?'10 min: ':'5 min: ')+c.parsed.x.toFixed(1).replace('.',',')+'%  ('+fp3((c.datasetIndex?p10_3:p5_3)[c.dataIndex])+')'}}},
+              scales:{x:{min:-30,max:25,title:{display:true,text:'Variação % (depois face a antes)'},grid:{color:'rgba(137,135,129,.2)'},ticks:{callback:v=>v+'%'}},y:{grid:{display:false}}}}});
+            </script>
+          </div>
 
           <p>
             At 5 minutes after vs. 5 minutes before: match intensity drops 18% (p = 0.0002) and pass accuracy drops 2.9% (p = 0.0004). Aerial duels increase by 30% (p = 0.0003) and goal kicks by 51% (p = 0.004). Fouls also rise (+25%, p = 0.04). Accurate passes decrease by 10% (p = 0.015).
@@ -216,74 +205,9 @@
 
           <p><strong>Results for indicators related to offensive dynamics, with no statistically significant differences.</strong></p>
 
-          <!doctype html>
-<html lang="pt">
-<head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.js"></script>
-  <style>
-    body { font-family: system-ui, -apple-system, sans-serif; padding: 16px; background: #f9f9f7; color: #111; }
-    #vis-container { width: 100%; position: relative; }
-  </style>
-</head>
-<body>
-  <div id="vis-container">
-    <h2 class="sr-only">Variação percentual das principais variáveis nos 5 e 10 minutos depois da pausa de hidratação, face aos 5 e 10 minutos antes, em todos os jogos.</h2>
-    <div style="display:flex;flex-wrap:wrap;gap:16px;margin-bottom:8px;font-size:12px;color:#52514e;">
-      <span style="display:flex;align-items:center;gap:4px;"><span style="width:10px;height:10px;border-radius:2px;background:#2a78d6;"></span>5 min depois vs 5 antes</span>
-      <span style="display:flex;align-items:center;gap:4px;"><span style="width:10px;height:10px;border-radius:2px;background:#eb6834;"></span>10 min depois vs 10 antes</span>
-      <span style="display:flex;align-items:center;gap:4px;"><span style="width:10px;height:10px;border-radius:2px;background:#898781;opacity:.35;"></span>cor clara: p ≥ 0,05</span>
-    </div>
-    <div style="position:relative;width:100%;height:540px;">
-      <canvas id="c1" role="img" aria-label="Barras horizontais com a variação percentual de sete variáveis aos 5 e 10 minutos depois da pausa. Intensidade e precisão de passe descem; duelos aéreos sobem; cantos descem aos 10 minutos; pontapés de baliza sobem aos 5 minutos.">Variações percentuais pós vs pré pausa.</canvas>
-    </div>
-    <script>
-      const L=['Intensidade (|momentum|)','Precisão de passe','Duelos aéreos (total)','Duelos aéreos ganhos','Pontapés de baliza','Cantos','Lançamentos laterais'];
-      const d5=[-18.3,-2.9,30.1,27.8,50.6,-19.3,14.3],p5=[0.0002,0.0004,0.0003,0.0014,0.0038,0.30,0.15];
-      const d10=[-10.5,-2.1,16.2,12.9,9.1,-31.4,18.8],p10=[0.0136,0.0003,0.0102,0.0277,0.36,0.00006,0.0037];
-      const col=(c,p)=>p.map(x=>x<0.05?c:c+'59');
-      const fp=p=>'p'+(p<0.001?'<0,001':'='+p.toFixed(3).replace('.',','));
-      const lab={id:'lab',afterDatasetsDraw(ch){const x=ch.ctx;x.save();x.font='11px sans-serif';x.fillStyle='#52514e';
-      [p5,p10].forEach((P,i)=>{ch.getDatasetMeta(i).data.forEach((b,j)=>{const v=ch.data.datasets[i].data[j];x.textAlign=v<0?'right':'left';x.fillText(fp(P[j]),b.x+(v<0?-6:6),b.y+4);});});x.restore();}};
-      new Chart(document.getElementById('c1'),{type:'bar',plugins:[lab],data:{labels:L,datasets:[
-      {data:d5,backgroundColor:col('#2a78d6',p5),borderRadius:4,barThickness:16},
-      {data:d10,backgroundColor:col('#eb6834',p10),borderRadius:4,barThickness:16}]},
-      options:{indexAxis:'y',responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false},tooltip:{callbacks:{label:c=>(c.datasetIndex?'10 min: ':'5 min: ')+c.parsed.x.toFixed(1).replace('.',',')+'%  ('+fp((c.datasetIndex?p10:p5)[c.dataIndex])+')'}}},
-      scales:{x:{min:-50,max:75,title:{display:true,text:'Variação % (depois face a antes)'},grid:{color:'rgba(137,135,129,.2)'},ticks:{callback:v=>v+'%'}},y:{grid:{display:false}}}}});
-    </script>
-  </div>
-</body>
-</html>
-
-          <p>
-            None of the goal or chance-creation variables shows a significant change after the break, at 5 or at 10 minutes (all p &ge; 0.05). The closest is touches in the box at 5 minutes (&minus;16%, p = 0.083).
-          </p>
-
-        </article>
-      </div>
-    </section>
-  </main>
-
-  <!-- ==========================================================================
-       SITE FOOTER
-       ========================================================================== -->
-  <footer class="site-footer">
-    <div class="container footer-inner">
-      <div class="footer-copy">
-        <p>&copy; 2026 Samuel Amorim. All rights reserved.</p>
-      </div>
-      <a href="#top" class="back-to-top" onclick="window.scrollTo({top: 0, behavior: 'smooth'}); return false;">
-        <span>Back to Top</span>
-        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-          <line x1="12" y1="19" x2="12" y2="5"></line>
-          <polyline points="5 12 12 5 19 12"></polyline>
-        </svg>
-      </a>
-    </div>
-  </footer>
-
-  <!-- Scripts -->
-  <script src="assets/js/modern.js?v=4"></script>
-</body>
-</html>
+          <div id="vis-container-2" style="margin: 1.5rem 0;">
+            <h2 class="sr-only">Variação percentual das principais variáveis nos 5 e 10 minutos depois da pausa de hidratação, face aos 5 e 10 minutos antes, em todos os jogos.</h2>
+            <div style="display:flex;flex-wrap:wrap;gap:16px;margin-bottom:8px;font-size:12px;color:var(--text-secondary);">
+              <span style="display:flex;align-items:center;gap:4px;"><span style="width:10px;height:10px;border-radius:2px;background:#2a78d6;"></span>5 min depois vs 5 antes</span>
+              <span style="display:flex;align-items:center;gap:4px;"><span style="width:10px;height:10px;border-radius:2px;background:#eb6834;"></span>10 min depois vs 10 antes</span>
+              <span style="display:flex;align-items:center;gap:4px;"><span style="width:10px;height:10px;border-
