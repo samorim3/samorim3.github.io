@@ -3,10 +3,9 @@ name: Weekly Health Contests & Telegram Alerts
 on:
   schedule:
     # Runs every Sunday at 13:44 UTC and 14:44 UTC.
-    # Combined with --schedule-check in the script, only the run that
-    # falls at 14h Lisbon time actually executes (handles DST automatically).
+    # Combined with --schedule-check, only the run that falls at 14h Lisbon time executes.
     - cron: '44 13,14 * * 0'
-  workflow_dispatch: # Allow manual trigger from GitHub Actions tab
+  workflow_dispatch: # Allow manual trigger anytime from GitHub Actions tab
 
 jobs:
   check-contests:
@@ -31,4 +30,10 @@ jobs:
           TELEGRAM_BOT_TOKEN: ${{ secrets.TELEGRAM_BOT_TOKEN }}
           TELEGRAM_CHAT_ID: ${{ secrets.TELEGRAM_CHAT_ID }}
         run: |
-          python check_health_contests.py --schedule-check
+          if [ "${{ github.event_name }}" = "schedule" ]; then
+            echo "Triggered by cron schedule: applying --schedule-check"
+            python check_health_contests.py --schedule-check
+          else
+            echo "Triggered manually: running full check immediately"
+            python check_health_contests.py
+          fi
