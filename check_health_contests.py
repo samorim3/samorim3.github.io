@@ -18,6 +18,11 @@ Search terms (accent-insensitive):
   - informática (informatica)
   - informação (informacao)
 
+Robust networking:
+  - Custom SSL context with DEFAULT@SECLEVEL=1 (fixes ConnectionResetError 104 on Ubuntu OpenSSL 3)
+  - Full browser Sec-Ch-Ua headers
+  - Automatic fallback to curl with HTTP/2 (bypasses WAF 403 on cloud IPs)
+
 Validity check (concursos válidos / candidaturas abertas):
   - Verifies submission deadline (data de fim >= today)
   - Discards contests with advanced stages already published (e.g. Ata 2/3/4, Lista de Admitidos, Ordenação Final)
@@ -30,19 +35,23 @@ Notification:
 import os
 import sys
 import re
+import json
+import ssl
+import subprocess
 import argparse
 import unicodedata
 from datetime import datetime, date, timezone, timedelta
-from typing import Tuple, List, Dict, Optional
+from typing import Tuple, List, Dict, Optional, Any
 
 import requests
+from requests.adapters import HTTPAdapter
 from bs4 import BeautifulSoup
 import urllib3
 
 urllib3.disable_warnings(urllib3.exceptions.InsecureRequestWarning)
 
 # ---------------------------------------------------------------------------
-# Configuration
+# Configuration & Headers
 # ---------------------------------------------------------------------------
 
 TELEGRAM_BOT_TOKEN = os.environ.get("TELEGRAM_BOT_TOKEN", "")
@@ -52,17 +61,93 @@ SEARCH_TERMS = ["nutri", "informatica", "informacao"]
 
 HTTP_HEADERS = {
     "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/124.0.0.0 Safari/537.36",
-    "Accept": "text/html,application/xhtml+xml,application/xml;q=0.9,application/json,*/*;q=0.8",
+    "Accept": "text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8",
     "Accept-Language": "pt-PT,pt;q=0.9,en;q=0.8",
+    "Sec-Ch-Ua": '"Chromium";v="124", "Google Chrome";v="124", "Not-A.Brand";v="99"',
+    "Sec-Ch-Ua-Mobile": "?0",
+    "Sec-Ch-Ua-Platform": '"Windows"',
+    "Sec-Fetch-Dest": "document",
+    "Sec-Fetch-Mode": "navigate",
+    "Sec-Fetch-Site": "none",
+    "Sec-Fetch-User": "?1",
+    "Upgrade-Insecure-Requests": "1"
 }
 
-TIMEOUT = 20
+TIMEOUT = 22
 
 PT_MONTHS = {
     "janeiro": 1, "fevereiro": 2, "marco": 3, "março": 3,
     "abril": 4, "maio": 5, "junho": 6, "julho": 7,
     "agosto": 8, "setembro": 9, "outubro": 10, "novembro": 11, "dezembro": 12
 }
+
+
+# ---------------------------------------------------------------------------
+# Robust Network Client (Legacy SSL + curl fallback)
+# ---------------------------------------------------------------------------
+
+class LegacySSLAdapter(HTTPAdapter):
+    """Permits legacy SSL ciphers required by older Portuguese health servers on OpenSSL 3."""
+    def init_poolmanager(self, *args, **kwargs):
+        try:
+            from urllib3.util.ssl_ import create_urllib3_context
+            ctx = create_urllib3_context()
+            ctx.set_ciphers("DEFAULT@SECLEVEL=1")
+            ctx.check_hostname = False
+            ctx.verify_mode = ssl.CERT_NONE
+            kwargs["ssl_context"] = ctx
+        except Exception:
+            pass
+        return super().init_poolmanager(*args, **kwargs)
+
+SESSION = requests.Session()
+adapter = LegacySSLAdapter()
+SESSION.mount("https://", adapter)
+SESSION.mount("http://", adapter)
+SESSION.headers.update(HTTP_HEADERS)
+
+
+def robust_fetch(url: str, is_json: bool = False, timeout: int = TIMEOUT) -> Any:
+    """
+    Fetch URL with requests Session (Legacy SSL + headers).
+    If that fails (403 WAF block or ConnectionResetError 104), falls back to curl with HTTP/2.
+    """
+    last_err = None
+
+    # Attempt 1: requests.Session
+    try:
+        r = SESSION.get(url, verify=False, timeout=timeout)
+        if r.status_code == 200:
+            if is_json:
+                return r.json()
+            if len(r.text) > 30:
+                return r.text
+        last_err = f"HTTP {r.status_code}"
+    except Exception as e:
+        last_err = str(e)
+
+    # Attempt 2: curl fallback (supports HTTP/2 and avoids Azure Front Door / WAF blocks)
+    curl_bin = "curl.exe" if sys.platform == "win32" else "curl"
+    for extra_args in [["--http2"], []]:
+        try:
+            cmd = [
+                curl_bin, "-s", "-L", "-k",
+                "-H", f"User-Agent: {HTTP_HEADERS['User-Agent']}",
+                "-H", f"Accept: {HTTP_HEADERS['Accept']}",
+                "-H", f"Accept-Language: {HTTP_HEADERS['Accept-Language']}",
+            ] + extra_args + [url]
+
+            res = subprocess.run(cmd, capture_output=True, text=True, timeout=timeout)
+            if res.returncode == 0:
+                stdout = res.stdout.strip()
+                if is_json and (stdout.startswith("[") or stdout.startswith("{")):
+                    return json.loads(stdout)
+                elif not is_json and len(stdout) > 30:
+                    return stdout
+        except Exception as e:
+            last_err = f"{last_err}; curl: {e}"
+
+    raise Exception(last_err or f"Falha ao aceder a {url}")
 
 
 # ---------------------------------------------------------------------------
@@ -139,9 +224,7 @@ def fetch_spms(today: date) -> Tuple[List[Dict], Optional[str]]:
     page_url = "https://www.spms.min-saude.pt/recrutamento/"
     matches = []
     try:
-        r = requests.get(url, headers=HTTP_HEADERS, timeout=TIMEOUT)
-        r.raise_for_status()
-        data = r.json()
+        data = robust_fetch(url, is_json=True)
         if not isinstance(data, list):
             return [], "Resposta inválida da API WebRHV"
 
@@ -152,11 +235,10 @@ def fetch_spms(today: date) -> Tuple[List[Dict], Optional[str]]:
             if not is_relevant(comb):
                 continue
 
-            # Check validity
             dt_fim_raw = item.get("dataFim") or item.get("dataFimCandidatura") or item.get("dataTermino")
             dt_fim = parse_pt_date(dt_fim_raw) if dt_fim_raw else None
             if dt_fim and dt_fim < today:
-                continue  # expired
+                continue
 
             matches.append({
                 "institution": "SPMS",
@@ -174,11 +256,9 @@ def fetch_wm_smile(name: str, base_url: str, today: date) -> Tuple[List[Dict], O
     url = f"{base_url}/processos-ativos"
     matches = []
     try:
-        r = requests.get(url, headers=HTTP_HEADERS, timeout=TIMEOUT)
-        r.raise_for_status()
-        soup = BeautifulSoup(r.text, "html.parser")
+        html = robust_fetch(url, is_json=False)
+        soup = BeautifulSoup(html, "html.parser")
 
-        # Items are in li elements with pos_ class
         items = soup.find_all("li", class_=lambda c: c and "pos_" in c)
         for li in items:
             title_a = li.find("a", href=re.compile(r"recruitment_process_id"))
@@ -192,11 +272,9 @@ def fetch_wm_smile(name: str, base_url: str, today: date) -> Tuple[List[Dict], O
             if not (is_relevant(title) or is_relevant(full_text)):
                 continue
 
-            # Check deadline
             m_fim = re.search(r'Data de fim de submissão de candidaturas\s*(\d{4}\s*[/.-]\s*\d{1,2}\s*[/.-]\s*\d{1,2})', full_text)
             deadline = parse_pt_date(m_fim.group(1)) if m_fim else None
 
-            # If deadline is in the past, contest is expired
             if deadline and deadline < today:
                 continue
 
@@ -222,9 +300,8 @@ def fetch_ulssa(today: date) -> Tuple[List[Dict], Optional[str]]:
 
     for category, page_url in urls:
         try:
-            r = requests.get(page_url, headers=HTTP_HEADERS, verify=False, timeout=TIMEOUT)
-            r.raise_for_status()
-            soup = BeautifulSoup(r.text, "html.parser")
+            html = robust_fetch(page_url, is_json=False)
+            soup = BeautifulSoup(html, "html.parser")
 
             cards = soup.find_all("div", class_="card")
             for card in cards:
@@ -236,7 +313,6 @@ def fetch_ulssa(today: date) -> Tuple[List[Dict], Optional[str]]:
                 if not (is_relevant(title) or is_relevant(bdy_text)):
                     continue
 
-                # Check if final results already published
                 has_final_list = bool(re.search(
                     r'ordena[çc][ãa]o\s+final|classifica[çc][ãa]o\s+final|lista\s+final|homologa[çc][ãa]o',
                     bdy_text, re.I
@@ -244,14 +320,12 @@ def fetch_ulssa(today: date) -> Tuple[List[Dict], Optional[str]]:
                 if has_final_list:
                     continue
 
-                # Check deadline
                 m_term = re.search(r'T[eé]rmino\s+do\s+prazo\s+de\s+candidatura:\s*([^\n<|]+)', bdy_text, re.I)
                 deadline = parse_pt_date(m_term.group(1)) if m_term else None
 
                 if deadline and deadline < today:
-                    continue  # expired!
+                    continue
 
-                # Find announcement PDF link if available
                 pdf_link = page_url
                 if bdy:
                     a_pdf = bdy.find("a", href=re.compile(r'\.pdf', re.I))
@@ -282,9 +356,8 @@ def fetch_ulsbe(today: date) -> Tuple[List[Dict], Optional[str]]:
     page_url = "https://www.ulsbe.min-saude.pt/2018/01/16/concursos-institucionais/"
     matches = []
     try:
-        r = requests.get(page_url, headers=HTTP_HEADERS, verify=False, timeout=TIMEOUT)
-        r.raise_for_status()
-        soup = BeautifulSoup(r.text, "html.parser")
+        html = robust_fetch(page_url, is_json=False)
+        soup = BeautifulSoup(html, "html.parser")
         pz = soup.find("div", class_="postZone")
         if not pz:
             return [], "Estrutura postZone não encontrada"
@@ -299,7 +372,6 @@ def fetch_ulsbe(today: date) -> Tuple[List[Dict], Optional[str]]:
             if not is_relevant(title + " " + block_txt):
                 return
 
-            # Check if contest is already in advanced stage (applications closed)
             is_closed = bool(re.search(
                 r'ata\s+[2-9]|lista\s+(?:de\s+candidatos|provis[oó]ria|definitiva|unit[aá]ria|final)|grelha\s+de\s+avalia[çc][ãa]o|ordena[çc][ãa]o\s+final|homologa',
                 block_txt, re.I
@@ -307,16 +379,13 @@ def fetch_ulsbe(today: date) -> Tuple[List[Dict], Optional[str]]:
             if is_closed:
                 return
 
-            # Check if aviso belongs to an older year (e.g. /2024/, /2025/)
             if re.search(r'/(201\d|202[0-5])/', block_txt):
                 return
 
-            # Find any dates mentioned in block
             dates_in_block = [parse_pt_date(m.group(0)) for m in re.finditer(r'(\d{1,2})\s+de\s+([a-zA-Zç]+)\s+de\s+(\d{4})', block_txt, re.I)]
             dates_in_block = [d for d in dates_in_block if d]
             max_date = max(dates_in_block) if dates_in_block else None
 
-            # If last date was over 25 days ago, the application period has closed
             if max_date and (today - max_date).days > 25:
                 return
 
@@ -356,9 +425,8 @@ def fetch_wp_category(name: str, base_url: str, today: date) -> Tuple[List[Dict]
     url = f"{base_url}/category/profissional/concursos/"
     matches = []
     try:
-        r = requests.get(url, headers=HTTP_HEADERS, verify=False, timeout=TIMEOUT)
-        r.raise_for_status()
-        soup = BeautifulSoup(r.text, "html.parser")
+        html = robust_fetch(url, is_json=False)
+        soup = BeautifulSoup(html, "html.parser")
 
         articles = soup.find_all("article")
         for art in articles:
@@ -367,20 +435,16 @@ def fetch_wp_category(name: str, base_url: str, today: date) -> Tuple[List[Dict]
             if not is_relevant(title):
                 continue
 
-            # Link
             a_tag = art.find("a", href=True)
             link = a_tag["href"] if a_tag else url
 
-            # Opening date
             dt_el = art.find(class_=re.compile(r'date|time|entry-meta', re.I))
             dt_text = dt_el.get_text(strip=True) if dt_el else ""
             dt_open = parse_pt_date(dt_text)
 
-            # Validity: if opened more than 25 days ago, the 10-15 working day window has closed
             if dt_open and (today - dt_open).days > 25:
                 continue
 
-            # If title indicates final list
             if re.search(r'lista\s+final|ordena[çc][ãa]o\s+final|homologa', title, re.I):
                 continue
 
