@@ -19,9 +19,10 @@ Search terms (accent-insensitive):
   - informação (informacao)
 
 Robust networking:
-  - Custom SSL context with DEFAULT@SECLEVEL=1 (fixes ConnectionResetError 104 on Ubuntu OpenSSL 3)
-  - Full browser Sec-Ch-Ua headers
-  - Automatic fallback to curl with HTTP/2 (bypasses WAF 403 on cloud IPs)
+  - Custom SSL context with DEFAULT@SECLEVEL=1 & OP_LEGACY_SERVER_CONNECT (fixes ConnectionResetError 104 on OpenSSL 3)
+  - Full browser headers passed to both requests and curl
+  - Multi-tier fallback: requests (HTTP/1.1) -> curl (HTTP/1.1 with SECLEVEL=1) -> curl (HTTP/2)
+  - Validation ensuring 403 error pages are not treated as valid content
 
 Validity check (concursos válidos / candidaturas abertas):
   - Verifies submission deadline (data de fim >= today)
@@ -73,7 +74,7 @@ HTTP_HEADERS = {
     "Upgrade-Insecure-Requests": "1"
 }
 
-TIMEOUT = 22
+TIMEOUT = 25
 
 PT_MONTHS = {
     "janeiro": 1, "fevereiro": 2, "marco": 3, "março": 3,
@@ -95,6 +96,8 @@ class LegacySSLAdapter(HTTPAdapter):
             ctx.set_ciphers("DEFAULT@SECLEVEL=1")
             ctx.check_hostname = False
             ctx.verify_mode = ssl.CERT_NONE
+            # Enable legacy renegotiation on OpenSSL 3 (0x4 = OP_LEGACY_SERVER_CONNECT)
+            ctx.options |= getattr(ssl, "OP_LEGACY_SERVER_CONNECT", 0x4)
             kwargs["ssl_context"] = ctx
         except Exception:
             pass
@@ -110,39 +113,42 @@ SESSION.headers.update(HTTP_HEADERS)
 def robust_fetch(url: str, is_json: bool = False, timeout: int = TIMEOUT) -> Any:
     """
     Fetch URL with requests Session (Legacy SSL + headers).
-    If that fails (403 WAF block or ConnectionResetError 104), falls back to curl with HTTP/2.
+    If that fails (403 WAF block or ConnectionResetError 104), falls back to curl.
     """
     last_err = None
 
-    # Attempt 1: requests.Session
+    # Attempt 1: requests.Session with LegacySSLAdapter
     try:
         r = SESSION.get(url, verify=False, timeout=timeout)
         if r.status_code == 200:
             if is_json:
                 return r.json()
-            if len(r.text) > 30:
+            if len(r.text) > 300 and "403 Forbidden" not in r.text and "Access Denied" not in r.text:
                 return r.text
         last_err = f"HTTP {r.status_code}"
     except Exception as e:
         last_err = str(e)
 
-    # Attempt 2: curl fallback (supports HTTP/2 and avoids Azure Front Door / WAF blocks)
+    # Attempt 2: curl fallback with SECLEVEL=1 and browser headers
     curl_bin = "curl.exe" if sys.platform == "win32" else "curl"
-    for extra_args in [["--http2"], []]:
+    header_args = []
+    for k, v in HTTP_HEADERS.items():
+        header_args.extend(["-H", f"{k}: {v}"])
+
+    # Try HTTP/1.1 first (webrhv doesn't support HTTP/2), then HTTP/2 (bypasses WAF on cloud IPs)
+    for extra_args in [[], ["--http2"]]:
         try:
             cmd = [
-                curl_bin, "-s", "-L", "-k",
-                "-H", f"User-Agent: {HTTP_HEADERS['User-Agent']}",
-                "-H", f"Accept: {HTTP_HEADERS['Accept']}",
-                "-H", f"Accept-Language: {HTTP_HEADERS['Accept-Language']}",
-            ] + extra_args + [url]
+                curl_bin, "-sS", "-L", "-k",
+                "--ciphers", "DEFAULT@SECLEVEL=1",
+            ] + header_args + extra_args + [url]
 
             res = subprocess.run(cmd, capture_output=True, text=True, timeout=timeout)
             if res.returncode == 0:
                 stdout = res.stdout.strip()
                 if is_json and (stdout.startswith("[") or stdout.startswith("{")):
                     return json.loads(stdout)
-                elif not is_json and len(stdout) > 30:
+                elif not is_json and len(stdout) > 300 and "403 Forbidden" not in stdout and "Access Denied" not in stdout:
                     return stdout
         except Exception as e:
             last_err = f"{last_err}; curl: {e}"
@@ -358,9 +364,15 @@ def fetch_ulsbe(today: date) -> Tuple[List[Dict], Optional[str]]:
     try:
         html = robust_fetch(page_url, is_json=False)
         soup = BeautifulSoup(html, "html.parser")
-        pz = soup.find("div", class_="postZone")
+        
+        # Look for postZone or fall back to any content container or body
+        pz = (
+            soup.find("div", class_=re.compile(r"postZone", re.I))
+            or soup.find("div", class_=re.compile(r"entry-content|content-wrapper|mainContents", re.I))
+            or soup.body
+        )
         if not pz:
-            return [], "Estrutura postZone não encontrada"
+            return [], "Conteúdo da página não encontrado"
 
         elements = pz.find_all(["p", "h2", "h3", "h4"])
         current_title = ""
